@@ -1,1 +1,1 @@
-CREATE TABLE 
+--Leave blank for now. We might need databases in the future

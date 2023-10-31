@@ -1,3 +1,3 @@
-export {};
-//This is the main server file for now
+import * as DebugFunctions from './DebugFunctions.js';
+DebugFunctions.DebugThis();
 //# sourceMappingURL=index.js.map
