@@ -1,0 +1,11 @@
+Folgende npm modules müsst ihr installieren
+
+npm init -y //Erstellt package.json
+
+npm install typescript ts-node @types/node --save-dev //Installiert typescript
+
+npm install mysql  //installiert mysql
+
+npm install nodemon ts-node -D //aktiviert nodemon
+
+-> start:dev eingeben, um mit nodemon zu arbeiten. Lädt den Server automatisch neu, wenn es änderungen gibt
