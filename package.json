@@ -1,12 +1,9 @@
 {
   "name": "Projekt-C",
   "version": "1.0.0",
-  "description": "HAW Hamburg - Media Systems",
+  "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "start:dev": "npx nodemon index.ts",
-    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,15 +16,5 @@
   "bugs": {
     "url": "https://github.com/laurareimann/Projekt-C/issues"
   },
-  "homepage": "https://github.com/laurareimann/Projekt-C#readme",
-  "devDependencies": {
-    "@types/google.maps": "^3.54.4",
-    "@types/node": "^20.8.10",
-    "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1"
-  },
-  "dependencies": {
-    "mysql": "^2.18.1",
-    "typescript": "^5.2.2"
-  }
+  "homepage": "https://github.com/laurareimann/Projekt-C#readme"
 }
