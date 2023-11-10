@@ -1,0 +1,5 @@
+Extension für VSCode
+
+ES7 + React/Redux/React-Native snippets
+ESLint
+
