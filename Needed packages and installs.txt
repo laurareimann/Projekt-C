@@ -3,3 +3,22 @@ Extension für VSCode
 ES7 + React/Redux/React-Native snippets
 ESLint
 
+FRONTEND:
+
+needed npm installs in Frontend
+Bootstrap ist für besseres UI-Handling in React
+bootstrap: npm install react-bootstrap bootstrap
+
+Liste an verwendtbaren components für UI: https://react-bootstrap.netlify.app/docs/components/tabs
+
+Routing ist zur Führung zwischen pages
+Routing: npm i react-router-dom
+
+
+BACKEND:
+
+node js server backend: 
+- in den backend folder gehen
+- npm init -y
+
+typescript für backend folder
