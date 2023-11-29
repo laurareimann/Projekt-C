@@ -29,4 +29,4 @@ node js server backend:
 - in den backend folder gehen
 - npm install
 
-immer mal wieder in die Ordner gehen und npm install im Terminal eingeben
+immer mal wieder in die Ordner gehen und npm install im Terminal eingeben, damit neue Module bei euch auch installiert werden
