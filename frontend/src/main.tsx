@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client'
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  BrowserRouter,
   Route,
   RouterProvider,
 } from "react-router-dom";

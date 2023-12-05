@@ -26,3 +26,11 @@ node js server backend:
 - npm install
 
 immer mal wieder in die Ordner gehen und npm install im Terminal eingeben
+
+
+MongoDB access if something breaks 
+database-name = Project-C-Cluster
+
+database username: Project-C-User
+
+database passwort: Zz5TsmpdvISkEmxz
