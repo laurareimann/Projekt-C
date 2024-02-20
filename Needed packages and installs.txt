@@ -18,12 +18,21 @@ Liste an verwendtbaren components für UI: https://react-bootstrap.netlify.app/d
 react-router-dom
 Routing zur Führung zwischen pages
 
+Während development:
+Frontend starten -> npm run dev
+Frontend kompilieren -> npm run build
 
 BACKEND:
 
 node js server backend: 
 - in den backend folder gehen
 - npm install
+
+Während development: 
+- Backend starten -> npm run dev
+- Backend kompilieren -> npm run build
+
+Eventuell nodemon in der Zukunft lul
 
 immer mal wieder in die Ordner gehen und npm install im Terminal eingeben
 
