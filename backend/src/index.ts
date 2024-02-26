@@ -15,7 +15,7 @@ const app = express();
 app.use(
     cors({
         credentials:true,
-        origin:["http://localhost:5000"],
+        origin:["http://localhost:8080"],
     })
 )
 
@@ -41,7 +41,7 @@ mongoose
 */
 
 //start server
-const PORT: number = parseInt((process.env.PORT || 5000) as string, 10);
+const PORT: number = parseInt((process.env.PORT || 8080) as string, 10);
 app.listen(PORT,() => {
     console.log('Server started at http://localhost: ${PORT}');
 })
