@@ -6,6 +6,8 @@ Extension für VSCode
 
 ES7 + React/Redux/React-Native snippets
 ESLint
+vscode-styled-components
+
 
 
 NPM Installs
@@ -30,3 +32,9 @@ node js server backend:
 - npm install
 
 immer mal wieder in die Ordner gehen und npm install im Terminal eingeben, damit neue Module bei euch auch installiert werden
+
+
+
+**RUN APP**
+im frontend Ordner: 
+npm run dev
