@@ -8,15 +8,14 @@ ES7 + React/Redux/React-Native snippets
 ESLint
 vscode-styled-components
 
+Packages aktualisieren/installieren
 
+1) In den jeweiligen Ordner navigieren
+2) "npm i" oder "npm install" eingeben
 
-NPM Installs
+Dies aktualisiert/installiert benötigte Module, die von anderen hinzugefügt wurden :D
 
-FRONTEND:
-- in den Frontend folder gehen: cd frontend
-- npm install
-
-Erklärung zu einigen Modules(hierzu auch gerne die offiziellen Dokumentationen checken)
+**Erklärung zu einigen Modules(hierzu auch gerne die offiziellen Dokumentationen checken)**
 
 Bootstrap ist für besseres UI-Handling in React
 Liste an verwendtbaren components für UI: https://react-bootstrap.netlify.app/docs/components/tabs
@@ -25,16 +24,24 @@ react-router-dom
 Routing zur Führung zwischen pages
 
 
-BACKEND:
-
-node js server backend: 
-- in den backend folder gehen
-- npm install
-
-immer mal wieder in die Ordner gehen und npm install im Terminal eingeben, damit neue Module bei euch auch installiert werden
-
 
 
 **RUN APP**
-im frontend Ordner: 
-npm run dev
+In beiden Ordnern:
+
+Kompilieren: npm run build
+
+Während Entwicklung: npm run dev
+
+
+
+**Datenbank-Kram** 
+Erstmal noch irrelevant. Wird später während Entwicklung erweitert
+
+Credentials
+MongoDB access if something breaks 
+database-name = Project-C-Cluster
+
+database username: Project-C-User
+
+database passwort: Zz5TsmpdvISkEmxz
