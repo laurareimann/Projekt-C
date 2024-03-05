@@ -8,8 +8,8 @@ const StyledGlassButton = styled.button`
   box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.2), inset 0px 0px 10px #ffffff6b;
   border: none;
   border-radius: 30px;
-  padding: 10px 16px;
-  font-size: 16px;
+  padding: 12px 16px;
+  font-size: 14px;
   width: fit-content;
   cursor: pointer;
   transition: box-shadow 0.3s ease;
@@ -38,9 +38,9 @@ const Background = styled.div`
   transition: left 0.3s ease, top 0.3s ease;
 `;
 
-const GlassButton = ({ children = '', color = 'pink' }) => {
+const GlassButton = ({ children = '', color = 'pink', onClick = () => { } }) => {
   return (
-    <StyledGlassButton>
+    <StyledGlassButton onClick={onClick}>
       <Background className='background' color={color} />
       {children}
     </StyledGlassButton>

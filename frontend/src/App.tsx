@@ -93,21 +93,27 @@ const ButtonGrid = styled.div`
 display: grid;
 grid-gap: 12px;
 `
+const handleClick = () => {
+  console.log("Button clicked!");
+};
 
 function App() {
   return (
     <div>
       <GlobalStyle />
       <ButtonGrid>
-        <Button color='blue'>NORMAL blue</Button>
-        <Button color='green'>NORMAL green</Button>
-        <Button color='pink'>NORMAL pink</Button>
-        <GlassButton color='blue'>Glass Button blue</GlassButton>
-        <GlassButton color='green'>Glass Button green</GlassButton>
-        <GlassButton color='pink'>Glass Button pink</GlassButton>
-        <BlurButton color='blue'>Blur Button Blue</BlurButton>
-        <BlurButton color='green'>Blur Button Green</BlurButton>
-        <BlurButton color='pink'>Blur Button Pink</BlurButton>
+        <Button color='blue' onClick={handleClick}>NORMAL blue</Button>
+        <Button color='green' onClick={handleClick}>NORMAL green</Button>
+        <Button color='pink' onClick={handleClick}>NORMAL pink</Button>
+        <Button color='blue' disabled={true}>NORMAL blue disabled</Button>
+        <Button color='green' disabled={true}>NORMAL green disabled</Button>
+        <Button color='pink' disabled={true}>NORMAL pink disabled</Button>
+        <GlassButton color='blue' onClick={handleClick}>Glass Button blue</GlassButton>
+        <GlassButton color='green' onClick={handleClick}>Glass Button green</GlassButton>
+        <GlassButton color='pink' onClick={handleClick}>Glass Button pink</GlassButton>
+        <BlurButton color='blue' onClick={handleClick}>Blur Button Blue</BlurButton>
+        <BlurButton color='green' onClick={handleClick}>Blur Button Green</BlurButton>
+        <BlurButton color='pink' onClick={handleClick}>Blur Button Pink</BlurButton>
       </ButtonGrid>
       <h1>
         15-Minuten Stadt für Project C

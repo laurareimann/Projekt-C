@@ -10,8 +10,8 @@ const TopLayer = styled.button`
   box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.3);
   border: none;
   border-radius: 30px;
-  padding: 10px 16px;
-  font-size: 16px;
+  padding: 12px 16px;
+  font-size: 14px;
   width: fit-content;
   cursor: pointer;
   transition: box-shadow 0.3s ease;
@@ -79,9 +79,9 @@ const BackgroundLayer = styled.div`
   mix-blend-mode: overlay;
 `;
 
-const BlurButton = ({ children = '', color = 'pink' }) => {
+const BlurButton = ({ children = '', color = 'pink', onClick = () => { } }) => {
   return (
-    <TopLayer>{children}
+    <TopLayer onClick={onClick}>{children}
       <BackgroundBlur className='bgblurr'>
         <BlurLayer className='background' color={color} />
       </BackgroundBlur>
