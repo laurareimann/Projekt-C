@@ -49,6 +49,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: var(--color--white-shade);
+    min-height: 100vh;
     padding: 20px;
     font-family: 'Roboto', sans-serif;
   }

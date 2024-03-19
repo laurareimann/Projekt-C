@@ -6,21 +6,23 @@ const FooterContainer = styled.footer`
   left: 0;
   right: 0;
   width: 100%;
-  height: 40vh;
+  min-height: 35vh;
+  min-width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   background-color: var(--color--blue-5);
-  padding: 0 1rem;
+  padding: 0 10rem;
   flex-shrink: 0;
   box-sizing: border-box;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
 
-  @media (min-width: 768px) {
-    padding: 0 10rem;  /* Larger padding for larger screens */
+  @media (max-width: 768px) {
+    padding: 0 1rem;  /* smaller padding for smaller screens */
+    font-size: 0.rem;
 `;
 
 const Logo = styled.div`
@@ -28,6 +30,17 @@ const Logo = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 2.5rem 0;
+  }
+`;
+
+const LogoImg = styled.img`
+  width: 125px;  /* Adjust as needed */
+  height: 125px;  /* Adjust as needed */
+
+  @media (max-width: 768px) {
+    width: 50px;  /* Smaller width for small screens */
+    height: 50px;  /* Smaller height for small screens */
+  }
 `;
 
 const ColumnsContainer = styled.div`
@@ -38,7 +51,7 @@ const ColumnsContainer = styled.div`
     padding: 0 1rem;
 
     @media (max-width: 768px) {
-        width: 80%;
+        width: 100%;
         padding: 0;
     `;
 
@@ -48,6 +61,12 @@ const Column = styled.div`
   align-items: flex-start;
   flex: 3;
   padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    flex: 2;  /* Reduce flex */
+    padding: 0 0.5rem;  /* Adjust padding */
+    font-size: 0.5rem;  /* Smaller font size */
+  }
 `;
 
 const ThinColumn = styled.div`
@@ -56,6 +75,11 @@ const ThinColumn = styled.div`
   align-items: flex-start;
   flex: 2;
   padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    flex: 1;  /* Reduce flex */
+    padding: 0 0.5rem;  /* Adjust padding */
+  }
 `;
 
 const Headline = styled.h1`
@@ -63,6 +87,10 @@ const Headline = styled.h1`
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
+
+    @media (max-width: 768px) {
+        font-size: 1rem;  /* Smaller font size */
+      }
 `;
 
 const Link = styled.a`
@@ -76,6 +104,10 @@ const Link = styled.a`
     &:hover {
         color: var(--color--blue-2);
     }
+
+    @media (max-width: 768px) {
+        font-size: 0.75rem;  /* Smaller font size */
+      }
 `;
 
 const Address = styled.p`
@@ -83,6 +115,10 @@ const Address = styled.p`
     font-weight: 100;
     line-height: 0rem;
     text-align: left;
+
+    @media (max-width: 768px) {
+        font-size: 0.5rem;  /* Smaller font size */
+      }
 `;
 
 const PartingLine = styled.hr`
@@ -97,6 +133,10 @@ const FooterText = styled.p`
   text-align: center;
   color: var(--color--white-shade);
   margin-top: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.5rem;  /* Smaller font size */
+  }
 `;
 
 function Footer() {
@@ -105,7 +145,7 @@ function Footer() {
             <ColumnsContainer>
                 <ThinColumn>
                     <Logo>
-                        <img src={logo} alt="Logo" width="128" height="128"/>
+                        <LogoImg src={logo} alt="Logo" />
                     </Logo>
                 </ThinColumn>
                 <Column>
