@@ -45,6 +45,7 @@ const ColumnsContainer = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   flex: 3;
   padding: 0 1rem;
 `;
@@ -52,6 +53,7 @@ const Column = styled.div`
 const ThinColumn = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   flex: 2;
   padding: 0 1rem;
 `;
@@ -68,6 +70,7 @@ const Link = styled.a`
     padding: 0.5rem 0;
     font-weight: 600;
     text-align: left;
+    display: inline-block;
 
     &:hover {
         color: var(--color--blue-2);
@@ -86,11 +89,13 @@ const PartingLine = styled.hr`
   border: 0;
   border-top: 2px solid var(--color--blue-1);  /* Light white line */
   margin: 2rem 0;
+  margin-bottom: 1rem;
 `;
 
 const FooterText = styled.p`
   text-align: center;
   color: var(--color--white-shade);
+  margin-top: 1rem;
 `;
 
 function Footer() {
