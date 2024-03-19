@@ -68,6 +68,7 @@ const Headline = styled.h1`
 const Link = styled.a`
     color: var(--color--white-shade);
     padding: 0.5rem 0;
+    font-size: 1.25rem;
     font-weight: 600;
     text-align: left;
     display: inline-block;
@@ -89,7 +90,7 @@ const PartingLine = styled.hr`
   border: 0;
   border-top: 2px solid var(--color--blue-1);  /* Light white line */
   margin: 2rem 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 `;
 
 const FooterText = styled.p`
@@ -104,7 +105,7 @@ function Footer() {
             <ColumnsContainer>
                 <ThinColumn>
                     <Logo>
-                        <img src={logo} alt="Logo" width="100" height="100"/>
+                        <img src={logo} alt="Logo" width="128" height="128"/>
                     </Logo>
                 </ThinColumn>
                 <Column>
