@@ -36,6 +36,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: var(--color--white-shade);
+
     margin: 0;
     padding: 20px;
     font-family: 'Roboto', sans-serif;
