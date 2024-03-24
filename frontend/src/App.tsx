@@ -3,7 +3,10 @@ import React from 'react';
 import { useState } from 'react'
 import styled from 'styled-components';
 import './App.css'
-import {createGlobalStyle} from "styled-components";
+import { createGlobalStyle } from "styled-components";
+import Button from './components/Buttons';
+import GlassButton from './components/GlassButtons';
+import BlurButton from './components/BlurButtons';
 
 interface MyComponentProps {
   color: string;
@@ -46,7 +49,6 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: var(--color--white-shade);
-    margin: 0;
     padding: 20px;
     font-family: 'Roboto', sans-serif;
   }
@@ -87,11 +89,32 @@ const ColoredParagrpah: React.FC<MyComponentProps> = ({ color, children }) => {
   return <ColoredString color={color}>{children}</ColoredString>;
 };
 
+const ButtonGrid = styled.div`
+display: grid;
+grid-gap: 12px;
+`
+const handleClick = () => {
+  console.log("Button clicked!");
+};
+
 function App() {
-  const [count, setCount] = useState(0)
   return (
     <div>
       <GlobalStyle />
+      <ButtonGrid>
+        <Button color='blue' onClick={handleClick}>NORMAL blue</Button>
+        <Button color='green' onClick={handleClick}>NORMAL green</Button>
+        <Button color='pink' onClick={handleClick}>NORMAL pink</Button>
+        <Button color='blue' disabled={true}>NORMAL blue disabled</Button>
+        <Button color='green' disabled={true}>NORMAL green disabled</Button>
+        <Button color='pink' disabled={true}>NORMAL pink disabled</Button>
+        <GlassButton color='blue' onClick={handleClick}>Glass Button blue</GlassButton>
+        <GlassButton color='green' onClick={handleClick}>Glass Button green</GlassButton>
+        <GlassButton color='pink' onClick={handleClick}>Glass Button pink</GlassButton>
+        <BlurButton color='blue' onClick={handleClick}>Blur Button Blue</BlurButton>
+        <BlurButton color='green' onClick={handleClick}>Blur Button Green</BlurButton>
+        <BlurButton color='pink' onClick={handleClick}>Blur Button Pink</BlurButton>
+      </ButtonGrid>
       <h1>
         15-Minuten Stadt für Project C
       </h1>
