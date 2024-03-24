@@ -4,10 +4,10 @@ import { useState } from 'react'
 import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
 import {  createGlobalStyle  } from "styled-components";
-import Footer from './components/Footer';
 import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
 import BlurButton from './components/BlurButtons';
+import Footer from './components/Footer';
 
 interface MyComponentProps {
   color: string;
@@ -17,7 +17,7 @@ interface MyComponentProps {
 export const GlobalStyle = createGlobalStyle`
   :root {
 
-    background-color: var(--color--white-shade);
+    
 
     // color palette
     // double dashes are a naming convention often used to create reusable and easily identifiable custom properties for styling purposes in web development
@@ -111,7 +111,7 @@ const handleClick = () => {
 
 function App() {
   return (
-    <>
+    <div>
       <MainContainer>
         <GlobalStyle />
         <ButtonGrid>
@@ -161,7 +161,7 @@ function App() {
       </MainContainer>
 
       <Footer />
-    </>
+    </div>
 
   )
 }

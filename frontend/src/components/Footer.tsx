@@ -23,6 +23,7 @@ const FooterContainer = styled.footer`
   @media (max-width: 768px) {
     padding: 0 1rem;  /* smaller padding for smaller screens */
     font-size: 0.rem;
+  }
 `;
 
 const Logo = styled.div`
@@ -30,7 +31,7 @@ const Logo = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 2.5rem 0;
-  }
+  
 `;
 
 const LogoImg = styled.img`
@@ -53,6 +54,7 @@ const ColumnsContainer = styled.div`
     @media (max-width: 768px) {
         width: 100%;
         padding: 0;
+    }
     `;
 
 const Column = styled.div`
