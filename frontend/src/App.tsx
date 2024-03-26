@@ -3,7 +3,7 @@ import React from 'react';
 import { useState } from 'react'
 import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
-import {  createGlobalStyle  } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import Footer from './components/Footer';
 import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
@@ -115,20 +115,20 @@ function App() {
       <MainContainer>
         <GlobalStyle />
         <ButtonGrid>
-        <Button color='blue' onClick={handleClick}>NORMAL blue</Button>
-        <Button color='green' onClick={handleClick}>NORMAL green</Button>
-        <Button color='pink' onClick={handleClick}>NORMAL pink</Button>
-        <Button color='blue' disabled={true}>NORMAL blue disabled</Button>
-        <Button color='green' disabled={true}>NORMAL green disabled</Button>
-        <Button color='pink' disabled={true}>NORMAL pink disabled</Button>
-        <GlassButton color='blue' onClick={handleClick}>Glass Button blue</GlassButton>
-        <GlassButton color='green' onClick={handleClick}>Glass Button green</GlassButton>
-        <GlassButton color='pink' onClick={handleClick}>Glass Button pink</GlassButton>
-        <BlurButton color='blue' onClick={handleClick}>Blur Button Blue</BlurButton>
-        <BlurButton color='green' onClick={handleClick}>Blur Button Green</BlurButton>
-        <BlurButton color='pink' onClick={handleClick}>Blur Button Pink</BlurButton>
-      </ButtonGrid>
-      <h1>
+          <Button color='blue' onClick={handleClick}>NORMAL blue</Button>
+          <Button color='green' onClick={handleClick}>NORMAL green</Button>
+          <Button color='pink' onClick={handleClick}>NORMAL pink</Button>
+          <Button color='blue' disabled={true}>NORMAL blue disabled</Button>
+          <Button color='green' disabled={true}>NORMAL green disabled</Button>
+          <Button color='pink' disabled={true}>NORMAL pink disabled</Button>
+          <GlassButton color='blue' onClick={handleClick}>Glass Button blue</GlassButton>
+          <GlassButton color='green' onClick={handleClick}>Glass Button green</GlassButton>
+          <GlassButton color='pink' onClick={handleClick}>Glass Button pink</GlassButton>
+          <BlurButton color='blue' onClick={handleClick}>Blur Button Blue</BlurButton>
+          <BlurButton color='green' onClick={handleClick}>Blur Button Green</BlurButton>
+          <BlurButton color='pink' onClick={handleClick}>Blur Button Pink</BlurButton>
+        </ButtonGrid>
+        <h1>
           15-Minuten Stadt für Project C
         </h1>
         <h1>h1</h1>

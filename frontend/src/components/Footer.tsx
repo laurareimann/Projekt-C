@@ -102,6 +102,7 @@ const Link = styled.a`
     font-weight: 600;
     text-align: left;
     display: inline-block;
+    text-decoration: none;
 
     &:hover {
         color: var(--color--blue-2);
