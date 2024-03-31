@@ -22,8 +22,12 @@ const FooterContainer = styled.footer`
 
   @media (max-width: 768px) {
     padding: 0 1rem;  /* smaller padding for smaller screens */
-    font-size: 0.rem;
   }
+
+  /*Middle ground adjustments between desktop and mobile */  
+    @media (max-width: 1120px) {
+        padding: 0 2.5rem;  /* smaller padding for smaller screens */
+    }
 `;
 
 const Logo = styled.div`
@@ -31,6 +35,15 @@ const Logo = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 2.5rem 0;
+
+  @media (max-width: 768px) {
+    display: none;  /* Hide on smaller screens */
+  }
+
+  /*Middle ground adjustments between desktop and mobile */  
+    @media (max-width: 1120px) {
+        display: none;  /* Hide on smaller screens */
+    }
   
 `;
 
@@ -39,9 +52,13 @@ const LogoImg = styled.img`
   height: 125px;  /* Adjust as needed */
 
   @media (max-width: 768px) {
-    width: 50px;  /* Smaller width for small screens */
-    height: 50px;  /* Smaller height for small screens */
+    display: none;  /* Hide on smaller screens */
   }
+
+  /*Middle ground adjustments between desktop and mobile */  
+    @media (max-width: 1120px) {
+        display: none;  /* Hide on smaller screens */
+    }
 `;
 
 const ColumnsContainer = styled.div`
@@ -54,6 +71,7 @@ const ColumnsContainer = styled.div`
     @media (max-width: 768px) {
         width: 100%;
         padding: 0;
+        flex-direction: column;  /* Stack columns on top of each other */
     }
     `;
 
@@ -82,6 +100,11 @@ const ThinColumn = styled.div`
     flex: 1;  /* Reduce flex */
     padding: 0 0.5rem;  /* Adjust padding */
   }
+
+  /*Middle ground adjustments between desktop and mobile */  
+    @media (max-width: 1120px) {
+        display: none;  /* Hide on smaller screens */
+    }
 `;
 
 const Headline = styled.h1`
@@ -91,8 +114,13 @@ const Headline = styled.h1`
     text-align: left;
 
     @media (max-width: 768px) {
-        font-size: 1rem;  /* Smaller font size */
+        font-size: 1.5rem;  /* Smaller font size */
       }
+
+    /*Middle ground adjustments between desktop and mobile */  
+    @media (max-width: 1120px) {
+        font-size: 2.25rem;  /* Smaller font size */
+    }
 `;
 
 const Link = styled.a`
@@ -102,14 +130,20 @@ const Link = styled.a`
     font-weight: 600;
     text-align: left;
     display: inline-block;
+    text-decoration: none;
 
     &:hover {
         color: var(--color--blue-2);
     }
 
     @media (max-width: 768px) {
-        font-size: 0.75rem;  /* Smaller font size */
+        font-size: 1rem;  /* Smaller font size */
       }
+
+      /*Middle ground adjustments between desktop and mobile */  
+    @media (max-width: 1120px) {
+        font-size: 1rem;  /* Smaller font size */
+    }
 `;
 
 const Address = styled.p`
@@ -119,8 +153,13 @@ const Address = styled.p`
     text-align: left;
 
     @media (max-width: 768px) {
-        font-size: 0.5rem;  /* Smaller font size */
+        font-size: 1rem;  /* Smaller font size */
       }
+
+      /*Middle ground adjustments between desktop and mobile */  
+    @media (max-width: 1120px) {
+        font-size: 1rem;  /* Smaller font size */
+    }
 `;
 
 const PartingLine = styled.hr`
@@ -129,6 +168,14 @@ const PartingLine = styled.hr`
   border-top: 2px solid var(--color--blue-1);  /* Light white line */
   margin: 2rem 0;
   margin-bottom: 0.5rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 0.5rem;  /* Smaller margin */
+  }
+
+  @media (max-width: 1120px) {
+    margin-bottom: 0.5rem;  /* Smaller margin */
+  }
 `;
 
 const FooterText = styled.p`
@@ -137,7 +184,7 @@ const FooterText = styled.p`
   margin-top: 1rem;
 
   @media (max-width: 768px) {
-    font-size: 0.5rem;  /* Smaller font size */
+    font-size: 1rem;  /* Smaller font size */
   }
 `;
 
