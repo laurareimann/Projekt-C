@@ -8,6 +8,8 @@ import Footer from './components/Footer';
 import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
 import BlurButton from './components/BlurButtons';
+import ScoreContainer from './components/ScoreContainer';
+import QuizContainer from './components/QuizContainer';
 
 interface MyComponentProps {
   color: string;
@@ -69,6 +71,7 @@ export const GlobalStyle = createGlobalStyle`
   line-height: 2.5rem;
   font-size: 2rem;
   font-weight: 600;
+  margin:0;
 }
   h3 {
   color: var(--color--blue-5);
@@ -77,10 +80,23 @@ export const GlobalStyle = createGlobalStyle`
   font-weight: 500;
 }
   p {
-  color: var(--color--black-shade);
   line-height: 1.5rem;
   font-size: 1.25rem;
   font-weight: 400;
+  margin:0;
+}
+//big text
+h4{
+  line-height: 0.8;
+  font-size: 6.25rem;
+  font-weight: 600;
+  margin:0;
+}
+
+//tiny text
+h5{
+  font-size: 1rem;
+  margin:0;
 }
 `;
 
@@ -105,6 +121,12 @@ const ButtonGrid = styled.div`
 display: grid;
 grid-gap: 12px;
 `
+
+const ContainerGrid = styled.div`
+display: flex;
+gap:12px;
+  
+`
 const handleClick = () => {
   console.log("Button clicked!");
 };
@@ -114,6 +136,18 @@ function App() {
     <div>
       <MainContainer>
         <GlobalStyle />
+        <ButtonGrid>
+          <ContainerGrid>
+            <ScoreContainer color='blue'></ScoreContainer>
+            <ScoreContainer color='green'></ScoreContainer>
+            <ScoreContainer color='pink'></ScoreContainer>
+          </ContainerGrid>
+          <ContainerGrid>
+            <QuizContainer color='blue'></QuizContainer>
+            <QuizContainer color='green'></QuizContainer>
+            <QuizContainer color='pink'></QuizContainer>
+          </ContainerGrid>
+        </ButtonGrid>
         <ButtonGrid>
           <Button color='blue' onClick={handleClick}>NORMAL blue</Button>
           <Button color='green' onClick={handleClick}>NORMAL green</Button>
