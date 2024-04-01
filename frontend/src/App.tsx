@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
 import BlurButton from './components/BlurButtons';
+import Input from './components/Inputforms';
 
 interface MyComponentProps {
   color: string;
@@ -48,7 +49,8 @@ export const GlobalStyle = createGlobalStyle`
     --color--success-green: #17C970;
     --color--white-shade: #ffffff;
     --color--black-shade: #000000;
-  }
+    --color--disabled-gray: #73818E;
+    }
 
   body {
     background-color: var(--color--white-shade);
@@ -109,12 +111,23 @@ const handleClick = () => {
   console.log("Button clicked!");
 };
 
+const InputGrid = styled.div`
+display: grid;
+grid-gap: 12px;
+`
+
 function App() {
   return (
     <div>
+     
       <MainContainer>
-        <GlobalStyle />
-        <ButtonGrid>
+        <GlobalStyle/>
+        <InputGrid>
+        <Input disabled={true} placeholder='E-Mail'></Input>
+        <Input placeholder='E-Mail'></Input>
+        <Input isValid={false}></Input>
+        </InputGrid>
+        <ButtonGrid> 
         <Button color='blue' onClick={handleClick}>NORMAL blue</Button>
         <Button color='green' onClick={handleClick}>NORMAL green</Button>
         <Button color='pink' onClick={handleClick}>NORMAL pink</Button>
