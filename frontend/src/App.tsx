@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { useState } from 'react'
@@ -10,11 +11,14 @@ import GlassButton from './components/GlassButtons';
 import BlurButton from './components/BlurButtons';
 import ScoreContainer from './components/ScoreContainer';
 import QuizContainer from './components/QuizContainer';
+import DropDownLanguage, {chosenLanguage } from './components/languageDropdownButton';
+
 
 interface MyComponentProps {
   color: string;
   children: React.ReactNode;
 }
+
 
 export const GlobalStyle = createGlobalStyle`
   :root {
@@ -50,6 +54,9 @@ export const GlobalStyle = createGlobalStyle`
     --color--success-green: #17C970;
     --color--white-shade: #ffffff;
     --color--black-shade: #000000;
+
+
+    //dark mode colours
   }
 
   body {
@@ -132,8 +139,10 @@ const handleClick = () => {
 };
 
 function App() {
+
   return (
     <div>
+
       <MainContainer>
         <GlobalStyle />
         <ButtonGrid>
@@ -162,12 +171,16 @@ function App() {
           <BlurButton color='green' onClick={handleClick}>Blur Button Green</BlurButton>
           <BlurButton color='pink' onClick={handleClick}>Blur Button Pink</BlurButton>
         </ButtonGrid>
+
+        <DropDownLanguage/>
+        
         <h1>
           15-Minuten Stadt für Project C
         </h1>
         <h1>h1</h1>
         <h2>h2</h2>
         <h3>h3</h3>
+
         <ColoredParagrpah color="var(--color--blue-1)">blue-1</ColoredParagrpah>
         <ColoredParagrpah color="var(--color--blue-2)">blue-2</ColoredParagrpah>
         <ColoredParagrpah color="var(--color--blue-3)">blue-3</ColoredParagrpah>
@@ -193,10 +206,17 @@ function App() {
         <ColoredParagrpah color="var(--color--black-shade)">black-shade</ColoredParagrpah>
 
       </MainContainer>
-
+    
       <Footer />
+      
     </div>
-
+  
   )
+  
 }
+
+
+
+
 export default App
+
