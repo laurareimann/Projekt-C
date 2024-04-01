@@ -22,9 +22,7 @@ interface MyComponentProps {
 
 export const GlobalStyle = createGlobalStyle`
   :root {
-
     
-
     // color palette
     // double dashes are a naming convention often used to create reusable and easily identifiable custom properties for styling purposes in web development
     --color--blue-1: #C5CAFC;

@@ -13,24 +13,21 @@ let chosenLanguage:string;
   chosenLanguage = "English";
 
   const DropDownContainer = styled("div")`
-  //width: 9em;
-  margin: 15px auto;
+  
+
   
 `;
 
 const DropDownHeader = styled("div")`
-  font-family: "Roboto", sans-serif;
-  padding: 0.5em 0.2em;
+  padding: 0.5em;
   border: 4px solid var(--color--blue-4);
   border-radius: 18px;
   width: 400px;
   text-align: left;
-  font-weight: 500;
-  font-size: 1.5rem;
   box-sizing: border-box;
   
   &:hover{
-    background-color: #ebebeb;
+    border-color: var(--color--blue-1);
   }
   
 `;
@@ -38,13 +35,11 @@ const DropDownHeader = styled("div")`
 const DropDownListContainer = styled("div")``;
 
 const DropDownList = styled("ul")`
-    
   position: absolute;
   z-index: 20000;
   width:400px;
   padding: 0;
   margin: 0;
-  
   //padding-left: 1em;
   background: #ffffff;
   border: 2px solid var(--color--blue-5);
@@ -56,39 +51,29 @@ const DropDownList = styled("ul")`
   &:first-child {
     padding-top: 0.2em;
   }
-
- 
-
 `;
 
 const ListItem = styled("li")`
-  
   list-style: none;
   margin-bottom: 0.4em;
-  padding-top: 0.1em;
-  padding-left:0.5em;
+  padding: 0.1em 0 0 0.5em;
 
   &:hover{
-    background-color: #ebebeb;
+    color: var(--color--blue-5);
   }
 
 `;
 
 const options = ["English", "German"];
-let value2:string;  
+  let value2:string;  
   let selectedOptionAlt:string;
   selectedOptionAlt = "English";
 
 
 function DropDownLanguage() {
 
-  
-
   const [isOpen, setIsOpen] = useState(false);
-  
-
   const toggling = () => setIsOpen(!isOpen);
-
   const onOptionClicked = (value:string) => () => {
     
     selectedOptionAlt = value;
@@ -113,8 +98,7 @@ function DropDownLanguage() {
             </DropDownList>
           </DropDownListContainer>
         )}
-      </DropDownContainer>
-    
+      </DropDownContainer> 
   );
 }
 
