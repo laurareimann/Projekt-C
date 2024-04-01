@@ -130,8 +130,8 @@ grid-gap: 12px;
 const ContainerGrid = styled.div`
 display: flex;
 gap:12px;
-  
 `
+
 const handleClick = () => {
   console.log("Button clicked!");
 };
@@ -168,9 +168,10 @@ function App() {
           <BlurButton color='blue' onClick={handleClick}>Blur Button Blue</BlurButton>
           <BlurButton color='green' onClick={handleClick}>Blur Button Green</BlurButton>
           <BlurButton color='pink' onClick={handleClick}>Blur Button Pink</BlurButton>
+        
         </ButtonGrid>
 
-        <DropDownLanguage/>
+        <DropDownLanguage/> 
         
         <h1>
           15-Minuten Stadt für Project C
