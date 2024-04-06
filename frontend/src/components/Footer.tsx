@@ -6,28 +6,24 @@ const FooterContainer = styled.footer`
   left: 0;
   right: 0;
   width: 100%;
-  min-height: 35vh;
-  min-width: 100%;
-  display: flex;
+  margin-top: 16px;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   background-color: var(--color--blue-5);
-  padding: 0 10rem;
+  padding: 16px 32px;
   flex-shrink: 0;
   box-sizing: border-box;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
+  text-align: -webkit-center;
 
   @media (max-width: 768px) {
-    padding: 0 1rem;  /* smaller padding for smaller screens */
+    padding: 16px;
+    border-radius: 0;
   }
 
-  /*Middle ground adjustments between desktop and mobile */  
-    @media (max-width: 1120px) {
-        padding: 0 2.5rem;  /* smaller padding for smaller screens */
-    }
 `;
 
 const Logo = styled.div`
@@ -65,8 +61,7 @@ const ColumnsContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    width: 100%;
-    padding: 0 1rem;
+    width: 80%;
 
     @media (max-width: 768px) {
         width: 100%;
@@ -80,7 +75,6 @@ const Column = styled.div`
   flex-direction: column;
   align-items: flex-start;
   flex: 3;
-  padding: 0 1rem;
 
   @media (max-width: 768px) {
     flex: 2;  /* Reduce flex */
@@ -149,7 +143,6 @@ const Link = styled.a`
 const Address = styled.p`
     color: var(--color--white-shade);
     font-weight: 100;
-    line-height: 0rem;
     text-align: left;
 
     @media (max-width: 768px) {
@@ -189,37 +182,37 @@ const FooterText = styled.p`
 `;
 
 function Footer() {
-    return (
-        <FooterContainer>
-            <ColumnsContainer>
-                <ThinColumn>
-                    <Logo>
-                        <LogoImg src={logo} alt="Logo" />
-                    </Logo>
-                </ThinColumn>
-                <Column>
-                    <Headline>Legal</Headline>
-                    <Link href="#">Terms</Link>
-                    <Link href="#">Privacy</Link>
-                </Column>
-                <Column>
-                    <Headline>About us</Headline>
-                    <Link href="#">The team</Link>
-                    <Link href="#">Concept</Link>
-                    <Link href="#">FAQ</Link>
-                </Column>
-                <Column>
-                    <Headline>Contact</Headline>
-                    <Address>HAW-Hamburg</Address>
-                    <Address>Finkenau 35</Address>
-                    <Address>22081 Hamburg</Address>
-                    <Address>Tel.: 040 428754641</Address>
-                </Column>
-            </ColumnsContainer>
-            <PartingLine />
-            <FooterText>© All rights reserved (TO BE CHANGED)</FooterText>
-        </FooterContainer>
-    );
+  return (
+    <FooterContainer>
+      <ColumnsContainer>
+        <ThinColumn>
+          <Logo>
+            <LogoImg src={logo} alt="Logo" />
+          </Logo>
+        </ThinColumn>
+        <Column>
+          <Headline>Legal</Headline>
+          <Link href="#">Terms</Link>
+          <Link href="#">Privacy</Link>
+        </Column>
+        <Column>
+          <Headline>About us</Headline>
+          <Link href="#">The team</Link>
+          <Link href="#">Concept</Link>
+          <Link href="#">FAQ</Link>
+        </Column>
+        <Column>
+          <Headline>Contact</Headline>
+          <Address>HAW-Hamburg</Address>
+          <Address>Finkenau 35</Address>
+          <Address>22081 Hamburg</Address>
+          <Address>Tel.: 040 428754641</Address>
+        </Column>
+      </ColumnsContainer>
+      <PartingLine />
+      <FooterText>© All rights reserved (TO BE CHANGED)</FooterText>
+    </FooterContainer>
+  );
 }
 
 export default Footer;
