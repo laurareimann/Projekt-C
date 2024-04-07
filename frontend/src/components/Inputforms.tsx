@@ -24,6 +24,7 @@ const StyledInput = styled.input<InputProps>`
     font-size: 18px; 
     width: 350px;
     height: 60px; 
+    padding-left: 16px;
     outline: 0;
     border-radius: 8px;
     display: flex;
