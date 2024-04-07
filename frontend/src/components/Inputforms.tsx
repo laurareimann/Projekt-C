@@ -46,7 +46,7 @@ const StyledInput = styled.input<InputProps>`
     };
 `;
 
-function Input({disabled = false, placeholder = "", isValid = true}){
+function Input({disabled = false, placeholder = "E-Mail", isValid = true}){
     
     return(
         <>
