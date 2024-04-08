@@ -14,8 +14,6 @@ let chosenLanguage:string;
 
   const DropDownContainer = styled("div")`
   
-  margin-top: 10px;
-  
 `;
 
 const DropDownHeader = styled("div")`
@@ -36,12 +34,11 @@ const DropDownListContainer = styled("div")``;
 
 const DropDownList = styled("ul")`
   position: absolute;
-  z-index: 20000;
+  z-index: 5;
   width:400px;
-  padding: 0;
   margin: 0;
   //padding-left: 1em;
-  background: #ffffff;
+  background: var(--color--white-shade);
   border: 2px solid var(--color--blue-5);
   box-sizing: border-box;
   color: #3faffa;
@@ -56,7 +53,7 @@ const DropDownList = styled("ul")`
 const ListItem = styled("li")`
   list-style: none;
   margin-bottom: 0.4em;
-  padding: 0.1em 0 0 0.5em;
+  
 
   &:hover{
     color: var(--color--blue-5);

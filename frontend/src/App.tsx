@@ -171,7 +171,7 @@ function App() {
         
         </ButtonGrid>
 
-        <DropDownLanguage/> 
+        
         
         <h1>
           15-Minuten Stadt für Project C
@@ -203,6 +203,8 @@ function App() {
         <ColoredParagrpah color="var(--color--success-green)">success-green</ColoredParagrpah>
         <ColoredParagrpah color="var(--color--white-shade)">white-shade</ColoredParagrpah>
         <ColoredParagrpah color="var(--color--black-shade)">black-shade</ColoredParagrpah>
+
+        <DropDownLanguage/> 
 
       </MainContainer>
     
