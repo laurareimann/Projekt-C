@@ -41,7 +41,7 @@ const DropDownList = styled("ul")`
   background: var(--color--white-shade);
   border: 2px solid var(--color--blue-5);
   box-sizing: border-box;
-  color: #3faffa;
+  color: var(--color--blue-3);
   font-size: 1.3rem;
   font-weight: 500;
   text-align:left;
