@@ -37,16 +37,13 @@ const DropDownList = styled("ul")`
   z-index: 5;
   width:400px;
   margin: 0;
-  //padding-left: 1em;
   background: var(--color--white-shade);
   border: 2px solid var(--color--blue-5);
   box-sizing: border-box;
   color: var(--color--blue-3);
-  font-size: 1.3rem;
-  font-weight: 500;
   text-align:left;
   &:first-child {
-    padding-top: 0.2em;
+    padding-top: 0.2em 0.7em ;
   }
 `;
 
