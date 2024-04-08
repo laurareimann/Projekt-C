@@ -123,8 +123,8 @@ function App() {
       <MainContainer>
         <GlobalStyle/>
         <InputGrid>
-        <Input disabled={true} placeholder='E-Mail'></Input>
-        <Input placeholder='E-Mail'></Input>
+        <Input disabled={true}></Input>
+        <Input></Input>
         <Input isValid={false}></Input>
         </InputGrid>
         <ButtonGrid> 
