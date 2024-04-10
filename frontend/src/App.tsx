@@ -3,12 +3,16 @@ import React from 'react';
 import { useState } from 'react'
 import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
-import {  createGlobalStyle  } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import Footer from './components/Footer';
 import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
 import BlurButton from './components/BlurButtons';
+
 import Input from './components/Inputforms';
+import ScoreContainer from './components/ScoreContainer';
+import QuizContainer from './components/QuizContainer';
+
 
 interface MyComponentProps {
   color: string;
@@ -17,9 +21,6 @@ interface MyComponentProps {
 
 export const GlobalStyle = createGlobalStyle`
   :root {
-
-    
-
     // color palette
     // double dashes are a naming convention often used to create reusable and easily identifiable custom properties for styling purposes in web development
     --color--blue-1: #C5CAFC;
@@ -71,6 +72,7 @@ export const GlobalStyle = createGlobalStyle`
   line-height: 2.5rem;
   font-size: 2rem;
   font-weight: 600;
+  margin:0;
 }
   h3 {
   color: var(--color--blue-5);
@@ -79,10 +81,23 @@ export const GlobalStyle = createGlobalStyle`
   font-weight: 500;
 }
   p {
-  color: var(--color--black-shade);
   line-height: 1.5rem;
   font-size: 1.25rem;
   font-weight: 400;
+  margin:0;
+}
+//big text
+h4{
+  line-height: 0.8;
+  font-size: 6.25rem;
+  font-weight: 600;
+  margin:0;
+}
+
+//tiny text
+h5{
+  font-size: 1rem;
+  margin:0;
 }
 `;
 
@@ -107,6 +122,13 @@ const ButtonGrid = styled.div`
 display: grid;
 grid-gap: 12px;
 `
+
+const ContainerGrid = styled.div`
+display: flex;
+flex-wrap: wrap;
+gap:12px;
+  
+`
 const handleClick = () => {
   console.log("Button clicked!");
 };
@@ -121,27 +143,39 @@ function App() {
     <div>
      
       <MainContainer>
-        <GlobalStyle/>
+        <GlobalStyle />
         <InputGrid>
-        <Input disabled={true}></Input>
-        <Input></Input>
-        <Input isValid={false}></Input>
+          <Input disabled={true}></Input>
+          <Input></Input>
+          <Input isValid={false}></Input>
         </InputGrid>
-        <ButtonGrid> 
-        <Button color='blue' onClick={handleClick}>NORMAL blue</Button>
-        <Button color='green' onClick={handleClick}>NORMAL green</Button>
-        <Button color='pink' onClick={handleClick}>NORMAL pink</Button>
-        <Button color='blue' disabled={true}>NORMAL blue disabled</Button>
-        <Button color='green' disabled={true}>NORMAL green disabled</Button>
-        <Button color='pink' disabled={true}>NORMAL pink disabled</Button>
-        <GlassButton color='blue' onClick={handleClick}>Glass Button blue</GlassButton>
-        <GlassButton color='green' onClick={handleClick}>Glass Button green</GlassButton>
-        <GlassButton color='pink' onClick={handleClick}>Glass Button pink</GlassButton>
-        <BlurButton color='blue' onClick={handleClick}>Blur Button Blue</BlurButton>
-        <BlurButton color='green' onClick={handleClick}>Blur Button Green</BlurButton>
-        <BlurButton color='pink' onClick={handleClick}>Blur Button Pink</BlurButton>
-      </ButtonGrid>
-      <h1>
+        <ButtonGrid>
+          <ContainerGrid>
+            <ScoreContainer color='blue'></ScoreContainer>
+            <ScoreContainer color='green'></ScoreContainer>
+            <ScoreContainer color='pink'></ScoreContainer>
+          </ContainerGrid>
+          <ContainerGrid>
+            <QuizContainer color='blue'></QuizContainer>
+            <QuizContainer color='green'></QuizContainer>
+            <QuizContainer color='pink'></QuizContainer>
+          </ContainerGrid>
+        </ButtonGrid>
+        <ButtonGrid>
+          <Button color='blue' onClick={handleClick}>NORMAL blue</Button>
+          <Button color='green' onClick={handleClick}>NORMAL green</Button>
+          <Button color='pink' onClick={handleClick}>NORMAL pink</Button>
+          <Button color='blue' disabled={true}>NORMAL blue disabled</Button>
+          <Button color='green' disabled={true}>NORMAL green disabled</Button>
+          <Button color='pink' disabled={true}>NORMAL pink disabled</Button>
+          <GlassButton color='blue' onClick={handleClick}>Glass Button blue</GlassButton>
+          <GlassButton color='green' onClick={handleClick}>Glass Button green</GlassButton>
+          <GlassButton color='pink' onClick={handleClick}>Glass Button pink</GlassButton>
+          <BlurButton color='blue' onClick={handleClick}>Blur Button Blue</BlurButton>
+          <BlurButton color='green' onClick={handleClick}>Blur Button Green</BlurButton>
+          <BlurButton color='pink' onClick={handleClick}>Blur Button Pink</BlurButton>
+        </ButtonGrid>
+        <h1>
           15-Minuten Stadt für Project C
         </h1>
         <h1>h1</h1>
