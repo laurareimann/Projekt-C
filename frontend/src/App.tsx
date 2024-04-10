@@ -8,8 +8,11 @@ import Footer from './components/Footer';
 import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
 import BlurButton from './components/BlurButtons';
+
+import Input from './components/Inputforms';
 import ScoreContainer from './components/ScoreContainer';
 import QuizContainer from './components/QuizContainer';
+
 
 interface MyComponentProps {
   color: string;
@@ -47,7 +50,8 @@ export const GlobalStyle = createGlobalStyle`
     --color--success-green: #17C970;
     --color--white-shade: #ffffff;
     --color--black-shade: #000000;
-  }
+    --color--disabled-gray: #73818E;
+    }
 
   body {
     background-color: var(--color--white-shade);
@@ -129,11 +133,22 @@ const handleClick = () => {
   console.log("Button clicked!");
 };
 
+const InputGrid = styled.div`
+display: grid;
+grid-gap: 12px;
+`
+
 function App() {
   return (
     <div>
+     
       <MainContainer>
         <GlobalStyle />
+        <InputGrid>
+          <Input disabled={true}></Input>
+          <Input></Input>
+          <Input isValid={false}></Input>
+        </InputGrid>
         <ButtonGrid>
           <ContainerGrid>
             <ScoreContainer color='blue'></ScoreContainer>
