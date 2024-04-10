@@ -5,7 +5,11 @@ interface InputProps {
 }
 
 const StyledInput = styled.input<InputProps>`
-    background-color: "white";
+    background-color: ${({isValid}) =>
+        isValid
+                ? "white" : "var(--color--error-red-light)"
+};
+
     color: ${({disabled, isValid}) =>
         disabled
                 ? "var(--color--disabled-gray)" : isValid 
