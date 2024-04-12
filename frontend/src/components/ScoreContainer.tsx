@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Button from './Buttons';
 import Container from './Container';
 import Address from './Address';
+import Score from './Score';
 
 export const ContainerContentWrapper = styled.div`
     display: flex;
@@ -10,17 +11,6 @@ export const ContainerContentWrapper = styled.div`
     padding: 16px;
     align-items: center;
     `
-
-const Score = styled.div`   
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: center;
-    
-    > div { 
-        font-size: 1rem;
-    }
-`
 
 const MapPointIcon = styled.img`
   width: 40px;
@@ -32,10 +22,7 @@ function ScoreContainer({ score = "42", street = "Finkenau 35", zip = "22081", c
     return (
         <Container color={color} outline={outline}>
             <ContainerContentWrapper>
-                <Score>
-                    <h4>{score}</h4>
-                    <h5>min</h5>
-                </Score>
+                <Score color={color} score={score}></Score>
                 <Address color={color} street={street} zip={zip} city={city}></Address>
                 <Button color={color} onClick={onClick}>{buttonText}</Button>
             </ContainerContentWrapper>

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import { useState } from 'react'
 import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
 import { createGlobalStyle } from "styled-components";
@@ -9,6 +8,8 @@ import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
 import BlurButton from './components/BlurButtons';
 
+import Location from './components/Location';
+import Result from './components/Result';
 import Input from './components/Inputforms';
 import ScoreContainer from './components/ScoreContainer';
 import QuizContainer from './components/QuizContainer';
@@ -56,7 +57,6 @@ export const GlobalStyle = createGlobalStyle`
   body {
     background-color: var(--color--white-shade);
     min-height: 100vh;
-    padding: 20px;
     font-family: 'Roboto', sans-serif;
   }
 
@@ -67,20 +67,20 @@ export const GlobalStyle = createGlobalStyle`
   font-size: 3rem;
   font-weight: 600;
 }
-  h2 {
+h2 {
   color: var(--color--blue-5);
   line-height: 2.5rem;
   font-size: 2rem;
   font-weight: 600;
   margin:0;
 }
-  h3 {
+h3 {
   color: var(--color--blue-5);
   line-height: 2rem;
   font-size: 1.25rem;
   font-weight: 500;
 }
-  p {
+p {
   line-height: 1.5rem;
   font-size: 1.25rem;
   font-weight: 400;
@@ -129,7 +129,7 @@ flex-wrap: wrap;
 gap:12px;
   
 `
-const handleClick = () => {
+export const handleClick = () => {
   console.log("Button clicked!");
 };
 
@@ -145,6 +145,8 @@ function App() {
       <MainContainer>
         <GlobalStyle />
         <InputGrid>
+        <Result color='pink'>HAW Finkenau</Result>
+        <Location color='pink'>HAW Finkenau</Location>
           <Input disabled={true}></Input>
           <Input></Input>
           <Input isValid={false}></Input>
