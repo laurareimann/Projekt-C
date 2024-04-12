@@ -12,6 +12,7 @@ import BlurButton from './components/BlurButtons';
 import Input from './components/Inputforms';
 import ScoreContainer from './components/ScoreContainer';
 import QuizContainer from './components/QuizContainer';
+import Header from './components/Header';
 
 
 interface MyComponentProps {
@@ -114,6 +115,7 @@ const ColoredParagrpah: React.FC<MyComponentProps> = ({ color, children }) => {
 // Weiß nicht ob der Container wirklich nötig ist aber für Ordnung ganz gut
 // Mein Footer wollte bloß nicht so wie ich wollte am Anfang
 const MainContainer = styled.main`
+  padding: 40px 0;
   margin: 0;
 `;
 
@@ -141,9 +143,10 @@ grid-gap: 12px;
 function App() {
   return (
     <div>
+      <Header/>
      
       <MainContainer>
-        <GlobalStyle />
+        <GlobalStyle />  
         <InputGrid>
           <Input disabled={true}></Input>
           <Input></Input>
