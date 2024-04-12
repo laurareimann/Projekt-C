@@ -62,8 +62,8 @@ const NavItem = styled.a`
   text-decoration: none;
 
   img {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     margin-right: 0.25rem;
   }
 
