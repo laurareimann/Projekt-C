@@ -5,25 +5,24 @@ interface InputProps {
 }
 
 const StyledInput = styled.input<InputProps>`
-    background-color: ${({isValid}) =>
+    background-color: ${({ isValid }) =>
         isValid
-                ? "white" : "var(--color--error-red-light)"
-};
+            ? "white" : "var(--color--error-red-light)"
+    };
 
-    color: ${({disabled, isValid}) =>
+    color: ${({ disabled, isValid }) =>
         disabled
-                ? "var(--color--disabled-gray)" : isValid 
-                    ? "var(--color--blue-5)" : "var(--color--error-red)"
-};
+            ? "var(--color--disabled-gray)" : isValid
+                ? "var(--color--blue-5)" : "var(--color--error-red)"
+    };
     
-    border: 2.5px solid ${({disabled, isValid}) =>
+    border: 2.5px solid ${({ disabled, isValid }) =>
         disabled
-                ? "var(--color--disabled-gray)" : isValid 
-                    ? "var(--color--blue-5)" : "var(--color--error-red)"
-}; 
+            ? "var(--color--disabled-gray)" : isValid
+                ? "var(--color--blue-5)" : "var(--color--error-red)"
+    }; 
     font-weight: 700;
     font-size: 18px; 
-    width: 350px;
     height: 60px; 
     padding-left: 16px;
     outline: 0;
@@ -31,12 +30,12 @@ const StyledInput = styled.input<InputProps>`
     display: flex;
     
     &:not(:disabled):hover {
-        border: 2.5px solid  ${({isValid}) =>
-            isValid
-                ? "var(--color--blue-3)": "var(--color--error-red)"};
-        color: ${({isValid}) =>
-            isValid
-                ? "var(--color--blue-3)": "var(--color--error-red)"};
+        border: 2.5px solid  ${({ isValid }) =>
+        isValid
+            ? "var(--color--blue-3)" : "var(--color--error-red)"};
+        color: ${({ isValid }) =>
+        isValid
+            ? "var(--color--blue-3)" : "var(--color--error-red)"};
     };
 
     &::placeholder{
@@ -44,17 +43,21 @@ const StyledInput = styled.input<InputProps>`
         font-weight: 400;
         color: "var(--color--disabled-gray)"
     };
+
+    @media (min-width: 768px) {
+        width: 350px;
+    }
 `;
 
-function Input({disabled = false, placeholder = "E-Mail", isValid = true}){ 
-    
-    return(
+function Input({ disabled = false, placeholder = "E-Mail", isValid = true }) {
+
+    return (
         <>
-            <StyledInput 
-                        disabled={disabled} 
-                        placeholder={placeholder} 
-                        isValid={isValid}
-                        >
+            <StyledInput
+                disabled={disabled}
+                placeholder={placeholder}
+                isValid={isValid}
+            >
             </StyledInput>
         </>
     )
