@@ -9,9 +9,13 @@ const ResultWrapper = styled.div`
     flex-direction: row;
     gap: 20px;
     align-items: center;
+    background-color: var(--color--pink-0);
+    padding: 24px;
+    border-radius: 30px;
 
     @media (max-width: 768px) {
         flex-direction: column;
+        background-color: var(--color--white-shade);
     }
 `;
 

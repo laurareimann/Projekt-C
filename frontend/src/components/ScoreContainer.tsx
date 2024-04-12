@@ -12,12 +12,6 @@ export const ContainerContentWrapper = styled.div`
     align-items: center;
     `
 
-const MapPointIcon = styled.img`
-  width: 40px;
-  height: 40px;
-  alt: "Map Point Icon";
-`;
-
 function ScoreContainer({ score = "42", street = "Finkenau 35", zip = "22081", city = "Hamburg", color = "pink", buttonText = "View results", outline = false, onClick = () => { } }) {
     return (
         <Container color={color} outline={outline}>

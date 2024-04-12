@@ -36,6 +36,7 @@ export const GlobalStyle = createGlobalStyle`
     --color--green-4: #1E4843;
     --color--green-5: #122B28;
     
+    --color--pink-0: #FFECF8;
     --color--pink-1: #FFC2EA;
     --color--pink-2: #FF47C2;
     --color--pink-3: #B8007A;
