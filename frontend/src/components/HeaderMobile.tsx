@@ -62,12 +62,6 @@ const Profile = styled.a`
     width: 50px;
     height: 50px;
   }
-
-  @media (max-width: 768px) {
-    img {
-      width: 40px;
-      height: 40px;
-    }
 `;
 
 const BurgerButton = styled.button`
@@ -85,6 +79,10 @@ const MenuItem = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+
+  img {
+    margin-right: 10px;
+  }
 `;
 
 const MenuOption = styled.a`
