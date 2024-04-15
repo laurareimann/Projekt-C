@@ -3,6 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
 import { createGlobalStyle } from "styled-components";
+
+import Header from './components/Header';
 import Footer from './components/Footer';
 import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
@@ -13,7 +15,7 @@ import Result from './components/Result';
 import Input from './components/Inputforms';
 import ScoreContainer from './components/ScoreContainer';
 import QuizContainer from './components/QuizContainer';
-import Header from './components/Header';
+
 
 
 interface MyComponentProps {
