@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+//Die line wurde hinzugefügt, weil Score und MapPointIcon laut VSC nicht verwendet werden
 import styled from 'styled-components';
 import Button from './Buttons';
 import Container from './Container';

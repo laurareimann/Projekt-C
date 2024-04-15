@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { useState } from 'react'
@@ -8,11 +9,14 @@ import Footer from './components/Footer';
 import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
 import BlurButton from './components/BlurButtons';
-
 import Input from './components/Inputforms';
 import ScoreContainer from './components/ScoreContainer';
 import QuizContainer from './components/QuizContainer';
-
+import {createRoot} from "react-dom/client";
+import { APIProvider, ControlPosition } from '@vis.gl/react-google-maps';
+import Places from './components/MapEmbed';
+import Map from "./components/mapComponents/map.tsx";
+import { useLoadScript } from '@react-google-maps/api';
 
 interface MyComponentProps {
   color: string;
@@ -102,6 +106,10 @@ h5{
 `;
 
 
+
+
+
+
 const ColoredString = styled.p<{ color: string }>`
   color: ${(props) => props.color};
 `;
@@ -139,9 +147,21 @@ grid-gap: 12px;
 `
 
 function App() {
+
+  const{isLoaded} = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY,
+    libraries:["places"],
+  })
+
+  //Hier könnte ihr Ladebildschirm stehen ( ͡° ͜ʖ ͡° )
+  if(!isLoaded)return <div>Loading</div>;
+
   return (
     <div>
-     
+      Google Maps Test
+      
+      <Map/>
+
       <MainContainer>
         <GlobalStyle />
         <InputGrid>
@@ -212,4 +232,14 @@ function App() {
 
   )
 }
-export default App
+
+export default App;
+
+/* React.Dom werden wir später brauchen. War in einem der Tutorials, dass ich zu Google Maps geguckt habe, deswegen lasse ich es bis dahin erstmal drinne.
+
+export function renderToDom(container: HTMLElement) {
+  const root = createRoot(container);
+
+  root.render(<App />);
+}
+*/
