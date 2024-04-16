@@ -28,6 +28,7 @@ a {
 
 .controls input {
   font-family: Roboto;
+  border-radius: 20px;
 }
 
 /*
@@ -38,7 +39,7 @@ styled-component ersetzt werden kann.
 .map-container {
   width: 100%;
   height: 50vh;
-  border: 4px solid #0B1FD5;
+  border: 4px solid #B8007A;
   border-radius: 20px;
   
 }
@@ -50,14 +51,25 @@ styled-component ersetzt werden kann.
 }
 
 .highlight {
-  font-size: 1.25rem;
-  font-weight: bold;
+
+  
 }
 
 .combobox-input {
-  border: 2px;
+
+  color:black;
+  background-color: #fdceee;
+  border: none ;
   width: 100%;
   padding: 0.5rem;
+  border-radius: 20px;
+  outline:none;
+  
+  &:focus{
+    background-color: white;
+  }
+  
+
   
 }
 

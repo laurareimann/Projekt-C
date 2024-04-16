@@ -29,10 +29,10 @@ const TestMap = styled.div`
 
 const TestControlContainer = styled.div`
   height:fit-content;
-  width: fit-content;
+  width: 500px;
   margin:auto;
-  padding: 1rem;
-  background-color:#0B1FD5;
+  padding: 0.3rem;
+  background-color:#B8007A;
   border-radius:20px;
   margin-bottom:10px;
 `
@@ -51,7 +51,8 @@ export default function Map() {
       mapId: import.meta.env.VITE_MAP_ID
     }),[]);
 
-
+//Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
+//Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
   const onLoad = useCallback((map) => (mapRef.current = map),[]);
 
 

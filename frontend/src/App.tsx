@@ -14,9 +14,9 @@ import ScoreContainer from './components/ScoreContainer';
 import QuizContainer from './components/QuizContainer';
 import {createRoot} from "react-dom/client";
 import { APIProvider, ControlPosition } from '@vis.gl/react-google-maps';
-import Places from './components/MapEmbed';
 import Map from "./components/mapComponents/map.tsx";
 import { useLoadScript } from '@react-google-maps/api';
+import MapInputBar from './components/MapSearchInput.tsx';
 
 interface MyComponentProps {
   color: string;
@@ -104,9 +104,6 @@ h5{
   margin:0;
 }
 `;
-
-
-
 
 
 

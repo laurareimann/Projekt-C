@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 //Places ist ne API für die Navigierung der Karte und später auch für die Bewertung der location wichtig
 
 import usePlacesAutocomplete, {
@@ -13,6 +14,9 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import "../../globals.css";
+import "../Inputforms";
+import "../MapSearchInput";
+import MapInputBar from "../MapSearchInput";
 
 type PlacesProps = {
   setSpot: (position: google.maps.LatLngLiteral) => void;
@@ -37,8 +41,10 @@ export default function Places({ setSpot }: PlacesProps) {
   };
 
   return (
+
     <Combobox onSelect={handleSelect}>
       <ComboboxInput
+        
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={!ready}
