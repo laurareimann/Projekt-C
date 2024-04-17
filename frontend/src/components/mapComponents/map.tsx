@@ -73,9 +73,7 @@ export default function Map() {
         onLoad={onLoad}
       >
 
-        //Auskommentiert bis ich herausfinde, wie ich custom images als Marker in Google Maps verwenden kann. Bis dahin leider custom marker
-        /* {spot && (<Marker position={spot} icon="https://imgur.com/a/MT0g9NM"/>)} */
-        {spot && <Marker position={spot}/>}
+      {spot && <Marker position={spot}/>}
 
 
       </GoogleMap>

@@ -44,13 +44,14 @@ export default function Places({ setSpot }: PlacesProps) {
 
     <Combobox onSelect={handleSelect}>
       <ComboboxInput
-        
+      
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={!ready}
         className="combobox-input"
         placeholder="Search preview address"
       />
+      <i className ="icon"></i>
       <ComboboxPopover>
         <ComboboxList>
           {status === "OK" &&

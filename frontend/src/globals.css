@@ -50,9 +50,18 @@ styled-component ersetzt werden kann.
   
 }
 
-.highlight {
-
+.icon{
   
+  background:url(./assets/Vector.svg);
+  background-repeat: no-repeat;
+  height:40px;
+  width:40px;
+  padding-left: 50px;
+  padding-bottom:20px;
+  border-image-repeat:none;
+  position:relative;
+  top:-5px;
+  left:5px;
 }
 
 .combobox-input {
@@ -60,9 +69,10 @@ styled-component ersetzt werden kann.
   color:black;
   background-color: #fdceee;
   border: none ;
-  width: 100%;
+  width: 90%;
   padding: 0.5rem;
-  border-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
   outline:none;
   
   &:focus{
