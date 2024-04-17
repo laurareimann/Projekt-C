@@ -105,7 +105,11 @@ const MenuOption = styled.a`
 `;
 
 const burgerStyles = {
+    bmBurgerBars: {
+        transition: '0.5s ease-in-out',
+      },
     bmMenuWrap: {
+        transition: 'all 0.5s ease-in-out',
         position: 'fixed',
         top: '70px',
         left: '0',
