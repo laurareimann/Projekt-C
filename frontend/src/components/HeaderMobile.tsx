@@ -109,7 +109,8 @@ const burgerStyles = {
         position: 'fixed',
         top: '70px',
         left: '0',
-        height: '100%',
+        height: '225px', // hardcoded größe des burgers menü um schließen durch danebenklicken zu ermöglichen
+        width: '225px',
         zIndex: '2'
     },
     bmOverlay: {
