@@ -13,6 +13,7 @@ import Distance from "./distance";
 import styled from "styled-components";
 import Input from "../Inputforms";
 
+
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
@@ -32,7 +33,7 @@ const TestControlContainer = styled.div`
   width: 500px;
   margin:auto;
   padding: 0.3rem;
-  background-color:#B8007A;
+  background-color: var(--color--pink-3);
   border-radius:20px;
   margin-bottom:10px;
 `

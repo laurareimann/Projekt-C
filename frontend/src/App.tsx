@@ -147,6 +147,45 @@ const InputGrid = styled.div`
 display: grid;
 grid-gap: 12px;
 `
+//Alles
+export let currentAdressData:string;
+
+//Einzelne Komponenten
+export let currentAdressPostalCode:string;
+export let currentAddressStreet:string;
+export let currentStreetNumber:string;
+export let currentCity:string;
+//Bundesland
+export let currentState:string;
+
+
+
+
+export const getFormattedAdressStrings = (addressComponent:string,value:string) => {
+
+switch(addressComponent){
+  case "street_number":
+    currentStreetNumber = value;
+    break;
+
+  case "postal_code":
+    currentAdressPostalCode = value;  
+    break;
+
+  case "city":
+    currentCity = value;
+    break;
+
+  case "street":
+    currentAddressStreet = value;
+    break;
+
+  case "state":
+    currentState = value;
+    break;
+}
+}
+
 
 function App() {
 
