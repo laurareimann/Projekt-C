@@ -25,7 +25,6 @@ const StyledInput = styled.input<InputProps>`
 }; 
     font-weight: 700;
     font-size: 18px; 
-    width: 350px;
     height: 60px; 
     padding-left: 16px;
     outline: 0;
@@ -46,11 +45,15 @@ const StyledInput = styled.input<InputProps>`
         font-weight: 400;
         color: "var(--color--disabled-gray)"
     };
+
+    @media (min-width: 768px) {
+        width: 350px;
+    }
 `;
 
-function Input({disabled = false, placeholder = "E-Mail", isValid = true}){ 
-    
-    return(
+function Input({ disabled = false, placeholder = "E-Mail", isValid = true }) {
+
+    return (
         <>
             <StyledInput 
                         disabled={disabled} 
