@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { slide as Menu } from 'react-burger-menu';
 import { slide as ProfileMenu } from 'react-burger-menu';
 
-import Button from './Buttons';
-
 import quizIcon from '../assets/QuizIcon.svg';
 import aboutUsIcon from '../assets/AboutIcon.svg';
 import evaluationIcon from '../assets/EvaluationIcon.svg';
@@ -188,8 +186,8 @@ const burgerProfileStyles = {
     position: 'fixed',
     top: '70px',
     right: '0',
-    height: '225px', // hardcoded größe des burgers menü um schließen durch danebenklicken zu ermöglichen
-    width: '225px',
+    height: '125px', // hardcoded größe des burgers menü um schließen durch danebenklicken zu ermöglichen
+    width: '150px',
     zIndex: '2'
   },
   bmOverlay: {
