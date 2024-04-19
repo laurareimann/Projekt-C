@@ -161,9 +161,11 @@ function App() {
   return (
     <div>
       Google Maps Test
+      <Header/>
+      
       
       <Map/>
-      <Header/>
+      
 
       <MainContainer>
         <GlobalStyle />  
