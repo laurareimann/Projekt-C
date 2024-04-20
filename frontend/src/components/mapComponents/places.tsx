@@ -22,6 +22,9 @@ import {getFormattedAdressStrings,currentAddressStreet,currentAdressPostalCode,c
 import { Component } from "react";
 import PlacesAutocomplete from "react-places-autocomplete";
 
+let tempPreviewAdress:string;
+let PreviewActive:boolean;
+
 type PlacesProps = {
   setSpot: (position: google.maps.LatLngLiteral) => void;
 };
@@ -52,7 +55,7 @@ export default function Places({ setSpot }: PlacesProps) {
     //Adresse mit Postleitzahl et cetera
     address = results[0].formatted_address;
     
-    /*
+    /* legacy code, den ich wahrscheinlich später brauchen werde
     if(results[0].address_components.find((component) => {
       return component.types.includes("street_address") ;
     })){
@@ -98,9 +101,9 @@ export default function Places({ setSpot }: PlacesProps) {
 
     <Combobox onSelect={handleSelect}>
       <ComboboxInput
-      
+
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => {setValue(e.target.value), tempPreviewAdress = e.target.value}}
         disabled={!ready}
         className="combobox-input"
         placeholder="Search preview address"
