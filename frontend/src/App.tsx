@@ -1,22 +1,17 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
+import { useState } from 'react'
 import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
 import { createGlobalStyle } from "styled-components";
-
-import Header from './components/Header';
 import Footer from './components/Footer';
 import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
 import BlurButton from './components/BlurButtons';
-
-import Location from './components/Location';
-import Result from './components/Result';
-import Input from './components/Inputforms';
 import ScoreContainer from './components/ScoreContainer';
 import QuizContainer from './components/QuizContainer';
-
+import DropDownLanguage, {chosenLanguage } from './components/languageDropdownButton';
 
 
 interface MyComponentProps {
@@ -27,9 +22,7 @@ interface MyComponentProps {
 
 export const GlobalStyle = createGlobalStyle`
   :root {
-
     
-
     // color palette
     // double dashes are a naming convention often used to create reusable and easily identifiable custom properties for styling purposes in web development
     --color--blue-1: #C5CAFC;
@@ -44,7 +37,6 @@ export const GlobalStyle = createGlobalStyle`
     --color--green-4: #1E4843;
     --color--green-5: #122B28;
     
-    --color--pink-0: #FFECF8;
     --color--pink-1: #FFC2EA;
     --color--pink-2: #FF47C2;
     --color--pink-3: #B8007A;
@@ -60,8 +52,7 @@ export const GlobalStyle = createGlobalStyle`
     --color--success-green: #17C970;
     --color--white-shade: #ffffff;
     --color--black-shade: #000000;
-    --color--disabled-gray: #73818E;
-  
+
 
     //dark mode colours
   }
@@ -69,6 +60,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     background-color: var(--color--white-shade);
     min-height: 100vh;
+    padding: 20px;
     font-family: 'Roboto', sans-serif;
   }
 
@@ -79,20 +71,20 @@ export const GlobalStyle = createGlobalStyle`
   font-size: 3rem;
   font-weight: 600;
 }
-h2 {
+  h2 {
   color: var(--color--blue-5);
   line-height: 2.5rem;
   font-size: 2rem;
   font-weight: 600;
   margin:0;
 }
-h3 {
+  h3 {
   color: var(--color--blue-5);
   line-height: 2rem;
   font-size: 1.25rem;
   font-weight: 500;
 }
-p {
+  p {
   line-height: 1.5rem;
   font-size: 1.25rem;
   font-weight: 400;
@@ -126,7 +118,6 @@ const ColoredParagrpah: React.FC<MyComponentProps> = ({ color, children }) => {
 // Weiß nicht ob der Container wirklich nötig ist aber für Ordnung ganz gut
 // Mein Footer wollte bloß nicht so wie ich wollte am Anfang
 const MainContainer = styled.main`
-  padding: 40px 0;
   margin: 0;
 `;
 
@@ -138,33 +129,20 @@ grid-gap: 12px;
 
 const ContainerGrid = styled.div`
 display: flex;
-flex-wrap: wrap;
 gap:12px;
 `
-export const handleClick = () => {
+
+const handleClick = () => {
   console.log("Button clicked!");
 };
-
-const InputGrid = styled.div`
-display: grid;
-grid-gap: 12px;
-`
 
 function App() {
 
   return (
     <div>
-      <Header/>
-     
+
       <MainContainer>
-        <GlobalStyle />  
-        <InputGrid>
-        <Result color='pink'>HAW Finkenau</Result>
-        <Location color='pink'>HAW Finkenau</Location>
-          <Input disabled={true}></Input>
-          <Input></Input>
-          <Input isValid={false}></Input>
-        </InputGrid>
+        <GlobalStyle />
         <ButtonGrid>
           <ContainerGrid>
             <ScoreContainer color='blue'></ScoreContainer>
