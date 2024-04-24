@@ -11,6 +11,8 @@ type DistanceProps = {
 };
 
 //leg wirft hier einen error, aber wird ohnehin erstmal nicht verwendet. Wird eventuell später für den score wichtig
+
+
 export default function Distance({ leg }: DistanceProps) {
   return <div>Distance</div>;
 }

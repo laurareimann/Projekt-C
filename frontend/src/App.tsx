@@ -202,10 +202,8 @@ function App() {
       Google Maps Test
       <Header/>
       
-      
       <Map/>
       
-
       <MainContainer>
         <GlobalStyle />  
         <InputGrid>

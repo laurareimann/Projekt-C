@@ -29,12 +29,6 @@ type PlacesProps = {
   setSpot: (position: google.maps.LatLngLiteral) => void;
 };
 
-function getPostalCode(results:google.maps.GeocoderResult){
-
-
-
-}
-
 export default function Places({ setSpot }: PlacesProps) {
   const {
     ready,
@@ -88,7 +82,7 @@ export default function Places({ setSpot }: PlacesProps) {
     }
     }
 
-      console.log(currentAddressStreet,currentAdressPostalCode,currentStreetNumber,currentCity,currentState);
+      //console.log(currentAddressStreet,currentAdressPostalCode,currentStreetNumber,currentCity,currentState);
 
 
     //Adresse aus App.tsx wird angepasst
@@ -101,9 +95,9 @@ export default function Places({ setSpot }: PlacesProps) {
 
     <Combobox onSelect={handleSelect}>
       <ComboboxInput
-
+              
         value={value}
-        onChange={(e) => {setValue(e.target.value), tempPreviewAdress = e.target.value}}
+        onChange={(e) => {setValue(e.target.value), tempPreviewAdress = e.target.value,console.log(tempPreviewAdress)}}
         disabled={!ready}
         className="combobox-input"
         placeholder="Search preview address"

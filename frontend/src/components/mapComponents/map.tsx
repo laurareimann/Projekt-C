@@ -54,7 +54,9 @@ export default function Map() {
 
 //Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
 //Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
-  const onLoad = useCallback((map) => (mapRef.current = map),[]);
+//Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onLoad = useCallback((map:any) => (mapRef.current = map),[]);
 
 
   return (
