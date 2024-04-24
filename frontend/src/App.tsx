@@ -155,10 +155,10 @@ export let currentAdressPostalCode:string;
 export let currentAddressStreet:string;
 export let currentStreetNumber:string;
 export let currentCity:string;
-//Bundesland
+
 export let currentState:string;
 
-
+//Dies ist für den merge editor
 
 
 export const getFormattedAdressStrings = (addressComponent:string,value:string) => {
