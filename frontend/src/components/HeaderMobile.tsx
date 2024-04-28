@@ -62,6 +62,7 @@ const Profile = styled.button`
   display: flex;
   border: none;
   background: none;
+  cursor: pointer;
 
   img {
     width: 50px;
