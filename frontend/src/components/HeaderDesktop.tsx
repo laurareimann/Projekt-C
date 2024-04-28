@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+
+import Button from './Buttons';
 
 import logo from '../assets/Logo.svg';
 import quizIcon from '../assets/QuizIcon.svg';
@@ -36,6 +39,7 @@ const Logo = styled.a`
       width: 50px;
       height: 50px;
     }
+  }
 `;
 
 const Nav = styled.nav`
@@ -77,10 +81,12 @@ const NavItem = styled.a`
     @media (max-width: 768px) {
       display: none;
     }
+  }
 `;
 
 const Profile = styled.a`
   display: flex;
+  text-decoration: none;
   img {
     width: 50px;
     height: 50px;
@@ -91,35 +97,46 @@ const Profile = styled.a`
       width: 40px;
       height: 40px;
     }
+  }
 `;
 
 function HeaderDesktop() {
-    return (
-        <Header>
+  // nur temporär um Login funktionalität zu testen
+  // sollte später ausgelagert werden in richtigen Login Handler
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-            <Nav>
-                <Logo href="/">
-                    <img src={logo} alt="Logo" />
-                </Logo>
-                <NavItem href="/quiz">
-                    <img src={quizIcon} alt="Quiz" />
-                    <span>Quiz</span>
-                </NavItem>
-                <NavItem href="/about-us">
-                    <img src={aboutUsIcon} alt="About Us" />
-                    <span>About Us</span>
-                </NavItem>
-                <NavItem href="/evaluation">
-                    <img src={evaluationIcon} alt="Evaluation" />
-                    <span>Evaluation</span>
-                </NavItem>
-                <Profile href="/profile">
-                    <img src={profileIcon} alt="Profile" />
-                </Profile>
-            </Nav>
+  return (
+    <Header>
 
-        </Header>
-    );
+      <Nav>
+        <Logo href="/">
+          <img src={logo} alt="Logo" />
+        </Logo>
+        <NavItem href="/quiz">
+          <img src={quizIcon} alt="Quiz" />
+          <span>Quiz</span>
+        </NavItem>
+        <NavItem href="/about-us">
+          <img src={aboutUsIcon} alt="About Us" />
+          <span>About Us</span>
+        </NavItem>
+        <NavItem href="/evaluation">
+          <img src={evaluationIcon} alt="Evaluation" />
+          <span>Evaluation</span>
+        </NavItem> 
+        {isLoggedIn ? ( // State ändert sich momentan auch noch nicht
+          <Profile href="/profile">
+            <img src={profileIcon} alt="Profile" />
+          </Profile>
+        ) : (
+          <Profile href="/login">
+            <Button color='pink'>Login</Button>
+          </Profile>
+        )}
+      </Nav>
+
+    </Header>
+  );
 }
 
 export default HeaderDesktop;
