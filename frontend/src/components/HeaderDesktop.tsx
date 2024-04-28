@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Button from './Buttons';
-import './HeaderDesktop.css';
 
 import logo from '../assets/Logo.svg';
 import quizIcon from '../assets/QuizIcon.svg';
@@ -66,6 +65,11 @@ const NavItem = styled.a`
   font-size: 1.5rem;
   font-weight: 600;
   text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--color--blue-4);
+  }
 
   img {
     width: 40px;
