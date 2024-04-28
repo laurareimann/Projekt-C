@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Button from './Buttons';
+import './HeaderDesktop.css';
 
 import logo from '../assets/Logo.svg';
 import quizIcon from '../assets/QuizIcon.svg';
@@ -9,21 +10,22 @@ import aboutUsIcon from '../assets/AboutIcon.svg';
 import evaluationIcon from '../assets/EvaluationIcon.svg';
 import profileIcon from '../assets/ProfileIcon.svg';
 
-const Header = styled.header`
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    background-color: var(--color--white-shade);
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
 
-    @media (max-width: 768px) {
-    }
+
+const Header = styled.header<{ visible: boolean }>`
+  position: fixed;
+  top: ${props => props.visible ? '0' : '-100px'};
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: var(--color--white-shade);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  transition: top 0.3s ease-in-out;
+  z-index: 1000;
 `;
 
 const Logo = styled.a`
@@ -105,8 +107,26 @@ function HeaderDesktop() {
   // sollte später ausgelagert werden in richtigen Login Handler
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    let lastScrollTop = 0;
+    const handleScroll = () => {
+      const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
+      if (currentScrollTop > lastScrollTop) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // For Mobile or negative scrolling
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
   return (
-    <Header>
+    <Header visible={isVisible}>
 
       <Nav>
         <Logo href="/">
