@@ -4,8 +4,14 @@ import styled from 'styled-components';
 import Button from './Buttons';
 import Container from './Container';
 import Address from './Address';
-import { ContainerContentWrapper } from './ScoreContainer';
+//import { ContainerContentWrapper } from './ScoreContainer';
 
+const ContainerContentWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    `
 
 const Score = styled.div`   
     display: flex;

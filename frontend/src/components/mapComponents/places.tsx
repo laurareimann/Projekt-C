@@ -18,18 +18,25 @@ import "../../globals.css";
 import "../Inputforms";
 import "../MapSearchInput";
 import MapInputBar from "../MapSearchInput";
-import {getFormattedAdressStrings,currentAddressStreet,currentAdressPostalCode,currentState,currentStreetNumber,currentCity} from "../../App";
-import { Component } from "react";
+import { Component, useState } from "react";
 import PlacesAutocomplete from "react-places-autocomplete";
-
+import { getFormattedAdressStrings } from "../tmpRefreshHelper";
+import {useUpdateStreetContext} from "./StreetProvider";
 let tempPreviewAdress:string;
-let PreviewActive:boolean;
+
 
 type PlacesProps = {
   setSpot: (position: google.maps.LatLngLiteral) => void;
 };
 
+
+
 export default function Places({ setSpot }: PlacesProps) {
+  
+  const updateStreetName = useUpdateStreetContext();
+  
+  const [currentStreet,setStreet] = useState("");
+  
   const {
     ready,
     value,
@@ -48,8 +55,14 @@ export default function Places({ setSpot }: PlacesProps) {
     let address:string;
     //Adresse mit Postleitzahl et cetera
     address = results[0].formatted_address;
-    
-    /* legacy code, den ich wahrscheinlich später brauchen werde
+
+    updateStreetName(address);
+
+
+    /* 
+    legacy code, den ich wahrscheinlich später brauchen werde
+    Ich bewahre ihn erstmal auf, aber wird wahrscheinlich in zukünftigen commits gelöscht
+
     if(results[0].address_components.find((component) => {
       return component.types.includes("street_address") ;
     })){
@@ -58,9 +71,7 @@ export default function Places({ setSpot }: PlacesProps) {
     }else{
       console.log("This place doesn't have a postal_code");
     }
-    */
-
-
+    
     for(let i = 0; i < results[0].address_components.length; i++){
       //console.log(results[0].address_components[i]);
     switch(results[0].address_components[i].types[0]){
@@ -80,12 +91,13 @@ export default function Places({ setSpot }: PlacesProps) {
         case "administrative_area_level_1":
         getFormattedAdressStrings("state",results[0].address_components[i].long_name);
     }
+  
     }
-
+    getFormattedAdressStrings("fix street appearance","now");
       //console.log(currentAddressStreet,currentAdressPostalCode,currentStreetNumber,currentCity,currentState);
+*/
 
-
-    //Adresse aus App.tsx wird angepasst
+    //sanity check
     console.log("Gesamte Adresse: " + address);
     setSpot({ lat, lng });
 
@@ -97,7 +109,7 @@ export default function Places({ setSpot }: PlacesProps) {
       <ComboboxInput
               
         value={value}
-        onChange={(e) => {setValue(e.target.value), tempPreviewAdress = e.target.value,console.log(tempPreviewAdress)}}
+        onChange={(e) => {setValue(e.target.value), tempPreviewAdress = e.target.value}}
         disabled={!ready}
         className="combobox-input"
         placeholder="Search preview address"

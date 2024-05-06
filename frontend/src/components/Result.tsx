@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
 import Location from './Location';
 import Score from './Score';
 import Button from './Buttons';
 import ScoreContainer from './ScoreContainer';
+import { useContext, useState } from 'react';
+import { useStreetName } from './mapComponents/StreetProvider';
+
 
 const ResultWrapper = styled.div`
     display: flex;
@@ -42,13 +46,21 @@ display: flex;
     }
 `;
 
-function Result({ children = '', score = '42', street = "Finkenau 35", zip = "22081", city = "Hamburg", color = "pink", buttonText = "View results", outline = true, onClick = () => { } }) {
+
+
+
+function Result({ children = '', score="42", street="" , zip = "", city = "", color = "pink", buttonText = "View results", outline = true, onClick = () => { } }) {
+    
+    //Context der Straßenvariable wird übernommen. Ist vorerst die gesamte Adresse, aber ich gucke, ob sich das eventuell in Straße und Stadt+Postleitzahl aufteilen lässt
+    const customStreet = useStreetName();
+
+
     return (
         <ResultWrapper>
             <DesktopWrapper>
-                <Location color={color} street={street} zip={zip} city={city}>{children}</Location>
+                <Location color={color} street = {customStreet} zip={zip} city={city}>{children}</Location>
                 <ScoreWrapper>
-                    <Score score={score}></Score>
+                    <Score score="42"></Score>
                     <Button color={color} onClick={onClick}>View Result</Button>
                 </ScoreWrapper>
             </DesktopWrapper>

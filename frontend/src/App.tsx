@@ -4,13 +4,12 @@ import React from 'react';
 import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
 import { createGlobalStyle } from "styled-components";
-
+import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
 import BlurButton from './components/BlurButtons';
-
 import Location from './components/Location';
 import Result from './components/Result';
 import Input from './components/Inputforms';
@@ -21,13 +20,23 @@ import { APIProvider, ControlPosition } from '@vis.gl/react-google-maps';
 import Map from "./components/mapComponents/map.tsx";
 import { useLoadScript } from '@react-google-maps/api';
 import MapInputBar from './components/MapSearchInput.tsx';
+import StreetProvider from './components/mapComponents/StreetProvider.tsx';
+
+
+
+/*
+export const StreetContext = React.createContext("preview Street");
+export const StateContext  = React.createContext("preview State");
+*/
+
 
 interface MyComponentProps {
   color: string;
   children: React.ReactNode;
 }
 
-export const GlobalStyle = createGlobalStyle`
+
+  const GlobalStyle = createGlobalStyle`
   :root {
     // color palette
     // double dashes are a naming convention often used to create reusable and easily identifiable custom properties for styling purposes in web development
@@ -139,7 +148,7 @@ flex-wrap: wrap;
 gap:12px;
   
 `
-export const handleClick = () => {
+const handleClick = () => {
   console.log("Button clicked!");
 };
 
@@ -148,43 +157,17 @@ display: grid;
 grid-gap: 12px;
 `
 //Alles
-export let currentAdressData:string;
+ let currentAdressData:string;
 
-//Einzelne Komponenten
-export let currentAdressPostalCode:string;
-export let currentAddressStreet:string;
-export let currentStreetNumber:string;
-export let currentCity:string;
-
-export let currentState:string;
-
-//Dies ist für den merge editor
+/*Einzelne Komponenten
+ let currentAdressPostalCode:string;
+ let currentAddressStreet:string;
+ let currentStreetNumber:string;
+ let currentCity:string;
+ let currentState:string;
+*/
 
 
-export const getFormattedAdressStrings = (addressComponent:string,value:string) => {
-
-switch(addressComponent){
-  case "street_number":
-    currentStreetNumber = value;
-    break;
-
-  case "postal_code":
-    currentAdressPostalCode = value;  
-    break;
-
-  case "city":
-    currentCity = value;
-    break;
-
-  case "street":
-    currentAddressStreet = value;
-    break;
-
-  case "state":
-    currentState = value;
-    break;
-}
-}
 
 
 function App() {
@@ -194,20 +177,22 @@ function App() {
     libraries:["places"],
   })
 
-  //Hier könnte ihr Ladebildschirm stehen ( ͡° ͜ʖ ͡° )
+  //Hier könnte dein Ladebildschirm stehen ( ͡° ͜ʖ ͡° )
   if(!isLoaded)return <div>Loading</div>;
 
   return (
+
+    //Erstmal der default-Wert
+  <StreetProvider value = "Finkenau 35, 22081 Hamburg">
     <div>
       Google Maps Test
       <Header/>
-      
       <Map/>
-      
+
       <MainContainer>
         <GlobalStyle />  
         <InputGrid>
-        <Result color='pink'>HAW Finkenau</Result>
+        <Result color='pink'></Result>
         <Location color='pink'>HAW Finkenau</Location>
           <Input disabled={true}></Input>
           <Input></Input>
@@ -272,12 +257,15 @@ function App() {
       </MainContainer>
 
       <Footer />
+
     </div>
 
+  </StreetProvider>
   )
 }
 
 export default App;
+
 
 /* React.Dom werden wir später brauchen. War in einem der Tutorials, dass ich zu Google Maps geguckt habe, deswegen lasse ich es bis dahin erstmal drinne.
 

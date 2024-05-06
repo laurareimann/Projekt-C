@@ -5,7 +5,7 @@ import Container from './Container';
 import Address from './Address';
 import Score from './Score';
 
-export const ContainerContentWrapper = styled.div`
+const ContainerContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;

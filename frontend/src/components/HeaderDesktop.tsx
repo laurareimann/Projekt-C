@@ -1,10 +1,13 @@
 import styled from 'styled-components';
-
 import logo from '../assets/Logo.svg';
 import quizIcon from '../assets/QuizIcon.svg';
 import aboutUsIcon from '../assets/AboutIcon.svg';
 import evaluationIcon from '../assets/EvaluationIcon.svg';
 import profileIcon from '../assets/ProfileIcon.svg';
+
+
+//In den styles haben hier ein paar closing brackets gefehlt. Diese habe ich hier nachgereicht
+
 
 const Header = styled.header`
     position: absolute;
@@ -36,7 +39,7 @@ const Logo = styled.a`
       width: 50px;
       height: 50px;
     }
-`;
+  }`;
 
 const Nav = styled.nav`
   display: flex;
@@ -77,7 +80,7 @@ const NavItem = styled.a`
     @media (max-width: 768px) {
       display: none;
     }
-`;
+  }`;
 
 const Profile = styled.a`
   display: flex;
@@ -91,7 +94,7 @@ const Profile = styled.a`
       width: 40px;
       height: 40px;
     }
-`;
+  }`;
 
 function HeaderDesktop() {
     return (
