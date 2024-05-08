@@ -118,7 +118,7 @@ const ColoredParagrpah: React.FC<MyComponentProps> = ({ color, children }) => {
 // Weiß nicht ob der Container wirklich nötig ist aber für Ordnung ganz gut
 // Mein Footer wollte bloß nicht so wie ich wollte am Anfang
 const MainContainer = styled.main`
-  padding: 40px 0;
+  padding-top: 70px;
   margin: 0;
 `;
 
