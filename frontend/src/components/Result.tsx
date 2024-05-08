@@ -37,6 +37,7 @@ display: flex;
     flex-direction: row;
     width: 100%;
     align-items: center;
+    padding: 24px;
  @media (max-width: 768px) {
         display: none;
     }
