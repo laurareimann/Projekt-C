@@ -19,13 +19,15 @@ let chosenLanguage:string;
 const DropDownHeader = styled("div")`
   padding: 0.5em;
   border: 4px solid var(--color--blue-4);
-  border-radius: 18px;
-  width: 400px;
+  border-radius: 8px;
+  width: 150px;
   text-align: left;
   box-sizing: border-box;
+  color: var(--color--black-shade);
   
   &:hover{
-    border-color: var(--color--blue-1);
+    border-color: var(--color--blue-3);
+    color: var(--color--blue-3);
   }
   
 `;
@@ -35,12 +37,14 @@ const DropDownListContainer = styled("div")``;
 const DropDownList = styled("ul")`
   position: absolute;
   z-index: 5;
-  width:400px;
+  width: 150px;
   margin: 0;
   background: var(--color--white-shade);
-  border: 2px solid var(--color--blue-5);
+  border: 4px solid var(--color--blue-4);
+  border-top: 2px;
+  border-radius: 8px;
   box-sizing: border-box;
-  color: var(--color--blue-3);
+  color: var(--color--black-shade);
   text-align:left;
   &:first-child {
     padding-top: 0.2em 0.7em ;
@@ -48,12 +52,13 @@ const DropDownList = styled("ul")`
 `;
 
 const ListItem = styled("li")`
-  list-style: none;
+  list-style: circle;
   margin-bottom: 0.4em;
-  
+
+ 
 
   &:hover{
-    color: var(--color--blue-5);
+    color: var(--color--blue-3);
   }
 
 `;
