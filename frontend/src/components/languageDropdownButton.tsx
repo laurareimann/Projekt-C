@@ -13,6 +13,7 @@ let chosenLanguage:string;
   chosenLanguage = "English";
 
   const DropDownContainer = styled("div")`
+  cursor: pointer;
   
 `;
 
@@ -32,10 +33,15 @@ const DropDownHeader = styled("div")`
   
 `;
 
-const DropDownListContainer = styled("div")``;
+const DropDownListContainer = styled("div")`
+  
+  `;
 
 const DropDownList = styled("ul")`
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   z-index: 5;
   width: 150px;
   margin: 0;
@@ -47,15 +53,15 @@ const DropDownList = styled("ul")`
   color: var(--color--black-shade);
   text-align:left;
   &:first-child {
-    padding-top: 0.2em 0.7em ;
+    padding: 0.5em;
+    padding-bottom: 0.2em;
   }
 `;
 
 const ListItem = styled("li")`
-  list-style: circle;
-  margin-bottom: 0.4em;
-
- 
+  list-style: none;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
   &:hover{
     color: var(--color--blue-3);

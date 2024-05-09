@@ -52,9 +52,6 @@ export const GlobalStyle = createGlobalStyle`
     --color--success-green: #17C970;
     --color--white-shade: #ffffff;
     --color--black-shade: #000000;
-
-
-    //dark mode colours
   }
 
   body {
@@ -104,7 +101,6 @@ h5{
   margin:0;
 }
 `;
-
 
 const ColoredString = styled.p<{ color: string }>`
   color: ${(props) => props.color};
@@ -171,8 +167,6 @@ function App() {
         
         </ButtonGrid>
 
-        
-        
         <h1>
           15-Minuten Stadt für Project C
         </h1>
@@ -215,9 +209,6 @@ function App() {
   )
   
 }
-
-
-
 
 export default App
 
