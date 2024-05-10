@@ -164,6 +164,7 @@ const App: React.FC = () => {
           <Routes>
             <Route index element={<Homepage />} />
             <Route path="about-us" element={<AboutUs />} />
+            /*hier alle Seiten anlegen */
           </Routes>
         </BrowserRouter >
 
