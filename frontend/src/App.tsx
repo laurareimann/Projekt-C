@@ -1,21 +1,33 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
 import { createGlobalStyle } from "styled-components";
-
+import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Button from './components/Buttons';
 import GlassButton from './components/GlassButtons';
 import BlurButton from './components/BlurButtons';
-
 import Location from './components/Location';
 import Result from './components/Result';
 import Input from './components/Inputforms';
 import ScoreContainer from './components/ScoreContainer';
 import QuizContainer from './components/QuizContainer';
+import {createRoot} from "react-dom/client";
+import { APIProvider, ControlPosition } from '@vis.gl/react-google-maps';
+import Map from "./components/mapComponents/map.tsx";
+import { useLoadScript } from '@react-google-maps/api';
+import MapInputBar from './components/MapSearchInput.tsx';
+import StreetProvider from './components/mapComponents/StreetProvider.tsx';
 
+
+
+/*
+export const StreetContext = React.createContext("preview Street");
+export const StateContext  = React.createContext("preview State");
+*/
 
 
 interface MyComponentProps {
@@ -23,7 +35,8 @@ interface MyComponentProps {
   children: React.ReactNode;
 }
 
-export const GlobalStyle = createGlobalStyle`
+
+  const GlobalStyle = createGlobalStyle`
   :root {
     // color palette
     // double dashes are a naming convention often used to create reusable and easily identifiable custom properties for styling purposes in web development
@@ -106,6 +119,7 @@ h5{
 `;
 
 
+
 const ColoredString = styled.p<{ color: string }>`
   color: ${(props) => props.color};
 `;
@@ -134,7 +148,7 @@ flex-wrap: wrap;
 gap:12px;
   
 `
-export const handleClick = () => {
+const handleClick = () => {
   console.log("Button clicked!");
 };
 
@@ -142,16 +156,43 @@ const InputGrid = styled.div`
 display: grid;
 grid-gap: 12px;
 `
+//Alles
+ let currentAdressData:string;
+
+/*Einzelne Komponenten
+ let currentAdressPostalCode:string;
+ let currentAddressStreet:string;
+ let currentStreetNumber:string;
+ let currentCity:string;
+ let currentState:string;
+*/
+
+
+
 
 function App() {
+
+  const{isLoaded} = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY,
+    libraries:["places"],
+  })
+
+  //Hier könnte dein Ladebildschirm stehen ( ͡° ͜ʖ ͡° )
+  if(!isLoaded)return <div>Loading</div>;
+
   return (
+
+    //Erstmal der default-Wert
+  <StreetProvider value = "Finkenau 35, 22081 Hamburg">
     <div>
+      Google Maps Test
       <Header/>
-     
+      <Map/>
+
       <MainContainer>
         <GlobalStyle />  
         <InputGrid>
-        <Result color='pink'>HAW Finkenau</Result>
+        <Result color='pink'></Result>
         <Location color='pink'>HAW Finkenau</Location>
           <Input disabled={true}></Input>
           <Input></Input>
@@ -216,8 +257,21 @@ function App() {
       </MainContainer>
 
       <Footer />
+
     </div>
 
+  </StreetProvider>
   )
 }
-export default App
+
+export default App;
+
+
+/* React.Dom werden wir später brauchen. War in einem der Tutorials, dass ich zu Google Maps geguckt habe, deswegen lasse ich es bis dahin erstmal drinne.
+
+export function renderToDom(container: HTMLElement) {
+  const root = createRoot(container);
+
+  root.render(<App />);
+}
+*/

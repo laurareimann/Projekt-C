@@ -1,0 +1,113 @@
+/* 
+Das sind jetzt noch Werte aus dem offiziellen Tutorial von Google. 
+Größtenteilst versuche ich, die mit styled components zu ersetzen, aber lasse sie erstmal hier.
+*/
+#root {
+  --color--blue-1: #C5CAFC;
+  --color--blue-2: #8B96F9;
+  --color--blue-3: #3D50F5;
+  --color--blue-4: #0B1FD5;
+  --color--blue-5: #050E61;
+
+  --color--green-1: #9AD5CE;
+  --color--green-2: #48ADA1;
+  --color--green-3: #30736B;
+  --color--green-4: #1E4843;
+  --color--green-5: #122B28;
+  
+  --color--pink-1: #FFC2EA;
+  --color--pink-2: #FF47C2;
+  --color--pink-3: #B8007A;
+  --color--pink-4: #660044;
+  --color--pink-5: #3D0029;
+
+  --color--error-red-light: #FFF0F1;
+  --color--error-red-mid: #FA8686;
+  --color--error-red: #EE1D36;
+  --color--success-green-light: #EFFDF6;
+  --color--success-green-mid: #7FF0B8;
+  --color--success-green: #17C970;
+  --color--white-shade: #ffffff;
+  --color--black-shade: #000000;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+
+.container {
+  margin-bottom: 200px;
+}
+
+.controls {
+  height:20px;
+  width: 20%;
+  padding: 1rem;
+  margin-bottom:200px;
+}
+
+.controls input {
+  font-family: Roboto;
+  border-radius: 20px;
+}
+
+/*
+Farben muss für den map-container hardgecoded werden, da dieser nicht ohne weiteres durch einen 
+styled-component ersetzt werden kann.
+*/
+
+.map-container {
+  width: 100%;
+  height: 50vh;
+  border: 4px solid var(--color--pink-3);
+  border-radius: 20px;
+  
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  
+}
+
+.icon{
+  
+  background:url(./assets/Vector.svg);
+  background-repeat: no-repeat;
+  height:40px;
+  width:40px;
+  padding-left: 50px;
+  padding-bottom:20px;
+  border-image-repeat:none;
+  position:relative;
+  top:-5px;
+  left:5px;
+}
+
+.combobox-input {
+
+  color:black;
+  background-color: var(--color--pink-1);
+  border: none ;
+  width: 90%;
+  padding: 0.5rem;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  outline:none;
+  
+  &:focus{
+    background-color: white;
+  }
+  
+
+  
+}
+
+

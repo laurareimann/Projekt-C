@@ -20,6 +20,7 @@ const DesktopWrapper = styled.div`
     flex-direction: row;
     width: 100%;
     align-items: center;
+    margin-bottom: 60px;
 
     @media (max-width: 768px) {
         display: none;

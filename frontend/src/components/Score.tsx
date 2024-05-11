@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ScoreWrapper = styled.div`   
+const ScoreWrapper = styled.div`   
     display: flex;
     flex-direction: row;
     align-items: baseline;

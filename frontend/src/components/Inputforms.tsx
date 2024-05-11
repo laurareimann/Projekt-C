@@ -1,26 +1,28 @@
 import styled from "styled-components";
 
+
+//Musste vor das isValid hier ein Dollarzeichen setzen, sonst wirft React-Dom einen Error
 interface InputProps {
-    isValid?: boolean; //wir irrelevant sovbald regex funktioniert
+    $isValid?: boolean; //wird irrelevant sobald regex funktioniert
 }
 
 const StyledInput = styled.input<InputProps>`
-    background-color: ${({ isValid }) =>
-        isValid
-            ? "white" : "var(--color--error-red-light)"
-    };
+    background-color: ${({$isValid}) =>
+        $isValid
+                ? "white" : "var(--color--error-red-light)"
+};
 
-    color: ${({ disabled, isValid }) =>
+    color: ${({disabled, $isValid}) =>
         disabled
-            ? "var(--color--disabled-gray)" : isValid
-                ? "var(--color--blue-5)" : "var(--color--error-red)"
-    };
+                ? "var(--color--disabled-gray)" : $isValid 
+                    ? "var(--color--blue-5)" : "var(--color--error-red)"
+};
     
-    border: 2.5px solid ${({ disabled, isValid }) =>
+    border: 2.5px solid ${({disabled, $isValid}) =>
         disabled
-            ? "var(--color--disabled-gray)" : isValid
-                ? "var(--color--blue-5)" : "var(--color--error-red)"
-    }; 
+                ? "var(--color--disabled-gray)" : $isValid 
+                    ? "var(--color--blue-5)" : "var(--color--error-red)"
+}; 
     font-weight: 700;
     font-size: 18px; 
     height: 60px; 
@@ -30,12 +32,12 @@ const StyledInput = styled.input<InputProps>`
     display: flex;
     
     &:not(:disabled):hover {
-        border: 2.5px solid  ${({ isValid }) =>
-        isValid
-            ? "var(--color--blue-3)" : "var(--color--error-red)"};
-        color: ${({ isValid }) =>
-        isValid
-            ? "var(--color--blue-3)" : "var(--color--error-red)"};
+        border: 2.5px solid  ${({$isValid}) =>
+            $isValid
+                ? "var(--color--blue-3)": "var(--color--error-red)"};
+        color: ${({$isValid}) =>
+            $isValid
+                ? "var(--color--blue-3)": "var(--color--error-red)"};
     };
 
     &::placeholder{
@@ -53,11 +55,11 @@ function Input({ disabled = false, placeholder = "E-Mail", isValid = true }) {
 
     return (
         <>
-            <StyledInput
-                disabled={disabled}
-                placeholder={placeholder}
-                isValid={isValid}
-            >
+            <StyledInput 
+                        disabled={disabled} 
+                        placeholder={placeholder} 
+                        $isValid={isValid}
+                        >
             </StyledInput>
         </>
     )
