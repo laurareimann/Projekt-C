@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
 import Button from './Buttons';
 import Container from './Container';
 import Address from './Address';
 import Score from './Score';
 
-export const ContainerContentWrapper = styled.div`
+const ContainerContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;

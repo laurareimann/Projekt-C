@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+
+import Button from './Buttons';
 
 import logo from '../assets/Logo.svg';
 import quizIcon from '../assets/QuizIcon.svg';
@@ -6,21 +10,22 @@ import aboutUsIcon from '../assets/AboutIcon.svg';
 import evaluationIcon from '../assets/EvaluationIcon.svg';
 import profileIcon from '../assets/ProfileIcon.svg';
 
-const Header = styled.header`
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    background-color: var(--color--white-shade);
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
 
-    @media (max-width: 768px) {
-    }
+
+const Header = styled.header<{ visible: boolean }>`
+  position: fixed;
+  top: ${props => props.visible ? '0' : '-100px'};
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: var(--color--white-shade);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  transition: top 0.3s ease-in-out;
+  z-index: 1000;
 `;
 
 const Logo = styled.a`
@@ -36,6 +41,7 @@ const Logo = styled.a`
       width: 50px;
       height: 50px;
     }
+  }
 `;
 
 const Nav = styled.nav`
@@ -60,6 +66,11 @@ const NavItem = styled.a`
   font-size: 1.5rem;
   font-weight: 600;
   text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--color--blue-4);
+  }
 
   img {
     width: 40px;
@@ -77,10 +88,12 @@ const NavItem = styled.a`
     @media (max-width: 768px) {
       display: none;
     }
+  }
 `;
 
 const Profile = styled.a`
   display: flex;
+  text-decoration: none;
   img {
     width: 50px;
     height: 50px;
@@ -91,35 +104,64 @@ const Profile = styled.a`
       width: 40px;
       height: 40px;
     }
+  }
 `;
 
 function HeaderDesktop() {
-    return (
-        <Header>
+  // nur temporär um Login funktionalität zu testen
+  // sollte später ausgelagert werden in richtigen Login Handler
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-            <Nav>
-                <Logo href="/">
-                    <img src={logo} alt="Logo" />
-                </Logo>
-                <NavItem href="/quiz">
-                    <img src={quizIcon} alt="Quiz" />
-                    <span>Quiz</span>
-                </NavItem>
-                <NavItem href="/about-us">
-                    <img src={aboutUsIcon} alt="About Us" />
-                    <span>About Us</span>
-                </NavItem>
-                <NavItem href="/evaluation">
-                    <img src={evaluationIcon} alt="Evaluation" />
-                    <span>Evaluation</span>
-                </NavItem>
-                <Profile href="/profile">
-                    <img src={profileIcon} alt="Profile" />
-                </Profile>
-            </Nav>
+  const [isVisible, setIsVisible] = useState(true);
 
-        </Header>
-    );
+  useEffect(() => {
+    let lastScrollTop = 0;
+    const handleScroll = () => {
+      const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
+      if (currentScrollTop > lastScrollTop) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // For Mobile or negative scrolling
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
+  return (
+    <Header visible={isVisible}>
+
+      <Nav>
+        <Logo href="/">
+          <img src={logo} alt="Logo" />
+        </Logo>
+        <NavItem href="/quiz">
+          <img src={quizIcon} alt="Quiz" />
+          <span>Quiz</span>
+        </NavItem>
+        <NavItem href="/about-us">
+          <img src={aboutUsIcon} alt="About Us" />
+          <span>About Us</span>
+        </NavItem>
+        <NavItem href="/evaluation">
+          <img src={evaluationIcon} alt="Evaluation" />
+          <span>Evaluation</span>
+        </NavItem> 
+        {isLoggedIn ? ( // State ändert sich momentan auch noch nicht
+          <Profile href="/profile">
+            <img src={profileIcon} alt="Profile" />
+          </Profile>
+        ) : (
+          <Profile href="/login">
+            <Button color='pink'>Login</Button>
+          </Profile>
+        )}
+      </Nav>
+
+    </Header>
+  );
 }
 
 export default HeaderDesktop;

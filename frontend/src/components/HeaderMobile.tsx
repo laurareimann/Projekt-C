@@ -10,9 +10,9 @@ import profileIcon from '../assets/ProfileIcon.svg';
 import burgerBars from '../assets/BurgerBars.svg';
 import burgerCross from '../assets/BurgerCross.svg';
 
-const Header = styled.header`
-    position: absolute;
-    top: 0;
+const Header = styled.header<{ visible: boolean }>`
+    position: fixed;
+    top: ${props => props.visible ? '0' : '-100px'};
     left: 0;
     right: 0;
     display: flex;
@@ -24,9 +24,8 @@ const Header = styled.header`
     background-color: var(--color--white-shade);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
-
-    @media (max-width: 768px) {
-    }
+    transition: top 0.3s ease-in-out;
+    z-index: 1000;
 `;
 
 const Nav = styled.nav`
@@ -62,6 +61,7 @@ const Profile = styled.button`
   display: flex;
   border: none;
   background: none;
+  cursor: pointer;
 
   img {
     width: 50px;
@@ -218,6 +218,24 @@ const burgerProfileStyles = {
 }
 
 const HeaderMobile = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    let lastScrollTop = 0;
+    const handleScroll = () => {
+      const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
+      if (currentScrollTop > lastScrollTop) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // For Mobile or negative scrolling
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -249,7 +267,7 @@ const HeaderMobile = () => {
   }, [isProfileOpen]);
 
   return (
-    <Header>
+    <Header visible={isVisible}>
       <Nav>
         <NavSection>
           <BurgerButton onClick={handleMenuOpen}>
