@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import Map from "../components/mapComponents/map.tsx";
+import MapInputBar from '../components/MapSearchInput.tsx';
+import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 
 // Components
 import Header from '../components/Header';
@@ -18,10 +21,11 @@ const HomePage: React.FC = () => {
         <div>
             <h1>15 Minute City Calculator</h1>
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
+            <StreetProvider value="Finkenau 35, 22081 Hamburg">   
+            <Map />
             <ScoreContainer color='blue'></ScoreContainer>
             <QuizContainer color='pink'></QuizContainer>
-
-
+            </StreetProvider>
             {/* 
                     <InputGrid>
                         <Result color='pink'>HAW Finkenau</Result>
