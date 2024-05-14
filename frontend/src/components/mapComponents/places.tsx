@@ -21,7 +21,7 @@ import MapInputBar from "../MapSearchInput";
 import { Component, useState } from "react";
 import PlacesAutocomplete from "react-places-autocomplete";
 import { getFormattedAdressStrings } from "../tmpRefreshHelper";
-import {useUpdateStreetContext} from "./StreetProvider";
+import {useUpdateStreetNameContext, useUpdateZipCodeContext,useUpdateCityContext,useUpdateStreetNumberContext,useStreetNameNew,useZipCodeNew,useCityNew} from "./StreetProvider";
 let tempPreviewAdress:string;
 
 
@@ -33,9 +33,15 @@ type PlacesProps = {
 
 export default function Places({ setSpot }: PlacesProps) {
   
-  const updateStreetName = useUpdateStreetContext();
-  
-  const [currentStreet,setStreet] = useState("");
+  const updateStreetName = useStreetNameNew().setStreet;
+
+  const updateZipCode = useZipCodeNew().setZipCode;
+
+  const updateCity = useCityNew().setCity;
+
+  //Temporäre Variablen, um die Straße richtig anzuzeigen
+  let tmpStreetName:string;
+  let tmpStreetNumber:string;
   
   const {
     ready,
@@ -56,9 +62,7 @@ export default function Places({ setSpot }: PlacesProps) {
     //Adresse mit Postleitzahl et cetera
     address = results[0].formatted_address;
 
-    updateStreetName(address);
-
-
+    
     /* 
     legacy code, den ich wahrscheinlich später brauchen werde
     Ich bewahre ihn erstmal auf, aber wird wahrscheinlich in zukünftigen commits gelöscht
@@ -71,31 +75,40 @@ export default function Places({ setSpot }: PlacesProps) {
     }else{
       console.log("This place doesn't have a postal_code");
     }
-    
+    */
+
+    //Es werden die einzelnen Teile der Addressen-Suche durchgegangen und dementsprechend die Werte angepasst
     for(let i = 0; i < results[0].address_components.length; i++){
       //console.log(results[0].address_components[i]);
     switch(results[0].address_components[i].types[0]){
       //Straßennummer
       case "street_number":
-        getFormattedAdressStrings("street_number",results[0].address_components[i].long_name);
-        break;
+        //getFormattedAdressStrings("street_number",results[0].address_components[i].long_name);
+        //updateStreetNumber(results[0].address_components[i].long_name);
+        tmpStreetNumber = results[0].address_components[i].long_name;
+        console.log("Aktuelle Straßennummer: " + results[0].address_components[i].long_name )
+        break; 
       case "postal_code":
-        getFormattedAdressStrings("postal_code",results[0].address_components[i].long_name);
+        updateZipCode(results[0].address_components[i].long_name);
         break;
       case "route":
-        getFormattedAdressStrings("street",results[0].address_components[i].long_name);
+        tmpStreetName = results[0].address_components[i].long_name
         break;
       case "locality":
-        getFormattedAdressStrings("city",results[0].address_components[i].long_name);
+        updateCity(results[0].address_components[i].long_name);
         break;
         case "administrative_area_level_1":
-        getFormattedAdressStrings("state",results[0].address_components[i].long_name);
+        //getFormattedAdressStrings("state",results[0].address_components[i].long_name);
     }
   
     }
-    getFormattedAdressStrings("fix street appearance","now");
+    //getFormattedAdressStrings("fix street appearance","now");
       //console.log(currentAddressStreet,currentAdressPostalCode,currentStreetNumber,currentCity,currentState);
-*/
+
+
+    //Da Straßennummer und Straßenname getrennt wurden, müssen die hier nochmal zusammengefügt werden
+    tmpStreetName = tmpStreetName + " " + tmpStreetNumber;
+    updateStreetName(tmpStreetName);
 
     //sanity check
     console.log("Gesamte Adresse: " + address);

@@ -56,5 +56,17 @@ forceRenderHelper = 0;
     
     }
 
+/*Context wies vorher aussah
+    export const StreetProvider = ({value,children}:{value:string,children:ReactNode}) => {
+      const [streetName, setStreetName] = useState(value);
+      return(
+          <StreetContext.Provider value ={streetName}>
+              <UpdateStreetNameContext.Provider value = {setStreetName}>
+                  {children}
+              </UpdateStreetNameContext.Provider>
+          </StreetContext.Provider>
+      )
+  }
 
+*/
     export {forceRenderHelper,currentAddressStreetTMP,currentAdressPostalCodeTMP,currentStreetNumberTMP,currentStateTMP,currentCityTMP}

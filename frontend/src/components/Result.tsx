@@ -5,7 +5,7 @@ import Score from './Score';
 import Button from './Buttons';
 import ScoreContainer from './ScoreContainer';
 import { useContext, useState } from 'react';
-import { useStreetName } from './mapComponents/StreetProvider';
+import { useStreetNameNew,useZipCodeNew,useCityNew } from './mapComponents/StreetProvider';
 
 
 const ResultWrapper = styled.div`
@@ -53,13 +53,14 @@ display: flex;
 function Result({ children = '', score="42", street="" , zip = "", city = "", color = "pink", buttonText = "View results", outline = true, onClick = () => { } }) {
     
     //Context der Straßenvariable wird übernommen. Ist vorerst die gesamte Adresse, aber ich gucke, ob sich das eventuell in Straße und Stadt+Postleitzahl aufteilen lässt
-    const customStreet = useStreetName();
-
+    const customStreet = useStreetNameNew();
+    const customZip = useZipCodeNew();
+    const customCity = useCityNew();
 
     return (
         <ResultWrapper>
             <DesktopWrapper>
-                <Location color={color} street = {customStreet} zip={zip} city={city}>{children}</Location>
+                <Location color={color} street = {customStreet.streetName}  zip={customZip.zipCode} city={customCity.currentCity}>{children}</Location>
                 <ScoreWrapper>
                     <Score score="42"></Score>
                     <Button color={color} onClick={onClick}>View Result</Button>
