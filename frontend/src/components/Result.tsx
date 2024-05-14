@@ -4,7 +4,6 @@ import Location from './Location';
 import Score from './Score';
 import Button from './Buttons';
 import ScoreContainer from './ScoreContainer';
-import { useContext, useState } from 'react';
 import { useStreetNameNew,useZipCodeNew,useCityNew } from './mapComponents/StreetProvider';
 
 
@@ -48,11 +47,9 @@ display: flex;
 `;
 
 
-
-
 function Result({ children = '', score="42", street="" , zip = "", city = "", color = "pink", buttonText = "View results", outline = true, onClick = () => { } }) {
     
-    //Context der Straßenvariable wird übernommen. Ist vorerst die gesamte Adresse, aber ich gucke, ob sich das eventuell in Straße und Stadt+Postleitzahl aufteilen lässt
+    //Einzelteile der Adresse, damit diese korrekt formatiert angezeigt wird
     const customStreet = useStreetNameNew();
     const customZip = useZipCodeNew();
     const customCity = useCityNew();

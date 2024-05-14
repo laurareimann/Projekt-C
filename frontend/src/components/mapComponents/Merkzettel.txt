@@ -1,0 +1,112 @@
+//Diese file wird alten code enthalten, die eventuell im Notfall gebraucht wird, falls man auf diesen zurückgreifen muss
+
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+//Dieser Code wird wie in places.tsx erwähnt bestimmt bald gelöscht werden, aber vorerst behalte
+//ich ihn, weil er eventuell für die Places-API noch wichtig wird
+
+
+
+
+import React from "react";
+import { useState } from "react";
+
+let currentAdressPostalCodeTMP:string;
+let currentAddressStreetTMP:string;
+let currentStreetNumberTMP:string;
+let currentCityTMP:string;
+let currentStateTMP:string;
+let forceRenderHelper:number;
+
+
+forceRenderHelper = 0;
+
+
+ export const getFormattedAdressStrings = (addressComponent:string,value:string) => {
+
+    switch(addressComponent){
+      case "street_number":
+        currentStreetNumberTMP = value;
+        console.log(currentStreetNumberTMP);
+        break;
+    
+      case "postal_code":
+        currentAdressPostalCodeTMP = value;  
+        console.log(currentAdressPostalCodeTMP);
+        break;
+    
+      case "city":
+        currentCityTMP = value;
+        console.log(currentCityTMP);
+        break;
+    
+      case "street":
+        currentAddressStreetTMP = value;
+        console.log(currentAddressStreetTMP);
+        break;
+    
+      case "state":
+        currentStateTMP = value;
+        console.log(currentStateTMP);
+        break;
+    
+      case "fix street appearance":
+        currentAddressStreetTMP += (" " + currentStreetNumberTMP);
+    }
+    
+    forceRenderHelper++;
+    console.log("Current force Variable: " + forceRenderHelper);
+    
+    }
+
+/*Context wies vorher aussah
+    export const StreetProvider = ({value,children}:{value:string,children:ReactNode}) => {
+      const [streetName, setStreetName] = useState(value);
+      return(
+          <StreetContext.Provider value ={streetName}>
+              <UpdateStreetNameContext.Provider value = {setStreetName}>
+                  {children}
+              </UpdateStreetNameContext.Provider>
+          </StreetContext.Provider>
+      )
+  }
+
+*/
+    export {forceRenderHelper,currentAddressStreetTMP,currentAdressPostalCodeTMP,currentStreetNumberTMP,currentStateTMP,currentCityTMP}
+
+
+
+
+
+
+
+    Alte Version vom Context
+
+    //Der Context der Variable
+const StreetContext = React.createContext("preview Street");
+const StreetNumberContext = React.createContext("preview StreetNumber");
+const ZipCodeContext = React.createContext("22081");
+const CityContext = React.createContext("Hamburg");
+//Der Context zum Ändern der Variable 
+const UpdateStreetNameContext = React.createContext<Dispatch<SetStateAction<string>> | null>(null);
+const UpdateStreetNumberContext = React.createContext<Dispatch<SetStateAction<string>> | null>(null);
+const UpdateZipCodeContext = React.createContext<Dispatch<SetStateAction<string>> | null>(null);
+const UpdateCityContext = React.createContext<Dispatch<SetStateAction<string>> | null>(null);
+
+
+//Export der Setter
+export const useUpdateStreetNameContext = () => {
+    return useContext(UpdateStreetNameContext);
+}
+
+export const useUpdateStreetNumberContext = () => {
+    return useContext(UpdateStreetNumberContext);
+}
+
+export const useUpdateZipCodeContext = () => {
+    return useContext(UpdateZipCodeContext);
+}
+
+export const useUpdateCityContext = () => {
+    return useContext(UpdateCityContext);
+}

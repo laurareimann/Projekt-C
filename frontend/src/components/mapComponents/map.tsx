@@ -11,7 +11,6 @@ import {
 import Places from "./places";
 import Distance from "./distance";
 import styled from "styled-components";
-import Input from "../Inputforms";
 
 
 type LatLngLiteral = google.maps.LatLngLiteral;
