@@ -1,0 +1,29 @@
+Datenbank 1
+
+Eintrag {
+
+Username
+Password(hashed)
+Age
+
+
+}
+
+
+Adressen{
+
+whoUsed(Username wenn angemeldet)
+Street
+zipCode
+city
+
+
+}
+
+
+Preferences{
+    
+    hier die Kategorien der Filter einfügen
+
+
+}
