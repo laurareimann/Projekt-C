@@ -1,18 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Map from "../components/mapComponents/map.tsx";
-import MapInputBar from '../components/MapSearchInput.tsx';
 import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 
 // Components
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Button from '../components/Buttons';
-import GlassButton from '../components/GlassButtons';
-import BlurButton from '../components/BlurButtons';
-import Location from '../components/Location';
-import Result from '../components/Result';
-import Input from '../components/Inputforms';
 import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
 

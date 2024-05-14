@@ -196,6 +196,7 @@ const App: React.FC = () => {
         <Route path="about-us" element={<AboutUs />} />
             /*hier alle Seiten anlegen */
       </Routes>
+      <Footer/>
     </BrowserRouter >
   )
 }
