@@ -33,6 +33,8 @@ Kompilieren: npm run build
 
 Während Entwicklung: npm run dev
 
+Bei Modulen mit @ am Anfang: den npm install command nicht in der PowerShell, sondern in einem neuen command prompt eingeben. Die Powershell mag das aus irgendwelchen Gründen nicht
+
 
 
 **Datenbank-Kram** 
