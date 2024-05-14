@@ -15,7 +15,14 @@ import Result from './components/Result';
 import Input from './components/Inputforms';
 import ScoreContainer from './components/ScoreContainer';
 import QuizContainer from './components/QuizContainer';
-import {createRoot} from "react-dom/client";
+
+
+//pages
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Homepage from "./pages/MainPage";
+import AboutUs from "./pages/AboutUs";
+import { createRoot } from "react-dom/client";
 import { APIProvider, ControlPosition } from '@vis.gl/react-google-maps';
 import Map from "./components/mapComponents/map.tsx";
 import { useLoadScript } from '@react-google-maps/api';
@@ -36,7 +43,7 @@ interface MyComponentProps {
 }
 
 
-  const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
   :root {
     // color palette
     // double dashes are a naming convention often used to create reusable and easily identifiable custom properties for styling purposes in web development
@@ -83,6 +90,7 @@ interface MyComponentProps {
   line-height: 3.5rem;
   font-size: 3rem;
   font-weight: 600;
+  text-align: center;
 }
 h2 {
   color: var(--color--blue-5);
@@ -94,12 +102,12 @@ h2 {
 h3 {
   color: var(--color--blue-5);
   line-height: 2rem;
-  font-size: 1.25rem;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 p {
   line-height: 1.5rem;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 400;
   margin:0;
 }
@@ -128,12 +136,11 @@ const ColoredParagrpah: React.FC<MyComponentProps> = ({ color, children }) => {
   return <ColoredString color={color}>{children}</ColoredString>;
 };
 
-
-// Weiß nicht ob der Container wirklich nötig ist aber für Ordnung ganz gut
-// Mein Footer wollte bloß nicht so wie ich wollte am Anfang
 const MainContainer = styled.main`
   padding-top: 70px;
   margin: 0;
+  max-width: 1040px;
+  text-align: start;
 `;
 
 
@@ -157,7 +164,7 @@ display: grid;
 grid-gap: 12px;
 `
 //Alles
- let currentAdressData:string;
+let currentAdressData: string;
 
 /*Einzelne Komponenten
  let currentAdressPostalCode:string;
@@ -170,99 +177,30 @@ grid-gap: 12px;
 
 
 
-function App() {
+const App: React.FC = () => {
 
-  const{isLoaded} = useLoadScript({
+  const { isLoaded } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY,
-    libraries:["places"],
+    libraries: ["places"],
   })
 
   //Hier könnte dein Ladebildschirm stehen ( ͡° ͜ʖ ͡° )
-  if(!isLoaded)return <div>Loading</div>;
+  if (!isLoaded) return <div>Loading</div>;
 
   return (
-
-    //Erstmal der default-Wert
-  <StreetProvider value = "Finkenau 35, 22081 Hamburg">
-    <div>
-      Google Maps Test
-      <Header/>
-      <Map/>
-
-      <MainContainer>
-        <GlobalStyle />  
-        <InputGrid>
-        <Result color='pink'></Result>
-        <Location color='pink'>HAW Finkenau</Location>
-          <Input disabled={true}></Input>
-          <Input></Input>
-          <Input isValid={false}></Input>
-        </InputGrid>
-        <ButtonGrid>
-          <ContainerGrid>
-            <ScoreContainer color='blue'></ScoreContainer>
-            <ScoreContainer color='green'></ScoreContainer>
-            <ScoreContainer color='pink'></ScoreContainer>
-          </ContainerGrid>
-          <ContainerGrid>
-            <QuizContainer color='blue'></QuizContainer>
-            <QuizContainer color='green'></QuizContainer>
-            <QuizContainer color='pink'></QuizContainer>
-          </ContainerGrid>
-        </ButtonGrid>
-        <ButtonGrid>
-          <Button color='blue' onClick={handleClick}>NORMAL blue</Button>
-          <Button color='green' onClick={handleClick}>NORMAL green</Button>
-          <Button color='pink' onClick={handleClick}>NORMAL pink</Button>
-          <Button color='blue' disabled={true}>NORMAL blue disabled</Button>
-          <Button color='green' disabled={true}>NORMAL green disabled</Button>
-          <Button color='pink' disabled={true}>NORMAL pink disabled</Button>
-          <GlassButton color='blue' onClick={handleClick}>Glass Button blue</GlassButton>
-          <GlassButton color='green' onClick={handleClick}>Glass Button green</GlassButton>
-          <GlassButton color='pink' onClick={handleClick}>Glass Button pink</GlassButton>
-          <BlurButton color='blue' onClick={handleClick}>Blur Button Blue</BlurButton>
-          <BlurButton color='green' onClick={handleClick}>Blur Button Green</BlurButton>
-          <BlurButton color='pink' onClick={handleClick}>Blur Button Pink</BlurButton>
-        </ButtonGrid>
-        <h1>
-          15-Minuten Stadt für Project C
-        </h1>
-        <h1>h1</h1>
-        <h2>h2</h2>
-        <h3>h3</h3>
-        <ColoredParagrpah color="var(--color--blue-1)">blue-1</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--blue-2)">blue-2</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--blue-3)">blue-3</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--blue-4)">blue-4</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--blue-5)">blue-5</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--green-1)">green-1</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--green-2)">green-2</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--green-3)">green-3</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--green-4)">green-4</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--green-5)">green-5</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--pink-1)">pink-1</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--pink-2)">pink-2</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--pink-3)">pink-3</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--pink-4)">pink-4</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--pink-5)">pink-5</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--error-red-light)">error-red-light</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--error-red-mid)">error-red-mid</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--error-red)">error-red</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--success-green-light)">success-green-light</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--success-green-mid)">success-green-mid</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--success-green)">success-green</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--white-shade)">white-shade</ColoredParagrpah>
-        <ColoredParagrpah color="var(--color--black-shade)">black-shade</ColoredParagrpah>
-
-      </MainContainer>
-
-      <Footer />
-
-    </div>
-
-  </StreetProvider>
+    <BrowserRouter>
+      <GlobalStyle />
+      <Header />
+      <Routes>
+        <Route index element={<Homepage />} />
+        <Route path="about-us" element={<AboutUs />} />
+            /*hier alle Seiten anlegen */
+      </Routes>
+      <Footer/>
+    </BrowserRouter >
   )
 }
+
 
 export default App;
 
