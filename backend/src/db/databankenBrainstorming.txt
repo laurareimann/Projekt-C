@@ -16,7 +16,7 @@ whoUsed(Username wenn angemeldet,ansonsten werden sie nicht gespeichert)
 Street
 zipCode
 city
-
+Score
 
 }
 
@@ -25,6 +25,7 @@ Preferences{
     
 
     username(Wessen Präferenzen sind es?)
+    PresetName(?)
     hier die Kategorien der Filter einfügen
 
 
