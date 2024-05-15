@@ -6,6 +6,7 @@ import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 // Components
 import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
+import FilterContainer from '../components/filterComponents/FilterContainer.tsx';
 
 const HomePage: React.FC = () => {
     return (
@@ -14,6 +15,7 @@ const HomePage: React.FC = () => {
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
             <StreetProvider value="Finkenau 35, 22081 Hamburg">   
             <Map />
+            <FilterContainer></FilterContainer>
             <ScoreContainer color='blue'></ScoreContainer>
             <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>
