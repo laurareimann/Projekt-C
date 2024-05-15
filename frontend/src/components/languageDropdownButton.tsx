@@ -3,14 +3,15 @@
 
 import styled from "styled-components";
 import React, { useState } from "react";
+import blueArrow from '../assets/round_arrow_blue.svg'
 
 //Dies wird für den weiteren verlauf eventuell wichtig, wenn wir dynamisch die Sprache ändern wollen
 //Wird vielleicht in die App.tsx rüberwandern, aber erstmal bleibts hier
 let chosenLanguage:string;
-  chosenLanguage = "English";
+  //chosenLanguage = "English";
 
   //language wird reassigned, damit VSC nicht meckert
-  chosenLanguage = "English";
+  //chosenLanguage = "English";
 
   const DropDownContainer = styled("div")`
   cursor: pointer;
@@ -25,6 +26,13 @@ const DropDownHeader = styled("div")`
   text-align: left;
   box-sizing: border-box;
   color: var(--color--black-shade);
+
+  img {
+    align-self: right;
+    width: 30px;
+    height: 30px;
+    rotate: 180deg;
+  }
   
   &:hover{
     border-color: var(--color--blue-3);
@@ -69,28 +77,41 @@ const ListItem = styled("li")`
 
 `;
 
-const options = ["English", "German"];
+const Arrow = styled.a`
+  img {
+    width: 20px;
+    height: 20px;
+    rotate: 180deg;
+  }
+`
+
+const options = [""];
   let value2:string;  
-  let selectedOptionAlt:string;
-  selectedOptionAlt = "English";
+  let selectedOptionDefault:string;
+  console.log("Ich nerve");
 
 
-function DropDownLanguage() {
+function DropDownLanguage({options=[""]}) {
 
+  
+  console.log("Former Language: " + selectedOptionDefault);
   const [isOpen, setIsOpen] = useState(false);
   const toggling = () => setIsOpen(!isOpen);
   const onOptionClicked = (value:string) => () => {
     
-    selectedOptionAlt = value;
+    selectedOptionDefault = value;
+    console.log("Current Language: " + selectedOptionDefault);
     setIsOpen(false);
-    console.log(selectedOptionAlt);
+    
     chosenLanguage = value;
   };
 
   return (
+    <>
       <DropDownContainer>
         <DropDownHeader onClick={toggling}>
-          {selectedOptionAlt} 
+          {selectedOptionDefault}
+            <span><img src={blueArrow} alt="blueArrow" /></span>
         </DropDownHeader>
         {isOpen && (
           <DropDownListContainer>
@@ -104,6 +125,7 @@ function DropDownLanguage() {
           </DropDownListContainer>
         )}
       </DropDownContainer> 
+      </>
   );
 }
 

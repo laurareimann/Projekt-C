@@ -198,7 +198,8 @@ function App() {
         <ColoredParagrpah color="var(--color--white-shade)">white-shade</ColoredParagrpah>
         <ColoredParagrpah color="var(--color--black-shade)">black-shade</ColoredParagrpah>
 
-        <DropDownLanguage/> 
+        Select a Language
+        <DropDownLanguage options={["English", "Deutsch", "Dansk", "Soup"] }/> 
 
       </MainContainer>
     
