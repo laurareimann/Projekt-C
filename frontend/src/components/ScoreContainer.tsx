@@ -10,6 +10,9 @@ const ContainerContentWrapper = styled.div`
     flex-direction: column;
     gap: 16px;
     align-items: center;
+    text-align: -webkit-center;
+    padding: 16px;
+
     `
 
 function ScoreContainer({ score = "42", street = "Finkenau 35", zip = "22081", city = "Hamburg", color = "pink", buttonText = "View results", outline = false, onClick = () => { } }) {
