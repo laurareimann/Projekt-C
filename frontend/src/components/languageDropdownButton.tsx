@@ -2,7 +2,7 @@
 //Dies wird der dropdown component für die Auswahl der Sprache. Anfangs erstmal nur Deutsch und Englisch
 
 import styled from "styled-components";
-import React, { useState } from "react";
+//import React, { useState } from "react";
 import blueArrow from '../assets/round_arrow_blue.svg'
 
 //Dies wird für den weiteren verlauf eventuell wichtig, wenn wir dynamisch die Sprache ändern wollen
@@ -15,34 +15,31 @@ let chosenLanguage:string;
 
   const DropDownContainer = styled("div")`
   cursor: pointer;
+  width: 100px;
   
 `;
 
 const DropDownHeader = styled("div")`
-  padding: 0.5em;
+  display: flex;
+  flex-direction: row;
+  padding-left: 0.5em;
   border: 4px solid var(--color--blue-4);
   border-radius: 8px;
-  width: 150px;
-  text-align: left;
+  width: fit-content;
+  min-width: 120px;
+  align-items: center;
+
   box-sizing: border-box;
   color: var(--color--black-shade);
 
-  img {
-    align-self: right;
-    width: 30px;
-    height: 30px;
-    rotate: 180deg;
-  }
   
   &:hover{
     border-color: var(--color--blue-3);
     color: var(--color--blue-3);
   }
-  
 `;
 
 const DropDownListContainer = styled("div")`
-  
   `;
 
 const DropDownList = styled("ul")`
@@ -74,16 +71,20 @@ const ListItem = styled("li")`
   &:hover{
     color: var(--color--blue-3);
   }
-
 `;
 
 const Arrow = styled.a`
+  width: fit-content;
+  height: fit-content;
   img {
-    width: 20px;
-    height: 20px;
+    width: fit-content;
+    max-width: 30px;
+    height: fit-content;
+    max-height: 30px;
     rotate: 180deg;
-  }
-`
+  }`
+  
+  
 
 const options = [""];
   let value2:string;  
@@ -110,8 +111,13 @@ function DropDownLanguage({options=[""]}) {
     <>
       <DropDownContainer>
         <DropDownHeader onClick={toggling}>
-          {selectedOptionDefault}
-            <span><img src={blueArrow} alt="blueArrow" /></span>
+          <DropDownContainer>
+            {selectedOptionDefault}
+            </DropDownContainer>
+             <Arrow>
+              <img src={blueArrow} alt="blueArrow" />
+            </Arrow>
+          
         </DropDownHeader>
         {isOpen && (
           <DropDownListContainer>
