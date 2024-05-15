@@ -1,10 +1,10 @@
 Datenbank 1
 
-Eintrag {
+Benutzer {
 
 Username
 Password(hashed)
-Age
+Age(?)
 
 
 }
@@ -12,7 +12,7 @@ Age
 
 Adressen{
 
-whoUsed(Username wenn angemeldet)
+whoUsed(Username wenn angemeldet,ansonsten werden sie nicht gespeichert)
 Street
 zipCode
 city
@@ -23,8 +23,12 @@ city
 
 Preferences{
     
+
     username(Wessen Präferenzen sind es?)
     hier die Kategorien der Filter einfügen
+
+
+    Wenn nicht angemeldet, sessionStorage? 
 
 
 }
