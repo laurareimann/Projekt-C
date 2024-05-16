@@ -23,20 +23,19 @@ interface StreetProperties {
 
 const streetContext = React.createContext<StreetProperties>({
     zipCode: "22081",
-    setZipCode: (state:string) => {},
+    setZipCode: (_state:string) => {},
     currentCity: "Hamburg",
-    setCity:(state:string) => {},
+    setCity:(_state:string) => {},
     streetName: "Finkenau 35",
-    setStreet:(state:string) => {},
+    setStreet:(_state:string) => {},
     
 })
 
 
 //Dieser Component wird um die ganze App gewrapped, damit es funktioniert
-export const StreetProvider = ({cityValue,streetNameValue,streetNumberValue,zipCodeValue,children}:{cityValue:string,zipCodeValue:string,streetNameValue:string,streetNumberValue:string,children:ReactNode}) => {
+export const StreetProvider = ({cityValue,streetNameValue,zipCodeValue,children}:{cityValue:string,zipCodeValue:string,streetNameValue:string,children:ReactNode}) => {
     
     const [streetName, setStreet] = useState(streetNameValue);
-    const [streetNumber, setStreetNumber] = useState(streetNumberValue);
     const [zipCode,setZipCode] = useState(zipCodeValue);
     const [currentCity,setCity] = useState(cityValue);
 
@@ -44,7 +43,6 @@ export const StreetProvider = ({cityValue,streetNameValue,streetNumberValue,zipC
         <streetContext.Provider value = {{
             
             streetName,zipCode,currentCity,setStreet,setZipCode,setCity}}>
-                
             {children}
 
         </streetContext.Provider>
@@ -53,8 +51,8 @@ export const StreetProvider = ({cityValue,streetNameValue,streetNumberValue,zipC
 
 //Die getter und setter exportieren
 export const useStreetNameNew = () =>{
-const {streetName,setStreet} = useContext(streetContext);
-return {streetName,setStreet}
+    const {streetName,setStreet} = useContext(streetContext);
+    return {streetName,setStreet}
 }
 
 
@@ -66,6 +64,6 @@ export const useZipCodeNew = () =>{
 export const useCityNew = () =>{
     const {currentCity,setCity} = useContext(streetContext);
     return {currentCity,setCity}
-    }
+}
 
 export default StreetProvider;

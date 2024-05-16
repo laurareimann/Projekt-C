@@ -26,7 +26,7 @@ app.use(cors);
 //Setup cors
 app.use(cors());
 
-/*Setup mongoDB | commented for now since we don't need it immediately
+//Setup mongoDB | commented for now since we don't need it immediately
 const MONGODB_URI =
   process.env.MONGODB_URI || 'mongodb://localhost/Project-C-Cluster'
 mongoose.set('strictQuery', true)
@@ -38,7 +38,7 @@ mongoose
   .catch(() => {
     console.log('error mongodb')
   })
-*/
+
 
 //start server
 const PORT: number = parseInt((process.env.PORT || 8080) as string, 10);

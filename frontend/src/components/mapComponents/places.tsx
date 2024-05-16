@@ -16,7 +16,6 @@ import {
 import "@reach/combobox/styles.css";
 import "../../globals.css";
 import "../Inputforms";
-import "../MapSearchInput";
 import {useStreetNameNew,useZipCodeNew,useCityNew} from "./StreetProvider";
 let tempPreviewAdress:string;
 
@@ -38,6 +37,10 @@ export default function Places({ setSpot }: PlacesProps) {
   //Temporäre Variablen, um die Straße richtig anzuzeigen
   let tmpStreetName:string;
   let tmpStreetNumber:string;
+  let tmpCheckForZipCode:boolean;
+  let tmpZipCode:string;
+  tmpZipCode = "";
+  tmpCheckForZipCode = false;
   
   const {
     ready,
@@ -54,6 +57,24 @@ export default function Places({ setSpot }: PlacesProps) {
     const results = await getGeocode({ address:val });
 
     const { lat, lng } = await getLatLng(results[0]);
+
+
+    //Es wird nach einem zipCode gechecked
+    for(let i = 0; i < results[0].address_components.length;i++){
+      if(results[0].address_components[i].types[0] === "postal_code" ){
+
+        //Wenn eine Postleitzahl besteht, wird diese trotzdem zwischengespeichert, um weiteres zu checken
+        tmpCheckForZipCode = true;
+        tmpZipCode = results[0].address_components[i].long_name;
+      }
+    }
+
+    //Bspw. bei der Eingabe "Bremen" ist die Postleitzahl nur 2 Zeichen lang, weswegen ein popup erscheint, was den user prompted, eine "richtige Adresse einzugeben"
+    if(tmpCheckForZipCode == false || (tmpZipCode.length < 3)){
+      alert("Bitte gib eine richtige Adresse ein");
+      return 0;
+    }
+    
     let address:string;
     //Adresse mit Postleitzahl et cetera
     address = results[0].formatted_address;
@@ -88,6 +109,7 @@ export default function Places({ setSpot }: PlacesProps) {
 
     //sanity check
     console.log("Gesamte Adresse: " + address);
+    console.log(lat + " " + lng)
     setSpot({ lat, lng });
 
   };

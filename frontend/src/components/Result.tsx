@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
 import Location from './Location';
 import Score from './Score';
@@ -47,13 +46,16 @@ display: flex;
 `;
 
 
-function Result({ children = '', score="42", street="" , zip = "", city = "", color = "pink", buttonText = "View results", outline = true, onClick = () => { } }) {
+function Result({ children = '', score="42", color = "pink", buttonText = "View results", outline = true, onClick = () => { } }) {
     
     //Einzelteile der Adresse, damit diese korrekt formatiert angezeigt wird
     const customStreet = useStreetNameNew();
     const customZip = useZipCodeNew();
     const customCity = useCityNew();
 
+
+    //Musste hier etwas aufräumen, weil die Eingaben im ScoreContainer und Result nicht gematched haben und Typescript meckert, wenn ungenutzte Variablen genutzt werden
+    //I.e. man kann damit nicht npm run build aufrufen, ohne build errors zu bekommen
     return (
         <ResultWrapper>
             <DesktopWrapper>
@@ -64,7 +66,7 @@ function Result({ children = '', score="42", street="" , zip = "", city = "", co
                 </ScoreWrapper>
             </DesktopWrapper>
             <MobileWrapper>
-                <ScoreContainer color={color} score={score} street={street} zip={zip} city={city} buttonText={buttonText} outline={outline} onClick={onClick}></ScoreContainer>
+                <ScoreContainer color={color} score={score} buttonText={buttonText} outline={outline} onClick={onClick}></ScoreContainer>
             </MobileWrapper>
         </ResultWrapper>
     );

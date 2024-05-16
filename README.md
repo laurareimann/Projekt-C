@@ -40,6 +40,10 @@ Bei Modulen mit @ am Anfang: den npm install command nicht in der PowerShell, so
 **Datenbank-Kram** 
 Erstmal noch irrelevant. Wird später während Entwicklung erweitert
 
+In vscode, die Extension "MongoDB for VS Code" installieren
+
+
+
 Credentials
 MongoDB access if something breaks 
 database-name = Project-C-Cluster
