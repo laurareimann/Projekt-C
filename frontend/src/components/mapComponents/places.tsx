@@ -17,6 +17,8 @@ import "@reach/combobox/styles.css";
 import "../../globals.css";
 import "../Inputforms";
 import {useStreetNameNew,useZipCodeNew,useCityNew} from "./StreetProvider";
+import {Bounce, ToastContainer,toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 let tempPreviewAdress:string;
 
 
@@ -27,6 +29,8 @@ type PlacesProps = {
 
 
 export default function Places({ setSpot }: PlacesProps) {
+
+  const notify = () => toast("Please enter a valid home address");
   
   const updateStreetName = useStreetNameNew().setStreet;
 
@@ -37,10 +41,12 @@ export default function Places({ setSpot }: PlacesProps) {
   //Temporäre Variablen, um die Straße richtig anzuzeigen
   let tmpStreetName:string;
   let tmpStreetNumber:string;
+  let tmpCheckForStreetNumber:boolean;
   let tmpCheckForZipCode:boolean;
   let tmpZipCode:string;
   tmpZipCode = "";
   tmpCheckForZipCode = false;
+  tmpCheckForStreetNumber = false;
   
   const {
     ready,
@@ -61,20 +67,36 @@ export default function Places({ setSpot }: PlacesProps) {
 
     //Es wird nach einem zipCode gechecked
     for(let i = 0; i < results[0].address_components.length;i++){
-      if(results[0].address_components[i].types[0] === "postal_code" ){
+      if(results[0].address_components[i].types[0] === "street_number" ){
 
         //Wenn eine Postleitzahl besteht, wird diese trotzdem zwischengespeichert, um weiteres zu checken
-        tmpCheckForZipCode = true;
-        tmpZipCode = results[0].address_components[i].long_name;
+        tmpCheckForStreetNumber = true;
+        tmpStreetNumber = results[0].address_components[i].long_name;
       }
+
+
+
+
     }
 
     //Bspw. bei der Eingabe "Bremen" ist die Postleitzahl nur 2 Zeichen lang, weswegen ein popup erscheint, was den user prompted, eine "richtige Adresse einzugeben"
-    if(tmpCheckForZipCode == false || (tmpZipCode.length < 3)){
-      alert("Bitte gib eine richtige Adresse ein");
+    if(tmpCheckForStreetNumber == false){
+      //alert("Bitte gib eine richtige Adresse ein");
+      toast.error('Please enter a valid home address!', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+        });
       return 0;
     }
     
+    if(tmpCheckForStreetNumber == true){
     let address:string;
     //Adresse mit Postleitzahl et cetera
     address = results[0].formatted_address;
@@ -111,11 +133,12 @@ export default function Places({ setSpot }: PlacesProps) {
     console.log("Gesamte Adresse: " + address);
     console.log(lat + " " + lng)
     setSpot({ lat, lng });
-
+  }
   };
 
   return (
-
+<div>
+    
     <Combobox onSelect={handleSelect}>
       <ComboboxInput
               
@@ -135,5 +158,7 @@ export default function Places({ setSpot }: PlacesProps) {
         </ComboboxList>
       </ComboboxPopover>
     </Combobox>
+
+    </div>
   );
 }

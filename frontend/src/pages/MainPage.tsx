@@ -7,6 +7,7 @@ import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 // Components
 import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
+import { ToastContainer } from 'react-toastify';
 
 const HomePage: React.FC = () => {
     return (
@@ -82,7 +83,7 @@ const HomePage: React.FC = () => {
                     <ColoredParagrpah color="var(--color--white-shade)">white-shade</ColoredParagrpah>
                     <ColoredParagrpah color="var(--color--black-shade)">black-shade</ColoredParagrpah> */}
 
-
+        <ToastContainer></ToastContainer>
         </div>
     );
 };
