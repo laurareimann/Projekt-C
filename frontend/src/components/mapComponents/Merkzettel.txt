@@ -1,3 +1,6 @@
+//Diese file wird alten code enthalten, die eventuell im Notfall gebraucht wird, falls man auf diesen zurückgreifen muss
+
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 //Dieser Code wird wie in places.tsx erwähnt bestimmt bald gelöscht werden, aber vorerst behalte
 //ich ihn, weil er eventuell für die Places-API noch wichtig wird
@@ -70,3 +73,40 @@ forceRenderHelper = 0;
 
 */
     export {forceRenderHelper,currentAddressStreetTMP,currentAdressPostalCodeTMP,currentStreetNumberTMP,currentStateTMP,currentCityTMP}
+
+
+
+
+
+
+
+    Alte Version vom Context
+
+    //Der Context der Variable
+const StreetContext = React.createContext("preview Street");
+const StreetNumberContext = React.createContext("preview StreetNumber");
+const ZipCodeContext = React.createContext("22081");
+const CityContext = React.createContext("Hamburg");
+//Der Context zum Ändern der Variable 
+const UpdateStreetNameContext = React.createContext<Dispatch<SetStateAction<string>> | null>(null);
+const UpdateStreetNumberContext = React.createContext<Dispatch<SetStateAction<string>> | null>(null);
+const UpdateZipCodeContext = React.createContext<Dispatch<SetStateAction<string>> | null>(null);
+const UpdateCityContext = React.createContext<Dispatch<SetStateAction<string>> | null>(null);
+
+
+//Export der Setter
+export const useUpdateStreetNameContext = () => {
+    return useContext(UpdateStreetNameContext);
+}
+
+export const useUpdateStreetNumberContext = () => {
+    return useContext(UpdateStreetNumberContext);
+}
+
+export const useUpdateZipCodeContext = () => {
+    return useContext(UpdateZipCodeContext);
+}
+
+export const useUpdateCityContext = () => {
+    return useContext(UpdateCityContext);
+}

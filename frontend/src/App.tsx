@@ -4,7 +4,6 @@ import React from 'react';
 import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
 import { createGlobalStyle } from "styled-components";
-import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Button from './components/Buttons';
@@ -23,10 +22,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "./pages/MainPage";
 import AboutUs from "./pages/AboutUs";
 import { createRoot } from "react-dom/client";
-import { APIProvider, ControlPosition } from '@vis.gl/react-google-maps';
 import Map from "./components/mapComponents/map.tsx";
 import { useLoadScript } from '@react-google-maps/api';
-import MapInputBar from './components/MapSearchInput.tsx';
 import StreetProvider from './components/mapComponents/StreetProvider.tsx';
 
 
@@ -163,18 +160,6 @@ const InputGrid = styled.div`
 display: grid;
 grid-gap: 12px;
 `
-//Alles
-let currentAdressData: string;
-
-/*Einzelne Komponenten
- let currentAdressPostalCode:string;
- let currentAddressStreet:string;
- let currentStreetNumber:string;
- let currentCity:string;
- let currentState:string;
-*/
-
-
 
 
 const App: React.FC = () => {
