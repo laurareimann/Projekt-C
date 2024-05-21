@@ -36,13 +36,13 @@ const AlternativeText = styled.p`
 
 const LinkText = styled.a`
     margin-top: 10px;
-    font-size: 20px;
+    font-size: 15px;
     color: blue;
-    margin-right: 190px;
+    margin-right: 100px;
 `
 
 const ButtonGrid = styled.div`
-    margin-top: 5px;
+    margin-top: 30px;
     display: grid;
     grid-gap: 45px;
     place-items:center;
@@ -58,7 +58,7 @@ const hr = styled.div`
     width: 1px;
 `
 
-function LoginForm(){
+function SignInForm(){
 
     return(
 
@@ -66,7 +66,7 @@ function LoginForm(){
 
         <FormContainer>
 
-            <Title>Sign In</Title>
+            <Title>Sign Up</Title>
 
             <InputContainer>
             <InputGrid>
@@ -77,39 +77,29 @@ function LoginForm(){
             <Input placeholder="Password">
             </Input>
 
+            <Input placeholder="Confirm Password"></Input>
 
             </InputGrid>
             
-            <LinkText href="">Forgot password?</LinkText>
+            <LinkText href="">Already registered? Click here to log in.</LinkText>
             
             </InputContainer>
          
         <ButtonGrid>
 
-            <Button color="var(--color--pink-2)" >
-                Log In
-            </Button>
-
-        <AlternativeText>
-            or
-        </AlternativeText>
-
-        <a href="registerPage">
-        <Button color="var(--color--pink-2)">
+        <Button color="#FFC2EA">
             Register
         </Button>
-        </a>
+     
 
         </ButtonGrid>
 
         </FormContainer>
 
         
-
-
         </div>
     )
 
 }
 
-export default LoginForm;
+export default SignInForm;
