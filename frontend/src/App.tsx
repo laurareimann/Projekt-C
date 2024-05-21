@@ -7,9 +7,9 @@ import { createGlobalStyle } from "styled-components";
 import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Button from './components/Buttons';
+import Button from './components/buttons/Buttons.tsx';
 import GlassButton from './components/GlassButtons';
-import BlurButton from './components/BlurButtons';
+import BlurButton from './components/buttons/BlurButtons.tsx';
 import Location from './components/Location';
 import Result from './components/Result';
 import Input from './components/Inputforms';
@@ -28,6 +28,7 @@ import Map from "./components/mapComponents/map.tsx";
 import { useLoadScript } from '@react-google-maps/api';
 import MapInputBar from './components/MapSearchInput.tsx';
 import StreetProvider from './components/mapComponents/StreetProvider.tsx';
+import Test from './pages/Test.tsx';
 
 
 
@@ -194,6 +195,7 @@ const App: React.FC = () => {
       <Routes>
         <Route index element={<Homepage />} />
         <Route path="about-us" element={<AboutUs />} />
+        <Route path='test' element={<Test />} />
             /*hier alle Seiten anlegen */
       </Routes>
       <Footer/>

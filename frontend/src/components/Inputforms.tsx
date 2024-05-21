@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
-
-//Musste vor das isValid hier ein Dollarzeichen setzen, sonst wirft React-Dom einen Error
 interface InputProps {
-    $isValid?: boolean; //wird irrelevant sobald regex funktioniert
-}
-
+    disabled?: boolean;
+    placeholder?: string;
+    size?:string; 
+    $isValid?: boolean;
+  }
+  
 const StyledInput = styled.input<InputProps>`
     background-color: ${({$isValid}) =>
         $isValid
@@ -25,7 +26,8 @@ const StyledInput = styled.input<InputProps>`
 }; 
     font-weight: 700;
     font-size: 18px; 
-    height: 60px; 
+    height: ${({size}) =>
+        (size === "regular" ? "60px" : "40px")};    
     padding-left: 16px;
     outline: 0;
     border-radius: 8px;
@@ -47,17 +49,19 @@ const StyledInput = styled.input<InputProps>`
     };
 
     @media (min-width: 768px) {
-        width: 350px;
+        width: ${({size}) =>
+        size === "regular" ? "350px" : "fit-content"};
     }
 `;
 
-function Input({ disabled = false, placeholder = "E-Mail", isValid = true }) {
+function Input({ disabled = false, placeholder = "E-Mail", size = "regular", isValid = true }) {
 
     return (
         <>
             <StyledInput 
                         disabled={disabled} 
                         placeholder={placeholder} 
+                        size={size}
                         $isValid={isValid}
                         >
             </StyledInput>

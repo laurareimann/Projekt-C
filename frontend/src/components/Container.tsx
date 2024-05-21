@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
-import Button from './Buttons';
+import Button from './buttons/Buttons';
 
 //Siehe Kommentar in Inputforms
 const StyledContainer = styled.div <{ $hasOutline: boolean; color: string }>`
     display: grid;
     gap:16px;
     width: 300px;
-    
-    height: 280px;
+    min-height: 280px;
+    padding: 24px;
     box-sizing: border-box;
     border-radius: 26px;
     align-content: center;

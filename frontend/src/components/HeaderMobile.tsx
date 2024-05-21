@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { slide as Menu } from 'react-burger-menu';
 import { slide as ProfileMenu } from 'react-burger-menu';
 
-import quizIcon from '../assets/QuizIcon.svg';
-import aboutUsIcon from '../assets/AboutIcon.svg';
-import evaluationIcon from '../assets/EvaluationIcon.svg';
-import profileIcon from '../assets/ProfileIcon.svg';
-import burgerBars from '../assets/BurgerBars.svg';
-import burgerCross from '../assets/BurgerCross.svg';
+import quizIcon from '../assets/icons/QuizIcon.svg';
+import aboutUsIcon from '../assets/icons/AboutIcon.svg';
+import evaluationIcon from '../assets/icons/EvaluationIcon.svg';
+import profileIcon from '../assets/icons/ProfileIcon.svg';
+import burgerBars from '../assets/icons/BurgerBars.svg';
+import burgerCross from '../assets/icons/BurgerCross.svg';
 
 const Header = styled.header<{ visible: boolean }>`
     position: fixed;
