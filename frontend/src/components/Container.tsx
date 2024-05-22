@@ -6,7 +6,7 @@ import Button from './buttons/Buttons';
 const StyledContainer = styled.div <{ $hasOutline: boolean; color: string }>`
     display: grid;
     gap:16px;
-    width: 300px;
+    width: fit-content;
     min-height: 280px;
     padding: 24px;
     box-sizing: border-box;
@@ -37,7 +37,7 @@ const handleClick = () => {
 };
 
 
-function Container({ color = "pink", outline = true, children }: { color?: string; outline?: boolean; children?: React.ReactNode }) {
+function Container({ color = "pink", outline = true,  children }: { color?: string; outline?: boolean; children?: React.ReactNode }) {
     return (
         <StyledContainer color={color} $hasOutline={outline}>
             {children}

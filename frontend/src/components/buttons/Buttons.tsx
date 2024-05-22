@@ -37,7 +37,11 @@ const StyledButton = styled.button`
     }
 `;
 
-function Button({ children = "", color = "pink", disabled = false, onClick = () => { } }) {
+export const handleClick = () => {
+    console.log("Button clicked!");
+};
+
+function Button({ children = "", color = "pink", disabled = false, onClick = () => { handleClick } }) {
     return (
         <>
             <StyledButton color={color} disabled={disabled} onClick={onClick}>
