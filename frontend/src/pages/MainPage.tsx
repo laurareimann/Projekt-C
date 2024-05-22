@@ -14,7 +14,6 @@ const HomePage: React.FC = () => {
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
             <StreetProvider value="Finkenau 35, 22081 Hamburg">
                 <Map />
-                <FilterContainer></FilterContainer>
                 <ScoreContainer color='blue'></ScoreContainer>
                 <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>

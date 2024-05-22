@@ -10,11 +10,13 @@ import Result from '../components/Result';
 import Input from '../components/Inputforms';
 import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
+import FilterContainer from '../components/filterComponents/FilterContainer';
 
 
 const Test: React.FC = () => {
     return (
         <div>
+            <FilterContainer></FilterContainer>
             <InputGrid>
                 <Result color='pink'>HAW Finkenau</Result>
                 <Location color='pink'>HAW Finkenau</Location>
