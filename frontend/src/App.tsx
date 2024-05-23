@@ -25,6 +25,7 @@ import { createRoot } from "react-dom/client";
 import Map from "./components/mapComponents/map.tsx";
 import { useLoadScript } from '@react-google-maps/api';
 import StreetProvider from './components/mapComponents/StreetProvider.tsx';
+import TestSite from './pages/Collapse.tsx';
 
 
 
@@ -179,6 +180,7 @@ const App: React.FC = () => {
       <Routes>
         <Route index element={<Homepage />} />
         <Route path="about-us" element={<AboutUs />} />
+        <Route path="TestSite" element={<TestSite/>} />
             /*hier alle Seiten anlegen */
       </Routes>
       <Footer/>
