@@ -19,26 +19,21 @@ let chosenLanguage:string;
 `;
 
 const DropDownHeader = styled("div")`
-  padding: 0.5em;
+  display: flex;
+  flex-direction: row;
+  padding-left: 0.5em;
   border: 4px solid var(--color--blue-4);
   border-radius: 8px;
-  width: 150px;
-  text-align: left;
+  min-width: 120px;
+  width: fit-content;
+  align-items: center;
   box-sizing: border-box;
   color: var(--color--black-shade);
 
-  img {
-    align-self: right;
-    width: 30px;
-    height: 30px;
-    rotate: 180deg;
-  }
-  
   &:hover{
     border-color: var(--color--blue-3);
     color: var(--color--blue-3);
   }
-  
 `;
 
 const DropDownListContainer = styled("div")`
@@ -46,12 +41,13 @@ const DropDownListContainer = styled("div")`
   `;
 
 const DropDownList = styled("ul")`
-  position: absolute;
+  position: inherit;
   display: flex;
   flex-direction: column;
   gap: 8px;
   z-index: 5;
-  width: 150px;
+  width: fit-content;
+  min-width: 120px;
   margin: 0;
   background: var(--color--white-shade);
   border: 4px solid var(--color--blue-4);
@@ -74,35 +70,34 @@ const ListItem = styled("li")`
   &:hover{
     color: var(--color--blue-3);
   }
-
 `;
 
 const Arrow = styled.a`
-  img {
-    width: 20px;
-    height: 20px;
+  img{
+    max-width: 30px;
+    max-height: 30px;
+    width: fit-content;
+    height: fit-content;
     rotate: 180deg;
   }
+    
+  
+  
 `
 
 const options = [""];
   let value2:string;  
   let selectedOptionDefault:string;
-  console.log("Ich nerve");
 
 
 function DropDownLanguage({options=[""]}) {
 
-  
-  console.log("Former Language: " + selectedOptionDefault);
   const [isOpen, setIsOpen] = useState(false);
   const toggling = () => setIsOpen(!isOpen);
   const onOptionClicked = (value:string) => () => {
     
     selectedOptionDefault = value;
-    console.log("Current Language: " + selectedOptionDefault);
     setIsOpen(false);
-    
     chosenLanguage = value;
   };
 
@@ -110,8 +105,10 @@ function DropDownLanguage({options=[""]}) {
     <>
       <DropDownContainer>
         <DropDownHeader onClick={toggling}>
-          {selectedOptionDefault}
-            <span><img src={blueArrow} alt="blueArrow" /></span>
+            {selectedOptionDefault}
+            <Arrow>
+            <img src={blueArrow} alt="blueArrow" />
+            </Arrow>
         </DropDownHeader>
         {isOpen && (
           <DropDownListContainer>
