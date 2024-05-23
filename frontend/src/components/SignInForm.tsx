@@ -20,6 +20,13 @@ const FormContainer = styled.div`
     font-size:42px;
     margin-bottom:200px;
     padding-bottom: 100px ;
+
+
+    @media (max-width:768px){
+        border:none;
+    }
+
+
 `
 
 const Title = styled.p`
@@ -37,8 +44,13 @@ const AlternativeText = styled.p`
 const LinkText = styled.a`
     margin-top: 10px;
     font-size: 15px;
-    color: blue;
+    color:blue;
     margin-right: 100px;
+    text-decoration: underline;
+
+    &:hover{
+        color: #3472d5;
+    }
 `
 
 const ButtonGrid = styled.div`
@@ -81,7 +93,7 @@ function SignInForm(){
 
             </InputGrid>
             
-            <LinkText href="">Already registered? Click here to log in.</LinkText>
+            <LinkText href="loginPage" >Already registered? Click here to log in.</LinkText>
             
             </InputContainer>
          
