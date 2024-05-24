@@ -22,7 +22,7 @@ const TestSite: React.FC = () => {
             <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>
 
-            <DropDownLanguage options={["deutsch", "englisch", "Suppe"]}></DropDownLanguage>
+            <DropDownLanguage options={["deutsch", "englisch", "Suppe"]} category='Language'></DropDownLanguage>
             
                     
 

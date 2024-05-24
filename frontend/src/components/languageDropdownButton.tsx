@@ -15,7 +15,6 @@ let chosenLanguage:string;
 
   const DropDownContainer = styled("div")`
   cursor: pointer;
-  
 `;
 
 const DropDownHeader = styled("div")`
@@ -56,6 +55,7 @@ const DropDownList = styled("ul")`
   box-sizing: border-box;
   color: var(--color--black-shade);
   text-align:left;
+
   &:first-child {
     padding: 0.5em;
     padding-bottom: 0.2em;
@@ -80,9 +80,6 @@ const Arrow = styled.a`
     height: fit-content;
     rotate: 180deg;
   }
-    
-  
-  
 `
 
 const options = [""];
@@ -90,7 +87,7 @@ const options = [""];
   let selectedOptionDefault:string;
 
 
-function DropDownLanguage({options=[""]}) {
+function DropDownLanguage({options=[""], category=""}) {
 
   const [isOpen, setIsOpen] = useState(false);
   const toggling = () => setIsOpen(!isOpen);
@@ -101,13 +98,21 @@ function DropDownLanguage({options=[""]}) {
     chosenLanguage = value;
   };
 
+  function checkString (){ //geht bestimmt auch simpler aber hier sind wir
+    if(selectedOptionDefault == undefined){
+      return category;
+    }else{
+      return selectedOptionDefault;
+    }
+  }
+
   return (
     <>
       <DropDownContainer>
         <DropDownHeader onClick={toggling}>
-            {selectedOptionDefault}
+            {checkString()}
             <Arrow>
-            <img src={blueArrow} alt="blueArrow" />
+            <img src={blueArrow} alt="blueArrow"/>
             </Arrow>
         </DropDownHeader>
         {isOpen && (
