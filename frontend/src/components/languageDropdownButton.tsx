@@ -35,6 +35,10 @@ const DropDownHeader = styled("div")`
   }
 `;
 
+const TextContainer = styled("div")`
+    min-width: 80px;
+`;
+
 const DropDownListContainer = styled("div")`
   
   `;
@@ -110,7 +114,9 @@ function DropDownLanguage({options=[""], category=""}) {
     <>
       <DropDownContainer>
         <DropDownHeader onClick={toggling}>
-            {checkString()}
+          <TextContainer>
+             {checkString()}
+          </TextContainer>
             <Arrow>
             <img src={blueArrow} alt="blueArrow"/>
             </Arrow>
