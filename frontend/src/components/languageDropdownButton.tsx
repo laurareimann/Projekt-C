@@ -91,8 +91,8 @@ const options = [""];
   let selectedOptionDefault:string;
 
 
-function DropDownLanguage({options=[""], category=""}) {
-
+function DropDownLanguage({options=[""], category=""}) { //options zeigt die Strings, die im Dropdown liegen. 
+                                                         //Category ist ein Placeholder bis eine der Options ausgewählt wird
   const [isOpen, setIsOpen] = useState(false);
   const toggling = () => setIsOpen(!isOpen);
   const onOptionClicked = (value:string) => () => {
