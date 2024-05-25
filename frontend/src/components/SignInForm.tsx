@@ -21,24 +21,19 @@ const FormContainer = styled.div`
     margin-bottom:200px;
     padding-bottom: 100px ;
 
-
     @media (max-width:768px){
         border:none;
     }
-
-
 `
 
 const Title = styled.p`
 
     font-size: 42px;
     margin-top: 42px;
-
 `
 
 const AlternativeText = styled.p`
     font-size: 35px;
-    
 `
 
 const LinkText = styled.a`
@@ -71,47 +66,24 @@ const hr = styled.div`
 `
 
 function SignInForm(){
-
     return(
-
         <div>
-
-        <FormContainer>
-
-            <Title>Sign Up</Title>
-
-            <InputContainer>
-            <InputGrid>
-            
-            <Input placeholder="Username">
-            </Input>
-
-            <Input placeholder="Password">
-            </Input>
-
-            <Input placeholder="Confirm Password"></Input>
-
-            </InputGrid>
-            
-            <LinkText href="loginPage" >Already registered? Click here to log in.</LinkText>
-            
-            </InputContainer>
-         
-        <ButtonGrid>
-
-        <Button color="#FFC2EA">
-            Register
-        </Button>
-     
-
-        </ButtonGrid>
-
-        </FormContainer>
-
-        
+            <FormContainer>
+                <Title>Sign Up</Title>
+                <InputContainer>
+                    <InputGrid>     
+                        <Input placeholder="Username"></Input>
+                        <Input placeholder="Password"></Input>
+                        <Input placeholder="Confirm Password"></Input>
+                    </InputGrid>
+                    <LinkText href="loginPage" >Already registered? Click here to log in.</LinkText>
+                </InputContainer>
+                <ButtonGrid>
+                    <Button color="#FFC2EA">Register</Button>
+                </ButtonGrid>
+            </FormContainer>   
         </div>
     )
-
 }
 
 export default SignInForm;
