@@ -15,6 +15,8 @@ Packages aktualisieren/installieren
 
 Dies aktualisiert/installiert benötigte Module, die von anderen hinzugefügt wurden :D
 
+
+
 **Erklärung zu einigen Modules(hierzu auch gerne die offiziellen Dokumentationen checken)**
 
 Bootstrap ist für besseres UI-Handling in React
@@ -33,15 +35,11 @@ Kompilieren: npm run build
 
 Während Entwicklung: npm run dev
 
-Bei Modulen mit @ am Anfang: den npm install command nicht in der PowerShell, sondern in einem neuen command prompt eingeben. Die Powershell mag das aus irgendwelchen Gründen nicht
-
-
 
 **Datenbank-Kram** 
 Erstmal noch irrelevant. Wird später während Entwicklung erweitert
 
 In vscode, die Extension "MongoDB for VS Code" installieren
-
 
 
 Credentials
@@ -51,3 +49,12 @@ database-name = Project-C-Cluster
 database username: Project-C-User
 
 database passwort: Zz5TsmpdvISkEmxz
+
+
+**Frequente Bugs und ihre Behebungen**
+
+Bei Modulen mit @ am Anfang: den npm install command nicht in der PowerShell, sondern in einem neuen "normalen" command prompt eingeben. Die Powershell mag das aus irgendwelchen Gründen nicht
+
+Wenn mongoose bzw. mongodb einen error in der Richtung von "SyntaxError: Unexpected token '??=" gibt, muss die mongoose-Version geändert werden. Dazu sollte im backend-Ordner ein "npm install" reichen.
+Ansonsten diesen Befehl in die Konsole eingeben: npm install mongoose@7.6.3
+
