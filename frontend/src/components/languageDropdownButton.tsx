@@ -77,7 +77,7 @@ const ListItem = styled("li")`
   list-style: none;
   text-overflow: ellipsis;
   overflow: hidden;
-  
+  text-align: start;
   &:hover{
     color: var(--color--blue-3);
   }
@@ -97,7 +97,7 @@ const options = [""];
   let value2:string;  
   let selectedOptionDefault:string;
 
-  
+
 function DropDownLanguage({options=[""], category=""}) { //options zeigt die Strings, die im Dropdown liegen. 
                                                          //Category ist ein Placeholder bis eine der Options ausgewählt wird
   const [isOpen, setIsOpen] = useState(false);
