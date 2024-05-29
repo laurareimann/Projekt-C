@@ -3,7 +3,7 @@
 
 import styled from "styled-components";
 import React, { useState } from "react";
-import blueArrow from '../assets/round_arrow_blue.svg'
+import bigBlueArrow from '../assets/BigBlueArrow.svg'
 
 //Dies wird für den weiteren verlauf eventuell wichtig, wenn wir dynamisch die Sprache ändern wollen
 //Wird vielleicht in die App.tsx rüberwandern, aber erstmal bleibts hier
@@ -15,6 +15,8 @@ let chosenLanguage:string;
 
   const DropDownContainer = styled("div")`
   cursor: pointer;
+  position: relative;
+  display: inline-block;
 `;
 
 const DropDownHeader = styled("div")`
@@ -28,6 +30,8 @@ const DropDownHeader = styled("div")`
   align-items: center;
   box-sizing: border-box;
   color: var(--color--black-shade);
+  z-index: 5;
+  
 
   &:hover{
     border-color: var(--color--blue-3);
@@ -40,11 +44,14 @@ const TextContainer = styled("div")`
 `;
 
 const DropDownListContainer = styled("div")`
-  
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  left: 0;
+  z-index: 10;
   `;
 
 const DropDownList = styled("ul")`
-  position: inherit;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -118,7 +125,7 @@ function DropDownLanguage({options=[""], category=""}) { //options zeigt die Str
              {checkString()}
           </TextContainer>
             <Arrow>
-            <img src={blueArrow} alt="blueArrow"/>
+            <img src={bigBlueArrow} alt="blueArrow"/>
             </Arrow>
         </DropDownHeader>
         {isOpen && (
