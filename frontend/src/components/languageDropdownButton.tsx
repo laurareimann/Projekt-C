@@ -41,6 +41,7 @@ const DropDownHeader = styled("div")`
 
 const TextContainer = styled("div")`
     min-width: 80px;
+    text-align: start;
 `;
 
 const DropDownListContainer = styled("div")`
@@ -65,8 +66,7 @@ const DropDownList = styled("ul")`
   border-radius: 8px;
   box-sizing: border-box;
   color: var(--color--black-shade);
-  text-align:left;
-
+  
   &:first-child {
     padding: 0.5em;
     padding-bottom: 0.2em;
@@ -77,7 +77,7 @@ const ListItem = styled("li")`
   list-style: none;
   text-overflow: ellipsis;
   overflow: hidden;
-
+  
   &:hover{
     color: var(--color--blue-3);
   }
@@ -97,7 +97,7 @@ const options = [""];
   let value2:string;  
   let selectedOptionDefault:string;
 
-
+  
 function DropDownLanguage({options=[""], category=""}) { //options zeigt die Strings, die im Dropdown liegen. 
                                                          //Category ist ein Placeholder bis eine der Options ausgewählt wird
   const [isOpen, setIsOpen] = useState(false);
