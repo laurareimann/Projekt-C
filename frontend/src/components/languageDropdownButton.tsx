@@ -2,7 +2,7 @@
 //Dies wird der dropdown component für die Auswahl der Sprache. Anfangs erstmal nur Deutsch und Englisch
 
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import bigBlueArrow from '../assets/BigBlueArrow.svg'
 
 //Dies wird für den weiteren verlauf eventuell wichtig, wenn wir dynamisch die Sprache ändern wollen
@@ -101,9 +101,11 @@ const options = [""];
 function DropDownLanguage({options=[""], category=""}) { //options zeigt die Strings, die im Dropdown liegen. 
                                                          //Category ist ein Placeholder bis eine der Options ausgewählt wird
   const [isOpen, setIsOpen] = useState(false);
+
+  const dropDownRef = useRef<HTMLDivElement>(null);
+
   const toggling = () => setIsOpen(!isOpen);
   const onOptionClicked = (value:string) => () => {
-    
     selectedOptionDefault = value;
     setIsOpen(false);
     chosenLanguage = value;
@@ -117,9 +119,27 @@ function DropDownLanguage({options=[""], category=""}) { //options zeigt die Str
     }
   }
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (dropDownRef.current && !dropDownRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <>
-      <DropDownContainer>
+      <DropDownContainer ref={dropDownRef}>
         <DropDownHeader onClick={toggling}>
           <TextContainer>
              {checkString()}
