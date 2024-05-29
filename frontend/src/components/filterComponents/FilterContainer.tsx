@@ -15,7 +15,7 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                 <h2>Filter</h2>
                 <QuestionWrapper>
                     <p>How old are you?</p>
-                    <Input type="number" placeholder='Enter your age' size='small' min={0} max={120}></Input>
+                    <Input type="number" placeholder='Age' size='small' min={0} max={120}></Input>
                 </QuestionWrapper>
                 <QuestionWrapper>
                     <p>Include any other age groups:</p>
@@ -48,7 +48,7 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                         <TileButton icon='bus' text='car' ></TileButton>
                     </TileGrid>
                 </QuestionWrapper>
-                <h3>Preferences</h3>
+                <h3 style={{"marginBottom": 0}}>Preferences</h3>
                 <QuestionWrapper>
                     <p>Health & Wellness</p>
                     <LabelGrid>

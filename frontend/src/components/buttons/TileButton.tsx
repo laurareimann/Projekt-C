@@ -39,16 +39,16 @@ const StyledTileButton = styled.button<{ color: string; isSelected: boolean }>`
     justify-content: center;
     width: 120px;
     height: 80px;
-    border: none;
+    border: 1px solid transparent;
     border-radius: 8px;
     background-color: ${({ color, isSelected }) =>
         isSelected
-            ? color === "blue" ? "var(--color--blue-2)"
-                : color === "green" ? "var(--color--green-2)"
-                    : "var(--color--pink-2)"
-            : color === "blue" ? "var(--color--blue-4)"
-                : color === "green" ? "var(--color--green-3)"
-                    : "var(--color--pink-3)"
+            ? color === "blue" ? "var(--color--blue-4)" :
+                color === "green" ? "var(--color--green-3)" :
+                    "var(--color--pink-3)"
+            : color === "blue" ? "var(--color--blue-2)" :
+                color === "green" ? "var(--color--green-2)" :
+                    "var(--color--pink-2)"
     };
     color: white;
     
@@ -56,11 +56,12 @@ const StyledTileButton = styled.button<{ color: string; isSelected: boolean }>`
     transition: background-color 0.3s, opacity 0.3s;
 
     &:not(:disabled):hover {
-        background-color: ${({ color }) =>
-        color === "blue" ? "var(--color--blue-2)" :
-            color === "green" ? "var(--color--green-2)" :
-                "var(--color--pink-2)"};
-    }
+    border: 3px solid ${({ color }) =>
+        color === "blue" ? "var(--color--blue-4)" :
+        color === "green" ? "var(--color--green-3)" :
+        "var(--color--pink-3)"};
+}
+
 `
 
 const ButtonIcon = styled.img<{ icon: string; }>`

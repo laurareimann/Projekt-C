@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 const StyledButton = styled.button<{ color?: string; selected?: boolean }>`
     background-color: ${({ color, selected }) =>
         selected
-            ? color === "blue" ? "var(--color--blue-2)" :
+            ? color === "blue" ? "var(--color--blue-4)" :
+                color === "green" ? "var(--color--green-3)" :
+                    "var(--color--pink-3)"
+            : color === "blue" ? "var(--color--blue-2)" :
                 color === "green" ? "var(--color--green-2)" :
                     "var(--color--pink-2)"
-            : color === "blue" ? "var(--color--blue-4)" :
-                color === "green" ? "var(--color--green-4)" :
-                    "var(--color--pink-4)"
     };
     color: white;
     font-weight: 800;
@@ -18,21 +18,17 @@ const StyledButton = styled.button<{ color?: string; selected?: boolean }>`
     justify-content: center;
     padding: 12px 16px;
     width: fit-content;
-    border: none;
+    border: 2px solid transparent;
     border-radius: 30px;
     text-transform: uppercase;
     cursor: pointer;
     transition: background-color 0.3s, opacity 0.3s;
 
     &:hover {
-        background-color: ${({ color, selected }) =>
-        selected
-            ? color === "blue" ? "var(--color--blue-2)" :
-                color === "green" ? "var(--color--green-2)" :
-                    "var(--color--pink-2)"
-            : color === "blue" ? "var(--color--blue-2)" :
-                color === "green" ? "var(--color--green-2)" :
-                    "var(--color--pink-2)"
+        border: 2px solid ${({ color }) =>
+        color === "blue" ? "var(--color--blue-4)" :
+            color === "green" ? "var(--color--green-3)" :
+                "var(--color--pink-3)"
     };
     }
 
@@ -41,7 +37,7 @@ const StyledButton = styled.button<{ color?: string; selected?: boolean }>`
     }
 `;
 
-function LabelButton({ children = "", color = "pink", onClick = () => {} }) {
+function LabelButton({ children = "", color = "pink", onClick = () => { } }) {
     const [selected, setSelected] = useState(false);
 
     const handleClick = () => {
