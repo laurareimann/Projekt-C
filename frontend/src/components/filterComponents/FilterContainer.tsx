@@ -15,7 +15,7 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                 <h2>Filter</h2>
                 <QuestionWrapper>
                     <p>How old are you?</p>
-                    <Input placeholder='Enter your age' size='small'></Input>
+                    <Input type="number" placeholder='Enter your age' size='small' min={0} max={120}></Input>
                 </QuestionWrapper>
                 <QuestionWrapper>
                     <p>Include any other age groups:</p>

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface InputProps {
@@ -5,6 +6,9 @@ interface InputProps {
     placeholder?: string;
     size?:string; 
     $isValid?: boolean;
+    type?: string;
+    min?: number;
+    max?: number;
   }
   
 const StyledInput = styled.input<InputProps>`
@@ -54,7 +58,20 @@ const StyledInput = styled.input<InputProps>`
     }
 `;
 
-function Input({ disabled = false, placeholder = "E-Mail", size = "regular", isValid = true }) {
+function Input({ disabled = false, placeholder = "E-Mail", size = "regular", type = "text", min = 0, max = 120}) {
+    const [value, setValue] = useState("");
+    const [isValid, setIsValid] = useState(true);
+
+    useEffect(() => {
+        if (type === "number" && value !== "") {
+            const numericValue = parseFloat(value);
+            const valid = !isNaN(numericValue) && numericValue >= min && numericValue <= max;
+            setIsValid(valid);
+        } else {
+            setIsValid(true);
+        }
+    }, [value, type, min, max]);
+    
 
     return (
         <>
@@ -63,6 +80,10 @@ function Input({ disabled = false, placeholder = "E-Mail", size = "regular", isV
                         placeholder={placeholder} 
                         size={size}
                         $isValid={isValid}
+                        type={type}
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        {...(type === 'number' && { min, max })}
                         >
             </StyledInput>
         </>
