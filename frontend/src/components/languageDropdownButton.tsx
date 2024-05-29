@@ -3,7 +3,7 @@
 
 import styled from "styled-components";
 import React, { useEffect, useRef, useState } from "react";
-import bigBlueArrow from '../assets/BigBlueArrow.svg'
+import bigBlueArrow from '../assets/Arrow_Transparent_Blue.svg'
 
 //Dies wird für den weiteren verlauf eventuell wichtig, wenn wir dynamisch die Sprache ändern wollen
 //Wird vielleicht in die App.tsx rüberwandern, aber erstmal bleibts hier
