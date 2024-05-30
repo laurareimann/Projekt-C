@@ -7,11 +7,23 @@ import BusIcon from '../../assets/icons/bus_white.svg';
 import WalkingIcon from '../../assets/icons/walking_white.svg';
 import { useState } from 'react';
 
-function TileButton({ color = "blue", icon = '', text = '', subline = '' }: { color?: string; icon?: string; text?: string; subline?: string }) {
+
+type TileButtonProps = {
+    color?: string;
+    icon?: string;
+    text?: string;
+    subline?: string;
+    onClick?: () => void; // Adding onClick function
+};
+
+function TileButton({ color = "blue", icon = '', text = '', subline = '', onClick }: TileButtonProps) {
     const [isSelected, setIsSelected] = useState(false);
 
     const handleClick = () => {
         setIsSelected(!isSelected);
+        if (onClick) {
+            onClick();
+        }
     };
 
     const iconMap: { [key: string]: string } = {
@@ -58,8 +70,8 @@ const StyledTileButton = styled.button<{ color: string; isSelected: boolean }>`
     &:not(:disabled):hover {
     border: 3px solid ${({ color }) =>
         color === "blue" ? "var(--color--blue-4)" :
-        color === "green" ? "var(--color--green-3)" :
-        "var(--color--pink-3)"};
+            color === "green" ? "var(--color--green-3)" :
+                "var(--color--pink-3)"};
 }
 
 `

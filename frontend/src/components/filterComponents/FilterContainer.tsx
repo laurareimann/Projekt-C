@@ -1,13 +1,68 @@
+import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
+import Checkbox from '../Checkbox';
 import Container from '../Container';
 import Input from '../Inputforms';
-import TileButton from '../buttons/TileButton';
-import Checkbox from '../Checkbox';
-import LabelButton from '../buttons/LabelButton';
 import Button from '../buttons/Buttons';
-
+import LabelButton from '../buttons/LabelButton';
+import TileButton from '../buttons/TileButton';
 
 function FilterContainer({ color = "blue", outline = true, children }: { color?: string; outline?: boolean; children?: React.ReactNode }) {
+    const [selectedFilters, setSelectedFilters] = useState({
+        age: null,
+        ageGroups: [],
+        hasPet: false,
+        relationshipStatus: '',
+        occupation: '',
+        transportMethod: '',
+        preferences: {
+            health: [],
+            social: [],
+            sports: [],
+            culture: []
+        }
+    });
+
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const inputValue = e.target.value;
+        const age = inputValue === '' ? null : Number(inputValue);
+        setSelectedFilters(prevState => ({ ...prevState, age: age }) as typeof prevState);
+        console.log("Selected Filters:", selectedFilters);
+    };
+
+    const handleCheckboxChange = () => {
+        setSelectedFilters({ ...selectedFilters, hasPet: !selectedFilters.hasPet });
+        console.log("Selected Filters:", selectedFilters);
+    };
+
+    const handleTileButtonClick = (key: string, value: string) => {
+        setSelectedFilters({ ...selectedFilters, [key]: value });
+        console.log("Selected Filters:", selectedFilters);
+    };
+
+    const handleLabelButtonClick = (key: string, value: string) => {
+        setSelectedFilters({ ...selectedFilters, [key]: value });
+        console.log("Selected Filters:", selectedFilters);
+    };
+
+    const resetFilters = () => {
+        setSelectedFilters({
+            age: null,
+            ageGroups: [],
+            hasPet: false,
+            relationshipStatus: '',
+            occupation: '',
+            transportMethod: '',
+            preferences: {
+                health: [],
+                social: [],
+                sports: [],
+                culture: []
+            }
+        });
+        console.log("Selected Filters:", selectedFilters);
+    };
+
     return (
         <Container color={color} outline={outline}>
             {children}
@@ -16,7 +71,7 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                 <QuestionWrapper>
                     <p>How old are you?</p>
                     <Input type="number" placeholder='Age' size='small' min={0} max={120}></Input>
-                </QuestionWrapper>
+                    <Input type="number" placeholder='Age' size='small' min={0} max={120} value={selectedFilters.age ?? undefined} onChange={handleInputChange}></Input>                </QuestionWrapper>
                 <QuestionWrapper>
                     <p>Include any other age groups:</p>
                     <TileGrid>
@@ -27,10 +82,15 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                         <TileButton text='middle age' subline='36-70'></TileButton>
                         <TileButton text='senior' subline='70+'></TileButton>
                     </TileGrid>
+                    <TileGrid>
+                        {['baby', 'children', 'teenager', 'young adult', 'middle age', 'senior'].map(group => (
+                            <TileButton key={group} text={group} subline={group} onClick={() => handleTileButtonClick('ageGroups', group)}></TileButton>
+                        ))}
+                    </TileGrid>
                 </QuestionWrapper>
                 <QuestionWrapper>
                     <p>Do you own a pet?</p>
-                    <Checkbox label="Yes" />
+                    <Checkbox label="Yes" checked={selectedFilters.hasPet} onChange={handleCheckboxChange} />
                 </QuestionWrapper>
                 <QuestionWrapper>
                     <p>What is your relationship status?</p>
@@ -47,8 +107,13 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                         <TileButton icon='tram' text='Public Transport' ></TileButton>
                         <TileButton icon='bus' text='car' ></TileButton>
                     </TileGrid>
+                    <TileGrid>
+                        {['Walking', 'Bike', 'Scooter', 'Public Transport', 'Car'].map(method => (
+                            <TileButton key={method} icon={method.toLowerCase()} text={method} onClick={() => handleTileButtonClick('transportMethod', method)}></TileButton>
+                        ))}
+                    </TileGrid>
                 </QuestionWrapper>
-                <h3 style={{"marginBottom": 0}}>Preferences</h3>
+                <h3 style={{ "marginBottom": 0 }}>Preferences</h3>
                 <QuestionWrapper>
                     <p>Health & Wellness</p>
                     <LabelGrid>
@@ -95,12 +160,25 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                         <LabelButton color='blue'>Galleries</LabelButton>
                     </LabelGrid>
                 </QuestionWrapper>
+                {['Health & Wellness', 'Social', 'Sports & Activities', 'Culture'].map(section => (
+                    <QuestionWrapper key={section}>
+                        <p>{section}</p>
+                        <LabelGrid>
+                            {[
+                                ['Hair Dresser', 'Nail Salon', 'Cosmetic Studio', 'Massage', 'Therme', 'Sauna', 'Solarium', 'Hospital'],
+                                ['Restaurants', 'Cafes', 'Bars', 'Clubs'],
+                                ['Hiking', 'Cycling', 'Aquatics', 'Gymnastics', 'Tennis', 'Soccer', 'Basketball', 'Skating', 'Indoor Sports'],
+                                ['Theatres', 'Museums', 'Libraries', 'Book stores', 'Galleries']
+                            ][['Health & Wellness', 'Social', 'Sports & Activities', 'Culture'].indexOf(section)].map(preference => (
+                                <LabelButton key={preference} color='blue' onClick={() => handleLabelButtonClick(section.toLowerCase().replace(/ & /g, '').replace(/ /g, ''), preference)}>{preference}</LabelButton>
+                            ))}
+                        </LabelGrid>
+                    </QuestionWrapper>
+                ))}
                 <ResetWrapper>
-                    <Button>Rest All</Button>
+                    <Button onClick={resetFilters}>Reset All</Button>
                 </ResetWrapper>
-
             </FilterWrapper>
-
         </Container>
     );
 }
