@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import Map from "../components/mapComponents/map.tsx";
 import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
@@ -5,6 +6,7 @@ import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 // Components
 import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
+import { ToastContainer } from 'react-toastify';
 import FilterContainer from '../components/filterComponents/FilterContainer.tsx';
 
 const HomePage: React.FC = () => {
@@ -12,12 +14,13 @@ const HomePage: React.FC = () => {
         <>
             <h1>15 Minute City Calculator</h1>
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
-            <StreetProvider value="Finkenau 35, 22081 Hamburg">
+            <StreetProvider cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
                 <Map />
                 <ScoreContainer color='blue'></ScoreContainer>
                 <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>
-        </>
+            <ToastContainer></ToastContainer>
+        </div >
     );
 };
 

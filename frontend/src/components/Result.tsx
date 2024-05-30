@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
 import Location from './Location';
 import Score from './Score';
 import Button from './buttons/Buttons';
 import ScoreContainer from './ScoreContainer';
-import { useContext, useState } from 'react';
-import { useStreetName } from './mapComponents/StreetProvider';
+import { useStreetNameNew,useZipCodeNew,useCityNew } from './mapComponents/StreetProvider';
 
 
 const ResultWrapper = styled.div`
@@ -48,25 +46,27 @@ display: flex;
 `;
 
 
-
-
-function Result({ children = '', score="42", street="" , zip = "", city = "", color = "pink", buttonText = "View results", outline = true, onClick = () => { } }) {
+function Result({ children = '', score="42", color = "pink", buttonText = "View results", outline = true, onClick = () => { } }) {
     
-    //Context der Straßenvariable wird übernommen. Ist vorerst die gesamte Adresse, aber ich gucke, ob sich das eventuell in Straße und Stadt+Postleitzahl aufteilen lässt
-    const customStreet = useStreetName();
+    //Einzelteile der Adresse, damit diese korrekt formatiert angezeigt wird
+    const customStreet = useStreetNameNew();
+    const customZip = useZipCodeNew();
+    const customCity = useCityNew();
 
 
+    //Musste hier etwas aufräumen, weil die Eingaben im ScoreContainer und Result nicht gematched haben und Typescript meckert, wenn ungenutzte Variablen genutzt werden
+    //I.e. man kann damit nicht npm run build aufrufen, ohne build errors zu bekommen
     return (
         <ResultWrapper>
             <DesktopWrapper>
-                <Location color={color} street = {customStreet} zip={zip} city={city}>{children}</Location>
+                <Location color={color} street = {customStreet.streetName}  zip={customZip.zipCode} city={customCity.currentCity}>{children}</Location>
                 <ScoreWrapper>
                     <Score score="42"></Score>
                     <Button color={color} onClick={onClick}>View Result</Button>
                 </ScoreWrapper>
             </DesktopWrapper>
             <MobileWrapper>
-                <ScoreContainer color={color} score={score} street={street} zip={zip} city={city} buttonText={buttonText} outline={outline} onClick={onClick}></ScoreContainer>
+                <ScoreContainer color={color} score={score} buttonText={buttonText} outline={outline} onClick={onClick}></ScoreContainer>
             </MobileWrapper>
         </ResultWrapper>
     );

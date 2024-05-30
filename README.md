@@ -33,10 +33,16 @@ Kompilieren: npm run build
 
 Während Entwicklung: npm run dev
 
+Bei Modulen mit @ am Anfang: den npm install command nicht in der PowerShell, sondern in einem neuen command prompt eingeben. Die Powershell mag das aus irgendwelchen Gründen nicht
+
 
 
 **Datenbank-Kram** 
 Erstmal noch irrelevant. Wird später während Entwicklung erweitert
+
+In vscode, die Extension "MongoDB for VS Code" installieren
+
+
 
 Credentials
 MongoDB access if something breaks 

@@ -1,38 +1,69 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 //useContext rettet mir das Leben und zahlreiche Haare vorm Rausziehen
 
 
-import React,{useState, useContext, ReactNode, Dispatch, SetStateAction} from "react";
+import React,{useState, useContext, ReactNode} from "react";
 
 //Kurz gesagt hilft es, components zu reloaden, wenn eine Variable, wie z.B. die Adresse von einem anderen Component aus geändert wird.
 //Gebraucht wird es, weil React doof ist und das sonst nur tut, wenn der Component das selber tut oder man sich dafür zehnmal verrenkt.
 //Es gibt bestimmt einen einfacheren Weg, den ich nicht gefunden habe, aber ich musste einmal über React ranten xD
 
-//Der Context der Variable
-const StreetContext = React.createContext("preview Street");
-//Der Context zum Ändern der Variable 
-const UpdateStreetContext = React.createContext<Dispatch<SetStateAction<string>>>();
 
-export const useStreetName = () => {
-    return useContext(StreetContext);
+
+interface StreetProperties {
+    zipCode?: string;
+    setZipCode: (state:string) => void;
+    currentCity?: string;
+    setCity:(state:string) => void;
+    streetName?: string;
+    setStreet:(state:string) => void;
+
 }
 
-export const useUpdateStreetContext = () => {
-    return useContext(UpdateStreetContext);
-}
+const streetContext = React.createContext<StreetProperties>({
+    zipCode: "22081",
+    setZipCode: (_state:string) => {},
+    currentCity: "Hamburg",
+    setCity:(_state:string) => {},
+    streetName: "Finkenau 35",
+    setStreet:(_state:string) => {},
+    
+})
+
 
 //Dieser Component wird um die ganze App gewrapped, damit es funktioniert
-export const StreetProvider = ({value,children}:{value:string,children:ReactNode}) => {
-    const [streetName, setStreetName] = useState(value);
+export const StreetProvider = ({cityValue,streetNameValue,zipCodeValue,children}:{cityValue:string,zipCodeValue:string,streetNameValue:string,children:ReactNode}) => {
+    
+    const [streetName, setStreet] = useState(streetNameValue);
+    const [zipCode,setZipCode] = useState(zipCodeValue);
+    const [currentCity,setCity] = useState(cityValue);
+
     return(
-        <StreetContext.Provider value ={streetName}>
-            <UpdateStreetContext.Provider value = {setStreetName}>
-                {children}
-            </UpdateStreetContext.Provider>
-        </StreetContext.Provider>
+        <streetContext.Provider value = {{
+            
+            streetName,zipCode,currentCity,setStreet,setZipCode,setCity}}>
+            {children}
+
+        </streetContext.Provider>
     )
 }
 
+//Die getter und setter exportieren
+export const useStreetNameNew = () =>{
+    const {streetName,setStreet} = useContext(streetContext);
+    return {streetName,setStreet}
+}
 
+
+export const useZipCodeNew = () =>{
+    const {zipCode,setZipCode} = useContext(streetContext);
+    return {zipCode,setZipCode}
+}
+
+export const useCityNew = () =>{
+    const {currentCity,setCity} = useContext(streetContext);
+    return {currentCity,setCity}
+}
 
 export default StreetProvider;

@@ -11,7 +11,6 @@ import {
 import Places from "./places";
 import Distance from "./distance";
 import styled from "styled-components";
-import Input from "../Inputforms";
 
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -42,7 +41,8 @@ const TestControlContainer = styled.div`
 
 export default function Map() {
 
-  const center = useMemo<LatLngLiteral>(() => ({lat:53,lng:10}),[]);
+  //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
+  const center = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
   const [spot,setSpot] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
   const options = useMemo<MapOptions>(
