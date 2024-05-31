@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
                 <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>
             <ToastContainer></ToastContainer>
-        </div >
+        </>
     );
 };
 

@@ -6,6 +6,7 @@ import Input from '../Inputforms';
 import Button from '../buttons/Buttons';
 import LabelButton from '../buttons/LabelButton';
 import TileButton from '../buttons/TileButton';
+import DropDownLanguage from '../languageDropdownButton';
 
 function FilterContainer({ color = "blue", outline = true, children }: { color?: string; outline?: boolean; children?: React.ReactNode }) {
     const [selectedFilters, setSelectedFilters] = useState({
@@ -75,16 +76,15 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                 <QuestionWrapper>
                     <p>Include any other age groups:</p>
                     <TileGrid>
-                        <TileButton text='baby' subline='0-3'></TileButton>
-                        <TileButton text='children' subline='4-10'></TileButton>
-                        <TileButton text='teenager' subline='11-17'></TileButton>
-                        <TileButton text='young adult' subline='18-35'></TileButton>
-                        <TileButton text='middle age' subline='36-70'></TileButton>
-                        <TileButton text='senior' subline='70+'></TileButton>
-                    </TileGrid>
-                    <TileGrid>
-                        {['baby', 'children', 'teenager', 'young adult', 'middle age', 'senior'].map(group => (
-                            <TileButton key={group} text={group} subline={group} onClick={() => handleTileButtonClick('ageGroups', group)}></TileButton>
+                        {[
+                            { text: 'baby', range: '0-3' },
+                            { text: 'children', range: '4-10' },
+                            { text: 'teenager', range: '11-17' },
+                            { text: 'young adult', range: '18-35' },
+                            { text: 'middle age', range: '36-70' },
+                            { text: 'senior', range: '70+' }
+                        ].map(({ text, range }) => (
+                            <TileButton key={text} text={text} subline={range} onClick={() => handleTileButtonClick('ageGroups', text)}></TileButton>
                         ))}
                     </TileGrid>
                 </QuestionWrapper>
@@ -94,83 +94,38 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                 </QuestionWrapper>
                 <QuestionWrapper>
                     <p>What is your relationship status?</p>
+                    <DropDownLanguage options={["Single", "Married"]} category='Relationship Status'></DropDownLanguage>
                 </QuestionWrapper>
                 <QuestionWrapper>
                     <p>What is your occupation?</p>
+                    <DropDownLanguage options={["Student", "Working", "Unemployed"]} category='Occupation'></DropDownLanguage>
                 </QuestionWrapper>
                 <QuestionWrapper>
                     <p>What is your preferred method of transport?</p>
                     <TileGrid>
-                        <TileButton icon='walking' text='Walking'></TileButton>
-                        <TileButton icon='bike' text='Bike'></TileButton>
-                        <TileButton icon='scooter' text='Scooter'></TileButton>
-                        <TileButton icon='tram' text='Public Transport' ></TileButton>
-                        <TileButton icon='bus' text='car' ></TileButton>
-                    </TileGrid>
-                    <TileGrid>
-                        {['Walking', 'Bike', 'Scooter', 'Public Transport', 'Car'].map(method => (
-                            <TileButton key={method} icon={method.toLowerCase()} text={method} onClick={() => handleTileButtonClick('transportMethod', method)}></TileButton>
+                        {[
+                            { text: 'Walking', icon: 'walking' },
+                            { text: 'Bike', icon: 'bike' },
+                            { text: 'Scooter', icon: 'scooter' },
+                            { text: 'Public Transport', icon: 'tram' },
+                            { text: 'Car', icon: 'bus' }
+                        ].map(({ text, icon }) => (
+                            <TileButton key={text} icon={icon.toLowerCase()} text={text} onClick={() => handleTileButtonClick('transportMethod', text)}></TileButton>
                         ))}
                     </TileGrid>
                 </QuestionWrapper>
                 <h3 style={{ "marginBottom": 0 }}>Preferences</h3>
-                <QuestionWrapper>
-                    <p>Health & Wellness</p>
-                    <LabelGrid>
-                        <LabelButton color='blue'>Hair Dresser</LabelButton>
-                        <LabelButton color='blue'>Nail Salon</LabelButton>
-                        <LabelButton color='blue'>Cosmetic Studio</LabelButton>
-                        <LabelButton color='blue'>Massage</LabelButton>
-                        <LabelButton color='blue'>Therme</LabelButton>
-                        <LabelButton color='blue'>Sauna</LabelButton>
-                        <LabelButton color='blue'>Solarium</LabelButton>
-                        <LabelButton color='blue'>Hospital</LabelButton>
-                    </LabelGrid>
-                </QuestionWrapper>
-                <QuestionWrapper>
-                    <p>Social</p>
-                    <LabelGrid>
-                        <LabelButton color='blue'>Restaurants</LabelButton>
-                        <LabelButton color='blue'>Cafes</LabelButton>
-                        <LabelButton color='blue'>Bars</LabelButton>
-                        <LabelButton color='blue'>Clubs</LabelButton>
-                    </LabelGrid>
-                </QuestionWrapper>
-                <QuestionWrapper>
-                    <p>Sports & Activities</p>
-                    <LabelGrid>
-                        <LabelButton color='blue'>Hiking</LabelButton>
-                        <LabelButton color='blue'>Cycling</LabelButton>
-                        <LabelButton color='blue'>Aquatics</LabelButton>
-                        <LabelButton color='blue'>Gymnastics</LabelButton>
-                        <LabelButton color='blue'>Tennis</LabelButton>
-                        <LabelButton color='blue'>Soccer</LabelButton>
-                        <LabelButton color='blue'>Basketball</LabelButton>
-                        <LabelButton color='blue'>Skating</LabelButton>
-                        <LabelButton color='blue'>Indoor Sports</LabelButton>
-                    </LabelGrid>
-                </QuestionWrapper>
-                <QuestionWrapper>
-                    <p>Culture</p>
-                    <LabelGrid>
-                        <LabelButton color='blue'>Theatres</LabelButton>
-                        <LabelButton color='blue'>Museums</LabelButton>
-                        <LabelButton color='blue'>Libraries</LabelButton>
-                        <LabelButton color='blue'>Book stores</LabelButton>
-                        <LabelButton color='blue'>Galleries</LabelButton>
-                    </LabelGrid>
-                </QuestionWrapper>
-                {['Health & Wellness', 'Social', 'Sports & Activities', 'Culture'].map(section => (
-                    <QuestionWrapper key={section}>
-                        <p>{section}</p>
+                {[
+                    { title: 'Health & Wellness', items: ['Hair Dresser', 'Nail Salon', 'Cosmetic Studio', 'Massage', 'Therme', 'Sauna', 'Solarium', 'Hospital'], key: 'healthWellness' },
+                    { title: 'Social', items: ['Restaurants', 'Cafes', 'Bars', 'Clubs'], key: 'social' },
+                    { title: 'Sports & Activities', items: ['Hiking', 'Cycling', 'Aquatics', 'Gymnastics', 'Tennis', 'Soccer', 'Basketball', 'Skating', 'Indoor Sports'], key: 'sportsActivities' },
+                    { title: 'Culture', items: ['Theatres', 'Museums', 'Libraries', 'Book stores', 'Galleries'], key: 'culture' }
+                ].map(({ title, items, key }) => (
+                    <QuestionWrapper key={title}>
+                        <p>{title}</p>
                         <LabelGrid>
-                            {[
-                                ['Hair Dresser', 'Nail Salon', 'Cosmetic Studio', 'Massage', 'Therme', 'Sauna', 'Solarium', 'Hospital'],
-                                ['Restaurants', 'Cafes', 'Bars', 'Clubs'],
-                                ['Hiking', 'Cycling', 'Aquatics', 'Gymnastics', 'Tennis', 'Soccer', 'Basketball', 'Skating', 'Indoor Sports'],
-                                ['Theatres', 'Museums', 'Libraries', 'Book stores', 'Galleries']
-                            ][['Health & Wellness', 'Social', 'Sports & Activities', 'Culture'].indexOf(section)].map(preference => (
-                                <LabelButton key={preference} color='blue' onClick={() => handleLabelButtonClick(section.toLowerCase().replace(/ & /g, '').replace(/ /g, ''), preference)}>{preference}</LabelButton>
+                            {items.map(item => (
+                                <LabelButton key={item} color='blue' onClick={() => handleLabelButtonClick(key, item)}>{item}</LabelButton>
                             ))}
                         </LabelGrid>
                     </QuestionWrapper>

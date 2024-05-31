@@ -22,7 +22,6 @@ const Test: React.FC = () => {
                 <Location color='pink'>HAW Finkenau</Location>
                 <Input disabled={true}></Input>
                 <Input></Input>
-                <Input isValid={false}></Input>
             </InputGrid>
             <ButtonGrid>
                 <ContainerGrid>
