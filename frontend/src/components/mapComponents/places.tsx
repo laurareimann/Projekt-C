@@ -19,6 +19,7 @@ import "../Inputforms";
 import {useStreetNameNew,useZipCodeNew,useCityNew} from "./StreetProvider";
 import {Bounce, ToastContainer,toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
+import axios from "axios";
 let tempPreviewAdress:string;
 
 
@@ -32,10 +33,9 @@ export default function Places({ setSpot }: PlacesProps) {
 
   const notify = () => toast("Please enter a valid home address");
   
+  //Context-Variablen
   const updateStreetName = useStreetNameNew().setStreet;
-
   const updateZipCode = useZipCodeNew().setZipCode;
-
   const updateCity = useCityNew().setCity;
 
   //Temporäre Variablen, um die Straße richtig anzuzeigen
@@ -48,6 +48,20 @@ export default function Places({ setSpot }: PlacesProps) {
   tmpCheckForZipCode = false;
   tmpCheckForStreetNumber = false;
   
+  //temporäre arrays für den Algorithmus bzw. die Anzeige auf der Karte
+  let currentByFoot:[]
+  let currentByBike:[]
+  let currentByCar:[]
+  let currentByPublicTransit:[]
+
+  let goodDuration:number;
+  let okayDuration:number;
+  let badDuration:number;
+
+  goodDuration = 15;
+  okayDuration = 25;
+  badDuration = 35;
+
   const {
     ready,
     value,
@@ -69,17 +83,10 @@ export default function Places({ setSpot }: PlacesProps) {
     for(let i = 0; i < results[0].address_components.length;i++){
       if(results[0].address_components[i].types[0] === "street_number" ){
 
-        //Wenn eine Postleitzahl besteht, wird diese trotzdem zwischengespeichert, um weiteres zu checken
         tmpCheckForStreetNumber = true;
         tmpStreetNumber = results[0].address_components[i].long_name;
       }
-
-
-
-
     }
-
-    //Bspw. bei der Eingabe "Bremen" ist die Postleitzahl nur 2 Zeichen lang, weswegen ein popup erscheint, was den user prompted, eine "richtige Adresse einzugeben"
     if(tmpCheckForStreetNumber == false){
       //alert("Bitte gib eine richtige Adresse ein");
       toast.error('Please enter a valid home address!', {
@@ -97,9 +104,13 @@ export default function Places({ setSpot }: PlacesProps) {
     }
     
     if(tmpCheckForStreetNumber == true){
-    let address:string;
     //Adresse mit Postleitzahl et cetera
+    let address:string;
     address = results[0].formatted_address;
+    //Sanity check für die Database
+    console.log("Adresse: " + address);
+    console.log("Latitude: " + lat);
+    console.log("Longitude: " + lng);
 
     //Es werden die einzelnen Teile der Addressen-Suche durchgegangen und dementsprechend die Werte angepasst
     for(let i = 0; i < results[0].address_components.length; i++){
@@ -125,6 +136,18 @@ export default function Places({ setSpot }: PlacesProps) {
     }
   
     }
+
+    try{
+       axios.post("http://localhost:8080/saveAddress",{
+        lat,lng,address
+      })
+      console.log("Adding address to database");
+    }catch(e){
+      console.log(e);
+    }
+    
+
+
     //Da Straßennummer und Straßenname getrennt wurden, müssen die hier nochmal zusammengefügt werden
     tmpStreetName = tmpStreetName + " " + tmpStreetNumber;
     updateStreetName(tmpStreetName);

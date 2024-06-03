@@ -2,7 +2,8 @@ import * as mongoose from "mongoose";
 
 const AddressSchema = new mongoose.Schema({
     address: String,
-    googleMapsLatLngLiteral: String,
+    googleMapsLat: Number,
+    googleMapsLng: Number,
     savedName: String,
     whoSaved: String
 })

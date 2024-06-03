@@ -40,39 +40,47 @@ app.use(express.urlencoded({extended:false}));
 
 
 
-app.post("/", async(req,res) => {
+app.post("/saveAddress", async(req,res) => {
   
-  const{user,password} = req.body;
-
-  try{
-    const check = await userModel.findOne({userName:user})
-
-    if(check){
-      res.json("exist");
-    }else{
-      res.json("not exist");
-    }
-
-  }
-  catch(e){
-    res.json("notexist");
+  const data ={
+    MapLat:req.body.lat,
+    MapLng:req.body.lng,
+    Address:req.body.address,
   }
 
+try{
+  console.log(data);
+
+  res.json("Address is being added");
+
+  const testAdress = new AddressModel({address:data.Address,googleMapsLat:data.MapLat,googleMapsLng:data.MapLng,whoSaved:"TestUser"})
+
+  testAdress.save();
+
+  console.log("Address successfully added");
+}
+catch(e){
+  console.log(e);
+}
 })
 
 app.post("/signup", async(req,res) => {
   
   const{user,password} = req.body;
 
+  console.log(req.body);
+
+  console.log("test");
+
   const data={
-    UserName:user,
+    UserName:req.body.user,
     Password:req.body.password
   }
 
   try{
     const check = await userModel.findOne({Username:data.UserName})
 
-    if(check != ""){
+    if(check != null){
       console.log("User already exists");
     }else{
       res.json("User not signed up yet");
