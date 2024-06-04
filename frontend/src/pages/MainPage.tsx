@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
         <div>
             <h1>15 Minute City Calculator</h1>
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
-            <StreetProvider cityValue = "Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>   
+            <StreetProvider cityValue = "Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081' currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]}>   
             <Map />
             <ScoreContainer color='blue'></ScoreContainer>
             <QuizContainer color='pink'></QuizContainer>
@@ -105,10 +105,6 @@ const InputGrid = styled.div`
 display: grid;
 grid-gap: 12px;
 `
-
-export const handleClick = () => {
-    console.log("Button clicked!");
-};
 
 const ColoredString = styled.p<{ color: string }>`
   color: ${(props) => props.color};

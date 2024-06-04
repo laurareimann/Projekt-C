@@ -11,7 +11,7 @@ import {
 import Places from "./places";
 import Distance from "./distance";
 import styled from "styled-components";
-
+import { useNearby } from "./StreetProvider";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -41,6 +41,9 @@ const TestControlContainer = styled.div`
 
 export default function Map() {
 
+  const currentMarkers = useNearby().currentNearby;
+  let currentHelperMarkers = currentMarkers;
+
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
   const center = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
   const [spot,setSpot] = useState<LatLngLiteral>();
@@ -57,7 +60,11 @@ export default function Map() {
 //Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onLoad = useCallback((map:any) => (mapRef.current = map),[]);
-
+  
+  function updateMarkers(){
+    ()=> {currentHelperMarkers = currentMarkers}
+    console.log("Center was changed");
+  }
 
   return (
   <div>
@@ -78,8 +85,15 @@ export default function Map() {
 
       {spot && <Marker position={spot}/>}
 
+      {currentMarkers!=null && currentHelperMarkers?.map(marker => <Marker key ={Math.random()} position={marker}/>)}
+      <script>
+      console.log("Markers should updat now");
+      </script>
 
       </GoogleMap>
+
+      
+
       </TestMap>
   </div>
 

@@ -170,7 +170,7 @@ const App: React.FC = () => {
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY,
-    libraries: ["places"],
+    libraries: ["places","maps"],
   })
 
   //Hier könnte dein Ladebildschirm stehen ( ͡° ͜ʖ ͡° )

@@ -8,6 +8,7 @@ function Signup() {
 
     const [user,setUser]=useState('')
     const [password,setPassword]=useState('')
+    const [passwordConfirm,setPasswordConfirm]=useState("");
 
     async function submit(e: { preventDefault: () => void; }){
         e.preventDefault();
@@ -15,14 +16,15 @@ function Signup() {
         try{
 
             await axios.post("http://localhost:8080/signup",{
-                user,password
+                user,password,passwordConfirm
             })
             .then(res=>{
-                if(res.data=="exist"){
+                if(res.data=="exists"){
                     alert("User already exists")
                 }
-                else if(res.data=="notexist"){
-                    //history("/home",{state:{id:user}})
+                else if(res.data=="Passwords not matching"){
+                    console.log("Passwords didn't match!")
+                    alert("Passwords are not matching")
                 }
             })
             .catch(e=>{
@@ -45,8 +47,9 @@ function Signup() {
             <h1>Signup</h1>
 
             <form action="POST">
-                <input type="email" onChange={(e) => { setUser(e.target.value) }} placeholder="Email"  />
+                <input type="email" onChange={(e) => { setUser(e.target.value) }} placeholder="Username"  />
                 <input type="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Password" />
+                <input type="password" onChange={(e) => {setPasswordConfirm(e.target.value)}} placeholder="Confirm password"/>
                 <input type="submit" onClick={submit} />
 
             </form>

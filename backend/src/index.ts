@@ -66,7 +66,7 @@ catch(e){
 
 app.post("/signup", async(req,res) => {
   
-  const{user,password} = req.body;
+  const{user,password,passwordConfirm} = req.body;
 
   console.log(req.body);
 
@@ -74,7 +74,8 @@ app.post("/signup", async(req,res) => {
 
   const data={
     UserName:req.body.user,
-    Password:req.body.password
+    Password:req.body.password,
+    PasswordConfirm:req.body.passwordConfirm
   }
 
   try{
@@ -82,14 +83,18 @@ app.post("/signup", async(req,res) => {
 
     if(check != null){
       console.log("User already exists");
+      res.json("exists")
     }else{
-      res.json("User not signed up yet");
       
-      const testUser = new userModel({Username: data.UserName, password:data.Password})
-
-      testUser.save();
-
-      console.log("User successfully added")
+      if(password === passwordConfirm){
+        const testUser = new userModel({Username: data.UserName, password:data.Password})
+        testUser.save();
+        console.log("User successfully added")
+      }
+      else{
+        res.json("Passwords not matching");
+        console.log("Passwords not matching");
+      }
     }
 
   }

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
 const commutesPerYear = 260 * 2;
 const litresPerKM = 10 / 100;
 const gasLitreCost = 1.5;
