@@ -41,8 +41,8 @@ const TestControlContainer = styled.div`
 
 export default function Map() {
 
-  const currentMarkers = useNearby().currentNearby;
-  let currentHelperMarkers = currentMarkers;
+  const currentMarkers =  useNearby().currentNearby;
+  
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
   const center = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
@@ -62,14 +62,15 @@ export default function Map() {
   const onLoad = useCallback((map:any) => (mapRef.current = map),[]);
   
   function updateMarkers(){
-    ()=> {currentHelperMarkers = currentMarkers}
-    console.log("Center was changed");
+      console.log("Derzeitige Marker in der Map-componente");
+      console.log(currentMarkers);
   }
 
   return (
   <div>
     <TestControlContainer>
-      
+    
+
       <Places setSpot={(position) =>{
         setSpot(position);
         mapRef.current?.panTo(position);
@@ -81,13 +82,14 @@ export default function Map() {
         mapContainerClassName="map-container"
         options={options}
         onLoad={onLoad}
+        onCenterChanged={() => updateMarkers()}
       >
 
       {spot && <Marker position={spot}/>}
 
-      {currentMarkers!=null && currentHelperMarkers?.map(marker => <Marker key ={Math.random()} position={marker}/>)}
+      {(currentMarkers.length != 0) && currentMarkers?.map(marker => <Marker key ={Math.random()} position={marker}/>)}
       <script>
-      console.log("Markers should updat now");
+      //console.log(currentMarkers);
       </script>
 
       </GoogleMap>

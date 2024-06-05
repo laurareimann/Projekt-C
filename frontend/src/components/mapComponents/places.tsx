@@ -136,7 +136,8 @@ export default function Places({ setSpot }: PlacesProps) {
       currentByFootV2.push({
         lat: results[i].geometry.location.lat(),
         lng: results[i].geometry.location.lng()
-      })}}
+      })
+      updateNearby(contextNearby);}}
 }
 
 async function performNearbySearch(requestParam: google.maps.places.PlaceSearchRequest){
@@ -249,6 +250,7 @@ async function performNearbySearch(requestParam: google.maps.places.PlaceSearchR
     );
 
     setSpot({ lat, lng });
+    
   }
   };
 
