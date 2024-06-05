@@ -12,6 +12,7 @@ place-items:center;
 `
 
 const FormContainer = styled.div`
+    
     width:500px;
     border: 10px solid var(--color--pink-1);
     border-radius: 15px;
@@ -20,13 +21,13 @@ const FormContainer = styled.div`
     margin-bottom:200px;
     padding-bottom: 100px ;
 
-    @media (max-width: 768px) {
+    @media (max-width:768px){
         border:none;
-        width:500px;
     }
 `
 
 const Title = styled.p`
+
     font-size: 42px;
     margin-top: 42px;
 `
@@ -37,9 +38,9 @@ const AlternativeText = styled.p`
 
 const LinkText = styled.a`
     margin-top: 10px;
-    font-size: 20px;
-    color: blue;
-    margin-right: 190px;
+    font-size: 15px;
+    color:blue;
+    margin-right: 100px;
     text-decoration: underline;
 
     &:hover{
@@ -48,23 +49,15 @@ const LinkText = styled.a`
 `
 
 const ButtonGrid = styled.div`
-    margin-top: 5px;
+    margin-top: 30px;
     display: grid;
     grid-gap: 45px;
     place-items:center;
-
-    @media (max-width: 768px){
-     margin-top: 15px ;
-    }
 `
 
 const InputContainer = styled.div` 
     padding: 50px;
     margin-top: 20px;
-
-    @media (max-width:768px){
-        padding:10px;
-    }
 `
 
 const hr = styled.div`
@@ -72,27 +65,25 @@ const hr = styled.div`
     width: 1px;
 `
 
-function LoginForm(){
+function SignInForm(){
     return(
         <div>
             <FormContainer>
-                <Title>Sign In</Title>
+                <Title>Sign Up</Title>
                 <InputContainer>
-                  <InputGrid>
-                      <Input placeholder="Username"/>    
-                      <Input placeholder="Password"/>  
-                  </InputGrid>      
-                  <LinkText href="">Forgot password?</LinkText> 
+                    <InputGrid>     
+                        <Input placeholder="Username"></Input>
+                        <Input placeholder="Password"></Input>
+                        <Input placeholder="Confirm Password"></Input>
+                    </InputGrid>
+                    <LinkText href="loginPage" >Already registered? Click here to log in.</LinkText>
                 </InputContainer>
                 <ButtonGrid>
-                    <Button color="var(--color--pink-2)" >Log In</Button>
-                    <AlternativeText> or </AlternativeText>
-                    <a href="registerPage">
-                    <Button color="darkPink">Register</Button> </a>
+                    <Button color="#FFC2EA">Register</Button>
                 </ButtonGrid>
-            </FormContainer>
+            </FormContainer>   
         </div>
     )
 }
 
-export default LoginForm;
+export default SignInForm;

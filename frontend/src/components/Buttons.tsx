@@ -8,7 +8,9 @@ const StyledButton = styled.button`
                     : "var(--color--pink-1)"
             : color === "blue" ? "var(--color--blue-4)"
                 : color === "green" ? "var(--color--green-3)"
+                    :color ==="darkPink" ? "var(--color--pink-5)"
                     : "var(--color--pink-3)"
+                
     };
     color: ${({ color, disabled }) =>
         disabled
@@ -37,7 +39,7 @@ const StyledButton = styled.button`
     }
 `;
 
-function Button({ children = "", color = "pink", disabled = false, onClick = () => { } }) {
+function Button({ children = "", color = "", disabled = false, onClick = () => { } }) {
     return (
         <>
             <StyledButton color={color} disabled={disabled} onClick={onClick}>

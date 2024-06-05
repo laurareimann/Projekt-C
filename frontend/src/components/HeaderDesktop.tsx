@@ -154,7 +154,7 @@ function HeaderDesktop() {
             <img src={profileIcon} alt="Profile" />
           </Profile>
         ) : (
-          <Profile href="/login">
+          <Profile href="/logInPage">
             <Button color='pink'>Login</Button>
           </Profile>
         )}
