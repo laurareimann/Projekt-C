@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "../../globals.css";
-import { useState, useMemo, useCallback, useRef } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import {
   GoogleMap,
   Marker,
@@ -12,11 +12,18 @@ import Places from "./places";
 import Distance from "./distance";
 import styled from "styled-components";
 import { useNearby } from "./StreetProvider";
+import { AdvancedMarker } from "@vis.gl/react-google-maps";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
+let placesMapV2: google.maps.Map;
+let service: google.maps.places.PlacesService;
+let infowindow: google.maps.InfoWindow;
+let setupCheck:boolean = false;
+let updateCheck:boolean= false;
+const currentByFootV2: Array<google.maps.LatLngLiteral> = []
 
 const TestMap = styled.div`
   height: 100%;
@@ -41,8 +48,7 @@ const TestControlContainer = styled.div`
 
 export default function Map() {
 
-  const currentMarkers =  useNearby().currentNearby;
-  
+  const [helpCounter,setHelpCounter] = useState(0);
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
   const center = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
@@ -55,6 +61,50 @@ export default function Map() {
       mapId: import.meta.env.VITE_MAP_ID
     }),[]);
 
+
+    //Helper-map_setup
+  const defaultCenter = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
+
+  const optionsHelper = useMemo<MapOptions>(
+    ()=> ({
+      center:defaultCenter,
+      zoom:15
+    }),[defaultCenter]
+  )
+
+
+  //Suche in der Nähe gelegender places
+  function performNearbySearch(requestParam: google.maps.places.PlaceSearchRequest){ 
+    service.nearbySearch(requestParam,callback);    
+  }
+ 
+//Wenn die helper map noch nicht initialisiert wurde -> dies bitte tun
+  if(setupCheck == false){
+    setTimeout(()=>{
+      placesMapV2 = new google.maps.Map(document.getElementById("map") as HTMLElement,optionsHelper);
+      service = new google.maps.places.PlacesService(placesMapV2);
+      console.log("Helper mapV2 successfully set up");
+    },2000);
+    //Danach die flag auf true setzen
+    setupCheck= true;
+  }
+
+
+  //Callback-Funktion für die NearbySearch
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ function callback(results:any,status:any){
+  if(status == google.maps.places.PlacesServiceStatus.OK){
+    currentByFootV2.splice(0,currentByFootV2.length);
+    for(let i = 0; i < results.length;i++){
+      currentByFootV2.push({
+        lat: results[i].geometry.location.lat(),
+        lng: results[i].geometry.location.lng()
+      })
+  }}
+}
+
+
+
 //Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
 //Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
 //Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
@@ -62,35 +112,51 @@ export default function Map() {
   const onLoad = useCallback((map:any) => (mapRef.current = map),[]);
   
   function updateMarkers(){
-      console.log("Derzeitige Marker in der Map-componente");
-      console.log(currentMarkers);
+      if(updateCheck==false){
+        setHelpCounter(helpCounter+1);
+        }
   }
-
+  
   return (
   <div>
     <TestControlContainer>
-    
-
       <Places setSpot={(position) =>{
-        setSpot(position);
-        mapRef.current?.panTo(position);
+        const lat:number = position.lat;
+        const lng:number = position.lng;
+        let tmpSpot:LatLngLiteral;
+
+        const request = {
+          location:{lat,lng},
+          radius:100
+        }
+
+        performNearbySearch(request);
+        console.log("Derzeitige Results in der HelperMap-Komponente")
+        console.log(currentByFootV2)
+
+        currentByFootV2.splice(0,currentByFootV2.length);
+        setTimeout(()=>{
+          setSpot(position);
+          mapRef.current?.panTo(position);
+        },200);
+        updateCheck=false;
       }}/>
+
     </TestControlContainer>
     <TestMap>
+    
       <GoogleMap zoom={14} 
         center={center} 
         mapContainerClassName="map-container"
         options={options}
         onLoad={onLoad}
-        onCenterChanged={() => updateMarkers()}
+        onCenterChanged={() => {
+          updateMarkers();
+        }}
       >
-
-      {spot && <Marker position={spot}/>}
-
-      {(currentMarkers.length != 0) && currentMarkers?.map(marker => <Marker key ={Math.random()} position={marker}/>)}
-      <script>
-      //console.log(currentMarkers);
-      </script>
+      //Marker auf der Map platzieren
+      {spot && <Marker position={spot} onLoad={()=> {"Initial marker placed"}}/>}
+      {spot && currentByFootV2.map(marker => <Marker key ={Math.random()} position={marker} onLoad={()=> {console.log("Nearby marker placed");updateCheck=true;}}/>) }
 
       </GoogleMap>
 

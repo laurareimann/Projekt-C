@@ -156,9 +156,6 @@ flex-wrap: wrap;
 gap:12px;
   
 `
-const handleClick = () => {
-  console.log("Button clicked!");
-};
 
 const InputGrid = styled.div`
 display: grid;

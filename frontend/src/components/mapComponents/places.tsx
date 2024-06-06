@@ -17,7 +17,7 @@ import "@reach/combobox/styles.css";
 import "../../globals.css";
 import "../Inputforms";
 import {useStreetNameNew,useZipCodeNew,useCityNew,useNearby} from "./StreetProvider";
-import {Bounce, ToastContainer,toast} from "react-toastify";
+import {Bounce,toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 import axios from "axios";
 import Map from "./map";
@@ -71,8 +71,6 @@ export default function Places({ setSpot }: PlacesProps) {
 
   const defaultCenter = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
 
-  let contextNearby = useNearby().currentNearby;
-
   const options = useMemo<MapOptions>(
     ()=> ({
       center:defaultCenter,
@@ -108,9 +106,6 @@ export default function Places({ setSpot }: PlacesProps) {
   tmpCheckForZipCode = false;
   tmpCheckForStreetNumber = false;
   
-
-
-
   let goodDuration:number;
   let okayDuration:number;
   let badDuration:number;
@@ -137,15 +132,14 @@ export default function Places({ setSpot }: PlacesProps) {
         lat: results[i].geometry.location.lat(),
         lng: results[i].geometry.location.lng()
       })
-      updateNearby(contextNearby);}}
+      updateNearby(currentByFootV2);
+  }}
 }
 
 async function performNearbySearch(requestParam: google.maps.places.PlaceSearchRequest){
   
   service.nearbySearch(requestParam,callback);
-  contextNearby = currentByFootV2;
-  updateNearby(contextNearby);
-  console.log("Search done");
+  updateNearby(currentByFootV2);
   
 }
 
@@ -191,15 +185,14 @@ async function performNearbySearch(requestParam: google.maps.places.PlaceSearchR
       console.log("Adresse: " + address);
       console.log("Latitude: " + lat);
       console.log("Longitude: " + lng);
-
+      //Types-Output testen
+      console.log(results[0].types);
       //Es werden die einzelnen Teile der Addressen-Suche durchgegangen und dementsprechend die Werte angepasst
       for(let i = 0; i < results[0].address_components.length; i++){
-        console.log(results[0].types);
         switch(results[0].address_components[i].types[0]){
         //Straßennummer
           case "street_number":
             tmpStreetNumber = results[0].address_components[i].long_name;
-            console.log("Aktuelle Straßennummer: " + results[0].address_components[i].long_name )
           break; 
           case "postal_code":
             updateZipCode(results[0].address_components[i].long_name);
@@ -231,26 +224,20 @@ async function performNearbySearch(requestParam: google.maps.places.PlaceSearchR
 
     //sanity check
     console.log("Gesamte Adresse: " + address);
-    console.log(lat + " " + lng)
 
     let request = {
       location:{lat,lng},
       radius: 100
     }
 
-    console.log("Starting nearby search");
     await(performNearbySearch(request)).then(
-      () => {
-        updateNearby(contextNearby);
-        console.log("Marker in der Context variable")
-        console.log(contextNearby);
-        console.log("Derzeitige Marker");
+      () => {     
+        console.log("Derzeitige Marker in places.tsx");
         console.log(currentByFootV2);
       }
     );
 
     setSpot({ lat, lng });
-    
   }
   };
 
