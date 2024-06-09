@@ -225,6 +225,7 @@ async function performNearbySearch(requestParam: google.maps.places.PlaceSearchR
     //sanity check
     console.log("Gesamte Adresse: " + address);
 
+    /* Erstmal auskommentiert, falls wir die NearbySearch nochmal in places.tsx machen müssen
     let request = {
       location:{lat,lng},
       radius: 100
@@ -236,7 +237,8 @@ async function performNearbySearch(requestParam: google.maps.places.PlaceSearchR
         console.log(currentByFootV2);
       }
     );
-
+   */
+   
     setSpot({ lat, lng });
   }
   };
