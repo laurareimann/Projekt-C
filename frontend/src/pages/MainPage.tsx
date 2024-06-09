@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import styled from 'styled-components';
+//import styled from 'styled-components';
 import Map from "../components/mapComponents/map.tsx";
 import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 
@@ -89,7 +89,7 @@ const HomePage: React.FC = () => {
 };
 
 
-// Funktionen und Styling
+/* Funktionen und Styling
 const ButtonGrid = styled.div`
 display: grid;
 grid-gap: 12px;
@@ -118,6 +118,6 @@ interface MyComponentProps {
     color: string;
     children: React.ReactNode;
 }
-
+*/
 
 export default HomePage;

@@ -28,6 +28,9 @@ import Map from "./components/mapComponents/map.tsx";
 import { useLoadScript } from '@react-google-maps/api';
 import StreetProvider from './components/mapComponents/StreetProvider.tsx';
 import SignUpTest from './pages/SignUpTest.tsx';
+import LogInOrSignUp from './pages/LogInPage.tsx';
+import LogInPage from './pages/LogInPage.tsx';
+import RegisterPage from './pages/RegisterPage.tsx';
 import TestSite from './pages/Collapse.tsx';
 
 
@@ -183,6 +186,9 @@ const App: React.FC = () => {
         <Route path="about-us" element={<AboutUs />} />
         <Route path="logintest" element={<LoginTest/>}/>
         <Route path="signuptest" element={<SignUpTest/>}/>
+        <Route path="logInPage" element={<LogInPage/>}/>
+        <Route path="registerPage" element = {<RegisterPage/>}/>
+        
         <Route path="TestSite" element={<TestSite/>} />
             /*hier alle Seiten anlegen */
       </Routes>
