@@ -29,6 +29,7 @@ import LogInOrSignUp from './pages/LogInPage.tsx';
 import LogInPage from './pages/LogInPage.tsx';
 import RegisterPage from './pages/RegisterPage.tsx';
 import TestSite from './pages/Collapse.tsx';
+import Evaluation from './pages/DetailedResults.tsx';
 
 
 
@@ -185,6 +186,7 @@ const App: React.FC = () => {
         <Route path="about-us" element={<AboutUs />} />
         <Route path="logInPage" element={<LogInPage/>}/>
         <Route path="registerPage" element = {<RegisterPage/>}/>
+        <Route path="evaluation" element = {<Evaluation/>}/>
         
         <Route path="TestSite" element={<TestSite/>} />
             /*hier alle Seiten anlegen */
