@@ -58,9 +58,9 @@ export default function Map({ shouldRenderCirlces = true }) {
   // Gelb: 2500m, 30min zu Fuß
   // Rot: 3750m, 45min zu Fuß
   const [circles, setCircles] = useState([
-    { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0 } },
-    { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0 } },
-    { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0 } },
+    { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5 } },
   ]);
 
   // Update circles when `spot` changes
@@ -75,15 +75,15 @@ export default function Map({ shouldRenderCirlces = true }) {
     // Ich bin mir selbst nich ganz sicher warum das funktioniert
     // aber sonst verschwinden die vorherigen Circles nich bei neuer Adresse
     const newCircles = [
-      { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, center: spot} },
-      { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, center: spot} },
-      { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, center: spot} },
+      { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+      { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+      { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
     ]
 
     // Update state to re-render circles
     setCircles(newCircles);
 
-  }, [spot]); // Linter beschwert sich hier, dass circles nicht in der Abhängigkeitsliste ist, aber das updated dann glaube im Loop
+  }, [spot]); // Linter beschwert sich hier, dass circles nicht in der Abhängigkeitsliste ist, aber das updated sonst im Loop
 
 
   //Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
