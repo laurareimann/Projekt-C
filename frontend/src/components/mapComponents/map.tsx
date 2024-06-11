@@ -72,8 +72,7 @@ export default function Map({ shouldRenderCirlces = true }) {
       }
     });
 
-    // Ich bin mir selbst nich ganz sicher warum das funktioniert
-    // aber sonst verschwinden die vorherigen Circles nich bei neuer Adresse
+    // Circles werden hier neu definiert, damit alte Circles verschwinden und die neuen auf den erneuerten spot gesetzt werden
     const newCircles = [
       { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
       { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
@@ -122,13 +121,9 @@ export default function Map({ shouldRenderCirlces = true }) {
 
           {spot && <Marker position={spot} />}
 
-
-
-
         </GoogleMap>
       </TestMap>
     </div>
-
   )
 }
 
