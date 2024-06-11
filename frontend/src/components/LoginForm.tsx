@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Input from './Inputforms';
 import Button from './Buttons';
+import axios from "axios";
 
 
 const InputGrid = styled.div`
@@ -72,15 +73,75 @@ const hr = styled.div`
     width: 1px;
 `
 
+
+const setCookie = (name: string,value: unknown,days: number) =>{
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + days);
+  
+    document.cookie = `${name}=${value}; expires=${expirationDate.toUTCString()};path=/`
+
+  }
+
+  const getCookie = (name:string) =>{
+    const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
+
+    return cookies ? cookies.split("=")[1] : null;
+  }
+
+
+  const currentUser = getCookie("username");
+
+
+
+
 function LoginForm(){
+
+    const [user,setUser]=useState('')
+    const [password,setPassword]=useState('')
+
+    async function submit(e: { preventDefault: () => void; }){
+
+        console.log("submitting...")
+
+        e.preventDefault();
+
+        try{
+
+            await axios.post("http://localhost:8080/login",{
+                user,password
+            })
+            .then((res: { data: string; })=>{
+                if(res.data=="exist"){
+                    setCookie("username",user,7);
+                    console.log("Logged in");
+                }
+                else if(res.data=="notexist"){
+                    alert("User have not sign up")
+                }
+            })
+            .catch((e: string)=>{
+                alert("wrong details")
+                console.log(e);
+            })
+
+        }
+        catch(e){
+            console.log(e);
+
+        }
+
+    }
+
+
+
     return(
         <div>
             <FormContainer>
                 <Title>Sign In</Title>
                 <InputContainer>
                   <InputGrid>
-                      <Input placeholder="Username"/>    
-                      <Input placeholder="Password"/>  
+                      <Input placeholder="Username" />    
+                      <Input placeholder="Password" />  
                   </InputGrid>      
                   <LinkText href="">Forgot password?</LinkText> 
                 </InputContainer>
@@ -88,7 +149,7 @@ function LoginForm(){
                     <Button color="var(--color--pink-2)" >Log In</Button>
                     <AlternativeText> or </AlternativeText>
                     <a href="registerPage">
-                    <Button color="darkPink">Register</Button> </a>
+                    <Button onClick={()=>submit} color="darkPink">Register</Button> </a>
                 </ButtonGrid>
             </FormContainer>
         </div>

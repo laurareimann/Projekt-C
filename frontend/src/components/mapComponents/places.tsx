@@ -43,6 +43,22 @@ const currentByFootV2: Array<google.maps.LatLngLiteral> = []
 const currentByBikeV2: Array<google.maps.LatLngLiteral> = []
 const currentByCarV2: Array<google.maps.LatLngLiteral> = []
 
+const setCookie = (name: string,value: unknown,days: number) =>{
+  const expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + days);
+
+  document.cookie = `${name}=${value}; expires=${expirationDate.toUTCString()};path=/`
+
+}
+
+const getCookie = (name:string) =>{
+  const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
+
+  return cookies ? cookies.split("=")[1] : null;
+}
+
+
+const currentUser = getCookie("username");
 
 
 function InitMap(){
@@ -211,7 +227,7 @@ async function performNearbySearch(requestParam: google.maps.places.PlaceSearchR
 
     try{
        axios.post("http://localhost:8080/saveAddress",{
-        lat,lng,address
+        lat,lng,address,currentUser
       })
       console.log("Adding address to database");
     }catch(e){

@@ -39,13 +39,13 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 
-
 app.post("/saveAddress", async(req,res) => {
   
   const data ={
     MapLat:req.body.lat,
     MapLng:req.body.lng,
     Address:req.body.address,
+    currentUser:req.body.currentUser
   }
 
 try{
@@ -53,7 +53,7 @@ try{
 
   res.json("Address is being added");
 
-  const testAdress = new AddressModel({address:data.Address,googleMapsLat:data.MapLat,googleMapsLng:data.MapLng,whoSaved:"TestUser"})
+  const testAdress = new AddressModel({address:data.Address,googleMapsLat:data.MapLat,googleMapsLng:data.MapLng,whoSaved:data.currentUser})
 
   testAdress.save();
 
@@ -104,7 +104,32 @@ app.post("/signup", async(req,res) => {
 
 })
 
+app.post("/login",async(req,res)=>{
 
+  const userParam = req.body.user;
+  const passwordParam = req.body.password;
+
+  console.log(req.body);
+
+  try{
+    const checkForUser = await userModel.findOne({Username:userParam});
+    console.log(checkForUser.password);
+    if(checkForUser != null){
+      if(checkForUser.password != passwordParam){
+        console.log("Wrong credentials");
+      }else{
+        console.log("Login successful")
+        res.json("exist");
+      }
+    }if(checkForUser == null){
+      console.log("User not yet registered");
+      res.json("notexist");
+    }
+  }
+  catch(e){
+    console.log("Error message " + e);
+  }
+})
 
 
 //start server

@@ -2,10 +2,26 @@ import React, {useState } from "react"
 import axios from "axios"
 import { useNavigate, Link } from "react-router-dom"
 
+const setCookie = (name: string,value: unknown,days: number) =>{
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + days);
+  
+    document.cookie = `${name}=${value}; expires=${expirationDate.toUTCString()};path=/`
+
+  }
+
+  const getCookie = (name:string) =>{
+    const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
+
+    return cookies ? cookies.split("=")[1] : null;
+  }
+
+
+  const currentUser = getCookie("username");
+
+
 
 function LoginTest() {
-
-    const history=useNavigate();
 
     const [user,setUser]=useState('')
     const [password,setPassword]=useState('')
@@ -15,12 +31,13 @@ function LoginTest() {
 
         try{
 
-            await axios.post("http://localhost:8080/",{
+            await axios.post("http://localhost:8080/login",{
                 user,password
             })
             .then((res: { data: string; })=>{
                 if(res.data=="exist"){
-                    history("/home",{state:{id:user}})
+                    setCookie("username",user,7);
+                    console.log("Logged in");
                 }
                 else if(res.data=="notexist"){
                     alert("User have not sign up")
@@ -57,6 +74,8 @@ function LoginTest() {
             <br />
 
             <Link to="/signup">Signup Page</Link>
+
+            <p>Willkommen {currentUser}</p>
 
         </div>
     )
