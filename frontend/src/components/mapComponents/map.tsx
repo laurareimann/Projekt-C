@@ -18,7 +18,7 @@ type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
 
-const TestMap = styled.div`
+const MapContainer = styled.div`
   height: 100%;
   width: 100%;
   border:none;
@@ -27,7 +27,7 @@ const TestMap = styled.div`
   
 `
 
-const TestControlContainer = styled.div`
+const ControlContainer = styled.div`
   height:fit-content;
   width: 500px;
   margin:auto;
@@ -95,14 +95,14 @@ export default function Map({ shouldRenderCirlces = true }) {
 
   return (
     <div>
-      <TestControlContainer>
+      <ControlContainer>
 
         <Places setSpot={(position) => {
           setSpot(position);
           mapRef.current?.panTo(position);
         }} />
-      </TestControlContainer>
-      <TestMap>
+      </ControlContainer>
+      <MapContainer>
         <GoogleMap zoom={14}
           center={center}
           mapContainerClassName="map-container"
@@ -122,7 +122,7 @@ export default function Map({ shouldRenderCirlces = true }) {
           {spot && <Marker position={spot} />}
 
         </GoogleMap>
-      </TestMap>
+      </MapContainer>
     </div>
   )
 }
