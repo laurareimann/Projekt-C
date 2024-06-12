@@ -37,7 +37,7 @@ const currentCategory3: Array<google.maps.LatLngLiteral> = []
 //Infowindow
 
 
-const TestMap = styled.div`
+const MapContainer = styled.div`
   height: 100%;
   width: 100%;
   border:none;
@@ -46,7 +46,7 @@ const TestMap = styled.div`
   
 `
 
-const TestControlContainer = styled.div`
+const ControlContainer = styled.div`
   height:fit-content;
   width: 500px;
   margin:auto;
@@ -57,7 +57,7 @@ const TestControlContainer = styled.div`
 `
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
-export default function Map() {
+export default function Map({ shouldRenderCirlces = true }) {
 
   const [helpCounter,setHelpCounter] = useState(0);
 
@@ -65,18 +65,13 @@ export default function Map() {
   const center = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
   const [spot,setSpot] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
-
-  const tmp_ref = mapRef.current?.getInstance
-
   const options = useMemo<MapOptions>(
     () => ({
       disableDefaultUI:true,
       clickableIcons:true,
       mapId: import.meta.env.VITE_MAP_ID
     }),[]);
-
-   
-
+  
     //Helper-map_setup
     //Center ist hier wieder unser Campus *smiley*
   const defaultCenter = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
@@ -153,6 +148,37 @@ export default function Map() {
   console.log(currentCategory3);
 }
 
+//Circles
+ // Gehgeschwindigkeit: 5km/h
+  // Grün: 1250m, 15min zu Fuß
+  // Gelb: 2500m, 30min zu Fuß
+  // Rot: 3750m, 45min zu Fuß
+  const [circles, setCircles] = useState([
+    { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5 } },
+  ]);
+
+  // Update circles when `spot` changes
+  useEffect(() => {
+
+    circles.forEach(circle => {
+      if (circle instanceof google.maps.Circle) {
+        circle.setMap(null); // This removes the circle from the map
+      }
+    });
+
+    // Circles werden hier neu definiert, damit alte Circles verschwinden und die neuen auf den erneuerten spot gesetzt werden
+    const newCircles = [
+      { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+      { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+      { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+    ]
+
+    // Update state to re-render circles
+    setCircles(newCircles);
+
+  }, [spot]); // Linter beschwert sich hier, dass circles nicht in der Abhängigkeitsliste ist, aber das updated sonst im Loop
 
 
 //Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
@@ -160,6 +186,7 @@ export default function Map() {
 //Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onLoad = useCallback((map:any) => (mapRef.current = map),[]);
+  console.log(shouldRenderCirlces);  
 
   //Kleine Helferfunktion, um google maps einen kleinen Arschtritt zu geben, damit die Marker auch alle angezeigt werden
   function updateMarkers(){
@@ -170,7 +197,7 @@ export default function Map() {
 
   return (
   <div>
-    <TestControlContainer>
+    <ControlContainer>
       <Places setSpot={(position) =>{
         const lat:number = position.lat;
         const lng:number = position.lng;
@@ -213,8 +240,8 @@ export default function Map() {
         
       }}/>
 
-    </TestControlContainer>
-    <TestMap>
+    </ControlContainer>
+    <MapContainer>
     
       <GoogleMap zoom={14} 
         center={center} 
@@ -225,6 +252,16 @@ export default function Map() {
           updateMarkers();
         }}
       >
+
+
+      {shouldRenderCirlces && spot && circles.map((circles, index) => (
+            <Circle
+              key={index}
+              center={spot}
+              radius={circles.radius}
+              options={circles.options}
+            />
+          ))}
       
       //Marker auf der Map platzieren
       {spot && <Marker position={spot} onLoad={()=> {"Initial marker placed"}}/>}
@@ -232,7 +269,7 @@ export default function Map() {
       {spot && currentCategory2.map(marker => <Marker key ={Math.random()+1} position={marker}  icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'/>) }
       {spot && currentCategory3.map(marker => <Marker key ={Math.random()+2} position={marker} onLoad={()=> {console.log("Nearby marker placed");updateCheck=true;}} icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'/>) }
       </GoogleMap>
-      </TestMap>
+      </MapContainer>
   </div>
     )
 }
