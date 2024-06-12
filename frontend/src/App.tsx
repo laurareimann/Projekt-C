@@ -82,7 +82,8 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color: var(--color--white-shade);
     min-height: 100vh;
-    font-family: 'Roboto', sans-serif;
+    padding-top: 30px;
+    font-family: 'Roboto', sans-serif; 
   }
 
   // typography

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "../../globals.css";
-import { useState, useMemo, useCallback, useRef } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import {
   GoogleMap,
   Marker,
@@ -18,7 +18,7 @@ type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
 
-const TestMap = styled.div`
+const MapContainer = styled.div`
   height: 100%;
   width: 100%;
   border:none;
@@ -27,7 +27,7 @@ const TestMap = styled.div`
   
 `
 
-const TestControlContainer = styled.div`
+const ControlContainer = styled.div`
   height:fit-content;
   width: 500px;
   margin:auto;
@@ -39,51 +39,92 @@ const TestControlContainer = styled.div`
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
 
-export default function Map() {
+export default function Map({ shouldRenderCirlces = true }) {
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
-  const center = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
-  const [spot,setSpot] = useState<LatLngLiteral>();
+  const center = useMemo<LatLngLiteral>(() => ({ lat: 53.5688823, lng: 10.0330191 }), []);
+  const [spot, setSpot] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
   const options = useMemo<MapOptions>(
     () => ({
-      disableDefaultUI:true,
-      clickableIcons:true,
+      disableDefaultUI: true,
+      clickableIcons: true,
       mapId: import.meta.env.VITE_MAP_ID
-    }),[]);
+    }), []);
 
-//Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
-//Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
-//Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
+
+  // Gehgeschwindigkeit: 5km/h
+  // Grün: 1250m, 15min zu Fuß
+  // Gelb: 2500m, 30min zu Fuß
+  // Rot: 3750m, 45min zu Fuß
+  const [circles, setCircles] = useState([
+    { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5 } },
+  ]);
+
+  // Update circles when `spot` changes
+  useEffect(() => {
+
+    circles.forEach(circle => {
+      if (circle instanceof google.maps.Circle) {
+        circle.setMap(null); // This removes the circle from the map
+      }
+    });
+
+    // Circles werden hier neu definiert, damit alte Circles verschwinden und die neuen auf den erneuerten spot gesetzt werden
+    const newCircles = [
+      { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+      { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+      { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+    ]
+
+    // Update state to re-render circles
+    setCircles(newCircles);
+
+  }, [spot]); // Linter beschwert sich hier, dass circles nicht in der Abhängigkeitsliste ist, aber das updated sonst im Loop
+
+
+  //Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
+  //Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
+  //Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onLoad = useCallback((map:any) => (mapRef.current = map),[]);
+  const onLoad = useCallback((map: any) => (mapRef.current = map), []);
+  console.log(shouldRenderCirlces);  
 
 
   return (
-  <div>
-    <TestControlContainer>
-      
-      <Places setSpot={(position) =>{
-        setSpot(position);
-        mapRef.current?.panTo(position);
-      }}/>
-    </TestControlContainer>
-    <TestMap>
-      <GoogleMap zoom={14} 
-        center={center} 
-        mapContainerClassName="map-container"
-        options={options}
-        onLoad={onLoad}
-      >
+    <div>
+      <ControlContainer>
 
-      {spot && <Marker position={spot}/>}
+        <Places setSpot={(position) => {
+          setSpot(position);
+          mapRef.current?.panTo(position);
+        }} />
+      </ControlContainer>
+      <MapContainer>
+        <GoogleMap zoom={14}
+          center={center}
+          mapContainerClassName="map-container"
+          options={options}
+          onLoad={onLoad}
+        >
 
+          {shouldRenderCirlces && spot && circles.map((circles, index) => (
+            <Circle
+              key={index}
+              center={spot}
+              radius={circles.radius}
+              options={circles.options}
+            />
+          ))}
 
-      </GoogleMap>
-      </TestMap>
-  </div>
+          {spot && <Marker position={spot} />}
 
-    )
+        </GoogleMap>
+      </MapContainer>
+    </div>
+  )
 }
 
 const defaultOptions = {
