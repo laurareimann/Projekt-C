@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
             <h1>15 Minute City Calculator</h1>
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
             <StreetProvider cityValue = "Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081' currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]}>   
-            <Map shouldRenderCirlces={true}></Map>
+            <Map />
             <ScoreContainer color='blue'></ScoreContainer>
             <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>
