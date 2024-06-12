@@ -21,11 +21,13 @@ type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
+//Infowindow
+
 let placesMapV2: google.maps.Map;
 let service: google.maps.places.PlacesService;
 let infowindow: google.maps.InfoWindow;
 let setupCheck:boolean = false;
-let updateCheck:boolean= false;
+const updateCheck:boolean= false;
 //Arrays in denen die NearbySearch-Ergebnisse gespeichert werden
 //Supermärkte,Läden et cetera
 const currentCategory1: Array<google.maps.LatLngLiteral> = []
@@ -37,7 +39,7 @@ const currentCategory3: Array<google.maps.LatLngLiteral> = []
 //Infowindow
 
 
-const TestMap = styled.div`
+const MapContainer = styled.div`
   height: 100%;
   width: 100%;
   border:none;
@@ -46,7 +48,7 @@ const TestMap = styled.div`
   
 `
 
-const TestControlContainer = styled.div`
+const ControlContainer = styled.div`
   height:fit-content;
   width: 500px;
   margin:auto;
@@ -57,23 +59,56 @@ const TestControlContainer = styled.div`
 `
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
-export default function Map() {
+export default function Map({ shouldRenderCirlces = true }) {
 
   const [helpCounter,setHelpCounter] = useState(0);
 
   //Wenn die map initialisiert wird, ist der default spot auf der HAW Finkenau
-  const center = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
-  const [spot,setSpot] = useState<LatLngLiteral>();
+  const center = useMemo<LatLngLiteral>(() => ({ lat: 53.5688823, lng: 10.0330191 }), []);
+  const [spot, setSpot] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
 
   const tmp_ref = mapRef.current?.getInstance
 
   const options = useMemo<MapOptions>(
     () => ({
-      disableDefaultUI:true,
-      clickableIcons:true,
+      disableDefaultUI: true,
+      clickableIcons: true,
       mapId: import.meta.env.VITE_MAP_ID
-    }),[]);
+    }), []);
+
+
+  // Gehgeschwindigkeit: 5km/h
+  // Grün: 1250m, 15min zu Fuß
+  // Gelb: 2500m, 30min zu Fuß
+  // Rot: 3750m, 45min zu Fuß
+  const [circles, setCircles] = useState([
+    { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5 } },
+  ]);
+
+  // Update circles when `spot` changes
+  useEffect(() => {
+
+    circles.forEach(circle => {
+      if (circle instanceof google.maps.Circle) {
+        circle.setMap(null); // This removes the circle from the map
+      }
+    });
+
+    // Circles werden hier neu definiert, damit alte Circles verschwinden und die neuen auf den erneuerten spot gesetzt werden
+    const newCircles = [
+      { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+      { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+      { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+    ]
+
+    // Update state to re-render circles
+    setCircles(newCircles);
+
+  }, [spot]); // Linter beschwert sich hier, dass circles nicht in der Abhängigkeitsliste ist, aber das updated sonst im Loop
+
 
    
 
@@ -155,9 +190,12 @@ export default function Map() {
 
 
 
-//Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
-//Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
-//Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
+  
+
+
+  //Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
+  //Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
+  //Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onLoad = useCallback((map:any) => (mapRef.current = map),[]);
 
@@ -170,70 +208,28 @@ export default function Map() {
 
   return (
   <div>
-    <TestControlContainer>
+    <ControlContainer>
+      
       <Places setSpot={(position) =>{
-        const lat:number = position.lat;
-        const lng:number = position.lng;
-
-        //Die Arrays leeren
-        currentCategory1.splice(0,currentCategory1.length);
-        currentCategory2.splice(0,currentCategory2.length);
-        currentCategory3.splice(0,currentCategory3.length);
-
-        const request = {
-          location:{lat,lng},
-          radius:1000,
-          type:"grocery_or_supermarket"
-        }
-
-        const request_2 = {
-          location:{lat,lng},
-          radius:1000,
-          type:"health"
-        }
-
-        const request_3 = {
-          location:{lat,lng},
-          radius:1000,
-          type:"transit_station"
-        }
-
-        const requesttypes = [request,request_2,request_3]
-
-        //Es wird im vorgegebenen Umkreis nach places gesucht
-        performNearbySearch(requesttypes);
-        
-        //Timeout von +- 1 Sekunde, damit die Marker richtig laden
-        setTimeout(()=>{
-          setSpot(position);
-          mapRef.current?.panTo(position);
-        },500);
-        //Die flag der updateMarkers()-Funktion auf falsch stellen
-        updateCheck=false;
-        
+        setSpot(position);
+        mapRef.current?.panTo(position);
       }}/>
-
-    </TestControlContainer>
-    <TestMap>
-    
+    </ControlContainer>
+    <MapContainer>
       <GoogleMap zoom={14} 
         center={center} 
         mapContainerClassName="map-container"
         options={options}
         onLoad={onLoad}
-        onCenterChanged={() => {
-          updateMarkers();
-        }}
       >
-      
-      //Marker auf der Map platzieren
-      {spot && <Marker position={spot} onLoad={()=> {"Initial marker placed"}}/>}
-      {spot && currentCategory1.map(marker => <Marker key ={Math.random()} position={marker} icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'/>) }
-      {spot && currentCategory2.map(marker => <Marker key ={Math.random()+1} position={marker}  icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'/>) }
-      {spot && currentCategory3.map(marker => <Marker key ={Math.random()+2} position={marker} onLoad={()=> {console.log("Nearby marker placed");updateCheck=true;}} icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'/>) }
+
+      {spot && <Marker position={spot}/>}
+
+
       </GoogleMap>
-      </TestMap>
+      </MapContainer>
   </div>
+
     )
 }
 
