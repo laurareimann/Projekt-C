@@ -18,7 +18,7 @@ function Signup() {
             await axios.post("http://localhost:8080/signup",{
                 user,password,passwordConfirm
             })
-            .then(res=>{
+            .then((res: { data: string })=>{
                 if(res.data=="exists"){
                     alert("User already exists")
                 }
@@ -27,7 +27,7 @@ function Signup() {
                     alert("Passwords are not matching")
                 }
             })
-            .catch(e=>{
+            .catch((e:string)=>{
                 alert("wrong details")
                 console.log(e);
             })
@@ -35,7 +35,6 @@ function Signup() {
         }
         catch(e){
             console.log(e);
-
         }
 
     }

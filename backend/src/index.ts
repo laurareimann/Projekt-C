@@ -27,6 +27,7 @@ mongoose.connect(mongoDB_URI).then(() => {
 })
 
 
+//Getting pages for redirect
 
 
 //Setup express
@@ -34,7 +35,6 @@ const app = express();
 
 
 app.use(cors());
-
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
@@ -87,9 +87,10 @@ app.post("/signup", async(req,res) => {
     }else{
       
       if(password === passwordConfirm){
-        const testUser = new userModel({Username: data.UserName, password:data.Password})
-        testUser.save();
+        const newUser = new userModel({Username: data.UserName, password:data.Password})
+        newUser.save();
         console.log("User successfully added")
+        res.redirect("/logInPage")
       }
       else{
         res.json("Passwords not matching");

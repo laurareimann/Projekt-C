@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import Input from './Inputforms';
 import Button from './Buttons';
 import axios from "axios";
+import {Bounce,toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
-
-//StyledButton kopiert
 const StyledButton = styled.button`
     background-color: ${({ color, disabled }) =>
         disabled
@@ -103,7 +103,6 @@ const StyledInput = styled.input<InputProps>`
     }
 `;
 
-
 const InputGrid = styled.div`
 display: grid;
 grid-gap: 45px;
@@ -111,6 +110,7 @@ place-items:center;
 `
 
 const FormContainer = styled.div`
+    
     width:500px;
     border: 10px solid var(--color--pink-1);
     border-radius: 15px;
@@ -119,13 +119,13 @@ const FormContainer = styled.div`
     margin-bottom:200px;
     padding-bottom: 100px ;
 
-    @media (max-width: 768px) {
+    @media (max-width:768px){
         border:none;
-        width:500px;
     }
 `
 
 const Title = styled.p`
+
     font-size: 42px;
     margin-top: 42px;
 `
@@ -136,9 +136,9 @@ const AlternativeText = styled.p`
 
 const LinkText = styled.a`
     margin-top: 10px;
-    font-size: 20px;
-    color: blue;
-    margin-right: 190px;
+    font-size: 15px;
+    color:blue;
+    margin-right: 100px;
     text-decoration: underline;
 
     &:hover{
@@ -147,30 +147,21 @@ const LinkText = styled.a`
 `
 
 const ButtonGrid = styled.div`
-    margin-top: 5px;
+    margin-top: 30px;
     display: grid;
     grid-gap: 45px;
     place-items:center;
-
-    @media (max-width: 768px){
-     margin-top: 15px ;
-    }
 `
 
 const InputContainer = styled.div` 
     padding: 50px;
     margin-top: 20px;
-
-    @media (max-width:768px){
-        padding:10px;
-    }
 `
 
 const hr = styled.div`
     border-bottom: dotted black;
     width: 1px;
 `
-
 
 const setCookie = (name: string,value: unknown,days: number) =>{
     const expirationDate = new Date();
@@ -187,71 +178,83 @@ const setCookie = (name: string,value: unknown,days: number) =>{
   }
 
 
-  const currentUser = getCookie("username");
+const currentUser = getCookie("username");
 
 
-
-
-function LoginForm(){
+function SignUpForm(){
 
     const [user,setUser]=useState('')
     const [password,setPassword]=useState('')
+    const [passwordConfirm,setPasswordConfirm] = useState("")
 
     async function submit(e: { preventDefault: () => void; }){
-
-        console.log("submitting...")
-
         e.preventDefault();
 
         try{
-
-            await axios.post("http://localhost:8080/login",{
-                user,password
+            await axios.post("http://localhost:8080/signup",{
+                user,password,passwordConfirm
             })
-            .then((res: { data: string; })=>{
-                if(res.data=="exist"){
-                    setCookie("username",user,7);
-                    console.log("Logged in");
+            .then((res: { data: string })=>{
+                if(res.data=="exists"){
+                    toast.error('User already exists', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                        });
+                      return 0;
                 }
-                else if(res.data=="notexist"){
-                    alert("User have not sign up")
+                if(res.data=="Passwords not matching"){
+                    console.log("Passwords didn't match!")
+                    toast.error('Passwords are not matching!', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                        });
+                      return 0;
                 }
             })
-            .catch((e: string)=>{
-                alert("wrong details")
+            .catch((e:string)=>{
                 console.log(e);
             })
 
         }
         catch(e){
             console.log(e);
-
         }
 
     }
 
 
-
     return(
         <div>
             <FormContainer>
-                <Title>Sign In</Title>
+                <Title>Sign Up</Title>
                 <InputContainer>
-                  <InputGrid>
-                      <StyledInput placeholder="Username" type="email" onChange={(e)=>{setUser(e.target.value);}}/>    
-                      <StyledInput placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>  
-                  </InputGrid>      
-                  <LinkText href="">Forgot password?</LinkText> 
+                    <InputGrid>     
+                        <StyledInput placeholder="Username" onChange={(e)=>{setUser(e.target.value)}}/>
+                        <StyledInput placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>
+                        <StyledInput placeholder="Confirm Password" type="password" onChange={(e) => {setPasswordConfirm(e.target.value)}} />
+                    </InputGrid>
+                    <LinkText href="loginPage" >Already registered? Click here to log in.</LinkText>
                 </InputContainer>
                 <ButtonGrid>
-                    <StyledButton type="submit" onClick={submit} color="var(--color--pink-2)" >Log In</StyledButton>
-                    <AlternativeText> or </AlternativeText>
-                    <a href="registerPage">
-                    <Button color="darkPink">Register</Button> </a>
+                    <StyledButton color="#FFC2EA" type='submit' onClick={submit}>Register</StyledButton>
                 </ButtonGrid>
-            </FormContainer>
+            </FormContainer>   
         </div>
     )
 }
 
-export default LoginForm;
+export default SignUpForm;
