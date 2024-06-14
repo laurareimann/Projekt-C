@@ -9,7 +9,6 @@ import QuizContainer from '../components/QuizContainer';
 import Container from '../components/Container.tsx';
 import { ToastContainer } from 'react-toastify';
 import React from 'react';
-import View from 'react-native';
 import DiagramContainer from '../components/DiagrammContainer.tsx';
 import Button from '../components/Buttons.tsx';
 
@@ -38,7 +37,7 @@ const Evaluation: React.FC = () => {
             <StreetProvider cityValue = "Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
             <HorizontalContainer gap='60px'>
                 <Map/> 
-                <DiagramContainer ></DiagramContainer>
+                <Container height = {300} width={20}></Container>
             </HorizontalContainer>
             
                 
