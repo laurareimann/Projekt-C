@@ -63,9 +63,12 @@ const LegendColorBox = styled.div<{ color: string }>`
   border: 1px solid #999;
 `;
 
+
+const defaultColors = ["green", "yellow", "red"];
+
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
 
-export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750] }) {
+export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750], circleColors = defaultColors}) {
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
   const center = useMemo<LatLngLiteral>(() => ({ lat: 53.5688823, lng: 10.0330191 }), []);
@@ -84,9 +87,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   // Gelb: 2500m, 30min zu Fuß
   // Rot: 3750m, 45min zu Fuß
   const [circles, setCircles] = useState([
-    { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5 } },
-    { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5 } },
-    { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 1250, options: { strokeColor: circleColors[0], fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 2500, options: { strokeColor: circleColors[1], fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 3750, options: { strokeColor: circleColors[2], fillOpacity: 0, strokeOpacity: 0.5 } },
   ]);
 
   // Update circles when `spot` changes
@@ -100,9 +103,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
     // Circles werden hier neu definiert, damit alte Circles verschwinden und die neuen auf den erneuerten spot gesetzt werden
     const newCircles = [
-      { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
-      { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
-      { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
+      { radius: 1250, options: { strokeColor: circleColors[0], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
+      { radius: 2500, options: { strokeColor: circleColors[1], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
+      { radius: 3750, options: { strokeColor: circleColors[2], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
     ]
 
     // Update state to re-render circles
@@ -150,21 +153,19 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         </GoogleMap>
 
         {shouldRenderCircles && spot && (
-          <LegendContainer>
-            <LegendItem>
-              <LegendColorBox color="green" />
-              <span>{circleRadii[0]}m</span>
+        <LegendContainer>
+          {circleRadii.map((radius, index) => (
+            <LegendItem key={index}>
+              <LegendColorBox
+                color={
+                  circleColors[index]
+                }
+              />
+              <span>{radius}m</span>
             </LegendItem>
-            <LegendItem>
-              <LegendColorBox color="yellow" />
-              <span>{circleRadii[1]}m</span>
-            </LegendItem>
-            <LegendItem>
-              <LegendColorBox color="red" />
-              <span>{circleRadii[2]}m</span>
-            </LegendItem>
-          </LegendContainer>
-        )}
+          ))}
+        </LegendContainer>
+      )}
       </MapContainer>
     </div>
   )

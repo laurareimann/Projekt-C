@@ -10,25 +10,34 @@ import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
 import { ToastContainer } from 'react-toastify';
 import React from 'react';
-import DropDownLanguage, {chosenLanguage} from '../components/languageDropdownButton';
+import DropDownLanguage, { chosenLanguage } from '../components/languageDropdownButton';
 
 const TestSite: React.FC = () => {
     return (
         <div>
             <h1>15 Minute City Calculator</h1>
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
-            <StreetProvider cityValue = "Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>   
-            <Map shouldRenderCircles={true} />
-            <MapWithoutSearch center={{ lat: 53.5688823, lng: 10.0330191 }} shouldRenderCircles={true} circleRadii={[1250, 2500, 3750]} />
-            <ScoreContainer color='blue'></ScoreContainer>
-            <QuizContainer color='pink'></QuizContainer>
+            <StreetProvider cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
+                <Map 
+                shouldRenderCircles={true}
+                circleRadii={[1250, 2500, 3750]}
+                circleColors={['green', 'yellow', 'red']} 
+                />
+                <MapWithoutSearch
+                    center={{ lat: 53.5688823, lng: 10.0330191 }}
+                    shouldRenderCircles={true}
+                    circleRadii={[1250, 2500, 3750]}
+                    circleColors={['green', 'yellow', 'red']}
+                />
+                <ScoreContainer color='blue'></ScoreContainer>
+                <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>
 
             <DropDownLanguage options={["Deutsch", "Englisch"]} category='Language'></DropDownLanguage>
-            
-                    
 
-        <ToastContainer></ToastContainer>
+
+
+            <ToastContainer></ToastContainer>
         </div>
     );
 };

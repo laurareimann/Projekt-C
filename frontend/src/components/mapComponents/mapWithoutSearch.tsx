@@ -59,15 +59,18 @@ interface MapWithoutSearchProps {
   center: LatLngLiteral;
   shouldRenderCircles?: boolean;
   circleRadii?: number[];
+  circleColors?: string[];
 }
 
 const defaultCenter: LatLngLiteral = { lat: 53.5688823, lng: 10.0330191 };
+const defaultColors = ["green", "yellow", "red"];
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
 const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
   center = defaultCenter,
   shouldRenderCircles = true,
-  circleRadii = [1250, 2500, 3750]
+  circleRadii = [1250, 2500, 3750],
+  circleColors = defaultColors
 }) => {
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
@@ -95,9 +98,10 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
           return new google.maps.Circle({
             center,
             radius,
-            strokeColor: index === 0 ? "green" : index === 1 ? "yellow" : "red",
-            fillOpacity: 0,
+            strokeColor: circleColors[index],
             strokeOpacity: 0.4,
+            fillColor: circleColors[index],
+            fillOpacity: 0,
             map: mapRef.current!,
           });
         });
@@ -138,21 +142,19 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
         </GoogleMap>
 
         {shouldRenderCircles && (
-          <LegendContainer>
-            <LegendItem>
-              <LegendColorBox color="green" />
-              <span>{circleRadii[0]}m</span>
+        <LegendContainer>
+          {circleRadii.map((radius, index) => (
+            <LegendItem key={index}>
+              <LegendColorBox
+                color={
+                  circleColors[index]
+                }
+              />
+              <span>{radius}m</span>
             </LegendItem>
-            <LegendItem>
-              <LegendColorBox color="yellow" />
-              <span>{circleRadii[1]}m</span>
-            </LegendItem>
-            <LegendItem>
-              <LegendColorBox color="red" />
-              <span>{circleRadii[2]}m</span>
-            </LegendItem>
-          </LegendContainer>
-        )}
+          ))}
+        </LegendContainer>
+      )}
       </MapContainer>
     </div>
   )
