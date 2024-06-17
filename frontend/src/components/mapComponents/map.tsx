@@ -19,6 +19,7 @@ type MapOptions = google.maps.MapOptions;
 
 
 const MapContainer = styled.div`
+  position: relative;
   height: 100%;
   width: 100%;
   border:none;
@@ -26,7 +27,6 @@ const MapContainer = styled.div`
   margin-bottom:10px;
   
 `
-
 const ControlContainer = styled.div`
   height:fit-content;
   width: 500px;
@@ -37,9 +37,35 @@ const ControlContainer = styled.div`
   margin-bottom:10px;
 `
 
+const LegendContainer = styled.div`
+  position: absolute;
+  bottom: 75%;
+  left: 5px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 10px;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  color: #333;
+`;
+
+const LegendItem = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
+const LegendColorBox = styled.div<{ color: string }>`
+  width: 15px;
+  height: 15px;
+  background-color: ${(props) => props.color};
+  margin-right: 10px;
+  border: 1px solid #999;
+`;
+
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
 
-export default function Map({ shouldRenderCircles = true }) {
+export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750] }) {
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
   const center = useMemo<LatLngLiteral>(() => ({ lat: 53.5688823, lng: 10.0330191 }), []);
@@ -74,9 +100,9 @@ export default function Map({ shouldRenderCircles = true }) {
 
     // Circles werden hier neu definiert, damit alte Circles verschwinden und die neuen auf den erneuerten spot gesetzt werden
     const newCircles = [
-      { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
-      { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
-      { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+      { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
+      { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
+      { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
     ]
 
     // Update state to re-render circles
@@ -90,7 +116,7 @@ export default function Map({ shouldRenderCircles = true }) {
   //Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onLoad = useCallback((map: any) => (mapRef.current = map), []);
-  console.log(shouldRenderCircles);  
+  console.log(shouldRenderCircles);
 
 
   return (
@@ -122,6 +148,23 @@ export default function Map({ shouldRenderCircles = true }) {
           {spot && <Marker position={spot} />}
 
         </GoogleMap>
+
+        {shouldRenderCircles && spot && (
+          <LegendContainer>
+            <LegendItem>
+              <LegendColorBox color="green" />
+              <span>{circleRadii[0]}m</span>
+            </LegendItem>
+            <LegendItem>
+              <LegendColorBox color="yellow" />
+              <span>{circleRadii[1]}m</span>
+            </LegendItem>
+            <LegendItem>
+              <LegendColorBox color="red" />
+              <span>{circleRadii[2]}m</span>
+            </LegendItem>
+          </LegendContainer>
+        )}
       </MapContainer>
     </div>
   )
