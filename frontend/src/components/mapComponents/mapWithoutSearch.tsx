@@ -19,6 +19,7 @@ type MapOptions = google.maps.MapOptions;
 
 
 const MapContainer = styled.div`
+  position: relative;
   height: 100%;
   width: 100%;
   border:none;
@@ -26,6 +27,32 @@ const MapContainer = styled.div`
   margin-bottom:10px;
   
 `
+const LegendContainer = styled.div`
+  position: absolute;
+  bottom: 75%;
+  left: 5px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 10px;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  color: #333;
+`;
+
+const LegendItem = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
+const LegendColorBox = styled.div<{ color: string }>`
+  width: 15px;
+  height: 15px;
+  background-color: ${(props) => props.color};
+  margin-right: 10px;
+  border: 1px solid #999;
+`;
+
 
 // Typescript Props
 interface MapWithoutSearchProps {
@@ -37,13 +64,17 @@ interface MapWithoutSearchProps {
 const defaultCenter: LatLngLiteral = { lat: 53.5688823, lng: 10.0330191 };
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
-const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({ center = defaultCenter, shouldRenderCircles = true, circleRadii = [1250, 2500, 3750] }) => {
+const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
+  center = defaultCenter,
+  shouldRenderCircles = true,
+  circleRadii = [1250, 2500, 3750]
+}) => {
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
   //const center = useMemo<LatLngLiteral>(() => ({ lat: 53.5688823, lng: 10.0330191 }), []);
   //const [spot, setSpot] = useState<LatLngLiteral>();
-  const mapRef = useRef<GoogleMap>();
-  const [circles, setCircles] = useState<JSX.Element[]>([]);
+  const mapRef = useRef<google.maps.Map | null>(null);
+  const [circles, setCircles] = useState<google.maps.Circle[]>([]);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [reloadkey, setReloadKey] = useState(0);
   const options = useMemo<MapOptions>(
@@ -52,57 +83,38 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({ center = defaultCen
       clickableIcons: true,
       mapId: import.meta.env.VITE_MAP_ID
     }), []);
+    
 
-
-
-  useEffect(() => {
-    if (mapRef.current && mapLoaded && shouldRenderCircles) {
-      circles.forEach(circle => {
-        if (circle instanceof google.maps.Circle) {
-          circle.setMap(null); // This removes the circle from the map
-        }
-      });
-      
-      //setReloadKey(reloadkey + 1);	// Reload the map to remove previous circles
-
-      // Gehgeschwindigkeit: 5km/h
-      // Grün: 1250m, 15min zu Fuß
-      // Gelb: 2500m, 30min zu Fuß
-      // Rot: 3750m, 45min zu Fuß
-      const circleConfigs = [
-        { radius: circleRadii[0], options: { strokeColor: "green", fillOpacity: 0, strokeOpacity: 0.4 } },
-        { radius: circleRadii[1], options: { strokeColor: "yellow", fillOpacity: 0, strokeOpacity: 0.4 } },
-        { radius: circleRadii[2], options: { strokeColor: "red", fillOpacity: 0, strokeOpacity: 0.4 } },
-      ];
-
-      const generatedCircles = circleConfigs.map((config, index) => (
-        <Circle
-          key={index}
-          center={center}
-          radius={config.radius}
-          options={config.options}
-        />
-      ));
-
-      const marker = <Marker key='marker' position={center} />;
-
-      // Set new circles
-      setCircles([marker, ...generatedCircles]);
-
-
-      // Cleanup function to remove previous circles
-      return () => {
+    useEffect(() => {
+      if (mapLoaded && shouldRenderCircles) {
+        // Clear existing circles
+        circles.forEach((circle) => circle.setMap(null));
+  
+        // Create new circles
+        const newCircles = circleRadii.map((radius, index) => {
+          return new google.maps.Circle({
+            center,
+            radius,
+            strokeColor: index === 0 ? "green" : index === 1 ? "yellow" : "red",
+            fillOpacity: 0,
+            strokeOpacity: 0.4,
+            map: mapRef.current!,
+          });
+        });
+  
+        // Set the new circles
+        setCircles(newCircles);
+      } else {
+        // Clear circles if shouldRenderCircles is false
         setCircles([]);
-      };
-    }
-  }, [mapLoaded, shouldRenderCircles, center, circleRadii]); // Linter beschwert sich hier, dass circles nicht in der Abhängigkeitsliste ist, aber das updated sonst im Loop
-
+      }
+    }, [mapLoaded, shouldRenderCircles, center, circleRadii]);
 
   //Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
   //Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
   //Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onLoad = useCallback((map: any) => {
+  const onLoad = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
     setMapLoaded(true);
   }, []);
@@ -112,7 +124,6 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({ center = defaultCen
     <div>
       <MapContainer>
         <GoogleMap
-          key={reloadkey}
           zoom={13}
           center={center}
           mapContainerClassName="map-container"
@@ -120,9 +131,28 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({ center = defaultCen
           onLoad={onLoad}
         >
           {/* Render dynamically generated circles */}
-          {circles}
+          {shouldRenderCircles && (
+          <Marker position={center} />
+          )}
 
         </GoogleMap>
+
+        {shouldRenderCircles && (
+          <LegendContainer>
+            <LegendItem>
+              <LegendColorBox color="green" />
+              <span>{circleRadii[0]}m</span>
+            </LegendItem>
+            <LegendItem>
+              <LegendColorBox color="yellow" />
+              <span>{circleRadii[1]}m</span>
+            </LegendItem>
+            <LegendItem>
+              <LegendColorBox color="red" />
+              <span>{circleRadii[2]}m</span>
+            </LegendItem>
+          </LegendContainer>
+        )}
       </MapContainer>
     </div>
   )
