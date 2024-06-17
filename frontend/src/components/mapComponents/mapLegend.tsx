@@ -6,7 +6,7 @@ import styled from "styled-components";
 const LegendContainer = styled.div`
   position: absolute;
   bottom: 75%;
-  left: 5px;
+  left: 4px;
   background: rgba(255, 255, 255, 0.85);
   padding: 10px;
   border-radius: 0 10px 10px 0;
