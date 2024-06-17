@@ -39,7 +39,7 @@ const ControlContainer = styled.div`
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
 
-export default function Map({ shouldRenderCirlces = true }) {
+export default function Map({ shouldRenderCircles = true }) {
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
   const center = useMemo<LatLngLiteral>(() => ({ lat: 53.5688823, lng: 10.0330191 }), []);
@@ -90,7 +90,7 @@ export default function Map({ shouldRenderCirlces = true }) {
   //Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onLoad = useCallback((map: any) => (mapRef.current = map), []);
-  console.log(shouldRenderCirlces);  
+  console.log(shouldRenderCircles);  
 
 
   return (
@@ -110,7 +110,7 @@ export default function Map({ shouldRenderCirlces = true }) {
           onLoad={onLoad}
         >
 
-          {shouldRenderCirlces && spot && circles.map((circles, index) => (
+          {shouldRenderCircles && spot && circles.map((circles, index) => (
             <Circle
               key={index}
               center={spot}

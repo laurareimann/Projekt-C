@@ -37,7 +37,6 @@ interface MapWithoutSearchProps {
 const defaultCenter: LatLngLiteral = { lat: 53.5688823, lng: 10.0330191 };
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
-
 const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({ center = defaultCenter, shouldRenderCircles = true, circleRadii = [1250, 2500, 3750] }) => {
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
@@ -57,15 +56,12 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({ center = defaultCen
 
 
   useEffect(() => {
-    //setCircles([]);
-
     if (mapRef.current && mapLoaded && shouldRenderCircles) {
       circles.forEach(circle => {
         if (circle instanceof google.maps.Circle) {
           circle.setMap(null); // This removes the circle from the map
         }
       });
-
       
       //setReloadKey(reloadkey + 1);	// Reload the map to remove previous circles
 
@@ -99,7 +95,7 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({ center = defaultCen
         setCircles([]);
       };
     }
-  }, [mapLoaded]); // Linter beschwert sich hier, dass circles nicht in der Abhängigkeitsliste ist, aber das updated sonst im Loop
+  }, [mapLoaded, shouldRenderCircles, center, circleRadii]); // Linter beschwert sich hier, dass circles nicht in der Abhängigkeitsliste ist, aber das updated sonst im Loop
 
 
   //Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
