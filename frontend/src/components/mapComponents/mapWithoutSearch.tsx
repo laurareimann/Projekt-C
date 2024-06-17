@@ -11,8 +11,9 @@ import {
 import Places from "./places";
 import Distance from "./distance";
 import styled from "styled-components";
-
 import MapLegend from "./mapLegend";
+
+import walkingIcon from "../../assets/walkingIcon.svg";
 
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -63,33 +64,33 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
       clickableIcons: true,
       mapId: import.meta.env.VITE_MAP_ID
     }), []);
-    
 
-    useEffect(() => {
-      if (mapLoaded && shouldRenderCircles) {
-        // Clear existing circles
-        circles.forEach((circle) => circle.setMap(null));
-  
-        // Create new circles
-        const newCircles = circleRadii.map((radius, index) => {
-          return new google.maps.Circle({
-            center,
-            radius,
-            strokeColor: circleColors[index],
-            strokeOpacity: 0.4,
-            fillColor: circleColors[index],
-            fillOpacity: 0,
-            map: mapRef.current!,
-          });
+
+  useEffect(() => {
+    if (mapLoaded && shouldRenderCircles) {
+      // Clear existing circles
+      circles.forEach((circle) => circle.setMap(null));
+
+      // Create new circles
+      const newCircles = circleRadii.map((radius, index) => {
+        return new google.maps.Circle({
+          center,
+          radius,
+          strokeColor: circleColors[index],
+          strokeOpacity: 0.4,
+          fillColor: circleColors[index],
+          fillOpacity: 0,
+          map: mapRef.current!,
         });
-  
-        // Set the new circles
-        setCircles(newCircles);
-      } else {
-        // Clear circles if shouldRenderCircles is false
-        setCircles([]);
-      }
-    }, [mapLoaded, shouldRenderCircles, center, circleRadii]);
+      });
+
+      // Set the new circles
+      setCircles(newCircles);
+    } else {
+      // Clear circles if shouldRenderCircles is false
+      setCircles([]);
+    }
+  }, [mapLoaded, shouldRenderCircles, center, circleRadii]);
 
   //Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
   //Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
@@ -113,14 +114,18 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
         >
           {/* Render dynamically generated circles */}
           {shouldRenderCircles && (
-          <Marker position={center} />
+            <Marker position={center} />
           )}
 
         </GoogleMap>
 
         {shouldRenderCircles && (
-          <MapLegend circleRadii={circleRadii} circleColors={circleColors} />
-      )}
+          <MapLegend
+            circleRadii={circleRadii}
+            circleColors={circleColors}
+            logo={walkingIcon}
+          />
+        )}
       </MapContainer>
     </div>
   )

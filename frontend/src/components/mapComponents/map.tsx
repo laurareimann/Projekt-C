@@ -13,6 +13,7 @@ import Distance from "./distance";
 import styled from "styled-components";
 
 import MapLegend from "./mapLegend";
+import walkingIcon from "../../assets/walkingIcon.svg";
 
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -129,7 +130,11 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         </GoogleMap>
 
         {shouldRenderCircles && spot && (
-          <MapLegend circleRadii={circleRadii} circleColors={circleColors} />
+          <MapLegend
+            circleRadii={circleRadii}
+            circleColors={circleColors}
+            logo={walkingIcon}
+          />
         )}
       </MapContainer>
     </div>

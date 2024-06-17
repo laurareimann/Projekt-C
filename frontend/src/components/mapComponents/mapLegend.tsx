@@ -1,6 +1,8 @@
+import React from "react";
 import styled from "styled-components";
 
 
+// Warum beschwert er sich hier über fast refresh aber bei anderen nicht? Pls explain
 const LegendContainer = styled.div`
   position: absolute;
   bottom: 75%;
@@ -31,19 +33,22 @@ const LegendColorBox = styled.div<{ color: string }>`
 interface MapLegendProps {
     circleRadii: number[];
     circleColors: string[];
-  }
+    logo?: string;
+}
 
-const mapLegend: React.FC<MapLegendProps> = ({ circleRadii, circleColors}) => {
+const mapLegend: React.FC<MapLegendProps> = ({ circleRadii, circleColors, logo}) => {
     return (
         <LegendContainer>
             {circleRadii.map((radius, index) => (
                 <LegendItem key={index}>
                     <LegendColorBox
-                        color={
-                            circleColors[index]
-                        }
-                    />
-                    <span>{radius}m</span>
+                        color={circleColors[index]} />
+                    {/* 15 Minuten Intervall hier festgelegt, wollte das nicht auch noch als Argument übergeben*/}
+                    <span>{radius}m - {15 * (index + 1)}min</span>
+                    {logo && (
+                        // Render logo if available
+                        <img src={logo} alt="Walking" style={{ width: "20px", marginRight: "10px" }} />
+                    )}
                 </LegendItem>
             ))}
         </LegendContainer>
