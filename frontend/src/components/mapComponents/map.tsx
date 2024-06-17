@@ -12,6 +12,8 @@ import Places from "./places";
 import Distance from "./distance";
 import styled from "styled-components";
 
+import MapLegend from "./mapLegend";
+
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -37,38 +39,12 @@ const ControlContainer = styled.div`
   margin-bottom:10px;
 `
 
-const LegendContainer = styled.div`
-  position: absolute;
-  bottom: 75%;
-  left: 5px;
-  background: rgba(255, 255, 255, 0.85);
-  padding: 10px;
-  border-radius: 0 10px 10px 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  font-size: 14px;
-  color: #333;
-`;
-
-const LegendItem = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-`;
-
-const LegendColorBox = styled.div<{ color: string }>`
-  width: 15px;
-  height: 15px;
-  background-color: ${(props) => props.color};
-  margin-right: 10px;
-  border: 1px solid #999;
-`;
-
 
 const defaultColors = ["green", "yellow", "red"];
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
 
-export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750], circleColors = defaultColors}) {
+export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750], circleColors = defaultColors }) {
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
   const center = useMemo<LatLngLiteral>(() => ({ lat: 53.5688823, lng: 10.0330191 }), []);
@@ -153,19 +129,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         </GoogleMap>
 
         {shouldRenderCircles && spot && (
-        <LegendContainer>
-          {circleRadii.map((radius, index) => (
-            <LegendItem key={index}>
-              <LegendColorBox
-                color={
-                  circleColors[index]
-                }
-              />
-              <span>{radius}m</span>
-            </LegendItem>
-          ))}
-        </LegendContainer>
-      )}
+          <MapLegend circleRadii={circleRadii} circleColors={circleColors} />
+        )}
       </MapContainer>
     </div>
   )
