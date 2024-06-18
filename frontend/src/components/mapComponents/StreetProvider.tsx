@@ -20,6 +20,8 @@ interface StreetProperties {
     setStreet:(state:string) => void;
     currentNearby:Array<google.maps.LatLngLiteral>
     setNearby:(state:Array<google.maps.LatLngLiteral>) => void;
+    currentScore?:string;
+    setScore:(state:string)=> void;
 
 }
 
@@ -31,22 +33,25 @@ const streetContext = React.createContext<StreetProperties>({
     streetName: "Finkenau 35",
     setStreet:(_state:string) => {},
     currentNearby: [],
-    setNearby:(_state:Array<google.maps.LatLngLiteral>) => {}
+    setNearby:(_state:Array<google.maps.LatLngLiteral>) => {},
+    currentScore:"42",
+    setScore:(_state:string) =>{}
 })
 
 
 //Dieser Component wird um die ganze App gewrapped, damit es funktioniert
-export const StreetProvider = ({currentNearbyValue,cityValue,streetNameValue,zipCodeValue,children}:{currentNearbyValue:Array<google.maps.LatLngLiteral>,cityValue:string,zipCodeValue:string,streetNameValue:string,children:ReactNode}) => {
+export const StreetProvider = ({currentScoreValue,currentNearbyValue,cityValue,streetNameValue,zipCodeValue,children}:{currentScoreValue:string,currentNearbyValue:Array<google.maps.LatLngLiteral>,cityValue:string,zipCodeValue:string,streetNameValue:string,children:ReactNode}) => {
     
     const [streetName, setStreet] = useState(streetNameValue);
     const [zipCode,setZipCode] = useState(zipCodeValue);
     const [currentCity,setCity] = useState(cityValue);
     const [currentNearby,setNearby] = useState(currentNearbyValue);
+    const [currentScore,setScore] = useState(currentScoreValue);
 
     return(
         <streetContext.Provider value = {{
             
-            currentNearby,streetName,zipCode,currentCity,setStreet,setZipCode,setCity,setNearby}}>
+            currentScore,currentNearby,streetName,zipCode,currentCity,setScore,setStreet,setZipCode,setCity,setNearby}}>
             {children}
 
         </streetContext.Provider>
@@ -73,6 +78,11 @@ export const useCityNew = () =>{
 export const useNearby = () =>{
     const {currentNearby,setNearby} = useContext(streetContext);
     return {currentNearby,setNearby}
+}
+
+export const useScore = ()=>{
+    const {currentScore,setScore} = useContext(streetContext);
+    return {currentScore,setScore}
 }
 
 export default StreetProvider;

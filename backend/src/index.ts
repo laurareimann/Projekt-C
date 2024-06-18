@@ -17,7 +17,6 @@ dotenv.config();
 
 //Setup mongoDB | commented for now since we don't need it immediately
 const mongoDB_URI = (process.env.MONGODB_URI);
-console.log("Current URL: " + mongoDB_URI);
 
 mongoose.connect(mongoDB_URI).then(() => {
   console.log("Successfully connected to your databases");
