@@ -13,7 +13,7 @@ Packages aktualisieren/installieren
 1) In den jeweiligen Ordner navigieren
 2) "npm i" oder "npm install" eingeben
 
-Dies aktualisiert/installiert benötigte Module, die von anderen hinzugefügt wurden :D
+Dies aktualisiert/installiert auch benötigte Module, die von anderen hinzugefügt wurden
 
 
 **Erklärung zu einigen Modules(hierzu auch gerne die offiziellen Dokumentationen checken)**
