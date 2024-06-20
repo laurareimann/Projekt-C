@@ -47,10 +47,13 @@ let fastestRouteHealth:number = 10000;
 let fastestRouteTransit:number = 10000;
 let finalMean:number;
 
+let currentDuration:number;
 
 const markersWithInfoGroceries : Array<MarkerWindow> = []
 const markersWithInfoHealth : Array<MarkerWindow> = []
 const markersWithInfoTransit : Array<MarkerWindow> = []
+const MarkersArrayTogether=[markersWithInfoGroceries,markersWithInfoHealth,markersWithInfoTransit]
+
 
 const MapContainer = styled.div`
   height: 100%;
@@ -84,6 +87,7 @@ export default function Map({ shouldRenderCirlces = true }) {
   const [selectedMarker,setSelectedMarker] = useState<MarkerWindow | null>()
   const customScore = useScore().currentScore;
   const updateScore = useScore().setScore;
+  const directService = new google.maps.DirectionsService();
 
   const options = useMemo<MapOptions>(
     () => ({
@@ -117,6 +121,7 @@ export default function Map({ shouldRenderCirlces = true }) {
       placesMapV2 = new google.maps.Map(document.getElementById("map") as HTMLElement,optionsHelper);
       service = new google.maps.places.PlacesService(placesMapV2);
       infowindow = new google.maps.InfoWindow();
+      
       console.log("Helper mapV2 successfully set up");
     },2000);
     //Danach die flag auf true setzen
@@ -236,99 +241,108 @@ export default function Map({ shouldRenderCirlces = true }) {
   const selectRouteFromMarker=(spotLiterals:LatLngLiteral)=>{
     if(!spot)return;
 
-    const service = new google.maps.DirectionsService();
-    service.route({
+    let tmpNum:number;
+
+    directService.route({
       origin:spot,
       destination:spotLiterals,
       travelMode:google.maps.TravelMode.WALKING
     },(result,status)=>{
       if(status === "OK" && result){
+        currentDuration = result.routes[0].legs[0].duration!.value;
         setDirections(result);
       }
     })
   }
 
   //Score-Berechnungsalgorithmus
-  async function calculateScorePrototype(startPoint:LatLngLiteral){
+  function calculateScorePrototype(startPoint:LatLngLiteral,transitMode:string){
     //Medianwert wird resetted, damit Ergebnisse stets "frisch" sind
     finalMean = 10000;
+    fastestRouteGroceries = 10000;
+    fastestRouteHealth = 10000;
+    fastestRouteTransit = 10000;
     //Text, der im ScoreContainer gesetzt wird
-    let tmpTxt:string = "";
-      const algorithmService = new google.maps.DirectionsService();
-      
-      //Es wird jedes der drei derzeitigen Arrays durchgegangen und nach und nach geprüft,welches Ziel mit der derzeitig gewählten Fortbewegung am nächsten ist
-      for(let i = 0;i < markersWithInfoGroceries.length;i++){
-        algorithmService.route({
-          origin:{
-            lat:startPoint.lat,
-            lng:startPoint.lng
-          },
-          destination:markersWithInfoGroceries[i].location,
-          travelMode:google.maps.TravelMode.WALKING
-        },(result,status)=>{
-          if(status === "OK" && result){            
-            if(result.routes[0].legs[0].duration!.value < fastestRouteGroceries ){
-              fastestRouteGroceries = result.routes[0].legs[0].duration!.value
-              console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value)
-              console.log("Current fastest route: " + fastestRouteGroceries)
-              tmpTxt = result.routes[0].legs[0].duration!.text.substring(0,result.routes[0].legs[0].duration!.text.indexOf(" "));
+    console.log(transitMode)
+    
+        for (let i = 0; i < MarkersArrayTogether.length; i++) {
+          for (let j = 0; j < MarkersArrayTogether[i].length; j++) {
+            if (i == 0) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.WALKING
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating Grocery durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
+                    fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
+            }
+            if (i == 1) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.WALKING
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating health durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
+                    fastestRouteHealth = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
+            }
+            if (i == 2) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.WALKING
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating transit durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
+                    fastestRouteTransit = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
             }
           }
-        })
-      }
-      for(let i = 0;i < markersWithInfoHealth.length;i++){
-        algorithmService.route({
-          origin:{
-            lat:startPoint.lat,
-            lng:startPoint.lng
-          },
-          destination:markersWithInfoHealth[i].location,
-          travelMode:google.maps.TravelMode.WALKING
-        },(result,status)=>{
-          if(status === "OK" && result){     
-            if(result.routes[0].legs[0].duration!.value < fastestRouteHealth ){
-              fastestRouteHealth = result.routes[0].legs[0].duration!.value
-              console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value)
-              console.log("Current fastest route: " + fastestRouteHealth)
-              tmpTxt = result.routes[0].legs[0].duration!.text.substring(0,result.routes[0].legs[0].duration!.text.indexOf(" "));
-            }
-          }
-        })
-      }
-
-      for(let i = 0;i < markersWithInfoTransit.length;i++){
-        algorithmService.route({
-          origin:{
-            lat:startPoint.lat,
-            lng:startPoint.lng
-          },
-          destination:markersWithInfoTransit[i].location,
-          travelMode:google.maps.TravelMode.WALKING
-        },(result,status)=>{
-          if(status === "OK" && result){
-            if(result.routes[0].legs[0].duration!.value < fastestRouteTransit ){
-              fastestRouteTransit = result.routes[0].legs[0].duration!.value
-              console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value)
-              console.log("Current fastest route: " + fastestRouteTransit)
-              tmpTxt = result.routes[0].legs[0].duration!.text.substring(0,result.routes[0].legs[0].duration!.text.indexOf(" "));
-              //Nachdem alles berechnet wurde, wird die folgende Rechnung getätigt. Das /60 ist, weil die Zeitangaben in Sekunden sind.
-              finalMean = Math.ceil(((fastestRouteGroceries + fastestRouteHealth + fastestRouteTransit)/60)/3)
-            }
-          }
-        })
-      }
-      //Im ScoreContainer wird der Text angepasst
-      setTimeout(()=>{updateScore(finalMean.toString())},1500)
+        }
+        
+    setTimeout(()=>{
+      console.log("Final fastest route to a grocery store: " + fastestRouteGroceries);
+      console.log("Final fastest route to a health deparment: " + fastestRouteHealth);
+      console.log("Final fastest route to a transit station: " + fastestRouteTransit);
+      finalMean = Math.ceil(((fastestRouteGroceries+fastestRouteHealth+fastestRouteTransit)/60/3));
+      console.log("Value of final mean: " + finalMean);
+      updateScore(finalMean.toString())},2000)
   }
+
 
   return (
   <div>
     <ControlContainer>
       <Places setSpot={(position) =>{
         //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
-        fastestRouteGroceries = 100000;
-        fastestRouteHealth = 100000;
-        fastestRouteTransit = 100000;
+        
         const lat:number = position.lat;
         const lng:number = position.lng;
 
@@ -368,7 +382,7 @@ export default function Map({ shouldRenderCirlces = true }) {
         setTimeout(()=>{
           setSpot(position);
           mapRef.current?.panTo(position)
-          calculateScorePrototype(position);
+          calculateScorePrototype(position,"walking");
         },2000);
         //Die flag der updateMarkers()-Funktion auf falsch stellen
         updateCheck=false;
@@ -426,7 +440,8 @@ export default function Map({ shouldRenderCirlces = true }) {
       }}>
         
         <div>
-          <h2>{selectedMarker.name}</h2>
+          <h2>Travel time to that destination {Math.ceil(currentDuration/60)} Minuten</h2>
+          <h3>{selectedMarker.name}</h3>
           <p>{selectedMarker.address}</p>
         </div>
         </InfoWindow>)}
