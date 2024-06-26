@@ -132,7 +132,7 @@ export default function Map({ shouldRenderCirlces = true }) {
   const [spot,setSpot] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
   const [selectedMarker,setSelectedMarker] = useState<MarkerWindow | null>()
-  const customScore = useScore().currentScore;
+
   const updateScore = useScore().setScore;
   const directService = new google.maps.DirectionsService();
   const [travelMode,setTravelMode] = useState("walking");
@@ -288,7 +288,7 @@ export default function Map({ shouldRenderCirlces = true }) {
 
   const selectRouteFromMarker=(spotLiterals:LatLngLiteral,travelMode:string)=>{
     if(!spot)return;
-
+    //Switch-case, um Route im richtigen Modus anzeigenzulassen.
     switch(travelMode){
       case "walking":
         directService.route({
@@ -446,7 +446,7 @@ export default function Map({ shouldRenderCirlces = true }) {
   }
 
   function setCurrentTravelMode(chosenMode:string){
-
+    //Mit Buttonpress wird der gewünschte travel mode gesetzt
     switch(chosenMode){
       case "walking":
         setTravelMode("walking");
@@ -461,7 +461,7 @@ export default function Map({ shouldRenderCirlces = true }) {
         setTravelMode("bicycle")
         break;
     }
-
+    //Route wird erneut gesetzt, damit Inhalt des InfoWindows stimmt
     selectRouteFromMarker(selectedMarker!.location,chosenMode)
     mapRef.current?.panTo(selectedMarker!.location)
 
@@ -529,9 +529,6 @@ export default function Map({ shouldRenderCirlces = true }) {
         <StyledButton onClick={()=>{setCurrentTravelMode("bicycle")}}>Bicycle</StyledButton>
       </ButtonGrid>
 
-
-      {directions && <Distance leg={directions.routes[0].legs[0]}/>}
-
     <MapContainer>
       <GoogleMap zoom={14} 
         center={center} 
@@ -554,8 +551,6 @@ export default function Map({ shouldRenderCirlces = true }) {
               options={circles.options}
             />
           ))}
-      
-          
 
       //Marker auf der Map platzieren
       {spot && <Marker position={spot} onLoad={()=>{"Initial marker placed"}}/>}
@@ -576,12 +571,11 @@ export default function Map({ shouldRenderCirlces = true }) {
         lat:selectedMarker.location.lat,
         lng:selectedMarker.location.lng
       }}>
-        
         <div>
-          <h2> Current travel mode: {travelMode} </h2>
+          <h2>Current travel mode: {travelMode} </h2>
+          <h2>Current destination: {selectedMarker.name}</h2>
           <h2>Travel time to that destination: {Math.ceil(currentDuration/60)}</h2>
-          <h3>{selectedMarker.name}</h3>
-          <p>{selectedMarker.address}</p>
+          <p>Address: {selectedMarker.address}</p>
         </div>
         </InfoWindow>)}
 
