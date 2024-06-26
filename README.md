@@ -31,7 +31,7 @@ Routing zur Führung zwischen pages
 In beiden Ordnern (frontend & backend):
 Kompilieren: npm run build
 Während Entwicklung: npm run dev
-Bei Modulen mit @ am Anfang: den npm install command nicht in der PowerShell, sondern in einem neuen command prompt eingeben.
+
 
 
 
@@ -55,7 +55,7 @@ password: 4mfR2McEdhwa6Uvb
 
 **Frequente Bugs und ihre Behebungen**
 
-Bei Modulen mit @ am Anfang: den npm install command nicht in der PowerShell, sondern in einem neuen "normalen" command prompt eingeben. Die Powershell mag das aus irgendwelchen Gründen nicht
+Bei Modulen mit @ am Anfang: den npm install command nicht in der PowerShell, sondern in einem neuen "normalen" command prompt eingeben. Die Powershell wirft dabei einen Fehler
 
 Wenn mongoose bzw. mongodb einen error in der Richtung von "SyntaxError: Unexpected token '??=" gibt, muss die mongoose-Version geändert werden. Dazu sollte im backend-Ordner ein "npm install" reichen.
 Ansonsten diesen Befehl in die Konsole eingeben: npm install mongoose@7.6.3

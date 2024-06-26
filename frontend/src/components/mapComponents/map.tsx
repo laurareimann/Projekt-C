@@ -46,8 +46,12 @@ let fastestRouteGroceries:number = 10000;
 let fastestRouteHealth:number = 10000;
 let fastestRouteTransit:number = 10000;
 let finalMean:number;
-
 let currentDuration:number;
+
+//Temp colours für die Buttons
+let GroceryButtonString:string="";
+let HealthButtonString:string="";
+let TransitButtonString:string="";
 
 const markersWithInfoGroceries : Array<MarkerWindow> = []
 const markersWithInfoHealth : Array<MarkerWindow> = []
@@ -102,9 +106,26 @@ grid-template-columns: 1fr 1fr 1fr 1fr;
 margin-bottom: 10px;
 `
 
+const MapAndPrioGrid = styled.div`
+display: grid;
+grid-gap: 4px;
+place-items:center;
+width:1500px;
+grid-template-columns: 1fr 1fr;
+margin-bottom: 10px;
+`
+
+const PriorityGrid = styled.div`
+display: grid;
+grid-gap: 4px;
+place-items:center;
+width:45px;
+margin-bottom: 10px;
+`
+
 const MapContainer = styled.div`
   height: 100%;
-  width: 100%;
+  width: 1300px;
   border:none;
   border-radius:50px;
   margin-bottom:10px;
@@ -132,6 +153,9 @@ export default function Map({ shouldRenderCirlces = true }) {
   const [spot,setSpot] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
   const [selectedMarker,setSelectedMarker] = useState<MarkerWindow | null>()
+  const [isGroceriesPriority,setGroceriesPriority] = useState(false);
+  const [isHealthPriority,setHealthPriority] = useState(false);
+  const [isTransitPriority,setTransitPriority] = useState(false);
 
   const updateScore = useScore().setScore;
   const directService = new google.maps.DirectionsService();
@@ -349,6 +373,7 @@ export default function Map({ shouldRenderCirlces = true }) {
   function calculateScorePrototype(startPoint:LatLngLiteral,transitMode:string){
     //Medianwert wird resetted, damit Ergebnisse stets "frisch" sind
     finalMean = 10000;
+    let finalDivisor:number = 3;
     fastestRouteGroceries = 10000;
     fastestRouteHealth = 10000;
     fastestRouteTransit = 10000;
@@ -425,14 +450,203 @@ export default function Map({ shouldRenderCirlces = true }) {
         break;
         case "driving":
           console.log("Todo")
+          //Loop durch das Array mit allen Marker-Arrays, um den Medianwert auszurechnen
+        //Vorerst nur mit Walking, aber nach Ausbau der Funktion auch mit anderen TransitMethods
+        for (let i = 0; i < MarkersArrayTogether.length; i++) {
+          for (let j = 0; j < MarkersArrayTogether[i].length; j++) {
+            if (i == 0) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.DRIVING
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating Grocery durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
+                    fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
+            }
+            if (i == 1) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.DRIVING
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating health durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
+                    fastestRouteHealth = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
+            }
+            if (i == 2) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.DRIVING
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating transit durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
+                    fastestRouteTransit = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
+            }
+          }
+        }
           break;
 
         case "transit":
           console.log("Todo")
+          //Loop durch das Array mit allen Marker-Arrays, um den Medianwert auszurechnen
+        //Vorerst nur mit Walking, aber nach Ausbau der Funktion auch mit anderen TransitMethods
+        for (let i = 0; i < MarkersArrayTogether.length; i++) {
+          for (let j = 0; j < MarkersArrayTogether[i].length; j++) {
+            if (i == 0) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.TRANSIT
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating Grocery durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
+                    fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
+            }
+            if (i == 1) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.TRANSIT
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating health durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
+                    fastestRouteHealth = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
+            }
+            if (i == 2) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.TRANSIT
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating transit durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
+                    fastestRouteTransit = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
+            }
+          }
+        }
           break;
 
         case "bicycle":
           console.log("Todo")
+          //Loop durch das Array mit allen Marker-Arrays, um den Medianwert auszurechnen
+        //Vorerst nur mit Walking, aber nach Ausbau der Funktion auch mit anderen TransitMethods
+        for (let i = 0; i < MarkersArrayTogether.length; i++) {
+          for (let j = 0; j < MarkersArrayTogether[i].length; j++) {
+            if (i == 0) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.BICYCLING
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating Grocery durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
+                    fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
+            }
+            if (i == 1) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.BICYCLING
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating health durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
+                    fastestRouteHealth = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
+            }
+            if (i == 2) {
+              directService.route({
+                origin: {
+                  lat: startPoint.lat,
+                  lng: startPoint.lng
+                },
+                destination: MarkersArrayTogether[i][j].location,
+                travelMode: google.maps.TravelMode.BICYCLING
+              }, (result, status) => {
+                if (status === "OK" && result) {
+                  console.log("Calculating transit durations");
+                  if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
+                    fastestRouteTransit = result.routes[0].legs[0].duration!.value;
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    
+                  }
+                }
+              });
+            }
+          }
+        }
           break;
       }
         
@@ -440,7 +654,22 @@ export default function Map({ shouldRenderCirlces = true }) {
       console.log("Final fastest route to a grocery store: " + fastestRouteGroceries);
       console.log("Final fastest route to a health deparment: " + fastestRouteHealth);
       console.log("Final fastest route to a transit station: " + fastestRouteTransit);
-      finalMean = Math.ceil(((fastestRouteGroceries+fastestRouteHealth+fastestRouteTransit)/60/3));
+
+
+      if(isGroceriesPriority){
+        fastestRouteGroceries*2;
+        finalDivisor++;
+      }
+      if(isHealthPriority){
+        fastestRouteHealth*2;
+        finalDivisor++;
+      }
+      if(isTransitPriority){
+        fastestRouteTransit*2;
+        finalDivisor;
+      }
+
+      finalMean = Math.ceil(((fastestRouteGroceries+fastestRouteHealth+fastestRouteTransit)/60/finalDivisor));
       console.log("Value of final mean: " + finalMean);
       updateScore(finalMean.toString())},2000)
   }
@@ -462,8 +691,42 @@ export default function Map({ shouldRenderCirlces = true }) {
         break;
     }
     //Route wird erneut gesetzt, damit Inhalt des InfoWindows stimmt
+    if(directions){
     selectRouteFromMarker(selectedMarker!.location,chosenMode)
     mapRef.current?.panTo(selectedMarker!.location)
+    }
+  }
+
+  function setPriorityButton(whatButton:string){
+
+    switch(whatButton){
+      case "Groceries":
+        if(isGroceriesPriority === true){
+          GroceryButtonString=""
+        }else{
+          GroceryButtonString="darkPink"
+        }
+        setGroceriesPriority(!isGroceriesPriority)
+        break;
+
+      case "Health":
+        if(isHealthPriority === true){
+          HealthButtonString=""
+        }else{
+          HealthButtonString="darkPink"
+        }
+        setHealthPriority(!isHealthPriority)
+        break;
+
+      case "Transit":
+        if(isTransitPriority === true){
+          TransitButtonString=""
+        }else{
+          TransitButtonString="darkPink"
+        }
+        setTransitPriority(!isTransitPriority)
+        break;
+    }
 
   }
 
@@ -512,7 +775,7 @@ export default function Map({ shouldRenderCirlces = true }) {
         setTimeout(()=>{
           setSpot(position);
           mapRef.current?.panTo(position)
-          calculateScorePrototype(position,"walking");
+          calculateScorePrototype(position,travelMode);
         },2000);
         //Die flag der updateMarkers()-Funktion auf falsch stellen
         updateCheck=false;
@@ -522,13 +785,18 @@ export default function Map({ shouldRenderCirlces = true }) {
 
     </ControlContainer>
     
+
+
+      Click one of the buttons to choose a travel mode
+      <p>Current travel mode: {travelMode}</p>
       <ButtonGrid>
         <StyledButton onClick={()=>{setCurrentTravelMode("walking")}}>Walking</StyledButton>
         <StyledButton onClick={()=>{setCurrentTravelMode("driving")}}>Driving</StyledButton>
         <StyledButton onClick={()=>{setCurrentTravelMode("transit")}}>Transit</StyledButton>
         <StyledButton onClick={()=>{setCurrentTravelMode("bicycle")}}>Bicycle</StyledButton>
       </ButtonGrid>
-
+      
+    <MapAndPrioGrid>
     <MapContainer>
       <GoogleMap zoom={14} 
         center={center} 
@@ -580,7 +848,23 @@ export default function Map({ shouldRenderCirlces = true }) {
         </InfoWindow>)}
 
       </GoogleMap>
+      
       </MapContainer>
+      <PriorityGrid>
+        <StyledButton color={GroceryButtonString} onClick={()=>{
+          setPriorityButton("Groceries");
+          
+          }}>Prioritise Groceries</StyledButton>
+        <StyledButton color={HealthButtonString} onClick={()=>{
+          setPriorityButton("Health");
+
+        }}>Prioritise health departments</StyledButton>
+        <StyledButton color={TransitButtonString} onClick={()=>{
+          setPriorityButton("Transit");
+
+        }}>Prioritise transit stations</StyledButton>
+      </PriorityGrid>
+      </MapAndPrioGrid>
   </div>
     )
 }
