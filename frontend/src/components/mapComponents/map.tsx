@@ -54,6 +54,53 @@ const markersWithInfoHealth : Array<MarkerWindow> = []
 const markersWithInfoTransit : Array<MarkerWindow> = []
 const MarkersArrayTogether=[markersWithInfoGroceries,markersWithInfoHealth,markersWithInfoTransit]
 
+const StyledButton = styled.button`
+    background-color: ${({ color, disabled }) =>
+        disabled
+            ? color === "blue" ? "var(--color--blue-1)"
+                : color === "green" ? "var(--color--green-1)"
+                    : "var(--color--pink-1)"
+            : color === "blue" ? "var(--color--blue-4)"
+                : color === "green" ? "var(--color--green-3)"
+                    :color ==="darkPink" ? "var(--color--pink-5)"
+                    : "var(--color--pink-3)"
+                
+    };
+    color: ${({ color, disabled }) =>
+        disabled
+            ? color === "blue" ? "var(--color--blue-3)"
+                : color === "green" ? "var(--color--green-4)"
+                    : "var(--color--pink-4)"
+            : "white"
+    };
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    width: fit-content;
+    border: none;
+    border-radius: 30px;
+    text-transform: uppercase;
+    cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
+    transition: background-color 0.3s, opacity 0.3s;
+
+    &:not(:disabled):hover {
+        background-color: ${({ color }) =>
+        color === "blue" ? "var(--color--blue-5)" :
+            color === "green" ? "var(--color--green-5)" :
+                "var(--color--pink-4)"};
+    }
+`;
+
+const ButtonGrid = styled.div`
+display: grid;
+grid-gap: 4px;
+place-items:center;
+width:420px;
+grid-template-columns: 1fr 1fr 1fr 1fr;
+margin-bottom: 10px;
+`
 
 const MapContainer = styled.div`
   height: 100%;
@@ -88,6 +135,7 @@ export default function Map({ shouldRenderCirlces = true }) {
   const customScore = useScore().currentScore;
   const updateScore = useScore().setScore;
   const directService = new google.maps.DirectionsService();
+  const [travelMode,setTravelMode] = useState("walking");
 
   const options = useMemo<MapOptions>(
     () => ({
@@ -238,22 +286,64 @@ export default function Map({ shouldRenderCirlces = true }) {
         }
   }
 
-  const selectRouteFromMarker=(spotLiterals:LatLngLiteral)=>{
+  const selectRouteFromMarker=(spotLiterals:LatLngLiteral,travelMode:string)=>{
     if(!spot)return;
 
-    let tmpNum:number;
+    switch(travelMode){
+      case "walking":
+        directService.route({
+          origin:spot,
+          destination:spotLiterals,
+          travelMode:google.maps.TravelMode.WALKING
+        },(result,status)=>{
+        if(status === "OK" && result){
+          currentDuration = result.routes[0].legs[0].duration!.value;
+          setDirections(result);
+      }
+    })
+    break;
 
-    directService.route({
-      origin:spot,
-      destination:spotLiterals,
-      travelMode:google.maps.TravelMode.WALKING
-    },(result,status)=>{
+    case "driving":
+      directService.route({
+        origin:spot,
+        destination:spotLiterals,
+        travelMode:google.maps.TravelMode.DRIVING
+      },(result,status)=>{
       if(status === "OK" && result){
         currentDuration = result.routes[0].legs[0].duration!.value;
         setDirections(result);
-      }
-    })
+    }
+  })
+      break;
+
+    case "bicycle":
+      directService.route({
+        origin:spot,
+        destination:spotLiterals,
+        travelMode:google.maps.TravelMode.BICYCLING
+      },(result,status)=>{
+      if(status === "OK" && result){
+        currentDuration = result.routes[0].legs[0].duration!.value;
+        setDirections(result);
+    }
+  })
+      break;
+
+    case "transit":
+      directService.route({
+        origin:spot,
+        destination:spotLiterals,
+        travelMode:google.maps.TravelMode.TRANSIT
+      },(result,status)=>{
+      if(status === "OK" && result){
+        currentDuration = result.routes[0].legs[0].duration!.value;
+        setDirections(result);
+    }
+  })
+
+    break;
   }
+}
 
   //Score-Berechnungsalgorithmus
   function calculateScorePrototype(startPoint:LatLngLiteral,transitMode:string){
@@ -264,7 +354,13 @@ export default function Map({ shouldRenderCirlces = true }) {
     fastestRouteTransit = 10000;
     //Text, der im ScoreContainer gesetzt wird
     console.log(transitMode)
-    
+
+
+        switch(transitMode){
+
+        case "walking":
+        //Loop durch das Array mit allen Marker-Arrays, um den Medianwert auszurechnen
+        //Vorerst nur mit Walking, aber nach Ausbau der Funktion auch mit anderen TransitMethods
         for (let i = 0; i < MarkersArrayTogether.length; i++) {
           for (let j = 0; j < MarkersArrayTogether[i].length; j++) {
             if (i == 0) {
@@ -326,6 +422,19 @@ export default function Map({ shouldRenderCirlces = true }) {
             }
           }
         }
+        break;
+        case "driving":
+          console.log("Todo")
+          break;
+
+        case "transit":
+          console.log("Todo")
+          break;
+
+        case "bicycle":
+          console.log("Todo")
+          break;
+      }
         
     setTimeout(()=>{
       console.log("Final fastest route to a grocery store: " + fastestRouteGroceries);
@@ -336,6 +445,27 @@ export default function Map({ shouldRenderCirlces = true }) {
       updateScore(finalMean.toString())},2000)
   }
 
+  function setCurrentTravelMode(chosenMode:string){
+
+    switch(chosenMode){
+      case "walking":
+        setTravelMode("walking");
+        break;
+      case "driving":
+        setTravelMode("driving")
+        break;
+      case "transit":
+        setTravelMode("transit")
+        break;
+      case "bicycle":
+        setTravelMode("bicycle")
+        break;
+    }
+
+    selectRouteFromMarker(selectedMarker!.location,chosenMode)
+    mapRef.current?.panTo(selectedMarker!.location)
+
+  }
 
   return (
   <div>
@@ -386,12 +516,20 @@ export default function Map({ shouldRenderCirlces = true }) {
         },2000);
         //Die flag der updateMarkers()-Funktion auf falsch stellen
         updateCheck=false;
-        
+        setSelectedMarker(null)
 
       }}/>
 
     </ControlContainer>
     
+      <ButtonGrid>
+        <StyledButton onClick={()=>{setCurrentTravelMode("walking")}}>Walking</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("driving")}}>Driving</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("transit")}}>Transit</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("bicycle")}}>Bicycle</StyledButton>
+      </ButtonGrid>
+
+
       {directions && <Distance leg={directions.routes[0].legs[0]}/>}
 
     <MapContainer>
@@ -424,15 +562,15 @@ export default function Map({ shouldRenderCirlces = true }) {
 
       {spot && markersWithInfoGroceries.map(marker =>  <Marker key ={Math.random()} icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' title="Grocery marker" position={marker.location} onClick={()=>{
         setSelectedMarker(marker);
-        selectRouteFromMarker(marker.location)}} ></Marker>)}
+        selectRouteFromMarker(marker.location,travelMode)}} ></Marker>)}
       
       {spot && markersWithInfoHealth.map(marker =>  <Marker key ={Math.random()+1} icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' title="Health marker" position={marker.location} onClick={()=>{
         setSelectedMarker(marker);
-        selectRouteFromMarker(marker.location)}} ></Marker>)}
+        selectRouteFromMarker(marker.location,travelMode)}} ></Marker>)}
       
       {spot && markersWithInfoTransit.map(marker =>  <Marker key ={Math.random()+2} icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' title="Transit marker" position={marker.location} onClick={()=>{
         setSelectedMarker(marker);
-        selectRouteFromMarker(marker.location)}} ></Marker>)}
+        selectRouteFromMarker(marker.location,travelMode)}} ></Marker>)}
 
       {selectedMarker && ( <InfoWindow onCloseClick={()=>{setSelectedMarker(null);}} position={{
         lat:selectedMarker.location.lat,
@@ -440,7 +578,8 @@ export default function Map({ shouldRenderCirlces = true }) {
       }}>
         
         <div>
-          <h2>Travel time to that destination {Math.ceil(currentDuration/60)} Minuten</h2>
+          <h2> Current travel mode: {travelMode} </h2>
+          <h2>Travel time to that destination: {Math.ceil(currentDuration/60)}</h2>
           <h3>{selectedMarker.name}</h3>
           <p>{selectedMarker.address}</p>
         </div>
