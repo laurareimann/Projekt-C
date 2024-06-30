@@ -12,6 +12,9 @@ import {
 import Places from "./places";
 import Distance from "./distance";
 import styled from "styled-components";
+
+import MapLegend from "./mapLegend";
+import walkingIcon from "../../assets/walkingIcon.svg";
 import { AdvancedMarker, useMap } from "@vis.gl/react-google-maps";
 import {useScore,StreetProvider} from "./StreetProvider";
 //import { InfoWindow } from "react-google-maps";
@@ -124,6 +127,7 @@ margin-bottom: 10px;
 `
 
 const MapContainer = styled.div`
+  position: relative;
   height: 100%;
   width: 1300px;
   border:none;
@@ -131,7 +135,6 @@ const MapContainer = styled.div`
   margin-bottom:10px;
   
 `
-
 const ControlContainer = styled.div`
   height:fit-content;
   width: 500px;
@@ -142,8 +145,12 @@ const ControlContainer = styled.div`
   margin-bottom:10px;
 `
 
-//Map component aus Google-Tutorial.
-export default function Map({ shouldRenderCirlces = true }) {
+
+const defaultColors = ["green", "yellow", "red"];
+
+//Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
+
+export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750], circleColors = defaultColors }) {
 
   const [helpCounter,setHelpCounter] = useState(0);
 
@@ -272,9 +279,9 @@ export default function Map({ shouldRenderCirlces = true }) {
   // Gelb: 2500m, 30min zu Fuß
   // Rot: 3750m, 45min zu Fuß
   const [circles, setCircles] = useState([
-    { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5 } },
-    { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5 } },
-    { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 1250, options: { strokeColor: circleColors[0], fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 2500, options: { strokeColor: circleColors[1], fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 3750, options: { strokeColor: circleColors[2], fillOpacity: 0, strokeOpacity: 0.5 } },
   ]);
 
   // Update circles when `spot` changes
@@ -288,9 +295,9 @@ export default function Map({ shouldRenderCirlces = true }) {
 
     // Circles werden hier neu definiert, damit alte Circles verschwinden und die neuen auf den erneuerten spot gesetzt werden
     const newCircles = [
-      { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
-      { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
-      { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+      { radius: 1250, options: { strokeColor: circleColors[0], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
+      { radius: 2500, options: { strokeColor: circleColors[1], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
+      { radius: 3750, options: { strokeColor: circleColors[2], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
     ]
 
     // Update state to re-render circles
@@ -301,7 +308,7 @@ export default function Map({ shouldRenderCirlces = true }) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onLoad = useCallback((map:any) => (mapRef.current = map),[]);
-  console.log(shouldRenderCirlces);  
+  console.log(shouldRenderCircles);
 
   //Kleine Helferfunktion. Inkrementiert eine Variable, damit sich die Karte aktualisiert. Werde noch testen, ob diese am Ende vonnöten ist oder nicht
   function updateMarkers(){
@@ -811,7 +818,7 @@ export default function Map({ shouldRenderCirlces = true }) {
         //Anzeige der Route(n)
         {directions && <DirectionsRenderer directions={directions} />}
 
-      {shouldRenderCirlces && spot && circles.map((circles, index) => (
+      {shouldRenderCircles && spot && circles.map((circles, index) => (
             <Circle
               key={index}
               center={spot}
@@ -848,6 +855,14 @@ export default function Map({ shouldRenderCirlces = true }) {
         </InfoWindow>)}
 
       </GoogleMap>
+
+        {shouldRenderCircles && spot && (
+          <MapLegend
+            circleRadii={circleRadii}
+            circleColors={circleColors}
+            logo={walkingIcon}
+          />
+        )}
       
       </MapContainer>
       <PriorityGrid>

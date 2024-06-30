@@ -14,10 +14,14 @@ const HomePage: React.FC = () => {
         <div>
             <h1>15 Minute City Calculator</h1>
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
-            <StreetProvider currentScoreValue='42' cityValue = "Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081' currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]}>   
-            <Map shouldRenderCirlces={true}></Map>
-            <ScoreContainer color='blue'></ScoreContainer>
-            <QuizContainer color='pink'></QuizContainer>
+            <StreetProvider currentScoreValue='42' cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081' currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]}>
+                <Map
+                    shouldRenderCircles={true}
+                    circleRadii={[1250, 2500, 3750]}
+                    circleColors={['green', 'yellow', 'red']}
+                />
+                <ScoreContainer color='blue'></ScoreContainer>
+                <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>
             {/* 
                     <InputGrid>
@@ -83,7 +87,7 @@ const HomePage: React.FC = () => {
                     <ColoredParagrpah color="var(--color--white-shade)">white-shade</ColoredParagrpah>
                     <ColoredParagrpah color="var(--color--black-shade)">black-shade</ColoredParagrpah> */}
 
-        <ToastContainer></ToastContainer>
+            <ToastContainer></ToastContainer>
         </div>
     );
 };
