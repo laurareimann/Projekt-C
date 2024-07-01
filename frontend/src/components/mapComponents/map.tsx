@@ -28,6 +28,7 @@ let service: google.maps.places.PlacesService;
 let infowindow: google.maps.InfoWindow;
 let setupCheck:boolean = false;
 let updateCheck:boolean= false;
+let alreadyCalculatedCheck:boolean = false;
 //Arrays in denen die NearbySearch-Ergebnisse gespeichert werden
 //Supermärkte,Läden et cetera
 const currentCategory1: Array<google.maps.LatLngLiteral> = []
@@ -787,7 +788,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         //Die flag der updateMarkers()-Funktion auf falsch stellen
         updateCheck=false;
         setSelectedMarker(null)
-
+        alreadyCalculatedCheck = true;
       }}/>
 
     </ControlContainer>
@@ -797,10 +798,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       Click one of the buttons to choose a travel mode
       <p>Current travel mode: {travelMode}</p>
       <ButtonGrid>
-        <StyledButton onClick={()=>{setCurrentTravelMode("walking")}}>Walking</StyledButton>
-        <StyledButton onClick={()=>{setCurrentTravelMode("driving")}}>Driving</StyledButton>
-        <StyledButton onClick={()=>{setCurrentTravelMode("transit")}}>Transit</StyledButton>
-        <StyledButton onClick={()=>{setCurrentTravelMode("bicycle")}}>Bicycle</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("walking"); if(alreadyCalculatedCheck==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode)}}}>Walking</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("driving"); if(alreadyCalculatedCheck==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode)}}}>Driving</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("transit"); if(alreadyCalculatedCheck==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode)}}}>Transit</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("bicycle"); if(alreadyCalculatedCheck==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode)}}}>Bicycle</StyledButton>
       </ButtonGrid>
       
     <MapAndPrioGrid>
