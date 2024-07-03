@@ -28,7 +28,6 @@ let service: google.maps.places.PlacesService;
 let infowindow: google.maps.InfoWindow;
 let setupCheck:boolean = false;
 let updateCheck:boolean= false;
-let alreadyCalculatedCheck:boolean = false;
 //Arrays in denen die NearbySearch-Ergebnisse gespeichert werden
 //Supermärkte,Läden et cetera
 const currentCategory1: Array<google.maps.LatLngLiteral> = []
@@ -164,7 +163,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const [isGroceriesPriority,setGroceriesPriority] = useState(false);
   const [isHealthPriority,setHealthPriority] = useState(false);
   const [isTransitPriority,setTransitPriority] = useState(false);
-
+  const [InitialCalculationDone,setCalculationDone] = useState(false);
   const updateScore = useScore().setScore;
   const directService = new google.maps.DirectionsService();
   const [travelMode,setTravelMode] = useState("walking");
@@ -318,10 +317,13 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }
   }
 
-  const selectRouteFromMarker=(spotLiterals:LatLngLiteral,travelMode:string)=>{
+  const selectRouteFromMarker=(spotLiterals:LatLngLiteral,travelModeParam:string)=>{
     if(!spot)return;
+
+    setTravelMode(travelModeParam);
+
     //Switch-case, um Route im richtigen Modus anzeigenzulassen.
-    switch(travelMode){
+    switch(travelModeParam){
       case "walking":
         directService.route({
           origin:spot,
@@ -385,9 +387,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     fastestRouteGroceries = 10000;
     fastestRouteHealth = 10000;
     fastestRouteTransit = 10000;
+    setCurrentTravelMode(transitMode)
     //Text, der im ScoreContainer gesetzt wird
     console.log(transitMode)
-
 
         switch(transitMode){
 
@@ -663,7 +665,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       console.log("Final fastest route to a health deparment: " + fastestRouteHealth);
       console.log("Final fastest route to a transit station: " + fastestRouteTransit);
 
-
       if(isGroceriesPriority){
         fastestRouteGroceries*2;
         finalDivisor++;
@@ -674,13 +675,14 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       }
       if(isTransitPriority){
         fastestRouteTransit*2;
-        finalDivisor;
+        finalDivisor++;
       }
-
       finalMean = Math.ceil(((fastestRouteGroceries+fastestRouteHealth+fastestRouteTransit)/60/finalDivisor));
       console.log("Value of final mean: " + finalMean);
-      updateScore(finalMean.toString())},2000)
+      console.log("Finaler Divisor war: " + finalDivisor)
+      updateScore(finalMean.toString())},1000)
   }
+
 
   function setCurrentTravelMode(chosenMode:string){
     //Mit Buttonpress wird der gewünschte travel mode gesetzt
@@ -699,9 +701,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         break;
     }
     //Route wird erneut gesetzt, damit Inhalt des InfoWindows stimmt
-    if(directions){
+    if(directions && selectedMarker!=null){
     selectRouteFromMarker(selectedMarker!.location,chosenMode)
-    mapRef.current?.panTo(selectedMarker!.location)
     }
   }
 
@@ -788,7 +789,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         //Die flag der updateMarkers()-Funktion auf falsch stellen
         updateCheck=false;
         setSelectedMarker(null)
-        alreadyCalculatedCheck = true;
+        setCalculationDone(true);
       }}/>
 
     </ControlContainer>
@@ -798,10 +799,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       Click one of the buttons to choose a travel mode
       <p>Current travel mode: {travelMode}</p>
       <ButtonGrid>
-        <StyledButton onClick={()=>{setCurrentTravelMode("walking"); if(alreadyCalculatedCheck==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode)}}}>Walking</StyledButton>
-        <StyledButton onClick={()=>{setCurrentTravelMode("driving"); if(alreadyCalculatedCheck==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode)}}}>Driving</StyledButton>
-        <StyledButton onClick={()=>{setCurrentTravelMode("transit"); if(alreadyCalculatedCheck==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode)}}}>Transit</StyledButton>
-        <StyledButton onClick={()=>{setCurrentTravelMode("bicycle"); if(alreadyCalculatedCheck==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode)}}}>Bicycle</StyledButton>
+        <StyledButton onClick={()=>{setTravelMode("walking"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"walking")}}}>Walking</StyledButton>
+        <StyledButton onClick={()=>{setTravelMode("driving"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"driving")}}}>Driving</StyledButton>
+        <StyledButton onClick={()=>{setTravelMode("transit"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"transit")}}}>Transit</StyledButton>
+        <StyledButton onClick={()=>{setTravelMode("bicycle"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"bicycle")}}}>Bicycle</StyledButton>
       </ButtonGrid>
       
     <MapAndPrioGrid>
@@ -850,7 +851,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         <div>
           <h2>Current travel mode: {travelMode} </h2>
           <h2>Current destination: {selectedMarker.name}</h2>
-          <h2>Travel time to that destination: {Math.ceil(currentDuration/60)}</h2>
+          <h3>Travel time to that destination in minutes: {Math.ceil(currentDuration/60)}</h3>
           <p>Address: {selectedMarker.address}</p>
         </div>
         </InfoWindow>)}
