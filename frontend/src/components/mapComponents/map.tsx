@@ -387,7 +387,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     fastestRouteGroceries = 10000;
     fastestRouteHealth = 10000;
     fastestRouteTransit = 10000;
-    setCurrentTravelMode(transitMode)
+    //setCurrentTravelMode(transitMode)
     //Text, der im ScoreContainer gesetzt wird
     console.log(transitMode)
 
@@ -744,7 +744,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     <ControlContainer>
       <Places setSpot={(position) =>{
         //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
-        
+        setSelectedMarker(null)
+        setDirections(undefined);
         const lat:number = position.lat;
         const lng:number = position.lng;
 
@@ -782,14 +783,15 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         
         //Timeout von +- 1 Sekunde, damit die Marker richtig laden
         setTimeout(()=>{
+          
+          setCalculationDone(true);
           setSpot(position);
           mapRef.current?.panTo(position)
           calculateScorePrototype(position,travelMode);
         },2000);
         //Die flag der updateMarkers()-Funktion auf falsch stellen
         updateCheck=false;
-        setSelectedMarker(null)
-        setCalculationDone(true);
+        
       }}/>
 
     </ControlContainer>
@@ -844,7 +846,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         setSelectedMarker(marker);
         selectRouteFromMarker(marker.location,travelMode)}} ></Marker>)}
 
-      {selectedMarker && ( <InfoWindow onCloseClick={()=>{setSelectedMarker(null);}} position={{
+      {selectedMarker &&  <InfoWindow onCloseClick={()=>{setSelectedMarker(null);}} position={{
         lat:selectedMarker.location.lat,
         lng:selectedMarker.location.lng
       }}>
@@ -854,7 +856,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           <h3>Travel time to that destination in minutes: {Math.ceil(currentDuration/60)}</h3>
           <p>Address: {selectedMarker.address}</p>
         </div>
-        </InfoWindow>)}
+        </InfoWindow>}
 
       </GoogleMap>
 
