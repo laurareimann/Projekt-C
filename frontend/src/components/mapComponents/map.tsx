@@ -349,7 +349,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     }
   })
       break;
-
     case "bicycle":
       directService.route({
         origin:spot,
@@ -362,7 +361,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     }
   })
       break;
-
     case "transit":
       directService.route({
         origin:spot,
@@ -374,7 +372,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         setDirections(result);
     }
   })
-
     break;
   }
 }
@@ -392,7 +389,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     console.log(transitMode)
 
         switch(transitMode){
-
         case "walking":
         //Loop durch das Array mit allen Marker-Arrays, um den Medianwert auszurechnen
         //Vorerst nur mit Walking, aber nach Ausbau der Funktion auch mit anderen TransitMethods
@@ -478,7 +474,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
-                    
                   }
                 }
               });
@@ -497,7 +492,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
-                    
                   }
                 }
               });
@@ -515,8 +509,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   console.log("Calculating transit durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
-                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
-                    
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);                   
                   }
                 }
               });
@@ -524,7 +517,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           }
         }
           break;
-
         case "transit":
           console.log("Todo")
           //Loop durch das Array mit allen Marker-Arrays, um den Medianwert auszurechnen
@@ -563,8 +555,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   console.log("Calculating health durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
-                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
-                    
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);         
                   }
                 }
               });
@@ -591,7 +582,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           }
         }
           break;
-
         case "bicycle":
           console.log("Todo")
           //Loop durch das Array mit allen Marker-Arrays, um den Medianwert auszurechnen
@@ -612,7 +602,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
-                    
                   }
                 }
               });
@@ -631,7 +620,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
-                    
                   }
                 }
               });
@@ -649,8 +637,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   console.log("Calculating transit durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
-                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
-                    
+                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);               
                   }
                 }
               });
@@ -682,7 +669,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       console.log("Finaler Divisor war: " + finalDivisor)
       updateScore(finalMean.toString())},1000)
   }
-
 
   function setCurrentTravelMode(chosenMode:string){
     //Mit Buttonpress wird der gewünschte travel mode gesetzt
@@ -717,7 +703,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }
         setGroceriesPriority(!isGroceriesPriority)
         break;
-
       case "Health":
         if(isHealthPriority === true){
           HealthButtonString=""
@@ -726,7 +711,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }
         setHealthPriority(!isHealthPriority)
         break;
-
       case "Transit":
         if(isTransitPriority === true){
           TransitButtonString=""
@@ -757,33 +741,27 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         markersWithInfoTransit.splice(0,markersWithInfoTransit.length)
         markersWithInfoGroceries.splice(0,markersWithInfoGroceries.length)
         markersWithInfoHealth.splice(0,markersWithInfoHealth.length)
-
+        //NearbySearch-Requests für die verschiedenen types
         const request = {
           location:{lat,lng},
           radius:5000,
           type:"grocery_or_supermarket"
         }
-
         const request_2 = {
           location:{lat,lng},
           radius:5000,
           type:"health"
         }
-
         const request_3 = {
           location:{lat,lng},
           radius:5000,
           type:"transit_station"
         }
-
         const requesttypes = [request,request_2,request_3]
-
         //Es wird im vorgegebenen Umkreis nach places gesucht
         performNearbySearch(requesttypes);
-        
         //Timeout von +- 1 Sekunde, damit die Marker richtig laden
         setTimeout(()=>{
-          
           setCalculationDone(true);
           setSpot(position);
           mapRef.current?.panTo(position)
@@ -791,13 +769,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         },2000);
         //Die flag der updateMarkers()-Funktion auf falsch stellen
         updateCheck=false;
-        
       }}/>
-
     </ControlContainer>
     
-
-
       Click one of the buttons to choose a travel mode
       <p>Current travel mode: {travelMode}</p>
       <ButtonGrid>
@@ -818,7 +792,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           updateMarkers();
         }}
       >
-      
         //Anzeige der Route(n)
         {directions && <DirectionsRenderer directions={directions} />}
 
@@ -857,9 +830,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           <p>Address: {selectedMarker.address}</p>
         </div>
         </InfoWindow>}
-
       </GoogleMap>
-
         {shouldRenderCircles && spot && (
           <MapLegend
             circleRadii={circleRadii}
@@ -867,7 +838,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             logo={walkingIcon}
           />
         )}
-      
       </MapContainer>
       <PriorityGrid>
         <StyledButton color={GroceryButtonString} onClick={()=>{
