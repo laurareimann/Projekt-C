@@ -1,6 +1,6 @@
 import React, {useState } from "react"
 import axios from "axios"
-import { useNavigate, Link } from "react-router-dom"
+import {Link } from "react-router-dom"
 
 const setCookie = (name: string,value: unknown,days: number) =>{
     const expirationDate = new Date();

@@ -178,6 +178,7 @@ export default function Map({ shouldRenderCirlces = true }) {
     // Update state to re-render circles
     setCircles(newCircles);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spot]); // Linter beschwert sich hier, dass circles nicht in der Abhängigkeitsliste ist, aber das updated sonst im Loop
 
 
