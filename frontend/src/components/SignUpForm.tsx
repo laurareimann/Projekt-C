@@ -180,6 +180,19 @@ const setCookie = (name: string,value: unknown,days: number) =>{
 
 const currentUser = getCookie("username");
 
+const throwToast = (errorMessage:string) =>{
+    toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+        });
+}
 
 function SignUpForm(){
 
@@ -196,17 +209,7 @@ function SignUpForm(){
             })
             .then((res: { data: string })=>{
                 if(res.data=="exists"){
-                    toast.error('User already exists', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                        transition: Bounce,
-                        });
+                      throwToast("User already exists")
                       return 0;
                 }
                 if(res.data=="Passwords not matching"){
@@ -223,6 +226,9 @@ function SignUpForm(){
                         transition: Bounce,
                         });
                       return 0;
+                }
+                if(res.data==="SignUpSuccess"){
+                    window.location.replace("/logInPage");
                 }
             })
             .catch((e:string)=>{

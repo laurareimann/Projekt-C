@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import Input from './Inputforms';
 import Button from './Buttons';
 import axios from "axios";
-
+import {Bounce,toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 //StyledButton kopiert
 const StyledButton = styled.button`
@@ -189,7 +190,19 @@ const setCookie = (name: string,value: unknown,days: number) =>{
 
   const currentUser = getCookie("username");
 
-
+  const throwToast = (errorMessage:string) =>{
+    toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+        });
+}
 
 
 function LoginForm(){
@@ -212,13 +225,17 @@ function LoginForm(){
                 if(res.data=="exist"){
                     setCookie("username",user,7);
                     console.log("Logged in");
+                    window.location.replace("/")
                 }
                 else if(res.data=="notexist"){
-                    alert("User have not sign up")
+                    throwToast("User doesn't exist yet")
+                }
+                else if(res.data=="Wrong credentials!"){
+                    throwToast("Wrong username or password!");
                 }
             })
             .catch((e: string)=>{
-                alert("wrong details")
+                
                 console.log(e);
             })
 
