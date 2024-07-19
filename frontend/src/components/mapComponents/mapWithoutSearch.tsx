@@ -11,8 +11,8 @@ import {
 import Places from "./places";
 import Distance from "./distance";
 import styled from "styled-components";
-
 import MapLegend from "./mapLegend";
+
 import walkingIcon from "../../assets/walkingIcon.svg";
 
 
@@ -30,27 +30,34 @@ const MapContainer = styled.div`
   margin-bottom:10px;
   
 `
-const ControlContainer = styled.div`
-  height:fit-content;
-  width: 500px;
-  margin:auto;
-  padding: 0.3rem;
-  background-color: var(--color--pink-3);
-  border-radius:20px;
-  margin-bottom:10px;
-`
 
 
+// Typescript Props
+interface MapWithoutSearchProps {
+  center: LatLngLiteral;
+  shouldRenderCircles?: boolean;
+  circleRadii?: number[];
+  circleColors?: string[];
+}
+
+const defaultCenter: LatLngLiteral = { lat: 53.5688823, lng: 10.0330191 };
 const defaultColors = ["green", "yellow", "red"];
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
-
-export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750], circleColors = defaultColors }) {
+const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
+  center = defaultCenter,
+  shouldRenderCircles = true,
+  circleRadii = [1250, 2500, 3750],
+  circleColors = defaultColors
+}) => {
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
-  const center = useMemo<LatLngLiteral>(() => ({ lat: 53.5688823, lng: 10.0330191 }), []);
-  const [spot, setSpot] = useState<LatLngLiteral>();
-  const mapRef = useRef<GoogleMap>();
+  //const center = useMemo<LatLngLiteral>(() => ({ lat: 53.5688823, lng: 10.0330191 }), []);
+  //const [spot, setSpot] = useState<LatLngLiteral>();
+  const mapRef = useRef<google.maps.Map | null>(null);
+  const [circles, setCircles] = useState<google.maps.Circle[]>([]);
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [reloadkey, setReloadKey] = useState(0);
   const options = useMemo<MapOptions>(
     () => ({
       disableDefaultUI: true,
@@ -59,77 +66,60 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     }), []);
 
 
-  // Gehgeschwindigkeit: 5km/h
-  // Grün: 1250m, 15min zu Fuß
-  // Gelb: 2500m, 30min zu Fuß
-  // Rot: 3750m, 45min zu Fuß
-  const [circles, setCircles] = useState([
-    { radius: 1250, options: { strokeColor: circleColors[0], fillOpacity: 0, strokeOpacity: 0.5 } },
-    { radius: 2500, options: { strokeColor: circleColors[1], fillOpacity: 0, strokeOpacity: 0.5 } },
-    { radius: 3750, options: { strokeColor: circleColors[2], fillOpacity: 0, strokeOpacity: 0.5 } },
-  ]);
-
-  // Update circles when `spot` changes
   useEffect(() => {
+    if (mapLoaded && shouldRenderCircles) {
+      // Clear existing circles
+      circles.forEach((circle) => circle.setMap(null));
 
-    circles.forEach(circle => {
-      if (circle instanceof google.maps.Circle) {
-        circle.setMap(null); // This removes the circle from the map
-      }
-    });
+      // Create new circles
+      const newCircles = circleRadii.map((radius, index) => {
+        return new google.maps.Circle({
+          center,
+          radius,
+          strokeColor: circleColors[index],
+          strokeOpacity: 0.4,
+          fillColor: circleColors[index],
+          fillOpacity: 0,
+          map: mapRef.current!,
+        });
+      });
 
-    // Circles werden hier neu definiert, damit alte Circles verschwinden und die neuen auf den erneuerten spot gesetzt werden
-    const newCircles = [
-      { radius: 1250, options: { strokeColor: circleColors[0], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
-      { radius: 2500, options: { strokeColor: circleColors[1], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
-      { radius: 3750, options: { strokeColor: circleColors[2], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
-    ]
-
-    // Update state to re-render circles
-    setCircles(newCircles);
-
-  }, [spot]); // Linter beschwert sich hier, dass circles nicht in der Abhängigkeitsliste ist, aber das updated sonst im Loop
-
+      // Set the new circles
+      setCircles(newCircles);
+    } else {
+      // Clear circles if shouldRenderCircles is false
+      setCircles([]);
+    }
+  }, [mapLoaded, shouldRenderCircles, center, circleRadii]);
 
   //Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
   //Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
   //Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onLoad = useCallback((map: any) => (mapRef.current = map), []);
-  console.log(shouldRenderCircles);
+  const onLoad = useCallback((map: google.maps.Map) => {
+    mapRef.current = map;
+    setMapLoaded(true);
+  }, []);
 
 
   return (
     <div>
-      <ControlContainer>
-
-        <Places setSpot={(position) => {
-          setSpot(position);
-          mapRef.current?.panTo(position);
-        }} />
-      </ControlContainer>
       <MapContainer>
-        <GoogleMap zoom={14}
+        <GoogleMap
+          zoom={13}
           center={center}
           mapContainerClassName="map-container"
           options={options}
           onLoad={onLoad}
         >
-
-          {shouldRenderCircles && spot && circles.map((circles, index) => (
-            <Circle
-              key={index}
-              center={spot}
-              radius={circles.radius}
-              options={circles.options}
-            />
-          ))}
-
-          {spot && <Marker position={spot} />}
+          {/* Render dynamically generated circles */}
+          {shouldRenderCircles && (
+            <Marker position={center} />
+          )}
 
         </GoogleMap>
 
-        {shouldRenderCircles && spot && (
+        {shouldRenderCircles && (
           <MapLegend
             circleRadii={circleRadii}
             circleColors={circleColors}
@@ -140,6 +130,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     </div>
   )
 }
+
+export default MapWithoutSearch;
 
 const defaultOptions = {
   strokeOpacity: 0.5,
