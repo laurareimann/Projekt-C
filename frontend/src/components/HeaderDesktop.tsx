@@ -162,7 +162,6 @@ function HeaderDesktop() {
 
   return (
     <Header visible={isVisible}>
-    {currentUser}
       <Nav>
         <Logo href="/">
           <img src={logo} alt="Logo"  />
