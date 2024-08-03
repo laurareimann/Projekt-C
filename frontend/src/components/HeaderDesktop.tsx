@@ -181,15 +181,24 @@ function HeaderDesktop() {
         </NavItem> 
         {globalLoggedInBool ? ( // State ändert sich momentan auch noch nicht
           <Profile href="/profilePage">
-            <img src={profileIcon} alt="Profile" />
-          </Profile>
+            <img src={profileIcon} alt="Profile" />     
+          </Profile>  
         ) : (
           <Profile href="/logInPage">
             <Button color='pink'>Login</Button>
           </Profile>
         )}
+        {globalLoggedInBool ? (
+          <Button onClick={() => {
+            deleteCookie(currentUser)
+            window.location.replace("/");
+          }}>Logout</Button>
+            
+        ):(
+          ""
+        )}
       </Nav>
-
+        
     </Header>
   );
 }
