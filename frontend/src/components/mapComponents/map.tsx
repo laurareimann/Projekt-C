@@ -167,6 +167,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const updateScore = useScore().setScore;
   const directService = new google.maps.DirectionsService();
   const [travelMode,setTravelMode] = useState("walking");
+  const [currentDurationUseState,setCurrentDuration] = useState(0);
 
   const options = useMemo<MapOptions>(
     () => ({
@@ -318,6 +319,14 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }
   }
 
+  const refreshCurrentDuration=()=>{
+    if(directions){
+      currentDuration=(directions.routes[0].legs[0].duration!.value);
+      setCurrentDuration(currentDuration);
+    }
+  }
+
+
   const selectRouteFromMarker=(spotLiterals:LatLngLiteral,travelModeParam:string)=>{
     if(!spot)return;
 
@@ -333,6 +342,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         },(result,status)=>{
         if(status === "OK" && result){
           currentDuration = result.routes[0].legs[0].duration!.value;
+          setCurrentDuration(currentDuration)
           setDirections(result);
       }
     })
@@ -346,6 +356,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       },(result,status)=>{
       if(status === "OK" && result){
         currentDuration = result.routes[0].legs[0].duration!.value;
+        setCurrentDuration(currentDuration)
         setDirections(result);
     }
   })
@@ -358,6 +369,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       },(result,status)=>{
       if(status === "OK" && result){
         currentDuration = result.routes[0].legs[0].duration!.value;
+        setCurrentDuration(currentDuration)
         setDirections(result);
     }
   })
@@ -370,11 +382,13 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       },(result,status)=>{
       if(status === "OK" && result){
         currentDuration = result.routes[0].legs[0].duration!.value;
+        setCurrentDuration(currentDuration)
         setDirections(result);
     }
   })
     break;
   }
+  console.log("Derzeitige Dauer mit gewähltem travelmode: " + currentDuration);
 }
 
   //Score-Berechnungsalgorithmus
@@ -405,7 +419,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.WALKING
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating Grocery durations");
+                  //console.log("Calculating Grocery durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
@@ -424,7 +438,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.WALKING
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating health durations");
+                  //console.log("Calculating health durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
@@ -443,7 +457,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.WALKING
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating transit durations");
+                  //console.log("Calculating transit durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
@@ -471,7 +485,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.DRIVING
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating Grocery durations");
+                  //console.log("Calculating Grocery durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
@@ -489,7 +503,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.DRIVING
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating health durations");
+                  //console.log("Calculating health durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
@@ -507,7 +521,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.DRIVING
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating transit durations");
+                  //console.log("Calculating transit durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);                   
@@ -534,10 +548,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.TRANSIT
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating Grocery durations");
+                  //console.log("Calculating Grocery durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
-                    console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    //console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     
                   }
                 }
@@ -553,7 +567,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.TRANSIT
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating health durations");
+                  //console.log("Calculating health durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);         
@@ -571,7 +585,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.TRANSIT
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating transit durations");
+                 // console.log("Calculating transit durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
@@ -599,7 +613,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.BICYCLING
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating Grocery durations");
+                  //console.log("Calculating Grocery durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
@@ -617,7 +631,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.BICYCLING
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating health durations");
+                  //console.log("Calculating health durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
@@ -635,7 +649,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                 travelMode: google.maps.TravelMode.BICYCLING
               }, (result, status) => {
                 if (status === "OK" && result) {
-                  console.log("Calculating transit durations");
+                  //console.log("Calculating transit durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);               
@@ -690,6 +704,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     //Route wird erneut gesetzt, damit Inhalt des InfoWindows stimmt
     if(directions && selectedMarker!=null){
     selectRouteFromMarker(selectedMarker!.location,chosenMode)
+    //mapRef.current?.panTo(selectedMarker!.location)
     }
   }
 
@@ -776,10 +791,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       Click one of the buttons to choose a travel mode
       <p>Current travel mode: {travelMode}</p>
       <ButtonGrid>
-        <StyledButton onClick={()=>{setTravelMode("walking"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"walking")}}}>Walking</StyledButton>
-        <StyledButton onClick={()=>{setTravelMode("driving"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"driving")}}}>Driving</StyledButton>
-        <StyledButton onClick={()=>{setTravelMode("transit"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"transit")}}}>Transit</StyledButton>
-        <StyledButton onClick={()=>{setTravelMode("bicycle"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"bicycle")}}}>Bicycle</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("walking");if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"walking");}}}>Walking</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("driving"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"driving")}}}>Driving</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("transit"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"transit")}}}>Transit</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("bicycle"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"bicycle")}}}>Bicycle</StyledButton>
       </ButtonGrid>
       
     <MapAndPrioGrid>
@@ -818,7 +833,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       
       {spot && markersWithInfoTransit.map(marker =>  <Marker key ={Math.random()+2} icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' title="Transit marker" position={marker.location} onClick={()=>{
         setSelectedMarker(marker);
-        selectRouteFromMarker(marker.location,travelMode)}} ></Marker>)}
+        selectRouteFromMarker(marker.location,travelMode)
+        setCurrentDuration(currentDurationUseState+0)}} ></Marker>)}
+        
 
       {selectedMarker &&  <InfoWindow onCloseClick={()=>{setSelectedMarker(null);}} position={{
         lat:selectedMarker.location.lat,
@@ -827,7 +844,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         <div>
           <h2>Current travel mode: {travelMode} </h2>
           <h2>Current destination: {selectedMarker.name}</h2>
-          <h3>Travel time to that destination in minutes: {Math.ceil(currentDuration/60)}</h3>
+          <h3>Travel time to that destination in minutes: {Math.ceil(currentDurationUseState/60)}</h3>
           <p>Address: {selectedMarker.address}</p>
         </div>
         </InfoWindow>}
