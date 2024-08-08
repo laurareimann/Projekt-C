@@ -1,15 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-//import styled from 'styled-components';
+import styled from 'styled-components';
 import Map from "../components/mapComponents/map.tsx";
 import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
-
+import Button from '../components/Buttons.tsx';
+import GlassButton from '../components/GlassButtons.tsx';
+import Input from '../components/Inputforms.tsx';
+import BlurButton from '../components/BlurButtons.tsx';
+import Result from '../components/Result.tsx';
+import Location from '../components/Location.tsx';
 // Components
 import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
 import { ToastContainer } from 'react-toastify';
 
+
+
 const HomePage: React.FC = () => {
+
+    
+
+    function handleClick(): void {
+        throw new Error('Function not implemented.');
+    }
+
     return (
         <div>
             <h1>15 Minute City Calculator</h1>
@@ -23,7 +37,7 @@ const HomePage: React.FC = () => {
                 <ScoreContainer color='blue'></ScoreContainer>
                 <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>
-            {/* 
+            {/*
                     <InputGrid>
                         <Result color='pink'>HAW Finkenau</Result>
                         <Location color='pink'>HAW Finkenau</Location>
@@ -85,15 +99,15 @@ const HomePage: React.FC = () => {
                     <ColoredParagrpah color="var(--color--success-green-mid)">success-green-mid</ColoredParagrpah>
                     <ColoredParagrpah color="var(--color--success-green)">success-green</ColoredParagrpah>
                     <ColoredParagrpah color="var(--color--white-shade)">white-shade</ColoredParagrpah>
-                    <ColoredParagrpah color="var(--color--black-shade)">black-shade</ColoredParagrpah> */}
-
+                    <ColoredParagrpah color="var(--color--black-shade)">black-shade</ColoredParagrpah> 
+*/}
             <ToastContainer></ToastContainer>
         </div>
     );
 };
 
 
-/* Funktionen und Styling
+// Funktionen und Styling
 const ButtonGrid = styled.div`
 display: grid;
 grid-gap: 12px;
@@ -122,6 +136,6 @@ interface MyComponentProps {
     color: string;
     children: React.ReactNode;
 }
-*/
+
 
 export default HomePage;
