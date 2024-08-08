@@ -21,10 +21,13 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "./pages/MainPage";
 import AboutUs from "./pages/AboutUs";
+import LoginTest from './pages/LoginTest.tsx';
+import Signup from './pages/SignUpTest.tsx';
 import { createRoot } from "react-dom/client";
 import Map from "./components/mapComponents/map.tsx";
 import { useLoadScript } from '@react-google-maps/api';
 import StreetProvider from './components/mapComponents/StreetProvider.tsx';
+import SignUpTest from './pages/SignUpTest.tsx';
 import LogInOrSignUp from './pages/LogInPage.tsx';
 import LogInPage from './pages/LogInPage.tsx';
 import RegisterPage from './pages/RegisterPage.tsx';
@@ -83,8 +86,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color: var(--color--white-shade);
     min-height: 100vh;
-    padding-top: 30px;
-    font-family: 'Roboto', sans-serif; 
+    font-family: 'Roboto', sans-serif;
   }
 
   // typography
@@ -158,9 +160,6 @@ flex-wrap: wrap;
 gap:12px;
   
 `
-const handleClick = () => {
-  console.log("Button clicked!");
-};
 
 const InputGrid = styled.div`
 display: grid;
@@ -172,7 +171,7 @@ const App: React.FC = () => {
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY,
-    libraries: ["places"],
+    libraries: ["places","maps"],
   })
 
   //Hier könnte dein Ladebildschirm stehen ( ͡° ͜ʖ ͡° )
@@ -183,8 +182,11 @@ const App: React.FC = () => {
       <GlobalStyle />
       <Header />
       <Routes>
+        
         <Route index element={<Homepage />} />
         <Route path="about-us" element={<AboutUs />} />
+        <Route path="logintest" element={<LoginTest/>}/>
+        <Route path="signuptest" element={<SignUpTest/>}/>
         <Route path="logInPage" element={<LogInPage/>}/>
         <Route path="registerPage" element = {<RegisterPage/>}/>
         <Route path="evaluation" element = {<Evaluation/>}/>

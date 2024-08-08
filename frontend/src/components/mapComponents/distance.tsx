@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
 const commutesPerYear = 260 * 2;
 const litresPerKM = 10 / 100;
 const gasLitreCost = 1.5;
@@ -14,5 +13,6 @@ type DistanceProps = {
 
 
 export default function Distance({ leg }: DistanceProps) {
+  //console.log(leg)
   return <div>Distance</div>;
 }

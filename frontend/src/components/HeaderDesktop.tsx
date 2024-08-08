@@ -107,12 +107,40 @@ const Profile = styled.a`
   }
 `;
 
+const getCookie = (name:string) =>{
+  const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
+
+  return cookies ? cookies.split("=")[1] : null;
+}
+
+let currentUser = getCookie("username");
+
+const deleteCookie = (name: string | null) =>{
+
+  console.log("Attempting to log off " + name);
+
+  if(currentUser != ""){
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  currentUser = "";
+  console.log("Logging off")
+  }
+}
+
 function HeaderDesktop() {
   // nur temporär um Login funktionalität zu testen
   // sollte später ausgelagert werden in richtigen Login Handler
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [isVisible, setIsVisible] = useState(true);
+
+  
+
+  if(currentUser == null){
+    console.log("No one's logged in atm");
+  }else{
+    console.log(currentUser + " is logged in");
+  }
+
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -132,17 +160,18 @@ function HeaderDesktop() {
 
   return (
     <Header visible={isVisible}>
-
+    {currentUser}
       <Nav>
         <Logo href="/">
-          <img src={logo} alt="Logo" />
+          <img src={logo} alt="Logo"  />
         </Logo>
         <NavItem href="/quiz">
           <img src={quizIcon} alt="Quiz" />
           <span>Quiz</span>
         </NavItem>
         <NavItem href="/about-us">
-          <img src={aboutUsIcon} alt="About Us" />
+          <img src={aboutUsIcon} alt="About Us" onClick={() => {
+            deleteCookie(currentUser)}} />
           <span>About Us</span>
         </NavItem>
         <NavItem href="/evaluation">
