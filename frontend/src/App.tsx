@@ -4,11 +4,11 @@ import React from 'react';
 import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
 import { createGlobalStyle } from "styled-components";
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Button from './components/Buttons';
-import GlassButton from './components/GlassButtons';
-import BlurButton from './components/BlurButtons';
+import Header from './components/header&footer/Header.tsx';
+import Footer from './components/header&footer/Footer.tsx';
+import Button from './components/buttons/Buttons.tsx';
+import GlassButton from './components/buttons/GlassButtons.tsx';
+import BlurButton from './components/buttons/BlurButtons.tsx';
 import Location from './components/Location';
 import Result from './components/Result';
 import Input from './components/Inputforms';
@@ -28,7 +28,7 @@ import StreetProvider from './components/mapComponents/StreetProvider.tsx';
 import LogInOrSignUp from './pages/LogInPage.tsx';
 import LogInPage from './pages/LogInPage.tsx';
 import RegisterPage from './pages/RegisterPage.tsx';
-import TestSite from './pages/Collapse.tsx';
+import Test from './pages/Test.tsx';
 
 
 
@@ -88,21 +88,18 @@ const GlobalStyle = createGlobalStyle`
 
   // typography
   h1 {
-  color: var(--color--blue-5);
   line-height: 3.5rem;
   font-size: 3rem;
   font-weight: 600;
   text-align: center;
 }
 h2 {
-  color: var(--color--blue-5);
   line-height: 2.5rem;
   font-size: 2rem;
   font-weight: 600;
   margin:0;
 }
 h3 {
-  color: var(--color--blue-5);
   line-height: 2rem;
   font-size: 1.5rem;
   font-weight: 600;
@@ -187,7 +184,7 @@ const App: React.FC = () => {
         <Route path="logInPage" element={<LogInPage/>}/>
         <Route path="registerPage" element = {<RegisterPage/>}/>
         
-        <Route path="TestSite" element={<TestSite/>} />
+        <Route path="Test" element={<Test/>} />
             /*hier alle Seiten anlegen */
       </Routes>
       <Footer/>

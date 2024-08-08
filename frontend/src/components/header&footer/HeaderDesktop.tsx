@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import Button from './Buttons';
+import Button from '../buttons/Buttons';
 
 import logo from '../assets/Logo.svg';
 import quizIcon from '../assets/QuizIcon.svg';
