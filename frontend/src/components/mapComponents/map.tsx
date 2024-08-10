@@ -12,6 +12,9 @@ import {
 import Places from "./places";
 import Distance from "./distance";
 import styled from "styled-components";
+
+import MapLegend from "./mapLegend";
+import walkingIcon from "../../assets/walkingIcon.svg";
 import { useNearby } from "./StreetProvider";
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
 import { currentAddressStreetTMP } from "../tmpRefreshHelper";
@@ -38,6 +41,7 @@ const currentCategory3: Array<google.maps.LatLngLiteral> = []
 
 
 const MapContainer = styled.div`
+  position: relative;
   height: 100%;
   width: 100%;
   border:none;
@@ -45,7 +49,6 @@ const MapContainer = styled.div`
   margin-bottom:10px;
   
 `
-
 const ControlContainer = styled.div`
   height:fit-content;
   width: 500px;
@@ -56,8 +59,12 @@ const ControlContainer = styled.div`
   margin-bottom:10px;
 `
 
+
+const defaultColors = ["green", "yellow", "red"];
+
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
-export default function Map({ shouldRenderCirlces = true }) {
+
+export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750], circleColors = defaultColors }) {
 
   const [helpCounter,setHelpCounter] = useState(0);
 
@@ -154,9 +161,9 @@ export default function Map({ shouldRenderCirlces = true }) {
   // Gelb: 2500m, 30min zu Fuß
   // Rot: 3750m, 45min zu Fuß
   const [circles, setCircles] = useState([
-    { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5 } },
-    { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5 } },
-    { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 1250, options: { strokeColor: circleColors[0], fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 2500, options: { strokeColor: circleColors[1], fillOpacity: 0, strokeOpacity: 0.5 } },
+    { radius: 3750, options: { strokeColor: circleColors[2], fillOpacity: 0, strokeOpacity: 0.5 } },
   ]);
 
   // Update circles when `spot` changes
@@ -170,9 +177,9 @@ export default function Map({ shouldRenderCirlces = true }) {
 
     // Circles werden hier neu definiert, damit alte Circles verschwinden und die neuen auf den erneuerten spot gesetzt werden
     const newCircles = [
-      { radius: 1250, options: { strokeColor: 'green', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
-      { radius: 2500, options: { strokeColor: 'yellow', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
-      { radius: 3750, options: { strokeColor: 'red', fillOpacity: 0, strokeOpacity: 0.5, center: spot} },
+      { radius: 1250, options: { strokeColor: circleColors[0], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
+      { radius: 2500, options: { strokeColor: circleColors[1], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
+      { radius: 3750, options: { strokeColor: circleColors[2], fillOpacity: 0, strokeOpacity: 0.5, center: spot } },
     ]
 
     // Update state to re-render circles
@@ -186,8 +193,8 @@ export default function Map({ shouldRenderCirlces = true }) {
 //Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
 //Musste es jetzt mit explizitem any machen, bevor ich eine Lösung finde.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onLoad = useCallback((map:any) => (mapRef.current = map),[]);
-  console.log(shouldRenderCirlces);  
+  const onLoad = useCallback((map: any) => (mapRef.current = map), []);
+  console.log(shouldRenderCircles);
 
   //Kleine Helferfunktion, um google maps einen kleinen Arschtritt zu geben, damit die Marker auch alle angezeigt werden
   function updateMarkers(){
@@ -255,7 +262,7 @@ export default function Map({ shouldRenderCirlces = true }) {
       >
 
 
-      {shouldRenderCirlces && spot && circles.map((circles, index) => (
+          {shouldRenderCircles && spot && circles.map((circles, index) => (
             <Circle
               key={index}
               center={spot}
@@ -270,6 +277,14 @@ export default function Map({ shouldRenderCirlces = true }) {
       {spot && currentCategory2.map(marker => <Marker key ={Math.random()+1} position={marker}  icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'/>) }
       {spot && currentCategory3.map(marker => <Marker key ={Math.random()+2} position={marker} onLoad={()=> {console.log("Nearby marker placed");updateCheck=true;}} icon = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'/>) }
       </GoogleMap>
+
+        {shouldRenderCircles && spot && (
+          <MapLegend
+            circleRadii={circleRadii}
+            circleColors={circleColors}
+            logo={walkingIcon}
+          />
+        )}
       </MapContainer>
   </div>
     )
