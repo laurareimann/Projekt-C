@@ -50,6 +50,10 @@ let fastestRouteHealth:number = 10000;
 let fastestRouteTransit:number = 10000;
 let finalMean:number;
 let currentDuration:number;
+//Testweise bools, um Berechnung zu fixen
+let groceryBool:boolean = false;
+let healthBool:boolean = false;
+let transitBool:boolean = false;
 
 //Temp colours für die Buttons
 let GroceryButtonString:string="";
@@ -667,22 +671,22 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       console.log("Final fastest route to a health deparment: " + fastestRouteHealth);
       console.log("Final fastest route to a transit station: " + fastestRouteTransit);
 
-      if(isGroceriesPriority){
+      if(groceryBool){
         fastestRouteGroceries*2;
         finalDivisor++;
       }
-      if(isHealthPriority){
+      if(healthBool){
         fastestRouteHealth*2;
         finalDivisor++;
       }
-      if(isTransitPriority){
+      if(transitBool){
         fastestRouteTransit*2;
         finalDivisor++;
       }
       finalMean = Math.ceil(((fastestRouteGroceries+fastestRouteHealth+fastestRouteTransit)/60/finalDivisor));
       console.log("Value of final mean: " + finalMean);
       console.log("Finaler Divisor war: " + finalDivisor)
-      updateScore(finalMean.toString())},1000)
+      updateScore(finalMean.toString())},1500)
   }
 
   function setCurrentTravelMode(chosenMode:string){
@@ -717,7 +721,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }else{
           GroceryButtonString="darkPink"
         }
-        setGroceriesPriority(!isGroceriesPriority)
+        //setGroceriesPriority(!isGroceriesPriority)
         break;
       case "Health":
         if(isHealthPriority === true){
@@ -725,7 +729,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }else{
           HealthButtonString="darkPink"
         }
-        setHealthPriority(!isHealthPriority)
+        //setHealthPriority(!isHealthPriority)
         break;
       case "Transit":
         if(isTransitPriority === true){
@@ -733,7 +737,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }else{
           TransitButtonString="darkPink"
         }
-        setTransitPriority(!isTransitPriority)
+        //setTransitPriority(!isTransitPriority)
         break;
     }
 
@@ -791,7 +795,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       Click one of the buttons to choose a travel mode
       <p>Current travel mode: {travelMode}</p>
       <ButtonGrid>
-        <StyledButton onClick={()=>{setCurrentTravelMode("walking");if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"walking");}}}>Walking</StyledButton>
+        <StyledButton onClick={()=>{setCurrentTravelMode("walking"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"walking");}}}>Walking</StyledButton>
         <StyledButton onClick={()=>{setCurrentTravelMode("driving"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"driving")}}}>Driving</StyledButton>
         <StyledButton onClick={()=>{setCurrentTravelMode("transit"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"transit")}}}>Transit</StyledButton>
         <StyledButton onClick={()=>{setCurrentTravelMode("bicycle"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"bicycle")}}}>Bicycle</StyledButton>
@@ -860,15 +864,35 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       <PriorityGrid>
         <StyledButton color={GroceryButtonString} onClick={()=>{
           setPriorityButton("Groceries");
+          setGroceriesPriority(!isGroceriesPriority);
+          groceryBool = !groceryBool;
+          console.log("Grocerybool is: " + groceryBool);
+          console.log(isGroceriesPriority);
+          if(InitialCalculationDone){
+            {calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode);}
+          }
           
           }}>Prioritise Groceries</StyledButton>
         <StyledButton color={HealthButtonString} onClick={()=>{
           setPriorityButton("Health");
+          setHealthPriority(!isHealthPriority);
+          healthBool = !healthBool;
+          console.log("Healthbool is: " + healthBool);
+          console.log(isHealthPriority)
+          if(InitialCalculationDone){
+            {calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode);}
+          }
 
         }}>Prioritise health departments</StyledButton>
         <StyledButton color={TransitButtonString} onClick={()=>{
           setPriorityButton("Transit");
-
+          setTransitPriority(!isTransitPriority);
+          console.log(isTransitPriority);
+          transitBool = !transitBool;
+          console.log("Transitbool is: " + transitBool);
+          if(InitialCalculationDone){
+            {calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode);}
+          }
         }}>Prioritise transit stations</StyledButton>
       </PriorityGrid>
       </MapAndPrioGrid>
