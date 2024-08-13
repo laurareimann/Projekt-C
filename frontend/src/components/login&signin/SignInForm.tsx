@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Input from './Inputforms';
-import Button from './buttons/Buttons';
+import Input from '../Inputforms';
+import Button from '../buttons/Buttons';
 
 
 const InputGrid = styled.div`

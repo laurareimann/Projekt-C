@@ -14,7 +14,7 @@ import Result from '../components/Result';
 import Input from '../components/Inputforms';
 import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
-import { ToastContainer } from 'react-toastify';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
 import React from 'react';
 import Dropdown, { dropdownOptions } from '../components/Dropdown.tsx';
 import Score from '../components/Score.tsx';
@@ -34,6 +34,15 @@ flex-wrap: wrap;
 gap:24px; 
 margin: 32px 0;
 align-items: start;
+`
+
+const ButtonGrid = styled.div`
+display: grid;
+grid-gap: 4px;
+place-items:center;
+width:420px;
+grid-template-columns: 1fr 1fr 1fr 1fr;
+margin-bottom: 10px;
 `
 
 const handleClick = () => {
@@ -58,6 +67,60 @@ const Test: React.FC = () => {
         <div>
             <h1>Components Overview</h1>
             <ToastContainer></ToastContainer>
+
+            {/*
+            Toast alert
+            Types: toast.warn, toast.info, toast.error
+            Variables: as listed in the example(hovering shows more information)
+            */}
+
+            <ButtonGrid>
+            <Button onClick={()=>{
+                toast.info("This is a toast", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                    });
+            }}>
+                Toastify info
+            </Button>
+            <Button onClick={()=>{
+                toast.error("This is a toast", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                    });
+            }}>
+                Toastify error
+            </Button>
+            <Button onClick={()=>{
+                toast.warning("This is a toast", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                    });
+            }}>
+                Toastify warning
+            </Button>
+            </ButtonGrid>
 
             {/*
             Maps
