@@ -78,15 +78,24 @@ const StyledInput = styled.input<InputProps>`
     outline: 0;
     border-radius: 8px;
     display: flex;
-    
 
-    &:not(:disabled):hover {
+
+    &:not(disabled){
         border: 2.5px solid  ${({$isValid}) =>
             $isValid
-                ? "var(--color--blue-3)": "var(--color--error-red)"};
+                ? "var(--color--pink-2)": "var(--color--error-red)"};
+    }
+    
+
+
+    &:not(:disabled):hover {
+
+        border: 2.5px solid  ${({$isValid}) =>
+            $isValid
+                ? "var(--color--pink-3)": "var(--color--error-red)"};
         color: ${({$isValid}) =>
             $isValid
-                ? "var(--color--blue-3)": "var(--color--error-red)"};
+                ? "var(--color--pink-3)": "var(--color--error-red)"};
     };
 
     &::placeholder{
@@ -166,12 +175,6 @@ const InputContainer = styled.div`
         padding:10px;
     }
 `
-
-const hr = styled.div`
-    border-bottom: dotted black;
-    width: 1px;
-`
-
 
 const setCookie = (name: string,value: unknown,days: number) =>{
     const expirationDate = new Date();
@@ -255,8 +258,8 @@ function LoginForm(){
                 <Title>Sign In</Title>
                 <InputContainer>
                   <InputGrid>
-                      <StyledInput placeholder="Username" type="email" onChange={(e)=>{setUser(e.target.value);}}/>    
-                      <StyledInput placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>  
+                      <StyledInput $isValid={true} disabled={false} placeholder="Username" type="email" onChange={(e)=>{setUser(e.target.value);}}/>    
+                      <StyledInput $isValid={true} disabled={false} placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>  
                   </InputGrid>      
                   <LinkText href="">Forgot password?</LinkText> 
                 </InputContainer>

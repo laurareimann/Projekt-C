@@ -77,15 +77,24 @@ const StyledInput = styled.input<InputProps>`
     outline: 0;
     border-radius: 8px;
     display: flex;
-    
 
-    &:not(:disabled):hover {
+
+    &:not(disabled){
         border: 2.5px solid  ${({$isValid}) =>
             $isValid
-                ? "var(--color--blue-3)": "var(--color--error-red)"};
+                ? "var(--color--pink-2)": "var(--color--error-red)"};
+    }
+    
+
+
+    &:not(:disabled):hover {
+
+        border: 2.5px solid  ${({$isValid}) =>
+            $isValid
+                ? "var(--color--pink-3)": "var(--color--error-red)"};
         color: ${({$isValid}) =>
             $isValid
-                ? "var(--color--blue-3)": "var(--color--error-red)"};
+                ? "var(--color--pink-3)": "var(--color--error-red)"};
     };
 
     &::placeholder{
@@ -249,9 +258,9 @@ function SignUpForm(){
                 <Title>Sign Up</Title>
                 <InputContainer>
                     <InputGrid>     
-                        <StyledInput placeholder="Username" onChange={(e)=>{setUser(e.target.value)}}/>
-                        <StyledInput placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>
-                        <StyledInput placeholder="Confirm Password" type="password" onChange={(e) => {setPasswordConfirm(e.target.value)}} />
+                        <StyledInput $isValid placeholder="Username" onChange={(e)=>{setUser(e.target.value)}}/>
+                        <StyledInput $isValid placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>
+                        <StyledInput $isValid placeholder="Confirm Password" type="password" onChange={(e) => {setPasswordConfirm(e.target.value)}} />
                     </InputGrid>
                     <LinkText href="loginPage" >Already registered? Click here to log in.</LinkText>
                 </InputContainer>
