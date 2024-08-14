@@ -193,14 +193,14 @@ function Footer() {
         </ThinColumn>
         <Column>
           <Headline>Legal</Headline>
-          <Link href="#">Terms</Link>
-          <Link href="#">Privacy</Link>
+          <Link href="/terms">Terms</Link>
+          <Link href="/privacy">Privacy</Link>
         </Column>
         <Column>
           <Headline>About us</Headline>
-          <Link href="#">The team</Link>
-          <Link href="#">Concept</Link>
-          <Link href="#">FAQ</Link>
+          <Link href="/the-team">The team</Link>
+          <Link href="/concept">Concept</Link>
+          <Link href="/faq">FAQ</Link>
         </Column>
         <Column>
           <Headline>Contact</Headline>
@@ -211,7 +211,7 @@ function Footer() {
         </Column>
       </ColumnsContainer>
       <PartingLine />
-      <FooterText>© All rights reserved (TO BE CHANGED)</FooterText>
+      <FooterText>© All rights reserved</FooterText>
     </FooterContainer>
   );
 }

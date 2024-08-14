@@ -29,6 +29,11 @@ import LogInOrSignUp from './pages/LogInPage.tsx';
 import LogInPage from './pages/LogInPage.tsx';
 import RegisterPage from './pages/RegisterPage.tsx';
 import TestSite from './pages/Collapse.tsx';
+import Terms from './pages/Terms.tsx';
+import Privacy from './pages/Privacy.tsx';
+import TheTeam from './pages/TheTeam.tsx';
+import Concept from './pages/Concept.tsx';
+import FAQ from './pages/FAQ.tsx';
 
 
 
@@ -186,8 +191,12 @@ const App: React.FC = () => {
         <Route path="about-us" element={<AboutUs />} />
         <Route path="logInPage" element={<LogInPage/>}/>
         <Route path="registerPage" element = {<RegisterPage/>}/>
-        
-        <Route path="TestSite" element={<TestSite/>} />
+        <Route path="test" element={<TestSite/>} />
+        <Route path="terms" element={<Terms/>} />
+        <Route path="privacy" element={<Privacy/>} />
+        <Route path="the-team" element={<TheTeam/>} />
+        <Route path="concept" element={<Concept/>} />
+        <Route path="faq" element={<FAQ/>} />
             /*hier alle Seiten anlegen */
       </Routes>
       <Footer/>
