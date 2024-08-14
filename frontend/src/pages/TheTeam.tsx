@@ -84,7 +84,7 @@ const Team: React.FC = () => {
             color: "#B8007A"
         },
         {
-            name: "Niko Müller",
+            name: "Nikolas Müller",
             role: "Software Developer",
             bio: "Niko is involved in software development, contributing to both frontend and backend aspects of the project. He has a deep interest in urban planning and sustainability.",
             color: "#8B96F9"
