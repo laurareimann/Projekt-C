@@ -11,9 +11,11 @@ import {
 import Places from "./places";
 import Distance from "./distance";
 import styled from "styled-components";
+import Button from "../buttons/Buttons";
 
 import MapLegend from "./mapLegend";
 import walkingIcon from "../../assets/walkingIcon.svg";
+import FilterContainer from "../filterComponents/FilterContainer";
 
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -98,6 +100,20 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const onLoad = useCallback((map: any) => (mapRef.current = map), []);
   console.log(shouldRenderCircles);
 
+  const [showFilters, setShowFilters] = useState(false);
+
+  const handleFilterClick = () => {
+    setShowFilters(!showFilters);
+  };
+
+  const FilterOverlay = styled.div`
+  position: absolute;
+  z-index: 8;
+  top: 100px;
+  right: 0;
+  display: flex;  
+  
+  `
 
   return (
     <div>
@@ -108,6 +124,13 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           mapRef.current?.panTo(position);
         }} />
       </ControlContainer>
+      <Button onClick={handleFilterClick}>Filter</Button>
+      {showFilters && (
+        <FilterOverlay>
+          <FilterContainer />
+        </FilterOverlay>
+      )}
+
       <MapContainer>
         <GoogleMap zoom={14}
           center={center}

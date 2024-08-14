@@ -8,13 +8,13 @@ import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
 import { ToastContainer } from 'react-toastify';
 import FilterContainer from '../components/filterComponents/FilterContainer.tsx';
+import { Button } from 'react-bootstrap';
 
 const HomePage: React.FC = () => {
     return (
         <>
             <h1>15 Minute City Calculator</h1>
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
-            <FilterContainer></FilterContainer>
             <StreetProvider cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
                 <Map
                     shouldRenderCircles={true}
