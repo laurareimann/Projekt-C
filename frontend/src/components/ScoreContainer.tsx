@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
-import Button from './Buttons';
+import Button from './buttons/Buttons';
 import Container from './Container';
 import Address from './Address';
 import Score from './Score';
-import { useStreetNameNew,useZipCodeNew,useCityNew, useScore } from './mapComponents/StreetProvider';
+import { useStreetNameNew, useZipCodeNew, useCityNew } from './mapComponents/StreetProvider';
 
 const ContainerContentWrapper = styled.div`
     display: flex;
@@ -13,22 +13,18 @@ const ContainerContentWrapper = styled.div`
     align-items: center;
     text-align: -webkit-center;
     padding: 16px;
-
     `
 
-function ScoreContainer({color = "pink", buttonText = "View results", outline = false, onClick = () => { } }) {
-    
+function ScoreContainer({ score = "42", color = "pink", buttonText = "View results", outline = false, onClick = () => { } }) {
+
     const customStreet = useStreetNameNew().streetName;
     const customZip = useZipCodeNew().zipCode;
     const customCity = useCityNew().currentCity;
-    const customScore = useScore().currentScore;
-    
-    
 
     return (
         <Container color={color} outline={outline}>
             <ContainerContentWrapper>
-                <Score color={color} score={customScore}></Score>
+                <Score color={color} score={score}></Score>
                 <Address color={color} street={customStreet} zip={customZip} city={customCity}></Address>
                 <Button color={color} onClick={onClick}>{buttonText}</Button>
             </ContainerContentWrapper>

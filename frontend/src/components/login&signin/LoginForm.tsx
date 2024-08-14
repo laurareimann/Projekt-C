@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Input from './Inputforms';
-import Button from './Buttons';
+import Input from '../Inputforms';
+import Button from '../buttons/Buttons';
 import axios from "axios";
-
+import {Bounce,toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 //StyledButton kopiert
 const StyledButton = styled.button`
@@ -77,15 +78,24 @@ const StyledInput = styled.input<InputProps>`
     outline: 0;
     border-radius: 8px;
     display: flex;
-    
 
-    &:not(:disabled):hover {
+
+    &:not(disabled){
         border: 2.5px solid  ${({$isValid}) =>
             $isValid
-                ? "var(--color--blue-3)": "var(--color--error-red)"};
+                ? "var(--color--pink-2)": "var(--color--error-red)"};
+    }
+    
+
+
+    &:not(:disabled):hover {
+
+        border: 2.5px solid  ${({$isValid}) =>
+            $isValid
+                ? "var(--color--pink-3)": "var(--color--error-red)"};
         color: ${({$isValid}) =>
             $isValid
-                ? "var(--color--blue-3)": "var(--color--error-red)"};
+                ? "var(--color--pink-3)": "var(--color--error-red)"};
     };
 
     &::placeholder{
@@ -166,12 +176,6 @@ const InputContainer = styled.div`
     }
 `
 
-const hr = styled.div`
-    border-bottom: dotted black;
-    width: 1px;
-`
-
-
 const setCookie = (name: string,value: unknown,days: number) =>{
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + days);
@@ -189,7 +193,19 @@ const setCookie = (name: string,value: unknown,days: number) =>{
 
   const currentUser = getCookie("username");
 
-
+  const throwToast = (errorMessage:string) =>{
+    toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+        });
+}
 
 
 function LoginForm(){
@@ -212,13 +228,17 @@ function LoginForm(){
                 if(res.data=="exist"){
                     setCookie("username",user,7);
                     console.log("Logged in");
+                    window.location.replace("/")
                 }
                 else if(res.data=="notexist"){
-                    alert("User have not sign up")
+                    throwToast("User doesn't exist yet")
+                }
+                else if(res.data=="Wrong credentials!"){
+                    throwToast("Wrong username or password!");
                 }
             })
             .catch((e: string)=>{
-                alert("wrong details")
+                
                 console.log(e);
             })
 
@@ -238,8 +258,8 @@ function LoginForm(){
                 <Title>Sign In</Title>
                 <InputContainer>
                   <InputGrid>
-                      <StyledInput placeholder="Username" type="email" onChange={(e)=>{setUser(e.target.value);}}/>    
-                      <StyledInput placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>  
+                      <StyledInput $isValid={true} disabled={false} placeholder="Username" type="email" onChange={(e)=>{setUser(e.target.value);}}/>    
+                      <StyledInput $isValid={true} disabled={false} placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>  
                   </InputGrid>      
                   <LinkText href="">Forgot password?</LinkText> 
                 </InputContainer>
