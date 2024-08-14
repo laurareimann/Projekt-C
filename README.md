@@ -31,6 +31,8 @@ Routing zur Führung zwischen pages
 In beiden Ordnern (frontend & backend):
 Kompilieren: npm run build
 Während Entwicklung: npm run dev
+WICHTIG: Bei allem, was mit Registrierung,Anmeldung oder allgemein mit Datenbanken zu tun hat, bitte das Terminal aufsplitten, in einem in den frontend folder und im anderen in den backend folder navigieren.
+Sonst klappt diese Funktionalität nicht.
 
 
 
