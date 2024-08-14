@@ -16,9 +16,8 @@ const ResultContainer = styled.div`
     text-align: -webkit-center;
     padding: 16px;
     border-radius: 26px;
-   // border: 2px pink solid;
     background-color: #FFECF8;
-    //pointer-events: none; //Soll ja wie Screenshot sein?
+    pointer-events: none; //Soll ja wie Screenshot sein?
 `
 const MapAndPrioGrid = styled.div`
     display: grid;
