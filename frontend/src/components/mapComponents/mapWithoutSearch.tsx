@@ -14,7 +14,6 @@ import styled from "styled-components";
 import MapLegend from "./mapLegend";
 
 import walkingIcon from "../../assets/walkingIcon.svg";
-import { Container } from "react-bootstrap";
 
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -22,10 +21,10 @@ type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
 
-const MapContainer = styled.div<{height: string, width: string}>`
+const MapContainer = styled.div`
   position: relative;
-  height: ${(props) => props.height};
-  width: ${(props) => props.width};
+  height: 100%;
+  width: 100%;
   border:none;
   border-radius:50px;
   margin-bottom:10px;
@@ -39,8 +38,6 @@ interface MapWithoutSearchProps {
   shouldRenderCircles?: boolean;
   circleRadii?: number[];
   circleColors?: string[];
-  height?: string;
-  width?: string;
 }
 
 const defaultCenter: LatLngLiteral = { lat: 53.5688823, lng: 10.0330191 };
@@ -51,9 +48,7 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
   center = defaultCenter,
   shouldRenderCircles = true,
   circleRadii = [1250, 2500, 3750],
-  circleColors = defaultColors,
-  height = "100%",  // Default height
-  width = "100%"    // Default width
+  circleColors = defaultColors
 }) => {
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau
@@ -109,15 +104,13 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
 
   return (
     <div>
-      
-      <MapContainer height={height} width={width}>
+      <MapContainer>
         <GoogleMap
           zoom={13}
           center={center}
           mapContainerClassName="map-container"
           options={options}
           onLoad={onLoad}
-          
         >
           {/* Render dynamically generated circles */}
           {shouldRenderCircles && (
@@ -134,7 +127,6 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
           />
         )}
       </MapContainer>
-      
     </div>
   )
 }

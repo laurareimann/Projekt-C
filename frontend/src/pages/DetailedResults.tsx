@@ -12,6 +12,7 @@ import React from 'react';
 import Button from '../components/Buttons.tsx';
 import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
 import { latLngEquals } from '@vis.gl/react-google-maps';
+import { useState } from 'react';
 
 // Define the types for the props
 interface HorizontalContainerProps {
@@ -21,34 +22,71 @@ interface HorizontalContainerProps {
 const HorizontalContainer = styled.div<HorizontalContainerProps>`
     display: flex;
     flex-direction: row;
-    //align-items: center;// Adjust as needed
+    align-items: center;// Adjust as needed
     justify-content: center;
     gap: ${(props) => props.gap};
     padding: 0.5em;
 `;
 
+
+
+const ButtonGrid = styled.div`
+display: grid;
+grid-gap: 4px;
+place-items:center;
+width:420px;
+grid-template-columns: 1fr 1fr;
+margin-bottom: 10px;
+`
+
+const MapAndPrioGrid = styled.div`
+display: grid;
+grid-gap: 4px;
+place-items:center;
+width:1500px;
+grid-template-columns: 1fr 1fr;
+margin-bottom: 10px;
+`
+
+const PriorityGrid = styled.div`
+display: grid;
+grid-gap: 4px;
+place-items:center;
+width:45px;
+margin-bottom: 10px;
+`
+
+const ControlContainer = styled.div`
+  height:fit-content;
+  width: 500px;
+  height: 200px;
+  margin:auto;
+  padding: 0.3rem;
+  background-color: var(--color--pink-3);
+  border-radius:20px;
+  margin-bottom:10px;
+`
+
 const Evaluation: React.FC = () => {
+
+    const [tabState, setTab] = useState
     return (
         <div>
             <h1>Detailed Results</h1>
-            <HorizontalContainer gap='60px'>
+            <ButtonGrid>
                 <Button>Overall Score</Button>
-                <Button disabled={true}>Routes</Button>
-            </HorizontalContainer>
+                <Button>Routes</Button>
+            </ButtonGrid>
             
-            <HorizontalContainer gap='60px'>
                 <MapWithoutSearch
                     center={{ lat: 53.5688823, lng: 10.0330191 }}
                     shouldRenderCircles={false}
-                    height='500px'
-                    width='200px'
                 />
-            <Container height = {300} width={20}></Container>
+            <Container height = {300} width={200}></Container>
                 {/* <MapWithoutSearch center={{ lat: 53.5688823, lng: 10.0330191 }} shouldRenderCircles={false}/> 
                 
                  */}
-            </HorizontalContainer>
-           
+
         <ToastContainer></ToastContainer>
         </div>
     );
