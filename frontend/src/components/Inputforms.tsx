@@ -39,6 +39,7 @@ const StyledInput = styled.input<InputProps>`
     border-radius: 8px;
     display: flex;
     
+
     &:not(:disabled):hover {
         border: 2.5px solid  ${({ $isValid }) =>
         $isValid
@@ -54,9 +55,12 @@ const StyledInput = styled.input<InputProps>`
         color: "var(--color--disabled-gray)"
     };
 
-    @media (min-width: 768px) {
-        width: ${({ size }) =>
-        size === "regular" ? "350px" : "fit-content"};
+    @media (min-width: 769px) {
+        width: 350px;
+    }
+
+    @media (max-width:768px){
+        width:355px;
     }
 `;
 

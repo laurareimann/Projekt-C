@@ -6,7 +6,7 @@ import Input from '../Inputforms';
 import Button from '../buttons/Buttons';
 import LabelButton from '../buttons/LabelButton';
 import TileButton from '../buttons/TileButton';
-import DropDownLanguage from '../languageDropdownButton';
+import Dropdown from '../Dropdown';
 
 function FilterContainer({ color = "blue", outline = true, children }: { color?: string; outline?: boolean; children?: React.ReactNode }) {
     const [selectedFilters, setSelectedFilters] = useState({
@@ -94,11 +94,11 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                 </QuestionWrapper>
                 <QuestionWrapper>
                     <p>What is your relationship status?</p>
-                    <DropDownLanguage options={["Single", "Married"]} category='Relationship Status'></DropDownLanguage>
+                    <Dropdown options={["Single", "Married"]} category='Relationship Status'></Dropdown>
                 </QuestionWrapper>
                 <QuestionWrapper>
                     <p>What is your occupation?</p>
-                    <DropDownLanguage options={["Student", "Working", "Unemployed"]} category='Occupation'></DropDownLanguage>
+                    <Dropdown options={["Student", "Working", "Unemployed"]} category='Occupation'></Dropdown>
                 </QuestionWrapper>
                 <QuestionWrapper>
                     <p>What is your preferred method of transport?</p>

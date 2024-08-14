@@ -4,30 +4,22 @@ import React from 'react';
 import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
 import { createGlobalStyle } from "styled-components";
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Button from './components/buttons/Buttons.tsx';
-import GlassButton from './components/GlassButtons';
-import BlurButton from './components/buttons/BlurButtons.tsx';
-import Location from './components/Location';
-import Result from './components/Result';
-import Input from './components/Inputforms';
-import ScoreContainer from './components/ScoreContainer';
-import QuizContainer from './components/QuizContainer';
-
+import Header from './components/header&footer/Header.tsx';
+import Footer from './components/header&footer/Footer.tsx';
 
 //pages
-import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "./pages/MainPage";
 import AboutUs from "./pages/AboutUs";
-import { createRoot } from "react-dom/client";
-import Map from "./components/mapComponents/map.tsx";
 import { useLoadScript } from '@react-google-maps/api';
-import StreetProvider from './components/mapComponents/StreetProvider.tsx';
+import LogInPage from './pages/LogInPage.tsx';
+import RegisterPage from './pages/RegisterPage.tsx';
 import Test from './pages/Test.tsx';
-
-
+import Terms from './pages/Terms.tsx';
+import Privacy from './pages/Privacy.tsx';
+import TheTeam from './pages/TheTeam.tsx';
+import Concept from './pages/Concept.tsx';
+import FAQ from './pages/FAQ.tsx';
 
 /*
 export const StreetContext = React.createContext("preview Street");
@@ -79,26 +71,24 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color: var(--color--white-shade);
     min-height: 100vh;
-    font-family: 'Roboto', sans-serif;
+    padding-top: 30px;
+    font-family: 'Roboto', sans-serif; 
   }
 
   // typography
   h1 {
-  color: var(--color--blue-5);
   line-height: 3.5rem;
   font-size: 3rem;
   font-weight: 600;
   text-align: center;
 }
 h2 {
-  color: var(--color--blue-5);
   line-height: 2.5rem;
   font-size: 2rem;
   font-weight: 600;
   margin:0;
 }
 h3 {
-  color: var(--color--blue-5);
   line-height: 2rem;
   font-size: 1.5rem;
   font-weight: 600;
@@ -124,8 +114,6 @@ h5{
 }
 `;
 
-
-
 const ColoredString = styled.p<{ color: string }>`
   color: ${(props) => props.color};
 `;
@@ -140,7 +128,6 @@ const MainContainer = styled.main`
   max-width: 1040px;
   text-align: start;
 `;
-
 
 const ButtonGrid = styled.div`
 display: grid;
@@ -180,7 +167,15 @@ const App: React.FC = () => {
       <Routes>
         <Route index element={<Homepage />} />
         <Route path="about-us" element={<AboutUs />} />
-        <Route path='test' element={<Test />} />
+        <Route path="logInPage" element={<LogInPage/>}/>
+        <Route path="registerPage" element = {<RegisterPage/>}/>
+        <Route path="Test" element={<Test/>} />
+        <Route path="terms" element={<Terms/>} />
+        <Route path="privacy" element={<Privacy/>} />
+        <Route path="the-team" element={<TheTeam/>} />
+        <Route path="concept" element={<Concept/>} />
+        <Route path="faq" element={<FAQ/>} />
+
             /*hier alle Seiten anlegen */
       </Routes>
       <Footer/>

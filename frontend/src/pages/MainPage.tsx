@@ -14,20 +14,19 @@ const HomePage: React.FC = () => {
         <>
             <h1>15 Minute City Calculator</h1>
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
+            <FilterContainer></FilterContainer>
             <StreetProvider cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
-                <Map />
+                <Map
+                    shouldRenderCircles={true}
+                    circleRadii={[1250, 2500, 3750]}
+                    circleColors={['green', 'yellow', 'red']}
+                />
                 <ScoreContainer color='blue'></ScoreContainer>
                 <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>
             <ToastContainer></ToastContainer>
         </>
     );
-};
-
-
-// Funktionen und Styling
-export const handleClick = () => {
-    console.log("Button clicked!");
 };
 
 export default HomePage;

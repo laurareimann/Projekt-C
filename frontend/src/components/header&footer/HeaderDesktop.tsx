@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
-import Button from './buttons/Buttons';
-
-import logo from '../assets/icons/Logo.svg';
-import quizIcon from '../assets/icons/QuizIcon.svg';
-import aboutUsIcon from '../assets/icons/AboutIcon.svg';
-import evaluationIcon from '../assets/icons/EvaluationIcon.svg';
-import profileIcon from '../assets/icons/ProfileIcon.svg';
+import Button from '../buttons/Buttons';
+import logo from '../../assets/icons/Logo.svg';
+import quizIcon from '../../assets/icons/QuizIcon.svg';
+import aboutUsIcon from '../../assets/icons/AboutIcon.svg';
+import evaluationIcon from '../../assets/icons/EvaluationIcon.svg';
+import profileIcon from '../../assets/icons/ProfileIcon.svg';
 
 
 
@@ -154,7 +152,7 @@ function HeaderDesktop() {
             <img src={profileIcon} alt="Profile" />
           </Profile>
         ) : (
-          <Profile href="/login">
+          <Profile href="/logInPage">
             <Button color='pink'>Login</Button>
           </Profile>
         )}

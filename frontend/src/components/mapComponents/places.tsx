@@ -146,7 +146,7 @@ export default function Places({ setSpot }: PlacesProps) {
         onChange={(e) => {setValue(e.target.value), tempPreviewAdress = e.target.value}}
         disabled={!ready}
         className="combobox-input"
-        placeholder="Search preview address"
+        placeholder="Enter your desired address"
       />
       <i className ="icon"></i>
       <ComboboxPopover>

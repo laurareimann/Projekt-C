@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { slide as Menu } from 'react-burger-menu';
 import { slide as ProfileMenu } from 'react-burger-menu';
-
-import quizIcon from '../assets/icons/QuizIcon.svg';
-import aboutUsIcon from '../assets/icons/AboutIcon.svg';
-import evaluationIcon from '../assets/icons/EvaluationIcon.svg';
-import profileIcon from '../assets/icons/ProfileIcon.svg';
-import burgerBars from '../assets/icons/BurgerBars.svg';
-import burgerCross from '../assets/icons/BurgerCross.svg';
+import quizIcon from '../../assets/icons/QuizIcon.svg';
+import aboutUsIcon from '../../assets/icons/AboutIcon.svg';
+import evaluationIcon from '../../assets/icons/EvaluationIcon.svg';
+import profileIcon from '../../assets/icons/ProfileIcon.svg';
+import burgerBars from '../../assets/icons/BurgerBars.svg';
+import burgerCross from '../../assets/icons/BurgerCross.svg';
 
 const Header = styled.header<{ visible: boolean }>`
     position: fixed;
@@ -317,12 +316,12 @@ const HeaderMobile = () => {
             styles={burgerProfileStyles}
             right
           >
-            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/login">
+            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/logInPage">
               <MenuProfileItem>
                 Login
               </MenuProfileItem>
             </MenuProfileOption>
-            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/register">
+            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/registerPage">
               <MenuProfileItem>
                 Register
               </MenuProfileItem>
