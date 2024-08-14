@@ -17,17 +17,6 @@ interface HorizontalContainerProps {
     gap: string;
 }
 
-const HorizontalContainer = styled.div<HorizontalContainerProps>`
-    display: flex;
-    flex-direction: row;
-    align-items: center;// Adjust as needed
-    justify-content: center;
-    gap: ${(props) => props.gap};
-    padding: 0.5em;
-`;
-
-
-
 const ButtonGrid = styled.div`
 display: grid;
 grid-gap: 4px;
@@ -35,6 +24,7 @@ place-items:center;
 width:420px;
 grid-template-columns: 1fr 1fr;
 margin-bottom: 10px;
+margin-top: 20px
 `
 
 const MapAndPrioGrid = styled.div`
@@ -61,7 +51,7 @@ const Evaluation: React.FC = () => {
         <div>
             <h1>Detailed Results</h1>
 
-            
+            <ResultContainer></ResultContainer>
 
             <ButtonGrid>
                 <Button>Overall Score</Button>
