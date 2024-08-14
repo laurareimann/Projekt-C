@@ -1,14 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-    width: 80%;
-    text-align:start;
-`;
 
 const AboutUs: React.FC = () => {
     return (
-        <Wrapper>
+        <div>
             <h1>About Us</h1>
             <p>This project is part of the Project C module in the Bachelor's degree programme Media Systems at HAW Hamburg</p>
             <h3>What is the 15-minute city?</h3>
@@ -26,7 +20,7 @@ const AboutUs: React.FC = () => {
             <h3>Our Team</h3>
             <p>This project wouldn't be possible without the dedication of our team:</p>
             <p>Laura, Leon, Nico, and Niko</p>
-        </Wrapper>
+        </div>
     );
 };
 

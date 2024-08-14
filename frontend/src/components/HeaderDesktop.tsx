@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import Button from '../buttons/Buttons';
+import Button from './Buttons';
 
-import logo from '../../assets/Logo.svg';
-import quizIcon from '../../assets/QuizIcon.svg';
-import aboutUsIcon from '../../assets/AboutIcon.svg';
-import evaluationIcon from '../../assets/EvaluationIcon.svg';
-import profileIcon from '../../assets/ProfileIcon.svg';
+import logo from '../assets/Logo.svg';
+import quizIcon from '../assets/QuizIcon.svg';
+import aboutUsIcon from '../assets/AboutIcon.svg';
+import evaluationIcon from '../assets/EvaluationIcon.svg';
+import profileIcon from '../assets/ProfileIcon.svg';
 
 
 

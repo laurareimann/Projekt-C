@@ -36,6 +36,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: var(--color--white-shade);
+
     margin: 0;
     padding: 20px;
     font-family: 'Roboto', sans-serif;
@@ -43,21 +44,25 @@ export const GlobalStyle = createGlobalStyle`
 
   // typography
   h1 {
+  color: var(--color--blue-5);
   line-height: 3.5rem;
   font-size: 3rem;
   font-weight: 600;
 }
   h2 {
+  color: var(--color--blue-5);
   line-height: 2.5rem;
   font-size: 2rem;
   font-weight: 600;
 }
   h3 {
+  color: var(--color--blue-5);
   line-height: 2rem;
   font-size: 1.25rem;
   font-weight: 500;
 }
   p {
+  color: var(--color--black-shade);
   line-height: 1.5rem;
   font-size: 1.25rem;
   font-weight: 400;

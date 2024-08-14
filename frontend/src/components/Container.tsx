@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
-import Button from './buttons/Buttons';
+import Button from './Buttons';
 
 //Siehe Kommentar in Inputforms
 const StyledContainer = styled.div <{ $hasOutline: boolean; color: string }>`
