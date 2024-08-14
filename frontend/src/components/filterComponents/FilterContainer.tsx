@@ -1,20 +1,12 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import Checkbox from '../Checkbox';
 import Container from '../Container';
-import Input from '../Inputforms';
 import Button from '../buttons/Buttons';
 import LabelButton from '../buttons/LabelButton';
 import TileButton from '../buttons/TileButton';
-import Dropdown from '../Dropdown';
 
 function FilterContainer({ color = "blue", outline = true, children }: { color?: string; outline?: boolean; children?: React.ReactNode }) {
     const [selectedFilters, setSelectedFilters] = useState({
-        age: null,
-        ageGroups: [],
-        hasPet: false,
-        relationshipStatus: '',
-        occupation: '',
         transportMethod: '',
         preferences: {
             health: [],
@@ -23,18 +15,6 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
             culture: []
         }
     });
-
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const inputValue = e.target.value;
-        const age = inputValue === '' ? null : Number(inputValue);
-        setSelectedFilters(prevState => ({ ...prevState, age: age }) as typeof prevState);
-        console.log("Selected Filters:", selectedFilters);
-    };
-
-    const handleCheckboxChange = () => {
-        setSelectedFilters({ ...selectedFilters, hasPet: !selectedFilters.hasPet });
-        console.log("Selected Filters:", selectedFilters);
-    };
 
     const handleTileButtonClick = (key: string, value: string) => {
         setSelectedFilters({ ...selectedFilters, [key]: value });
@@ -48,11 +28,6 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
 
     const resetFilters = () => {
         setSelectedFilters({
-            age: null,
-            ageGroups: [],
-            hasPet: false,
-            relationshipStatus: '',
-            occupation: '',
             transportMethod: '',
             preferences: {
                 health: [],
@@ -69,37 +44,6 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
             {children}
             <FilterWrapper>
                 <h2>Filter</h2>
-                <QuestionWrapper>
-                    <p>How old are you?</p>
-                    <Input type="number" placeholder='Age' size='small' min={0} max={120}></Input>
-                    <Input type="number" placeholder='Age' size='small' min={0} max={120} value={selectedFilters.age ?? undefined} onChange={handleInputChange}></Input>                </QuestionWrapper>
-                <QuestionWrapper>
-                    <p>Include any other age groups:</p>
-                    <TileGrid>
-                        {[
-                            { text: 'baby', range: '0-3' },
-                            { text: 'children', range: '4-10' },
-                            { text: 'teenager', range: '11-17' },
-                            { text: 'young adult', range: '18-35' },
-                            { text: 'middle age', range: '36-70' },
-                            { text: 'senior', range: '70+' }
-                        ].map(({ text, range }) => (
-                            <TileButton key={text} text={text} subline={range} onClick={() => handleTileButtonClick('ageGroups', text)}></TileButton>
-                        ))}
-                    </TileGrid>
-                </QuestionWrapper>
-                <QuestionWrapper>
-                    <p>Do you own a pet?</p>
-                    <Checkbox label="Yes" checked={selectedFilters.hasPet} onChange={handleCheckboxChange} />
-                </QuestionWrapper>
-                <QuestionWrapper>
-                    <p>What is your relationship status?</p>
-                    <Dropdown options={["Single", "Married"]} category='Relationship Status'></Dropdown>
-                </QuestionWrapper>
-                <QuestionWrapper>
-                    <p>What is your occupation?</p>
-                    <Dropdown options={["Student", "Working", "Unemployed"]} category='Occupation'></Dropdown>
-                </QuestionWrapper>
                 <QuestionWrapper>
                     <p>What is your preferred method of transport?</p>
                     <TileGrid>
