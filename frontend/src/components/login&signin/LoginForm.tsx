@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Input from '../Inputforms';
 import Button from '../buttons/Buttons';
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import createGlobalStyle from 'styled-components';
 
 //StyledButton kopiert
 const StyledButton = styled.button`
@@ -114,27 +112,6 @@ const StyledInput = styled.input<InputProps>`
     }
 `;
 
-
-const InputGrid = styled.div`
-display: grid;
-grid-gap: 45px;
-place-items:center;
-`
-
-const FormContainer = styled.div`
-    width:500px;
-    border: 10px solid var(--color--pink-1);
-    border-radius: 15px;
-    margin-top: 200px;
-    font-size:42px;
-    margin-bottom:200px;
-    padding-bottom: 100px ;
-
-    @media (max-width: 768px) {
-        border:none;
-        width:500px;
-    }
-`
 const LoginContainer = styled.div`
     width:500px;
     border: 8px solid var(--color--pink-1);
@@ -168,46 +145,6 @@ const ButtonWrapper = styled.div`
     grid-gap: 12px;
     justify-items: center;`
 
-const Title = styled.p`
-    font-size: 42px;
-    margin-top: 42px;
-`
-
-const AlternativeText = styled.p`
-    font-size: 35px;
-`
-
-const LinkText = styled.a`
-    margin-top: 10px;
-    font-size: 20px;
-    color: blue;
-    margin-right: 190px;
-    text-decoration: underline;
-
-    &:hover{
-        color: #3472d5;
-    }
-`
-
-const ButtonGrid = styled.div`
-    margin-top: 5px;
-    display: grid;
-    grid-gap: 45px;
-    place-items:center;
-
-    @media (max-width: 768px){
-     margin-top: 15px ;
-    }
-`
-
-const InputContainer = styled.div` 
-    padding: 50px;
-    margin-top: 20px;
-
-    @media (max-width:768px){
-        padding:10px;
-    }
-`
 
 const setCookie = (name: string, value: unknown, days: number) => {
     const expirationDate = new Date();
