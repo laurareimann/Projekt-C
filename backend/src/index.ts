@@ -92,7 +92,7 @@ app.post("/signup", async(req,res) => {
         console.log("User successfully added")
         res.json("SignUpSuccess")
       }
-      else{
+      if(password!=passwordConfirm){
         res.json("Passwords not matching");
         console.log("Passwords not matching");
       }
@@ -141,7 +141,6 @@ app.listen(PORT,() => {
     
 
   })
-
 
 
 

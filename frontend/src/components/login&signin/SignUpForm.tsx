@@ -215,26 +215,16 @@ function SignUpForm(){
                 user,password,passwordConfirm
             })
             .then((res: { data: string })=>{
-                if(res.data=="exists"){
-                      throwToast("User already exists")
+                if(res.data==="exists"){
+                    throwToast("User already exists")
                       return 0;
                 }
-                if(res.data=="Passwords not matching"){
+                else if(res.data==="Passwords not matching"){
                     console.log("Passwords didn't match!")
-                    toast.error('Passwords are not matching!', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                        transition: Bounce,
-                        });
+                    throwToast("Passwords are not matching")
                       return 0;
                 }
-                if(res.data==="SignUpSuccess"){
+                else if(res.data==="SignUpSuccess"){
                     window.location.replace("/logInPage");
                 }
             })

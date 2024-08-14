@@ -3,10 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 import Map from "../components/mapComponents/map.tsx";
 import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
-import Button from '../components/Buttons.tsx';
-import GlassButton from '../components/GlassButtons.tsx';
+import Button from '../components/buttons/Buttons.tsx';
+import GlassButton from '../components/buttons/GlassButtons.tsx';
 import Input from '../components/Inputforms.tsx';
-import BlurButton from '../components/BlurButtons.tsx';
+import BlurButton from '../components/buttons/BlurButtons.tsx';
 import Result from '../components/Result.tsx';
 import Location from '../components/Location.tsx';
 // Components
