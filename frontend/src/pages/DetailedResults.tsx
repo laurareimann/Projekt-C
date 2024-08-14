@@ -4,15 +4,13 @@ import Map from "../components/mapComponents/map.tsx";
 import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 
 // Components
-import ScoreContainer from '../components/ScoreContainer';
-import QuizContainer from '../components/QuizContainer';
-import Container from '../components/Container.tsx';
 import { ToastContainer } from 'react-toastify';
 import React from 'react';
 import Button from '../components/Buttons.tsx';
 import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
 import { latLngEquals } from '@vis.gl/react-google-maps';
 import { useState } from 'react';
+import ResultContainer from '../components/ResultContainer.tsx';
 
 // Define the types for the props
 interface HorizontalContainerProps {
@@ -41,35 +39,16 @@ margin-bottom: 10px;
 
 const MapAndPrioGrid = styled.div`
 display: grid;
-grid-gap: 4px;
+grid-gap: 15px;
 place-items:center;
-width:700px;
+width:1000px;
 grid-template-columns: 1fr 1fr;
 margin-bottom: 10px;
 `
 
-const PriorityGrid = styled.div`
-display: grid;
-grid-gap: 4px;
-place-items:center;
-width:45px;
-margin-bottom: 10px;
-`
-
-const ControlContainer = styled.div`
-  height:fit-content;
-  width: 500px;
-  height: 200px;
-  margin:auto;
-  padding: 0.3rem;
-  background-color: var(--color--pink-3);
-  border-radius:20px;
-  margin-bottom:10px;
-`
-
 const DiagrammContainer = styled.div`
-width: 60vh;
-  height: 40vh;
+  width: 40vh;
+  height: 50vh;
   border: 4px solid var(--color--pink-3);
   border-radius: 20px;
   display:grid;
@@ -81,6 +60,9 @@ const Evaluation: React.FC = () => {
     return (
         <div>
             <h1>Detailed Results</h1>
+
+            
+
             <ButtonGrid>
                 <Button>Overall Score</Button>
                 <Button>Routes</Button>
@@ -95,7 +77,7 @@ const Evaluation: React.FC = () => {
                 />
 
                 <DiagrammContainer></DiagrammContainer>
-                </MapAndPrioGrid>
+            </MapAndPrioGrid>
 
         <ToastContainer></ToastContainer>
         </div>
