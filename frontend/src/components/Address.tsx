@@ -9,6 +9,17 @@ const AddressWrapper = styled.div`
     text-align: left;
     align-items: center;
     gap: 8px;
+    color: ${({ color }) => {
+        switch (color) {
+            case "blue":
+                return "var(--color--blue-5)";
+            case "green":
+                return "var(--color--green-5)";
+            case "pink":
+            default:
+                return "var(--color--pink-5)";
+        }
+    }};
 
     > div{
         flex-direction: column;
@@ -27,7 +38,7 @@ function Address({ street = "Finkenau 35", zip = "22081", city = "Hamburg", colo
             : MapPoint_pink;
 
     return (
-        <AddressWrapper>
+        <AddressWrapper color={color}>
             <MapPointIcon src={mapPointSrc} />
             <div>
                 <p><b>{street}</b></p>
