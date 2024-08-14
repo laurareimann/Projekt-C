@@ -14,11 +14,14 @@ import styled from "styled-components";
 import MapLegend from "./mapLegend";
 
 import walkingIcon from "../../assets/walkingIcon.svg";
-
+import { Container } from "react-bootstrap";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
+
+
+
 
 
 const MapContainer = styled.div`
@@ -30,6 +33,8 @@ const MapContainer = styled.div`
   margin-bottom:10px;
   
 `
+
+
 
 
 // Typescript Props
@@ -108,7 +113,7 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
         <GoogleMap
           zoom={13}
           center={center}
-          mapContainerClassName="map-container"
+          mapContainerClassName="map-container-without-search"
           options={options}
           onLoad={onLoad}
         >

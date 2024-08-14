@@ -43,7 +43,7 @@ const MapAndPrioGrid = styled.div`
 display: grid;
 grid-gap: 4px;
 place-items:center;
-width:1500px;
+width:700px;
 grid-template-columns: 1fr 1fr;
 margin-bottom: 10px;
 `
@@ -67,9 +67,17 @@ const ControlContainer = styled.div`
   margin-bottom:10px;
 `
 
+const DiagrammContainer = styled.div`
+width: 60vh;
+  height: 40vh;
+  border: 4px solid var(--color--pink-3);
+  border-radius: 20px;
+  display:grid;
+`
+
 const Evaluation: React.FC = () => {
 
-    const [tabState, setTab] = useState
+    //const [tabState, setTab] = useState();
     return (
         <div>
             <h1>Detailed Results</h1>
@@ -78,14 +86,16 @@ const Evaluation: React.FC = () => {
                 <Button>Routes</Button>
             </ButtonGrid>
             
+            <MapAndPrioGrid>
                 <MapWithoutSearch
                     center={{ lat: 53.5688823, lng: 10.0330191 }}
                     shouldRenderCircles={false}
+                    circleRadii={[1250, 2500, 3750]}
+                    circleColors={['green', 'yellow', 'red']}
                 />
-            <Container height = {300} width={200}></Container>
-                {/* <MapWithoutSearch center={{ lat: 53.5688823, lng: 10.0330191 }} shouldRenderCircles={false}/> 
-                
-                 */}
+
+                <DiagrammContainer></DiagrammContainer>
+                </MapAndPrioGrid>
 
         <ToastContainer></ToastContainer>
         </div>
