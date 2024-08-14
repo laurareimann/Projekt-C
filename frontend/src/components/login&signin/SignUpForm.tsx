@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Input from './Inputforms';
-import Button from './Buttons';
 import axios from "axios";
 import {Bounce,toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
@@ -77,15 +75,24 @@ const StyledInput = styled.input<InputProps>`
     outline: 0;
     border-radius: 8px;
     display: flex;
-    
 
-    &:not(:disabled):hover {
+
+    &:not(disabled){
         border: 2.5px solid  ${({$isValid}) =>
             $isValid
-                ? "var(--color--blue-3)": "var(--color--error-red)"};
+                ? "var(--color--pink-2)": "var(--color--error-red)"};
+    }
+    
+
+
+    &:not(:disabled):hover {
+
+        border: 2.5px solid  ${({$isValid}) =>
+            $isValid
+                ? "var(--color--pink-3)": "var(--color--error-red)"};
         color: ${({$isValid}) =>
             $isValid
-                ? "var(--color--blue-3)": "var(--color--error-red)"};
+                ? "var(--color--pink-3)": "var(--color--error-red)"};
     };
 
     &::placeholder{
@@ -180,6 +187,19 @@ const setCookie = (name: string,value: unknown,days: number) =>{
 
 const currentUser = getCookie("username");
 
+const throwToast = (errorMessage:string) =>{
+    toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+        });
+}
 
 function SignUpForm(){
 
@@ -196,17 +216,7 @@ function SignUpForm(){
             })
             .then((res: { data: string })=>{
                 if(res.data=="exists"){
-                    toast.error('User already exists', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                        transition: Bounce,
-                        });
+                      throwToast("User already exists")
                       return 0;
                 }
                 if(res.data=="Passwords not matching"){
@@ -223,6 +233,9 @@ function SignUpForm(){
                         transition: Bounce,
                         });
                       return 0;
+                }
+                if(res.data==="SignUpSuccess"){
+                    window.location.replace("/logInPage");
                 }
             })
             .catch((e:string)=>{
@@ -243,9 +256,9 @@ function SignUpForm(){
                 <Title>Sign Up</Title>
                 <InputContainer>
                     <InputGrid>     
-                        <StyledInput placeholder="Username" onChange={(e)=>{setUser(e.target.value)}}/>
-                        <StyledInput placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>
-                        <StyledInput placeholder="Confirm Password" type="password" onChange={(e) => {setPasswordConfirm(e.target.value)}} />
+                        <StyledInput $isValid placeholder="Username" onChange={(e)=>{setUser(e.target.value)}}/>
+                        <StyledInput $isValid placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>
+                        <StyledInput $isValid placeholder="Confirm Password" type="password" onChange={(e) => {setPasswordConfirm(e.target.value)}} />
                     </InputGrid>
                     <LinkText href="loginPage" >Already registered? Click here to log in.</LinkText>
                 </InputContainer>

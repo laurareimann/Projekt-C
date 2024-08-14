@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
@@ -126,21 +127,23 @@ const deleteCookie = (name: string | null) =>{
   }
 }
 
+let globalLoggedInBool:boolean = false;
+
+if(currentUser == null){
+  console.log("No one's logged in atm");
+  globalLoggedInBool = false;
+}else{
+  console.log(currentUser + " is logged in");
+  globalLoggedInBool = true;
+}
+
+
 function HeaderDesktop() {
   // nur temporär um Login funktionalität zu testen
   // sollte später ausgelagert werden in richtigen Login Handler
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [isVisible, setIsVisible] = useState(true);
-
-  
-
-  if(currentUser == null){
-    console.log("No one's logged in atm");
-  }else{
-    console.log(currentUser + " is logged in");
-  }
-
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -160,7 +163,6 @@ function HeaderDesktop() {
 
   return (
     <Header visible={isVisible}>
-    {currentUser}
       <Nav>
         <Logo href="/">
           <img src={logo} alt="Logo"  />
@@ -178,17 +180,26 @@ function HeaderDesktop() {
           <img src={evaluationIcon} alt="Evaluation" />
           <span>Evaluation</span>
         </NavItem> 
-        {isLoggedIn ? ( // State ändert sich momentan auch noch nicht
-          <Profile href="/profile">
-            <img src={profileIcon} alt="Profile" />
-          </Profile>
+        {globalLoggedInBool ? ( // State ändert sich momentan auch noch nicht
+          <Profile href="/profilePage">
+            <img src={profileIcon} alt="Profile" />     
+          </Profile>  
         ) : (
           <Profile href="/logInPage">
             <Button color='pink'>Login</Button>
           </Profile>
         )}
+        {globalLoggedInBool ? (
+          <Button onClick={() => {
+            deleteCookie(currentUser)
+            window.location.replace("/");
+          }}>Logout</Button>
+            
+        ):(
+          ""
+        )}
       </Nav>
-
+        
     </Header>
   );
 }
