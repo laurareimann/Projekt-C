@@ -313,7 +313,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onLoad = useCallback((map:any) => (mapRef.current = map),[]);
+  const onLoad = useCallback((map: any) => (mapRef.current = map), []);
   console.log(shouldRenderCircles);
 
   //Kleine Helferfunktion. Inkrementiert eine Variable, damit sich die Karte aktualisiert. Werde noch testen, ob diese am Ende vonnöten ist oder nicht

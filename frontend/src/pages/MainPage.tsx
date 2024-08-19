@@ -28,7 +28,7 @@ const HomePage: React.FC = () => {
         <div>
             <h1>15 Minute City Calculator</h1>
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
-            <StreetProvider currentScoreValue='42' cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081' currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]}>
+            <StreetProvider cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081' currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]}>
                 <Map
                     shouldRenderCircles={true}
                     circleRadii={[1250, 2500, 3750]}
@@ -105,37 +105,5 @@ const HomePage: React.FC = () => {
         </div>
     );
 };
-
-
-// Funktionen und Styling
-const ButtonGrid = styled.div`
-display: grid;
-grid-gap: 12px;
-`
-
-const ContainerGrid = styled.div`
-display: flex;
-flex-wrap: wrap;
-gap:12px; 
-`
-
-const InputGrid = styled.div`
-display: grid;
-grid-gap: 12px;
-`
-
-const ColoredString = styled.p<{ color: string }>`
-  color: ${(props) => props.color};
-`;
-
-const ColoredParagrpah: React.FC<MyComponentProps> = ({ color, children }) => {
-    return <ColoredString color={color}>{children}</ColoredString>;
-};
-
-interface MyComponentProps {
-    color: string;
-    children: React.ReactNode;
-}
-
 
 export default HomePage;

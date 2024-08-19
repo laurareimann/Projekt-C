@@ -36,9 +36,6 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: var(--color--white-shade);
-
-    margin: 0;
-    padding: 20px;
     font-family: 'Roboto', sans-serif;
   }
 
@@ -47,24 +44,35 @@ export const GlobalStyle = createGlobalStyle`
   color: var(--color--blue-5);
   line-height: 3.5rem;
   font-size: 3rem;
-  font-weight: 600;
+  font-weight: 500;
+  margin:0;
+
 }
   h2 {
   color: var(--color--blue-5);
   line-height: 2.5rem;
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 500;
+  margin:0;
+
 }
   h3 {
   color: var(--color--blue-5);
   line-height: 2rem;
   font-size: 1.25rem;
   font-weight: 500;
+  margin:0;
+
 }
   p {
   color: var(--color--black-shade);
   line-height: 1.5rem;
   font-size: 1.25rem;
   font-weight: 400;
+}
+
+a {
+  color: var(--color--blue-4);
+  text-decoration: underline;
 }
 `;

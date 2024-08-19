@@ -73,27 +73,30 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: var(--color--white-shade);
-    min-height: 100vh;
     font-family: 'Roboto', sans-serif;
+    margin: 0;  
   }
 
   // typography
   h1 {
   line-height: 3.5rem;
   font-size: 3rem;
-  font-weight: 600;
+  font-weight: 500;
   text-align: center;
+  margin: 0;
 }
 h2 {
   line-height: 2.5rem;
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 500;
   margin:0;
 }
 h3 {
   line-height: 2rem;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 500;
+  margin:0;
+
 }
 p {
   line-height: 1.5rem;
@@ -101,11 +104,15 @@ p {
   font-weight: 400;
   margin:0;
 }
+a {
+  color: var(--color--blue-4);
+  text-decoration: underline;
+}
 //big text
 h4{
   line-height: 0.8;
   font-size: 6.25rem;
-  font-weight: 600;
+  font-weight: 500;
   margin:0;
 }
 
@@ -153,7 +160,7 @@ const App: React.FC = () => {
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY,
-    libraries: ["places","maps"],
+    libraries: ["places", "maps"],
   })
 
   //Hier könnte dein Ladebildschirm stehen ( ͡° ͜ʖ ͡° )
@@ -164,21 +171,21 @@ const App: React.FC = () => {
       <GlobalStyle />
       <Header />
       <Routes>
-        
+
         <Route index element={<Homepage />} />
         <Route path="about-us" element={<AboutUs />} />
-        <Route path="logInPage" element={<LogInPage/>}/>
-        <Route path="registerPage" element = {<RegisterPage/>}/>
-        <Route path="Test" element={<Test/>} />
-        <Route path="terms" element={<Terms/>} />
-        <Route path="privacy" element={<Privacy/>} />
-        <Route path="the-team" element={<TheTeam/>} />
-        <Route path="concept" element={<Concept/>} />
-        <Route path="faq" element={<FAQ/>} />
-        <Route path="profilePage" element ={<ProfilePage/>}/>
+        <Route path="logInPage" element={<LogInPage />} />
+        <Route path="registerPage" element={<RegisterPage />} />
+        <Route path="Test" element={<Test />} />
+        <Route path="terms" element={<Terms />} />
+        <Route path="privacy" element={<Privacy />} />
+        <Route path="the-team" element={<TheTeam />} />
+        <Route path="concept" element={<Concept />} />
+        <Route path="faq" element={<FAQ />} />
+        <Route path="profilePage" element={<ProfilePage />} />
             /*hier alle Seiten anlegen */
       </Routes>
-      <Footer/>
+      <Footer />
     </BrowserRouter >
   )
 }
