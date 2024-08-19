@@ -16,27 +16,101 @@ import {
 import "@reach/combobox/styles.css";
 import "../../globals.css";
 import "../Inputforms";
-import {useStreetNameNew,useZipCodeNew,useCityNew} from "./StreetProvider";
-import {Bounce, ToastContainer,toast} from "react-toastify";
+import {useStreetNameNew,useZipCodeNew,useCityNew,useNearby} from "./StreetProvider";
+import {Bounce,toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
+import axios from "axios";
+import Map from "./map";
+import { useMemo } from "react";
+import { Marker } from "react-google-maps";
 let tempPreviewAdress:string;
-
+let setupCheck:boolean = false;
 
 type PlacesProps = {
   setSpot: (position: google.maps.LatLngLiteral) => void;
 };
+type LatLngLiteral = google.maps.LatLngLiteral;
+type MapOptions = google.maps.MapOptions;
 
+//Damit das alles so funktioniert muss quasi eine "zweite" map generiert werden
+//Werde noch schauen, ob das auch einfacher geht
+let placesMap: google.maps.Map;
+let service: google.maps.places.PlacesService;
+let infowindow: google.maps.InfoWindow;
+
+//temporäre arrays für den Algorithmus bzw. die Anzeige auf der Karte
+const currentByFootV2: Array<google.maps.LatLngLiteral> = []
+const currentByBikeV2: Array<google.maps.LatLngLiteral> = []
+const currentByCarV2: Array<google.maps.LatLngLiteral> = []
+
+const setCookie = (name: string,value: unknown,days: number) =>{
+  const expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + days);
+
+  document.cookie = `${name}=${value}; expires=${expirationDate.toUTCString()};path=/`
+
+}
+
+const getCookie = (name:string) =>{
+  const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
+
+  return cookies ? cookies.split("=")[1] : null;
+}
+
+
+const currentUser = getCookie("username");
+
+
+function InitMap(){
+
+  /*
+  const defaultCenter = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
+
+  const options = useMemo<MapOptions>(
+    ()=> ({
+      center:defaultCenter,
+      zoom:15
+    }),[defaultCenter]
+  )
+  
+
+  placesMap = new google.maps.Map(document.getElementById("map") as HTMLElement,options);
+    
+  service = new google.maps.places.PlacesService(placesMap);
+
+  console.log("Helper map successfully set up");
+*/
+}
 
 
 export default function Places({ setSpot }: PlacesProps) {
 
-  const notify = () => toast("Please enter a valid home address");
-  
+  const defaultCenter = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
+
+  const options = useMemo<MapOptions>(
+    ()=> ({
+      center:defaultCenter,
+      zoom:15
+    }),[defaultCenter]
+  )
+
+ 
+//Wenn die helper map noch nicht initialisiert wurde -> dies bitte tun
+  if(setupCheck == false){
+    setTimeout(()=>{
+      placesMap = new google.maps.Map(document.getElementById("map") as HTMLElement,options);
+      service = new google.maps.places.PlacesService(placesMap);
+      console.log("Helper map successfully set up");
+    },2000);
+    //Danach die flag auf true setzen
+    setupCheck= true;
+  }
+
+  //Context-Variablen
   const updateStreetName = useStreetNameNew().setStreet;
-
   const updateZipCode = useZipCodeNew().setZipCode;
-
   const updateCity = useCityNew().setCity;
+  const updateNearby = useNearby().setNearby;
 
   //Temporäre Variablen, um die Straße richtig anzuzeigen
   let tmpStreetName:string;
@@ -48,6 +122,14 @@ export default function Places({ setSpot }: PlacesProps) {
   tmpCheckForZipCode = false;
   tmpCheckForStreetNumber = false;
   
+  let goodDuration:number;
+  let okayDuration:number;
+  let badDuration:number;
+
+  goodDuration = 15;
+  okayDuration = 25;
+  badDuration = 35;
+
   const {
     ready,
     value,
@@ -55,6 +137,27 @@ export default function Places({ setSpot }: PlacesProps) {
     suggestions: { status, data },
     clearSuggestions,
   } = usePlacesAutocomplete();
+
+ //Funktionen
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ function callback(results:any,status:any){
+  if(status == google.maps.places.PlacesServiceStatus.OK){
+    currentByFootV2.splice(0,currentByFootV2.length);
+    for(let i = 0; i < results.length;i++){
+      currentByFootV2.push({
+        lat: results[i].geometry.location.lat(),
+        lng: results[i].geometry.location.lng()
+      })
+      updateNearby(currentByFootV2);
+  }}
+}
+
+async function performNearbySearch(requestParam: google.maps.places.PlaceSearchRequest){
+  
+  service.nearbySearch(requestParam,callback);
+  updateNearby(currentByFootV2);
+  
+}
 
   const handleSelect = async (val: string) => {
     setValue(val, false);
@@ -69,17 +172,11 @@ export default function Places({ setSpot }: PlacesProps) {
     for(let i = 0; i < results[0].address_components.length;i++){
       if(results[0].address_components[i].types[0] === "street_number" ){
 
-        //Wenn eine Postleitzahl besteht, wird diese trotzdem zwischengespeichert, um weiteres zu checken
         tmpCheckForStreetNumber = true;
         tmpStreetNumber = results[0].address_components[i].long_name;
       }
-
-
-
-
     }
 
-    //Bspw. bei der Eingabe "Bremen" ist die Postleitzahl nur 2 Zeichen lang, weswegen ein popup erscheint, was den user prompted, eine "richtige Adresse einzugeben"
     if(tmpCheckForStreetNumber == false){
       //alert("Bitte gib eine richtige Adresse ein");
       toast.error('Please enter a valid home address!', {
@@ -97,48 +194,81 @@ export default function Places({ setSpot }: PlacesProps) {
     }
     
     if(tmpCheckForStreetNumber == true){
-    let address:string;
-    //Adresse mit Postleitzahl et cetera
-    address = results[0].formatted_address;
-
-    //Es werden die einzelnen Teile der Addressen-Suche durchgegangen und dementsprechend die Werte angepasst
-    for(let i = 0; i < results[0].address_components.length; i++){
-      //console.log(results[0].address_components[i]);
-    switch(results[0].address_components[i].types[0]){
-      //Straßennummer
-      case "street_number":
-        tmpStreetNumber = results[0].address_components[i].long_name;
-        console.log("Aktuelle Straßennummer: " + results[0].address_components[i].long_name )
-        break; 
-      case "postal_code":
-        updateZipCode(results[0].address_components[i].long_name);
-        break;
-      case "route":
-        tmpStreetName = results[0].address_components[i].long_name
-        break;
-      case "locality":
-        updateCity(results[0].address_components[i].long_name);
-        break;
-        //Falls wir irgendwann noch das Bundesland brauchen
-        case "administrative_area_level_1":
-
+      //Adresse mit Postleitzahl et cetera
+      let address:string;
+      address = results[0].formatted_address;
+      //Sanity check für die Database
+      console.log("Adresse: " + address);
+      console.log("Latitude: " + lat);
+      console.log("Longitude: " + lng);
+      //Types-Output testen
+      console.log(results[0].types);
+      //Es werden die einzelnen Teile der Addressen-Suche durchgegangen und dementsprechend die Werte angepasst
+      for(let i = 0; i < results[0].address_components.length; i++){
+        switch(results[0].address_components[i].types[0]){
+        //Straßennummer
+          case "street_number":
+            tmpStreetNumber = results[0].address_components[i].long_name;
+          break; 
+          case "postal_code":
+            updateZipCode(results[0].address_components[i].long_name);
+          break;
+          case "route":
+            tmpStreetName = results[0].address_components[i].long_name
+          break;
+          case "locality":
+            updateCity(results[0].address_components[i].long_name);
+          break;
+          //Falls wir irgendwann noch das Bundesland brauchen
+          case "administrative_area_level_1":
     }
   
     }
+
+    try{
+       axios.post("http://localhost:8080/saveAddress",{
+        lat,lng,address,currentUser
+      })
+      console.log("Adding address to database");
+    }catch(e){
+      console.log(e);
+    }
+    
     //Da Straßennummer und Straßenname getrennt wurden, müssen die hier nochmal zusammengefügt werden
     tmpStreetName = tmpStreetName + " " + tmpStreetNumber;
     updateStreetName(tmpStreetName);
 
     //sanity check
     console.log("Gesamte Adresse: " + address);
-    console.log(lat + " " + lng)
+
+    /* Erstmal auskommentiert, falls wir die NearbySearch nochmal in places.tsx machen müssen
+    let request = {
+      location:{lat,lng},
+      radius: 100
+    }
+
+    await(performNearbySearch(request)).then(
+      () => {     
+        console.log("Derzeitige Marker in places.tsx");
+        console.log(currentByFootV2);
+      }
+    );
+   */
+   
     setSpot({ lat, lng });
   }
   };
 
+  
+
+
   return (
-<div>
+  <div>
     
+    <div id ="map">
+
+    </div>
+
     <Combobox onSelect={handleSelect}>
       <ComboboxInput
               
@@ -159,6 +289,6 @@ export default function Places({ setSpot }: PlacesProps) {
       </ComboboxPopover>
     </Combobox>
 
-    </div>
+  </div>
   );
 }

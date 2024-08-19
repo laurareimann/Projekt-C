@@ -18,6 +18,8 @@ interface StreetProperties {
     setCity:(state:string) => void;
     streetName?: string;
     setStreet:(state:string) => void;
+    currentNearby:Array<google.maps.LatLngLiteral>
+    setNearby:(state:Array<google.maps.LatLngLiteral>) => void;
 
 }
 
@@ -28,21 +30,23 @@ const streetContext = React.createContext<StreetProperties>({
     setCity:(_state:string) => {},
     streetName: "Finkenau 35",
     setStreet:(_state:string) => {},
-    
+    currentNearby: [],
+    setNearby:(_state:Array<google.maps.LatLngLiteral>) => {}
 })
 
 
 //Dieser Component wird um die ganze App gewrapped, damit es funktioniert
-export const StreetProvider = ({cityValue,streetNameValue,zipCodeValue,children}:{cityValue:string,zipCodeValue:string,streetNameValue:string,children:ReactNode}) => {
+export const StreetProvider = ({currentNearbyValue,cityValue,streetNameValue,zipCodeValue,children}:{currentNearbyValue:Array<google.maps.LatLngLiteral>,cityValue:string,zipCodeValue:string,streetNameValue:string,children:ReactNode}) => {
     
     const [streetName, setStreet] = useState(streetNameValue);
     const [zipCode,setZipCode] = useState(zipCodeValue);
     const [currentCity,setCity] = useState(cityValue);
+    const [currentNearby,setNearby] = useState(currentNearbyValue);
 
     return(
         <streetContext.Provider value = {{
             
-            streetName,zipCode,currentCity,setStreet,setZipCode,setCity}}>
+            currentNearby,streetName,zipCode,currentCity,setStreet,setZipCode,setCity,setNearby}}>
             {children}
 
         </streetContext.Provider>
@@ -64,6 +68,11 @@ export const useZipCodeNew = () =>{
 export const useCityNew = () =>{
     const {currentCity,setCity} = useContext(streetContext);
     return {currentCity,setCity}
+}
+
+export const useNearby = () =>{
+    const {currentNearby,setNearby} = useContext(streetContext);
+    return {currentNearby,setNearby}
 }
 
 export default StreetProvider;

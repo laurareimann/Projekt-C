@@ -6,6 +6,12 @@
         "module": "CommonJS",
         "esModuleInterop": true,
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+        "allowSyntheticDefaultImports": true,
+    "paths":{
+        "NodeConfig":["/global.d.ts"]
+        
     }
+    }
+    
 }

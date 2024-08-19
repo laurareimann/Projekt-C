@@ -58,15 +58,14 @@ const StyledInput = styled.input<InputProps>`
 
 function Input({ disabled = false, placeholder = "E-Mail", isValid = true }) {
 
-    return (
-        <>
+    return (   
             <StyledInput 
                         disabled={disabled} 
                         placeholder={placeholder} 
                         $isValid={isValid}
+                        
                         >
             </StyledInput>
-        </>
     )
 }
 export default Input;

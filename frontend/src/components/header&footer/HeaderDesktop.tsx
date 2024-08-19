@@ -107,6 +107,36 @@ const Profile = styled.a`
   }
 `;
 
+const getCookie = (name:string) =>{
+  const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
+
+  return cookies ? cookies.split("=")[1] : null;
+}
+
+let currentUser = getCookie("username");
+
+const deleteCookie = (name: string | null) =>{
+
+  console.log("Attempting to log off " + name);
+
+  if(currentUser != ""){
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  currentUser = "";
+  console.log("Logging off")
+  }
+}
+
+let globalLoggedInBool:boolean = false;
+
+if(currentUser == null){
+  console.log("No one's logged in atm");
+  globalLoggedInBool = false;
+}else{
+  console.log(currentUser + " is logged in");
+  globalLoggedInBool = true;
+}
+
+
 function HeaderDesktop() {
   // nur temporär um Login funktionalität zu testen
   // sollte später ausgelagert werden in richtigen Login Handler
@@ -132,34 +162,43 @@ function HeaderDesktop() {
 
   return (
     <Header visible={isVisible}>
-
       <Nav>
         <Logo href="/">
-          <img src={logo} alt="Logo" />
+          <img src={logo} alt="Logo"  />
         </Logo>
         <NavItem href="/quiz">
           <img src={quizIcon} alt="Quiz" />
           <span>Quiz</span>
         </NavItem>
         <NavItem href="/about-us">
-          <img src={aboutUsIcon} alt="About Us" />
+          <img src={aboutUsIcon} alt="About Us" onClick={() => {
+            deleteCookie(currentUser)}} />
           <span>About Us</span>
         </NavItem>
         <NavItem href="/evaluation">
           <img src={evaluationIcon} alt="Evaluation" />
           <span>Evaluation</span>
         </NavItem> 
-        {isLoggedIn ? ( // State ändert sich momentan auch noch nicht
-          <Profile href="/profile">
-            <img src={profileIcon} alt="Profile" />
-          </Profile>
+        {globalLoggedInBool ? ( // State ändert sich momentan auch noch nicht
+          <Profile href="/profilePage">
+            <img src={profileIcon} alt="Profile" />     
+          </Profile>  
         ) : (
           <Profile href="/logInPage">
             <Button color='pink'>Login</Button>
           </Profile>
         )}
+        {globalLoggedInBool ? (
+          <Button onClick={() => {
+            deleteCookie(currentUser)
+            window.location.replace("/");
+          }}>Logout</Button>
+            
+        ):(
+          ""
+        )}
       </Nav>
-
+        
     </Header>
   );
 }

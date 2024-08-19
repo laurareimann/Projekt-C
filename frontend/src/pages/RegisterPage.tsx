@@ -1,10 +1,12 @@
 import React from "react";
-import SignInForm from "../components/login&signin/SignInForm";
+import SignUpForm from "../components/login&signin/SignUpForm";
+import { ToastContainer } from "react-toastify";
 
 const RegisterPage: React.FC = () => {
     return(
         <div>
-            <SignInForm/>
+            <SignUpForm/>
+            <ToastContainer></ToastContainer>
         </div>
     )
 };
