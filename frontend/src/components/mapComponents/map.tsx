@@ -855,7 +855,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           <p>Address: {selectedMarker.address}</p>
         </div>
         </InfoWindow>}
-      </GoogleMap>
         {shouldRenderCircles && spot && (
           <MapLegend
             circleRadii={circleRadii}
@@ -863,6 +862,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             logo={walkingIcon}
           />
         )}
+      </GoogleMap>
+        
       <PriorityGrid>
         <StyledButton color={GroceryButtonString} onClick={()=>{
           setPriorityButton("Groceries");

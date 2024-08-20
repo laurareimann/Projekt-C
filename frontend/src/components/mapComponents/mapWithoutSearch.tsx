@@ -104,7 +104,7 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
 
   return (
     <div>
-      <MapContainer>
+
         <GoogleMap
           zoom={13}
           center={center}
@@ -116,9 +116,6 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
           {shouldRenderCircles && (
             <Marker position={center} />
           )}
-
-        </GoogleMap>
-
         {shouldRenderCircles && (
           <MapLegend
             circleRadii={circleRadii}
@@ -126,7 +123,7 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
             logo={walkingIcon}
           />
         )}
-      </MapContainer>
+        </GoogleMap>
     </div>
   )
 }
