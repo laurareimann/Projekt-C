@@ -24,7 +24,7 @@ place-items:center;
 width:420px;
 grid-template-columns: 1fr 1fr;
 margin-bottom: 10px;
-margin-top: 20px
+margin-top: 20px;
 `
 
 const MapAndPrioGrid = styled.div`
@@ -44,9 +44,26 @@ const DiagrammContainer = styled.div`
   display:grid;
 `
 
-const Evaluation: React.FC = () => {
+const Evaluation: React.FC = () => {  
+    
+    const [content, setContent] = React.useState("overallScore");
+  
+    const ScoreTab = () => <div> 
+                                <MapAndPrioGrid>
+                                    <MapWithoutSearch
+                                        center={{ lat: 53.5688823, lng: 10.0330191 }}
+                                        shouldRenderCircles={false}
+                                        circleRadii={[1250, 2500, 3750]}
+                                        circleColors={['green', 'yellow', 'red']}
+                                    />
 
-    //const [tabState, setTab] = useState();
+                                    <DiagrammContainer></DiagrammContainer>
+                                </MapAndPrioGrid> </div>;
+    
+    const RoutesTab = () => <div>
+        <DiagrammContainer></DiagrammContainer>
+    </div>;
+
     return (
         <div>
             <h1>Detailed Results</h1>
@@ -54,20 +71,23 @@ const Evaluation: React.FC = () => {
             <ResultContainer></ResultContainer>
 
             <ButtonGrid>
-                <Button>Overall Score</Button>
-                <Button>Routes</Button>
+                <Button
+                    onClick={() => setContent("overallScore")}
+                    >
+                    Overall Score
+                </Button>
+                <Button
+                    onClick={() => setContent("routes")}
+                    disabled = {true}
+                    >
+                    Routes
+                </Button>
             </ButtonGrid>
             
-            <MapAndPrioGrid>
-                <MapWithoutSearch
-                    center={{ lat: 53.5688823, lng: 10.0330191 }}
-                    shouldRenderCircles={false}
-                    circleRadii={[1250, 2500, 3750]}
-                    circleColors={['green', 'yellow', 'red']}
-                />
-
-                <DiagrammContainer></DiagrammContainer>
-            </MapAndPrioGrid>
+            <div>
+            {content === "overallScore" && <ScoreTab/>}
+            {content === "routes" && <RoutesTab/>}
+            </div>
 
         <ToastContainer></ToastContainer>
         </div>

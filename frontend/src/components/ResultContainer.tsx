@@ -14,7 +14,7 @@ const ResultContainer = styled.div`
     gap: 32px;
     align-items: center;
     text-align: -webkit-center;
-    padding: 16px;
+    padding: 10px;
     border-radius: 26px;
     background-color: #FFECF8;
     pointer-events: none; //Soll ja wie Screenshot sein?
