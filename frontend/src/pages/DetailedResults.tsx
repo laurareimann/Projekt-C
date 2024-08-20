@@ -11,6 +11,8 @@ import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
 import { latLngEquals } from '@vis.gl/react-google-maps';
 import { useState } from 'react';
 import ResultContainer from '../components/ResultContainer.tsx';
+import ScoreContainer from '../components/ScoreContainer.tsx';
+import {ScrollView} from 'react-native';
 
 // Define the types for the props
 interface HorizontalContainerProps {
@@ -35,6 +37,15 @@ width:1000px;
 grid-template-columns: 1fr 1fr;
 margin-bottom: 10px;
 `
+const ScoreContainerGrid = styled.div`
+display: grid;
+grid-gap: 15px;
+place-items:center;
+width:1000px;
+grid-template-columns: 1fr 1fr 1fr;
+margin-bottom: 10px;
+padding-top: 10px;
+`
 
 const DiagrammContainer = styled.div`
   width: 40vh;
@@ -48,7 +59,7 @@ const Evaluation: React.FC = () => {
     
     const [content, setContent] = React.useState("overallScore");
   
-    const ScoreTab = () => <div> 
+    const ScoreTab = () =>  <div> 
                                 <MapAndPrioGrid>
                                     <MapWithoutSearch
                                         center={{ lat: 53.5688823, lng: 10.0330191 }}
@@ -58,11 +69,25 @@ const Evaluation: React.FC = () => {
                                     />
 
                                     <DiagrammContainer></DiagrammContainer>
-                                </MapAndPrioGrid> </div>;
+                                </MapAndPrioGrid> 
+                            </div>;
     
     const RoutesTab = () => <div>
-        <DiagrammContainer></DiagrammContainer>
-    </div>;
+                                <ScoreContainerGrid>
+                                    <ScoreContainer buttonText='Show Route'></ScoreContainer>
+                                    <ScoreContainer buttonText='Show Route'></ScoreContainer>
+                                    <ScoreContainer buttonText='Show Route'></ScoreContainer>
+                                </ScoreContainerGrid>
+                            
+                                <MapWithoutSearch
+                                    center={{ lat: 53.5688823, lng: 10.0330191 }}
+                                    shouldRenderCircles={false}
+                                    circleRadii={[1250, 2500, 3750]}
+                                    circleColors={['green', 'yellow', 'red']}
+                                    height='30vh'
+                                    width='107vh'
+                                />
+                            </div>;
 
     return (
         <div>
@@ -71,25 +96,16 @@ const Evaluation: React.FC = () => {
             <ResultContainer></ResultContainer>
 
             <ButtonGrid>
-                <Button
-                    onClick={() => setContent("overallScore")}
-                    >
-                    Overall Score
-                </Button>
-                <Button
-                    onClick={() => setContent("routes")}
-                    disabled = {true}
-                    >
-                    Routes
-                </Button>
+                <Button onClick={() => setContent("overallScore")}> Overall Score </Button>
+                <Button onClick={() => setContent("routes")}> Routes </Button>
             </ButtonGrid>
             
             <div>
-            {content === "overallScore" && <ScoreTab/>}
-            {content === "routes" && <RoutesTab/>}
+                {content === "overallScore" && <ScoreTab/>}
+                {content === "routes" && <RoutesTab/>}
             </div>
 
-        <ToastContainer></ToastContainer>
+            <ToastContainer></ToastContainer>
         </div>
     );
 };
