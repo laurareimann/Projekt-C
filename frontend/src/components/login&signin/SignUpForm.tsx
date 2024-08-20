@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Button from '../buttons/Buttons';
 import axios from "axios";
-import {Bounce,toast} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+//StyledButton kopiert
 const StyledButton = styled.button`
     background-color: ${({ color, disabled }) =>
         disabled
@@ -13,9 +15,9 @@ const StyledButton = styled.button`
                     : "var(--color--pink-1)"
             : color === "blue" ? "var(--color--blue-4)"
                 : color === "green" ? "var(--color--green-3)"
-                    :color ==="darkPink" ? "var(--color--pink-5)"
-                    : "var(--color--pink-3)"
-                
+                    : color === "darkPink" ? "var(--color--pink-5)"
+                        : "var(--color--pink-3)"
+
     };
     color: ${({ color, disabled }) =>
         disabled
@@ -52,22 +54,22 @@ interface InputProps {
 }
 
 const StyledInput = styled.input<InputProps>`
-    background-color: ${({$isValid}) =>
+    background-color: ${({ $isValid }) =>
         $isValid
-                ? "white" : "var(--color--error-red-light)"
-};
+            ? "white" : "var(--color--error-red-light)"
+    };
 
-    color: ${({disabled, $isValid}) =>
+    color: ${({ disabled, $isValid }) =>
         disabled
-                ? "var(--color--disabled-gray)" : $isValid 
-                    ? "var(--color--blue-5)" : "var(--color--error-red)"
-};
+            ? "var(--color--disabled-gray)" : $isValid
+                ? "var(--color--blue-5)" : "var(--color--error-red)"
+    };
     
-    border: 2.5px solid ${({disabled, $isValid}) =>
+    border: 2.5px solid ${({ disabled, $isValid }) =>
         disabled
-                ? "var(--color--disabled-gray)" : $isValid 
-                    ? "var(--color--blue-5)" : "var(--color--error-red)"
-}; 
+            ? "var(--color--disabled-gray)" : $isValid
+                ? "var(--color--blue-5)" : "var(--color--error-red)"
+    }; 
     font-weight: 700;
     font-size: 18px; 
     height: 60px; 
@@ -78,21 +80,21 @@ const StyledInput = styled.input<InputProps>`
 
 
     &:not(disabled){
-        border: 2.5px solid  ${({$isValid}) =>
-            $isValid
-                ? "var(--color--pink-2)": "var(--color--error-red)"};
+        border: 2.5px solid  ${({ $isValid }) =>
+        $isValid
+            ? "var(--color--pink-2)" : "var(--color--error-red)"};
     }
     
 
 
     &:not(:disabled):hover {
 
-        border: 2.5px solid  ${({$isValid}) =>
-            $isValid
-                ? "var(--color--pink-3)": "var(--color--error-red)"};
-        color: ${({$isValid}) =>
-            $isValid
-                ? "var(--color--pink-3)": "var(--color--error-red)"};
+        border: 2.5px solid  ${({ $isValid }) =>
+        $isValid
+            ? "var(--color--pink-3)" : "var(--color--error-red)"};
+        color: ${({ $isValid }) =>
+        $isValid
+            ? "var(--color--pink-3)" : "var(--color--error-red)"};
     };
 
     &::placeholder{
@@ -110,65 +112,38 @@ const StyledInput = styled.input<InputProps>`
     }
 `;
 
-const InputGrid = styled.div`
-display: grid;
-grid-gap: 45px;
-place-items:center;
-`
-
-const FormContainer = styled.div`
-    
+const SignUpContainer = styled.div`
     width:500px;
-    border: 10px solid var(--color--pink-1);
-    border-radius: 15px;
-    margin-top: 200px;
-    font-size:42px;
-    margin-bottom:200px;
-    padding-bottom: 100px ;
+    border: 8px solid var(--color--pink-1);
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    grid-gap: 32px;
+    align-items: center;
 
-    @media (max-width:768px){
-        border:none;
+    @media (max-width: 768px) {
+        border: none;
+        height: 100vh;
+        justify-content: center;
     }
 `
 
-const Title = styled.p`
-
-    font-size: 42px;
-    margin-top: 42px;
-`
-
-const AlternativeText = styled.p`
-    font-size: 35px;
-`
-
-const LinkText = styled.a`
-    margin-top: 10px;
-    font-size: 15px;
-    color:blue;
-    margin-right: 100px;
-    text-decoration: underline;
-
-    &:hover{
-        color: #3472d5;
-    }
-`
-
-const ButtonGrid = styled.div`
-    margin-top: 30px;
+const InputWrapper = styled.div`
+    width: fit-content;
     display: grid;
-    grid-gap: 45px;
-    place-items:center;
+    grid-gap: 12px;
+    justify-items: left;
+    
+    @media (max-width: 768px) {
+    }
 `
 
-const InputContainer = styled.div` 
-    padding: 50px;
-    margin-top: 20px;
-`
-
-const hr = styled.div`
-    border-bottom: dotted black;
-    width: 1px;
-`
+const ButtonWrapper = styled.div`
+    width: fit-content;
+    display: grid;
+    grid-gap: 12px;
+    justify-items: center;`
 
 const setCookie = (name: string,value: unknown,days: number) =>{
     const expirationDate = new Date();
@@ -242,20 +217,18 @@ function SignUpForm(){
 
     return(
         <div>
-            <FormContainer>
-                <Title>Sign Up</Title>
-                <InputContainer>
-                    <InputGrid>     
+            <SignUpContainer>
+                <h1>Sign Up</h1>
+                <InputWrapper>
                         <StyledInput $isValid placeholder="Username" onChange={(e)=>{setUser(e.target.value)}}/>
                         <StyledInput $isValid placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>
                         <StyledInput $isValid placeholder="Confirm Password" type="password" onChange={(e) => {setPasswordConfirm(e.target.value)}} />
-                    </InputGrid>
-                    <LinkText href="loginPage" >Already registered? Click here to log in.</LinkText>
-                </InputContainer>
-                <ButtonGrid>
+                    </InputWrapper>
+                    <a href="loginPage" >Already registered? Click here to log in.</a>
+                <ButtonWrapper>
                     <StyledButton color="#FFC2EA" type='submit' onClick={submit}>Register</StyledButton>
-                </ButtonGrid>
-            </FormContainer>   
+                </ButtonWrapper>
+            </SignUpContainer>   
         </div>
     )
 }

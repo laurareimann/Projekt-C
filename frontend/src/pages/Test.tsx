@@ -20,6 +20,8 @@ import React from 'react';
 import Dropdown, { dropdownOptions } from '../components/Dropdown.tsx';
 import Score from '../components/Score.tsx';
 import Address from '../components/Address.tsx';
+import LoginForm from '../components/login&signin/LoginForm.tsx';
+import SignUpForm from '../components/login&signin/SignUpForm.tsx';
 
 
 // Funktionen und Styling
@@ -150,12 +152,22 @@ const Test: React.FC = () => {
                 </StreetProvider>
 
             {/*
+            Login&Signup
+            Types: LoginForm, SignUpForm
+            Used for entering and submitting credentials
+            */}
+            
+            <LoginForm/>
+            <SignUpForm/>
+
+            {/*
             Dropdown
             Types: Dropdown
             Variables: options, placeholder
             Options (Array): ["eins","zwei"]
             Placeholder (String): 'Placehoder'
             */}
+
             <Column>
                 <Dropdown options={["eins", "zwei"]} placeholder='Placehoder'></Dropdown>
             </Column>
