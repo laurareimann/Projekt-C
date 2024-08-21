@@ -12,7 +12,6 @@ import { latLngEquals } from '@vis.gl/react-google-maps';
 import { useState } from 'react';
 import ResultContainer from '../components/ResultContainer.tsx';
 import ScoreContainer from '../components/ScoreContainer.tsx';
-import {ScrollView} from 'react-native';
 
 // Define the types for the props
 interface HorizontalContainerProps {
@@ -27,6 +26,9 @@ width:420px;
 grid-template-columns: 1fr 1fr;
 margin-bottom: 10px;
 margin-top: 20px;
+@media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `
 
 const MapAndPrioGrid = styled.div`
@@ -36,6 +38,9 @@ place-items:center;
 width:1000px;
 grid-template-columns: 1fr 1fr;
 margin-bottom: 10px;
+@media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `
 const ScoreContainerGrid = styled.div`
 display: grid;
@@ -45,6 +50,9 @@ width:1000px;
 grid-template-columns: 1fr 1fr 1fr;
 margin-bottom: 10px;
 padding-top: 10px;
+@media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `
 
 const DiagrammContainer = styled.div`
@@ -53,7 +61,12 @@ const DiagrammContainer = styled.div`
   border: 4px solid var(--color--pink-3);
   border-radius: 20px;
   display:grid;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `
+
+
 
 const Evaluation: React.FC = () => {  
     
@@ -92,6 +105,8 @@ const Evaluation: React.FC = () => {
     return (
         <div>
             <h1>Detailed Results</h1>
+
+            
 
             <ResultContainer></ResultContainer>
 

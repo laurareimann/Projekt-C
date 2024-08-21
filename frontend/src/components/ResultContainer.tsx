@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
-import Button from './Buttons';
-import Container from './Container';
 import Address from './Address';
 import Score from './Score';
 import { useStreetNameNew,useZipCodeNew,useCityNew, useScore } from './mapComponents/StreetProvider';
@@ -17,15 +15,6 @@ const ResultContainer = styled.div`
     padding: 10px;
     border-radius: 26px;
     background-color: #FFECF8;
-    pointer-events: none; //Soll ja wie Screenshot sein?
-`
-const MapAndPrioGrid = styled.div`
-    display: grid;
-    grid-gap: 15px;
-    place-items:center;
-    width:1000px;
-    grid-template-columns: 1fr 1fr;
-    margin-bottom: 10px;
 `
 
 function ScoreContainer({color = "pink"}) {

@@ -27,8 +27,6 @@ const MapContainer = styled.div<{ height: string; width: string }>`
   width: ${(props) => props.width};
   border:none;
   border-radius:50px;
-  margin-bottom:10px;
-  
 `
 
 // Typescript Props
