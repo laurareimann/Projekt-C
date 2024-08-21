@@ -41,6 +41,7 @@ export const GlobalStyle = createGlobalStyle`
 
   // typography
   h1 {
+  color: var(--color--blue-5);
   line-height: 3.5rem;
   font-size: 3rem;
   font-weight: 500;
@@ -48,6 +49,7 @@ export const GlobalStyle = createGlobalStyle`
 
 }
   h2 {
+  color: var(--color--blue-5);
   line-height: 2.5rem;
   font-size: 2rem;
   font-weight: 500;
@@ -55,6 +57,7 @@ export const GlobalStyle = createGlobalStyle`
 
 }
   h3 {
+  color: var(--color--blue-5);
   line-height: 2rem;
   font-size: 1.25rem;
   font-weight: 500;
@@ -62,6 +65,7 @@ export const GlobalStyle = createGlobalStyle`
 
 }
   p {
+  color: var(--color--black-shade);
   line-height: 1.5rem;
   font-size: 1.25rem;
   font-weight: 400;

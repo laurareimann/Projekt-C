@@ -20,10 +20,7 @@ import {useStreetNameNew,useZipCodeNew,useCityNew,useNearby} from "./StreetProvi
 import {Bounce,toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 import axios from "axios";
-import Map from "./map";
 import { useMemo } from "react";
-import { Marker } from "react-google-maps";
-let tempPreviewAdress:string;
 let setupCheck:boolean = false;
 
 type PlacesProps = {
@@ -36,12 +33,9 @@ type MapOptions = google.maps.MapOptions;
 //Werde noch schauen, ob das auch einfacher geht
 let placesMap: google.maps.Map;
 let service: google.maps.places.PlacesService;
-let infowindow: google.maps.InfoWindow;
 
 //temporäre arrays für den Algorithmus bzw. die Anzeige auf der Karte
 const currentByFootV2: Array<google.maps.LatLngLiteral> = []
-const currentByBikeV2: Array<google.maps.LatLngLiteral> = []
-const currentByCarV2: Array<google.maps.LatLngLiteral> = []
 
 const setCookie = (name: string,value: unknown,days: number) =>{
   const expirationDate = new Date();
@@ -118,6 +112,7 @@ export default function Places({ setSpot }: PlacesProps) {
   let tmpCheckForStreetNumber:boolean;
   let tmpCheckForZipCode:boolean;
   let tmpZipCode:string;
+  let tempPreviewAdress:string;
   tmpZipCode = "";
   tmpCheckForZipCode = false;
   tmpCheckForStreetNumber = false;
@@ -197,12 +192,6 @@ async function performNearbySearch(requestParam: google.maps.places.PlaceSearchR
       //Adresse mit Postleitzahl et cetera
       let address:string;
       address = results[0].formatted_address;
-      //Sanity check für die Database
-      console.log("Adresse: " + address);
-      console.log("Latitude: " + lat);
-      console.log("Longitude: " + lng);
-      //Types-Output testen
-      console.log(results[0].types);
       //Es werden die einzelnen Teile der Addressen-Suche durchgegangen und dementsprechend die Werte angepasst
       for(let i = 0; i < results[0].address_components.length; i++){
         switch(results[0].address_components[i].types[0]){
@@ -238,8 +227,6 @@ async function performNearbySearch(requestParam: google.maps.places.PlaceSearchR
     tmpStreetName = tmpStreetName + " " + tmpStreetNumber;
     updateStreetName(tmpStreetName);
 
-    //sanity check
-    console.log("Gesamte Adresse: " + address);
 
     /* Erstmal auskommentiert, falls wir die NearbySearch nochmal in places.tsx machen müssen
     let request = {

@@ -13,5 +13,6 @@ type DistanceProps = {
 
 
 export default function Distance({ leg }: DistanceProps) {
+  //console.log(leg)
   return <div>Distance</div>;
 }

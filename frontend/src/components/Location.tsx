@@ -6,7 +6,7 @@ const LocationWrapper = styled.div`
     flex-direction: row;
     gap: 20px;
     align-items: center;
-    width: fill-available;
+    width: 100%;
 `;
 
 const AddressWrapper = styled.div`
@@ -16,46 +16,32 @@ const AddressWrapper = styled.div`
     align-items: start;
 `;
 
-const MapContainer = styled.div <{ $hasOutline: boolean; color: string }>`
+const MapContainer = styled.div`
     width: 200px;
     height: 135px;
-    background-color: var(--color--disabled-gray-light);
-
     @media (max-width: 768px) {
         width: 100px;
         height: 90px;
     }
     border-radius: 26px;
-    border: ${({ $hasOutline, color }) =>
-        $hasOutline ? (color === "blue" ? "var(--color--blue-3) 3px solid" :
+    border: ${({ color }) =>
+        color === "blue" ? "var(--color--blue-3) 3px solid" :
             (color === "green" ? "var(--color--green-3) 3px solid" :
-                "var(--color--pink-3) 3px solid")) :
-            "none"};
+                "var(--color--pink-3) 3px solid")};
 `;
 
 const PlaceName = styled.div`
   line-height: 2rem;
   font-size: 1.5rem;
   font-weight: 600;
-  color: ${({ color }) => {
-        switch (color) {
-            case "blue":
-                return "var(--color--blue-5)";
-            case "green":
-                return "var(--color--green-5)";
-            case "pink":
-            default:
-                return "var(--color--pink-5)";
-        }
-    }};
 `;
 
-function Location({ children = '', street = "Finkenau 35", zip = "22081", city = "Hamburg", color = "pink", outline = true }) {
+function Location({ children = '', street = "Finkenau 35", zip = "22081", city = "Hamburg", color = "pink" }) {
     return (
         <LocationWrapper>
-            <MapContainer color={color} $hasOutline={outline}></MapContainer>
+            <MapContainer color={color} ></MapContainer>
             <AddressWrapper>
-                <PlaceName color={color}>{children}</PlaceName>
+                <PlaceName>{children}</PlaceName>
                 <Address color={color} street={street} zip={zip} city={city}></Address>
             </AddressWrapper>
         </LocationWrapper>

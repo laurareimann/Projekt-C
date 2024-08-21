@@ -1,7 +1,8 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
+//Stylesheets
 import styled from 'styled-components';
-
+import "../globals.css";
 // Components
 import Map from "../components/mapComponents/map.tsx";
 import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
@@ -133,15 +134,15 @@ const Test: React.FC = () => {
             circleColors (Array): ['green', 'yellow', 'red']
             center  (Object): { lat: 53.5688823, lng: 10.0330191 }
             */}
-            <Column>
-                <StreetProvider cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
+
+                <StreetProvider currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]} currentScoreValue='42' cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
                     <Map
                         shouldRenderCircles={true}
                         circleRadii={[1250, 2500, 3750]}
                         circleColors={['green', 'yellow', 'red']}
                     />
                 </StreetProvider>
-                <StreetProvider cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
+                <StreetProvider currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]} currentScoreValue="42" cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
                     <MapWithoutSearch
                         shouldRenderCircles={true}
                         circleRadii={[1250, 2500, 3750]}
@@ -149,7 +150,6 @@ const Test: React.FC = () => {
                         center={{ lat: 53.5688823, lng: 10.0330191 }}
                         />
                 </StreetProvider>
-            </Column>
 
             {/*
             Login&Signup
