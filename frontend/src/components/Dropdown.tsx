@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 //Dies wird der dropdown component für die Auswahl der Sprache. Anfangs erstmal nur Deutsch und Englisch
 
@@ -7,11 +8,11 @@ import bigBlueArrow from '../assets/Arrow_Transparent_Blue.svg'
 
 //Dies wird für den weiteren verlauf eventuell wichtig, wenn wir dynamisch die Sprache ändern wollen
 //Wird vielleicht in die App.tsx rüberwandern, aber erstmal bleibts hier
-let chosenLanguage:string;
-  //chosenLanguage = "English";
+let dropdownOptions:string;
+  //dropdownOptions = "English";
 
   //language wird reassigned, damit VSC nicht meckert
-  //chosenLanguage = "English";
+  //dropdownOptions = "English";
 
   const DropDownContainer = styled("div")`
   cursor: pointer;
@@ -98,8 +99,8 @@ const options = [""];
   let selectedOptionDefault:string;
 
 
-function DropDownLanguage({options=[""], category=""}) { //options zeigt die Strings, die im Dropdown liegen. 
-                                                         //Category ist ein Placeholder bis eine der Options ausgewählt wird
+function Dropdown({options=[""], placeholder=""}) { //options zeigt die Strings, die im Dropdown liegen. 
+                                                         //Placeholder ist ein Placeholder bis eine der Options ausgewählt wird
   const [isOpen, setIsOpen] = useState(false);
 
   const dropDownRef = useRef<HTMLDivElement>(null);
@@ -108,12 +109,12 @@ function DropDownLanguage({options=[""], category=""}) { //options zeigt die Str
   const onOptionClicked = (value:string) => () => {
     selectedOptionDefault = value;
     setIsOpen(false);
-    chosenLanguage = value;
+    dropdownOptions = value;
   };
 
   function checkString (){ //geht bestimmt auch simpler aber hier sind wir
     if(selectedOptionDefault == undefined){
-      return category;
+      return placeholder;
     }else{
       return selectedOptionDefault;
     }
@@ -165,5 +166,5 @@ function DropDownLanguage({options=[""], category=""}) { //options zeigt die Str
 }
 
 //Siehe oben
-export {chosenLanguage};
-export default DropDownLanguage;
+export {dropdownOptions};
+export default Dropdown;

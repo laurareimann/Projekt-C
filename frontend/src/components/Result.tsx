@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Location from './Location';
 import Score from './Score';
-import Button from './Buttons';
+import Button from './buttons/Buttons';
 import ScoreContainer from './ScoreContainer';
 import { useStreetNameNew,useZipCodeNew,useCityNew } from './mapComponents/StreetProvider';
 

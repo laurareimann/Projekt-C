@@ -7,16 +7,13 @@ import {
   DirectionsRenderer,
   Circle,
   InfoWindow,
-  MarkerClusterer,
 } from "@react-google-maps/api";
 import Places from "./places";
-import Distance from "./distance";
 import styled from "styled-components";
 
 import MapLegend from "./mapLegend";
 import walkingIcon from "../../assets/walkingIcon.svg";
-import { AdvancedMarker, useMap } from "@vis.gl/react-google-maps";
-import {useScore,StreetProvider} from "./StreetProvider";
+import {useScore} from "./StreetProvider";
 //import { InfoWindow } from "react-google-maps";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -50,11 +47,22 @@ let fastestRouteHealth:number = 10000;
 let fastestRouteTransit:number = 10000;
 let finalMean:number;
 let currentDuration:number;
+//Testweise bools, um Berechnung zu fixen
+let groceryBool:boolean = false;
+let healthBool:boolean = false;
+let transitBool:boolean = false;
 
 //Temp colours für die Buttons
 let GroceryButtonString:string="";
 let HealthButtonString:string="";
 let TransitButtonString:string="";
+
+//Temp colours for the travelmode buttons
+let WalkingButtonString:string="darkPink";
+let BicycleButtonString:string="";
+let DrivingButtonString:string="";
+let TransitButtonStringTravelMode:string="";
+
 
 const markersWithInfoGroceries : Array<MarkerWindow> = []
 const markersWithInfoHealth : Array<MarkerWindow> = []
@@ -110,11 +118,12 @@ margin-bottom: 10px;
 `
 
 const MapAndPrioGrid = styled.div`
+margin-left: 2%;
 display: grid;
-grid-gap: 4px;
+grid-gap:4px;
 place-items:center;
-width:1500px;
-grid-template-columns: 1fr 1fr;
+width:100%;
+grid-template-columns: 75% 1%;
 margin-bottom: 10px;
 `
 
@@ -122,18 +131,8 @@ const PriorityGrid = styled.div`
 display: grid;
 grid-gap: 4px;
 place-items:center;
-width:45px;
+width:4px;
 margin-bottom: 10px;
-`
-
-const MapContainer = styled.div`
-  position: relative;
-  height: 100%;
-  width: 1300px;
-  border:none;
-  border-radius:50px;
-  margin-bottom:10px;
-  
 `
 const ControlContainer = styled.div`
   height:fit-content;
@@ -309,7 +308,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onLoad = useCallback((map:any) => (mapRef.current = map),[]);
+  const onLoad = useCallback((map: any) => (mapRef.current = map), []);
   console.log(shouldRenderCircles);
 
   //Kleine Helferfunktion. Inkrementiert eine Variable, damit sich die Karte aktualisiert. Werde noch testen, ob diese am Ende vonnöten ist oder nicht
@@ -318,14 +317,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         setHelpCounter(helpCounter+1);
         }
   }
-
-  const refreshCurrentDuration=()=>{
-    if(directions){
-      currentDuration=(directions.routes[0].legs[0].duration!.value);
-      setCurrentDuration(currentDuration);
-    }
-  }
-
 
   const selectRouteFromMarker=(spotLiterals:LatLngLiteral,travelModeParam:string)=>{
     if(!spot)return;
@@ -667,37 +658,53 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       console.log("Final fastest route to a health deparment: " + fastestRouteHealth);
       console.log("Final fastest route to a transit station: " + fastestRouteTransit);
 
-      if(isGroceriesPriority){
+      if(groceryBool){
         fastestRouteGroceries*2;
         finalDivisor++;
       }
-      if(isHealthPriority){
+      if(healthBool){
         fastestRouteHealth*2;
         finalDivisor++;
       }
-      if(isTransitPriority){
+      if(transitBool){
         fastestRouteTransit*2;
         finalDivisor++;
       }
       finalMean = Math.ceil(((fastestRouteGroceries+fastestRouteHealth+fastestRouteTransit)/60/finalDivisor));
       console.log("Value of final mean: " + finalMean);
       console.log("Finaler Divisor war: " + finalDivisor)
-      updateScore(finalMean.toString())},1000)
+      updateScore(finalMean.toString())},1500)
   }
 
   function setCurrentTravelMode(chosenMode:string){
     //Mit Buttonpress wird der gewünschte travel mode gesetzt
     switch(chosenMode){
       case "walking":
+        WalkingButtonString="darkPink";
+        DrivingButtonString="";
+        TransitButtonStringTravelMode="";
+        BicycleButtonString="";
         setTravelMode("walking");
         break;
       case "driving":
+        WalkingButtonString="";
+        DrivingButtonString="darkPink";
+        TransitButtonStringTravelMode="";
+        BicycleButtonString="";
         setTravelMode("driving")
         break;
       case "transit":
+        WalkingButtonString="";
+        DrivingButtonString="";
+        TransitButtonStringTravelMode="darkPink";
+        BicycleButtonString="";
         setTravelMode("transit")
         break;
       case "bicycle":
+        WalkingButtonString="";
+        DrivingButtonString="";
+        TransitButtonStringTravelMode="";
+        BicycleButtonString="darkPink";
         setTravelMode("bicycle")
         break;
     }
@@ -717,7 +724,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }else{
           GroceryButtonString="darkPink"
         }
-        setGroceriesPriority(!isGroceriesPriority)
+        //setGroceriesPriority(!isGroceriesPriority)
         break;
       case "Health":
         if(isHealthPriority === true){
@@ -725,7 +732,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }else{
           HealthButtonString="darkPink"
         }
-        setHealthPriority(!isHealthPriority)
+        //setHealthPriority(!isHealthPriority)
         break;
       case "Transit":
         if(isTransitPriority === true){
@@ -733,7 +740,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }else{
           TransitButtonString="darkPink"
         }
-        setTransitPriority(!isTransitPriority)
+        //setTransitPriority(!isTransitPriority)
         break;
     }
 
@@ -791,14 +798,14 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       Click one of the buttons to choose a travel mode
       <p>Current travel mode: {travelMode}</p>
       <ButtonGrid>
-        <StyledButton onClick={()=>{setCurrentTravelMode("walking");if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"walking");}}}>Walking</StyledButton>
-        <StyledButton onClick={()=>{setCurrentTravelMode("driving"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"driving")}}}>Driving</StyledButton>
-        <StyledButton onClick={()=>{setCurrentTravelMode("transit"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"transit")}}}>Transit</StyledButton>
-        <StyledButton onClick={()=>{setCurrentTravelMode("bicycle"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"bicycle")}}}>Bicycle</StyledButton>
+        <StyledButton color={WalkingButtonString} onClick={()=>{setCurrentTravelMode("walking"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"walking");}}}>Walking</StyledButton>
+        <StyledButton color={DrivingButtonString} onClick={()=>{setCurrentTravelMode("driving"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"driving")}}}>Driving</StyledButton>
+        <StyledButton color={TransitButtonStringTravelMode}onClick={()=>{setCurrentTravelMode("transit"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"transit")}}}>Transit</StyledButton>
+        <StyledButton color={BicycleButtonString}onClick={()=>{setCurrentTravelMode("bicycle"); if(InitialCalculationDone==true){calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},"bicycle")}}}>Bicycle</StyledButton>
       </ButtonGrid>
       
     <MapAndPrioGrid>
-    <MapContainer>
+    
       <GoogleMap zoom={14} 
         center={center} 
         mapContainerClassName="map-container"
@@ -842,13 +849,12 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         lng:selectedMarker.location.lng
       }}>
         <div>
-          <h2>Current travel mode: {travelMode} </h2>
-          <h2>Current destination: {selectedMarker.name}</h2>
-          <h3>Travel time to that destination in minutes: {Math.ceil(currentDurationUseState/60)}</h3>
+          <h3>Current travel mode: {travelMode} </h3>
+          <h3>Current destination: {selectedMarker.name}</h3>
+          <p>Travel time to that destination in minutes: {Math.ceil(currentDurationUseState/60)}</p>
           <p>Address: {selectedMarker.address}</p>
         </div>
         </InfoWindow>}
-      </GoogleMap>
         {shouldRenderCircles && spot && (
           <MapLegend
             circleRadii={circleRadii}
@@ -856,19 +862,40 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             logo={walkingIcon}
           />
         )}
-      </MapContainer>
+      </GoogleMap>
+        
       <PriorityGrid>
         <StyledButton color={GroceryButtonString} onClick={()=>{
           setPriorityButton("Groceries");
+          setGroceriesPriority(!isGroceriesPriority);
+          groceryBool = !groceryBool;
+          console.log("Grocerybool is: " + groceryBool);
+          console.log(isGroceriesPriority);
+          if(InitialCalculationDone){
+            {calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode);}
+          }
           
           }}>Prioritise Groceries</StyledButton>
         <StyledButton color={HealthButtonString} onClick={()=>{
           setPriorityButton("Health");
+          setHealthPriority(!isHealthPriority);
+          healthBool = !healthBool;
+          console.log("Healthbool is: " + healthBool);
+          console.log(isHealthPriority)
+          if(InitialCalculationDone){
+            {calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode);}
+          }
 
         }}>Prioritise health departments</StyledButton>
         <StyledButton color={TransitButtonString} onClick={()=>{
           setPriorityButton("Transit");
-
+          setTransitPriority(!isTransitPriority);
+          console.log(isTransitPriority);
+          transitBool = !transitBool;
+          console.log("Transitbool is: " + transitBool);
+          if(InitialCalculationDone){
+            {calculateScorePrototype({lat:spot!.lat,lng:spot!.lng},travelMode);}
+          }
         }}>Prioritise transit stations</StyledButton>
       </PriorityGrid>
       </MapAndPrioGrid>

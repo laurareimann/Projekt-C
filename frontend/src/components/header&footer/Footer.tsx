@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import logo from '../assets/logo.svg';
+import logo from '../../assets/logo.svg';
 
 const FooterContainer = styled.footer`
   position: absolute;
@@ -7,7 +7,7 @@ const FooterContainer = styled.footer`
   right: 0;
   min-width: 380px;
   width: 100%;
-  margin-top: 16px;
+  margin-top: 32px;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -193,14 +193,14 @@ function Footer() {
         </ThinColumn>
         <Column>
           <Headline>Legal</Headline>
-          <Link href="#">Terms</Link>
-          <Link href="#">Privacy</Link>
+          <Link href="/terms">Terms</Link>
+          <Link href="/privacy">Privacy</Link>
         </Column>
         <Column>
           <Headline>About us</Headline>
-          <Link href="#">The team</Link>
-          <Link href="#">Concept</Link>
-          <Link href="#">FAQ</Link>
+          <Link href="/the-team">The team</Link>
+          <Link href="/concept">Concept</Link>
+          <Link href="/faq">FAQ</Link>
         </Column>
         <Column>
           <Headline>Contact</Headline>
@@ -211,7 +211,7 @@ function Footer() {
         </Column>
       </ColumnsContainer>
       <PartingLine />
-      <FooterText>© All rights reserved (TO BE CHANGED)</FooterText>
+      <FooterText>© All rights reserved</FooterText>
     </FooterContainer>
   );
 }

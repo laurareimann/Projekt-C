@@ -1,20 +1,34 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-//import styled from 'styled-components';
+import styled from 'styled-components';
 import Map from "../components/mapComponents/map.tsx";
 import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
-
+import Button from '../components/buttons/Buttons.tsx';
+import GlassButton from '../components/buttons/GlassButtons.tsx';
+import Input from '../components/Inputforms.tsx';
+import BlurButton from '../components/buttons/BlurButtons.tsx';
+import Result from '../components/Result.tsx';
+import Location from '../components/Location.tsx';
 // Components
 import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
 import { ToastContainer } from 'react-toastify';
 
+
+
 const HomePage: React.FC = () => {
+
+    
+
+    function handleClick(): void {
+        throw new Error('Function not implemented.');
+    }
+
     return (
         <div>
             <h1>15 Minute City Calculator</h1>
             <p>Enter an address to find out, if it is part of the 15 minute city.</p>
-            <StreetProvider currentScoreValue='42' cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081' currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]}>
+            <StreetProvider cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081' currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]}>
                 <Map
                     shouldRenderCircles={true}
                     circleRadii={[1250, 2500, 3750]}
@@ -23,7 +37,7 @@ const HomePage: React.FC = () => {
                 <ScoreContainer color='blue'></ScoreContainer>
                 <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>
-            {/* 
+            {/*
                     <InputGrid>
                         <Result color='pink'>HAW Finkenau</Result>
                         <Location color='pink'>HAW Finkenau</Location>
@@ -85,43 +99,11 @@ const HomePage: React.FC = () => {
                     <ColoredParagrpah color="var(--color--success-green-mid)">success-green-mid</ColoredParagrpah>
                     <ColoredParagrpah color="var(--color--success-green)">success-green</ColoredParagrpah>
                     <ColoredParagrpah color="var(--color--white-shade)">white-shade</ColoredParagrpah>
-                    <ColoredParagrpah color="var(--color--black-shade)">black-shade</ColoredParagrpah> */}
-
+                    <ColoredParagrpah color="var(--color--black-shade)">black-shade</ColoredParagrpah> 
+*/}
             <ToastContainer></ToastContainer>
         </div>
     );
 };
-
-
-/* Funktionen und Styling
-const ButtonGrid = styled.div`
-display: grid;
-grid-gap: 12px;
-`
-
-const ContainerGrid = styled.div`
-display: flex;
-flex-wrap: wrap;
-gap:12px; 
-`
-
-const InputGrid = styled.div`
-display: grid;
-grid-gap: 12px;
-`
-
-const ColoredString = styled.p<{ color: string }>`
-  color: ${(props) => props.color};
-`;
-
-const ColoredParagrpah: React.FC<MyComponentProps> = ({ color, children }) => {
-    return <ColoredString color={color}>{children}</ColoredString>;
-};
-
-interface MyComponentProps {
-    color: string;
-    children: React.ReactNode;
-}
-*/
 
 export default HomePage;

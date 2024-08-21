@@ -17,6 +17,7 @@ dotenv.config();
 
 //Setup mongoDB | commented for now since we don't need it immediately
 const mongoDB_URI = (process.env.MONGODB_URI);
+console.log("Current URL: " + mongoDB_URI);
 
 mongoose.connect(mongoDB_URI).then(() => {
   console.log("Successfully connected to your databases");
@@ -89,9 +90,9 @@ app.post("/signup", async(req,res) => {
         const newUser = new userModel({Username: data.UserName, password:data.Password})
         newUser.save();
         console.log("User successfully added")
-        res.redirect("/logInPage")
+        res.json("SignUpSuccess")
       }
-      else{
+      if(password!=passwordConfirm){
         res.json("Passwords not matching");
         console.log("Passwords not matching");
       }
@@ -113,13 +114,14 @@ app.post("/login",async(req,res)=>{
 
   try{
     const checkForUser = await userModel.findOne({Username:userParam});
-    console.log(checkForUser.password);
     if(checkForUser != null){
-      if(checkForUser.password != passwordParam){
+      if(checkForUser.password != passwordParam || checkForUser.Username != userParam){
         console.log("Wrong credentials");
+        res.json("Wrong credentials!")
       }else{
         console.log("Login successful")
         res.json("exist");
+        
       }
     }if(checkForUser == null){
       console.log("User not yet registered");
@@ -139,8 +141,6 @@ app.listen(PORT,() => {
     
 
   })
-
-
 
 
 
