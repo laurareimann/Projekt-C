@@ -181,11 +181,11 @@ function HeaderDesktop() {
           <span>Evaluation</span>
         </NavItem> 
         {globalLoggedInBool ? ( // State ändert sich momentan auch noch nicht
-          <Profile href="/profilePage">
+          <Profile href="/profile-page">
             <img src={profileIcon} alt="Profile" />     
           </Profile>  
         ) : (
-          <Profile href="/logInPage">
+          <Profile href="/login-page">
             <Button color='pink'>Login</Button>
           </Profile>
         )}
