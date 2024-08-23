@@ -6,17 +6,11 @@ import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 // Components
 import { ToastContainer } from 'react-toastify';
 import React from 'react';
-import Button from '../components/Buttons.tsx';
+import Button from '../components/buttons/Buttons.tsx';
 import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
 import { latLngEquals } from '@vis.gl/react-google-maps';
-import { useState } from 'react';
 import ResultContainer from '../components/ResultContainer.tsx';
 import ScoreContainer from '../components/ScoreContainer.tsx';
-
-// Define the types for the props
-interface HorizontalContainerProps {
-    gap: string;
-}
 
 const ButtonGrid = styled.div`
 display: grid;
@@ -24,34 +18,30 @@ grid-gap: 4px;
 place-items:center;
 width:420px;
 grid-template-columns: 1fr 1fr;
-margin-bottom: 10px;
+margin-bottom: 20px;
 margin-top: 20px;
-@media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
 `
 
 const MapAndPrioGrid = styled.div`
 display: grid;
+grid-template-columns: 1fr 1fr;
 grid-gap: 15px;
 place-items:center;
-width:1000px;
-grid-template-columns: 1fr 1fr;
-margin-bottom: 10px;
 @media (max-width: 768px) {
     grid-template-columns: 1fr;
-  }
-`
+    place-items: unset;
+}
+ `
+
 const ScoreContainerGrid = styled.div`
 display: grid;
 grid-gap: 15px;
 place-items:center;
-width:1000px;
 grid-template-columns: 1fr 1fr 1fr;
 margin-bottom: 10px;
-padding-top: 10px;
 @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    width: 100%;
   }
 `
 
@@ -61,13 +51,18 @@ const DiagrammContainer = styled.div`
   border: 4px solid var(--color--pink-3);
   border-radius: 20px;
   display:grid;
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
 `
 
-
-
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  width: fit-content;
+  align-items: center;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`
 const Evaluation: React.FC = () => {  
     
     const [content, setContent] = React.useState("overallScore");
@@ -79,6 +74,8 @@ const Evaluation: React.FC = () => {
                                         shouldRenderCircles={false}
                                         circleRadii={[1250, 2500, 3750]}
                                         circleColors={['green', 'yellow', 'red']}
+                                        height='50vh'
+                                        width='50vh'
                                     />
 
                                     <DiagrammContainer></DiagrammContainer>
@@ -104,9 +101,9 @@ const Evaluation: React.FC = () => {
 
     return (
         <div>
-            <h1>Detailed Results</h1>
+            <ContentWrapper>
 
-            
+            <h1>Detailed Results</h1>
 
             <ResultContainer></ResultContainer>
 
@@ -121,6 +118,7 @@ const Evaluation: React.FC = () => {
             </div>
 
             <ToastContainer></ToastContainer>
+            </ContentWrapper>
         </div>
     );
 };

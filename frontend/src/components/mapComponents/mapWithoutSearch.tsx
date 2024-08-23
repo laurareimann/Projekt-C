@@ -27,6 +27,9 @@ const MapContainer = styled.div<{ height: string; width: string }>`
   width: ${(props) => props.width};
   border:none;
   border-radius:50px;
+   @media (max-width: 768px) {
+    width: 100%;
+  } 
 `
 
 // Typescript Props
@@ -50,6 +53,7 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
   circleColors = defaultColors,
   height = "50vh", //default
   width = "50vh"   //default
+  
 }) => {
 
   //Wenn die map initialisiert wird, ist der default spot auf der Haw Finkenau

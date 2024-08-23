@@ -4,10 +4,11 @@ import Address from './Address';
 import Score from './Score';
 import { useStreetNameNew,useZipCodeNew,useCityNew, useScore } from './mapComponents/StreetProvider';
 import MapWithoutSearch from './mapComponents/mapWithoutSearch';
+import React from 'react';
 
 const ResultContainer = styled.div`
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     width: fit-content;
     gap: 32px;
     align-items: center;
@@ -15,6 +16,10 @@ const ResultContainer = styled.div`
     padding: 10px;
     border-radius: 26px;
     background-color: #FFECF8;
+    @media (max-width: 768px){
+        grid-template-columns: 1fr 1fr;
+        align-items: baseline;
+    }
 `
 
 function ScoreContainer({color = "pink"}) {
@@ -23,7 +28,6 @@ function ScoreContainer({color = "pink"}) {
     const customZip = useZipCodeNew().zipCode;
     const customCity = useCityNew().currentCity;
     const customScore = useScore().currentScore;
-    
     
 
     return (
@@ -36,8 +40,9 @@ function ScoreContainer({color = "pink"}) {
                     height='14vh'
                     width='20vh'
                 />
-                <Address color={color} street={customStreet} zip={customZip} city={customCity}></Address>
-                <Score color={color} score={customScore}></Score>
+                    <Address color={color} street={customStreet} zip={customZip} city={customCity}></Address>
+                    <Score color={color} score={customScore}></Score>
+                 
             </ResultContainer>
     );
 }
