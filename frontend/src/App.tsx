@@ -174,15 +174,15 @@ const App: React.FC = () => {
 
         <Route index element={<Homepage />} />
         <Route path="about-us" element={<AboutUs />} />
-        <Route path="logInPage" element={<LogInPage />} />
-        <Route path="registerPage" element={<RegisterPage />} />
+        <Route path="login-page" element={<LogInPage />} />
+        <Route path="register-page" element={<RegisterPage />} />
         <Route path="Test" element={<Test />} />
         <Route path="terms" element={<Terms />} />
         <Route path="privacy" element={<Privacy />} />
         <Route path="the-team" element={<TheTeam />} />
         <Route path="concept" element={<Concept />} />
         <Route path="faq" element={<FAQ />} />
-        <Route path="profilePage" element={<ProfilePage />} />
+        <Route path="profile-page" element={<ProfilePage />} />
             /*hier alle Seiten anlegen */
       </Routes>
       <Footer />

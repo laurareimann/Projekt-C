@@ -232,7 +232,7 @@ function LoginForm() {
                 <ButtonWrapper>
                     <StyledButton type="submit" onClick={submit} color="var(--color--pink-2)" >Log In</StyledButton>
                     <p> or </p>
-                    <a href="registerPage">
+                    <a href="register-page">
                         <Button color="darkPink">Register</Button> </a>
                 </ButtonWrapper>
             </LoginContainer>
