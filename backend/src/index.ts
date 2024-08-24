@@ -15,6 +15,7 @@ const userModel = require("./db/user");
 dotenv.config();
 
 
+
 //Setup mongoDB | commented for now since we don't need it immediately
 const mongoDB_URI = (process.env.MONGODB_URI);
 console.log("Current URL: " + mongoDB_URI);
@@ -25,9 +26,6 @@ mongoose.connect(mongoDB_URI).then(() => {
 .catch(() => {
   console.log("Connection failed");
 })
-
-
-//Getting pages for redirect
 
 
 //Setup express
@@ -91,13 +89,13 @@ app.post("/signup", async(req,res) => {
         newUser.save();
         console.log("User successfully added")
         res.json("SignUpSuccess")
+        
       }
       if(password!=passwordConfirm){
         res.json("Passwords not matching");
         console.log("Passwords not matching");
       }
     }
-
   }
   catch(e){
     console.log("Error message: " + e);
@@ -145,3 +143,13 @@ app.listen(PORT,() => {
 
 
 
+/*
+In case we need to clean up the databases
+userModel.deleteMany({}).then(
+      console.log("Database deleted")
+    );
+    AddressModel.deleteMany({}).then(
+      console.log("Database deleted")
+    );
+
+*/
