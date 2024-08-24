@@ -200,7 +200,7 @@ function SignUpForm(){
                       return 0;
                 }
                 else if(res.data==="SignUpSuccess"){
-                    window.location.replace("/logInPage");
+                    window.location.replace("/login-page");
                 }
             })
             .catch((e:string)=>{
