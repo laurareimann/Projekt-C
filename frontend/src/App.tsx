@@ -180,7 +180,7 @@ const App: React.FC = () => {
         <Route path="team" element={<TheTeam />} />
         <Route path="concept" element={<Concept />} />
         <Route path="faq" element={<FAQ />} />
-        <Route path="profile-page" element={<ProfilePage />} />
+        <Route path="profile" element={<ProfilePage />} />
             /*hier alle Seiten anlegen */
       </Routes>
       <Footer />
