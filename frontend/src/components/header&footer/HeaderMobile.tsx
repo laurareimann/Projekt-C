@@ -221,6 +221,37 @@ const burgerProfileStyles = {
   }
 }
 
+const getCookie = (name: string) => {
+  const cookies = document.cookie.split("; ").find((row) => row.startsWith(`${name}=`));
+
+  return cookies ? cookies.split("=")[1] : null;
+}
+
+let currentUser = getCookie("username");
+
+const deleteCookie = (name: string | null) => {
+
+  console.log("Attempting to log off " + name);
+
+  if (currentUser != "") {
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    currentUser = "";
+    console.log("Logging off")
+  }
+}
+
+let globalLoggedInBool: boolean = false;
+
+if (currentUser == null) {
+  console.log("No one's logged in atm");
+  globalLoggedInBool = false;
+} else {
+  console.log(currentUser + " is logged in");
+  globalLoggedInBool = true;
+}
+
+
+
 const HeaderMobile = () => {
   const [isVisible, setIsVisible] = useState(true);
 
@@ -322,20 +353,45 @@ const HeaderMobile = () => {
               styles={burgerProfileStyles}
               right
             >
-              <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/login-page">
-                <MenuProfileItem>
-                  Login
-                </MenuProfileItem>
-              </MenuProfileOption>
-              <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/register-page">
-                <MenuProfileItem>
-                  Register
-                </MenuProfileItem>
-              </MenuProfileOption>
+              {globalLoggedInBool ? (
+                <>
+                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/profile-page">
+                    <MenuProfileItem>
+                      Profile
+                    </MenuProfileItem>
+                  </MenuProfileOption>
+
+                  <MenuProfileOption onClick={() => {
+                    setIsProfileOpen(false);
+                    deleteCookie(currentUser);
+                    window.location.replace("/");
+                  }}>
+                    <MenuProfileItem>
+                      Logout
+                    </MenuProfileItem>
+                  </MenuProfileOption>
+                </>
+
+              ) : (
+                <>
+                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/login-page">
+                    <MenuProfileItem>
+                      Login
+                    </MenuProfileItem>
+                  </MenuProfileOption>
+
+                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/register-page">
+                    <MenuProfileItem>
+                      Register
+                    </MenuProfileItem>
+                  </MenuProfileOption>
+                </>
+              )}
+
             </ProfileMenu>
           </NavSection>
 
-        </Nav>
+        </Nav >
       </Header >
       <Spacer />
     </>
