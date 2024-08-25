@@ -10,7 +10,7 @@ const HeaderWrapper = styled.div`
 const MobileWrapper = styled.div`
     display: block;
 
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
         display: none;
     }
 `;
@@ -22,7 +22,7 @@ const DesktopWrapper = styled.div`
     align-items: center;
     margin-bottom: 60px;
 
-    @media (max-width: 768px) {
+    @media (max-width: 1023px) {
         display: none;
     }
 `;
