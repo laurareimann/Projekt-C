@@ -49,7 +49,7 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 80px;
+  padding: 0 80px;
   width: 100%;
 
   @media (max-width: 1023px) {
