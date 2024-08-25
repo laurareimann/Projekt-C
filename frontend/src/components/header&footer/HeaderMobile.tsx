@@ -19,7 +19,6 @@ const Header = styled.header<{ visible: boolean }>`
     justify-content: space-between;
     align-items: center;
     height: 70px;
-    min-width: 380px;
     width: 100%;
     background-color: var(--color--white-shade);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
@@ -34,10 +33,6 @@ const Nav = styled.nav`
   align-items: center;
   margin: 15px 20px;
   width: 100%;
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
 `;
 
 const NavSection = styled.div`
