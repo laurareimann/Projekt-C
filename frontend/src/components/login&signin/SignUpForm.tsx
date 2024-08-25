@@ -112,7 +112,7 @@ const StyledInput = styled.input<InputProps>`
     }
 `;
 
-const LoginContainer = styled.div`
+const SignUpContainer = styled.div`
     width:500px;
     border: 8px solid var(--color--pink-1);
     border-radius: 20px;
@@ -145,25 +145,24 @@ const ButtonWrapper = styled.div`
     grid-gap: 12px;
     justify-items: center;`
 
-
-const setCookie = (name: string, value: unknown, days: number) => {
+const setCookie = (name: string,value: unknown,days: number) =>{
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + days);
-
+  
     document.cookie = `${name}=${value}; expires=${expirationDate.toUTCString()};path=/`
 
-}
+  }
 
-const getCookie = (name: string) => {
-    const cookies = document.cookie.split("; ").find((row) => row.startsWith(`${name}=`));
+  const getCookie = (name:string) =>{
+    const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
 
     return cookies ? cookies.split("=")[1] : null;
-}
+  }
 
 
 const currentUser = getCookie("username");
 
-const throwToast = (errorMessage: string) => {
+const throwToast = (errorMessage:string) =>{
     toast.error(errorMessage, {
         position: "top-center",
         autoClose: 5000,
@@ -174,70 +173,64 @@ const throwToast = (errorMessage: string) => {
         progress: undefined,
         theme: "dark",
         transition: Bounce,
-    });
+        });
 }
 
+function SignUpForm(){
 
-function LoginForm() {
+    const [user,setUser]=useState('')
+    const [password,setPassword]=useState('')
+    const [passwordConfirm,setPasswordConfirm] = useState("")
 
-    const [user, setUser] = useState('')
-    const [password, setPassword] = useState('')
-
-    async function submit(e: { preventDefault: () => void; }) {
-
-        console.log("submitting...")
-
+    async function submit(e: { preventDefault: () => void; }){
         e.preventDefault();
 
-        try {
-
-            await axios.post("http://localhost:8080/login", {
-                user, password
+        try{
+            await axios.post("http://localhost:8080/signup",{
+                user,password,passwordConfirm
             })
-                .then((res: { data: string; }) => {
-                    if (res.data == "exist") {
-                        setCookie("username", user, 7);
-                        console.log("Logged in");
-                        window.location.replace("/")
-                    }
-                    else if (res.data == "notexist") {
-                        throwToast("User doesn't exist yet")
-                    }
-                    else if (res.data == "Wrong credentials!") {
-                        throwToast("Wrong username or password!");
-                    }
-                })
-                .catch((e: string) => {
-
-                    console.log(e);
-                })
+            .then((res: { data: string })=>{
+                if(res.data==="exists"){
+                    throwToast("User already exists")
+                      return 0;
+                }
+                else if(res.data==="Passwords not matching"){
+                    console.log("Passwords didn't match!")
+                    throwToast("Passwords are not matching")
+                      return 0;
+                }
+                else if(res.data==="SignUpSuccess"){
+                    window.location.replace("/login-page");
+                }
+            })
+            .catch((e:string)=>{
+                console.log(e);
+            })
 
         }
-        catch (e) {
+        catch(e){
             console.log(e);
-
         }
 
     }
 
-    return (
+
+    return(
         <div>
-            <LoginContainer>
-                <h1>Sign In</h1>
+            <SignUpContainer>
+                <h1>Sign Up</h1>
                 <InputWrapper>
-                    <StyledInput $isValid={true} disabled={false} placeholder="Username" type="email" onChange={(e) => { setUser(e.target.value); }} />
-                    <StyledInput $isValid={true} disabled={false} placeholder="Password" type="password" onChange={(e) => { setPassword(e.target.value) }} />
-                    <a href="">Forgot password?</a>
-                </InputWrapper>
+                        <StyledInput $isValid placeholder="Username" onChange={(e)=>{setUser(e.target.value)}}/>
+                        <StyledInput $isValid placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>
+                        <StyledInput $isValid placeholder="Confirm Password" type="password" onChange={(e) => {setPasswordConfirm(e.target.value)}} />
+                    </InputWrapper>
+                    <a href="loginPage" >Already registered? Click here to log in.</a>
                 <ButtonWrapper>
-                    <StyledButton type="submit" onClick={submit} color="var(--color--pink-2)" >Log In</StyledButton>
-                    <p> or </p>
-                    <a href="register-page">
-                        <Button color="darkPink">Register</Button> </a>
+                    <StyledButton color="#FFC2EA" type='submit' onClick={submit}>Register</StyledButton>
                 </ButtonWrapper>
-            </LoginContainer>
+            </SignUpContainer>   
         </div>
     )
 }
 
-export default LoginForm;
+export default SignUpForm;

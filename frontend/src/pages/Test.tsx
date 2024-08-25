@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+//Stylesheets
 import styled from 'styled-components';
-
+import "../globals.css";
 // Components
 import Map from "../components/mapComponents/map.tsx";
 import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
@@ -18,6 +19,8 @@ import React from 'react';
 import Dropdown, { dropdownOptions } from '../components/Dropdown.tsx';
 import Score from '../components/Score.tsx';
 import Address from '../components/Address.tsx';
+import LoginForm from '../components/login&signin/LoginForm.tsx';
+import SignUpForm from '../components/login&signin/SignUpForm.tsx';
 
 
 // Funktionen und Styling
@@ -130,15 +133,15 @@ const Test: React.FC = () => {
             circleColors (Array): ['green', 'yellow', 'red']
             center  (Object): { lat: 53.5688823, lng: 10.0330191 }
             */}
-            <Column>
-                <StreetProvider cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
+
+                <StreetProvider currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]} currentScoreValue='42' cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
                     <Map
                         shouldRenderCircles={true}
                         circleRadii={[1250, 2500, 3750]}
                         circleColors={['green', 'yellow', 'red']}
                     />
                 </StreetProvider>
-                <StreetProvider cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
+                <StreetProvider currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]} currentScoreValue="42" cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
                     <MapWithoutSearch
                         shouldRenderCircles={true}
                         circleRadii={[1250, 2500, 3750]}
@@ -146,7 +149,15 @@ const Test: React.FC = () => {
                         center={{ lat: 53.5688823, lng: 10.0330191 }}
                         />
                 </StreetProvider>
-            </Column>
+
+            {/*
+            Login&Signup
+            Types: LoginForm, SignUpForm
+            Used for entering and submitting credentials
+            */}
+            
+            <LoginForm/>
+            <SignUpForm/>
 
             {/*
             Dropdown
@@ -155,6 +166,7 @@ const Test: React.FC = () => {
             Options (Array): ["eins","zwei"]
             Placeholder (String): 'Placehoder'
             */}
+
             <Column>
                 <Dropdown options={["eins", "zwei"]} placeholder='Placehoder'></Dropdown>
             </Column>
