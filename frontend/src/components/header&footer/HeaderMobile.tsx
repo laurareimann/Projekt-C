@@ -317,12 +317,12 @@ const HeaderMobile = () => {
             styles={burgerProfileStyles}
             right
           >
-            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/logInPage">
+            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/login-page">
               <MenuProfileItem>
                 Login
               </MenuProfileItem>
             </MenuProfileOption>
-            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/registerPage">
+            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/register-page">
               <MenuProfileItem>
                 Register
               </MenuProfileItem>
