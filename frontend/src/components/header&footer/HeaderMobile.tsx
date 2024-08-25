@@ -57,6 +57,10 @@ const Title = styled.h2`
   }
 `;
 
+const Spacer = styled.div`
+  height: 20px;
+`;
+
 const Profile = styled.button`
   display: flex;
   border: none;
@@ -267,71 +271,74 @@ const HeaderMobile = () => {
   }, [isProfileOpen]);
 
   return (
-    <Header visible={isVisible}>
-      <Nav>
-        <NavSection>
-          <BurgerButton onClick={handleMenuOpen}>
-            {isOpen ? <img src={burgerCross} /> : <img src={burgerBars} />}
-          </BurgerButton>
+    <>
+      <Header visible={isVisible}>
+        <Nav>
+          <NavSection>
+            <BurgerButton onClick={handleMenuOpen}>
+              {isOpen ? <img src={burgerCross} /> : <img src={burgerBars} />}
+            </BurgerButton>
 
-          <Menu
-            isOpen={isOpen}
-            onStateChange={({ isOpen }) => setIsOpen(isOpen)}
-            customBurgerIcon={false}
-            styles={burgerStyles}
-          >
-            <MenuOption onClick={() => setIsOpen(false)} href="/quiz">
-              <MenuItem>
-                <img src={quizIcon} alt="Quiz" />
-                Quiz
-              </MenuItem>
-            </MenuOption>
-            <MenuOption onClick={() => setIsOpen(false)} href="/about-us">
-              <MenuItem>
-                <img src={aboutUsIcon} alt="About Us" />
-                About Us
-              </MenuItem>
-            </MenuOption>
-            <MenuOption onClick={() => setIsOpen(false)} href="/evaluation">
-              <MenuItem>
-                <img src={evaluationIcon} alt="Evaluation" />
-                Evaluation
-              </MenuItem>
-            </MenuOption>
-          </Menu>
-        </NavSection>
+            <Menu
+              isOpen={isOpen}
+              onStateChange={({ isOpen }) => setIsOpen(isOpen)}
+              customBurgerIcon={false}
+              styles={burgerStyles}
+            >
+              <MenuOption onClick={() => setIsOpen(false)} href="/quiz">
+                <MenuItem>
+                  <img src={quizIcon} alt="Quiz" />
+                  Quiz
+                </MenuItem>
+              </MenuOption>
+              <MenuOption onClick={() => setIsOpen(false)} href="/about-us">
+                <MenuItem>
+                  <img src={aboutUsIcon} alt="About Us" />
+                  About Us
+                </MenuItem>
+              </MenuOption>
+              <MenuOption onClick={() => setIsOpen(false)} href="/evaluation">
+                <MenuItem>
+                  <img src={evaluationIcon} alt="Evaluation" />
+                  Evaluation
+                </MenuItem>
+              </MenuOption>
+            </Menu>
+          </NavSection>
 
-        <NavSection>
-          <Title onClick={() => window.location.href = '/'}>15 Minute City</Title>
-        </NavSection>
+          <NavSection>
+            <Title onClick={() => window.location.href = '/'}>15 Minute City</Title>
+          </NavSection>
 
-        <NavSection>
-          <Profile onClick={handleProfileOpen}>
-            <img src={profileIcon} alt="Profile" />
-          </Profile>
+          <NavSection>
+            <Profile onClick={handleProfileOpen}>
+              <img src={profileIcon} alt="Profile" />
+            </Profile>
 
-          <ProfileMenu
-            isOpen={isProfileOpen}
-            onStateChange={({ isOpen }) => setIsProfileOpen(isOpen)}
-            customBurgerIcon={false}
-            styles={burgerProfileStyles}
-            right
-          >
-            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/login-page">
-              <MenuProfileItem>
-                Login
-              </MenuProfileItem>
-            </MenuProfileOption>
-            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/register-page">
-              <MenuProfileItem>
-                Register
-              </MenuProfileItem>
-            </MenuProfileOption>
-          </ProfileMenu>
-        </NavSection>
+            <ProfileMenu
+              isOpen={isProfileOpen}
+              onStateChange={({ isOpen }) => setIsProfileOpen(isOpen)}
+              customBurgerIcon={false}
+              styles={burgerProfileStyles}
+              right
+            >
+              <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/login-page">
+                <MenuProfileItem>
+                  Login
+                </MenuProfileItem>
+              </MenuProfileOption>
+              <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/register-page">
+                <MenuProfileItem>
+                  Register
+                </MenuProfileItem>
+              </MenuProfileOption>
+            </ProfileMenu>
+          </NavSection>
 
-      </Nav>
-    </Header >
+        </Nav>
+      </Header >
+      <Spacer />
+    </>
   );
 };
 
