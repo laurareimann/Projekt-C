@@ -13,7 +13,7 @@ import styled from "styled-components";
 
 import MapLegend from "./mapLegend";
 import walkingIcon from "../../assets/walkingIcon.svg";
-import {useScore} from "./StreetProvider";
+import {useScore,useCurrentClosestGrocery,useCurrentClosestHealth,useCurrentClosestTransit,useCurrentTravelModeContext} from "./StreetProvider";
 //import { InfoWindow } from "react-google-maps";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -158,15 +158,24 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const [directions,setDirections] = useState<DirectionsResult>();
   const [spot,setSpot] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
+  const directService = new google.maps.DirectionsService();
+
+  //Variablen zur Score-Berechnung 
   const [selectedMarker,setSelectedMarker] = useState<MarkerWindow | null>()
   const [isGroceriesPriority,setGroceriesPriority] = useState(false);
   const [isHealthPriority,setHealthPriority] = useState(false);
   const [isTransitPriority,setTransitPriority] = useState(false);
   const [InitialCalculationDone,setCalculationDone] = useState(false);
-  const updateScore = useScore().setScore;
-  const directService = new google.maps.DirectionsService();
   const [travelMode,setTravelMode] = useState("walking");
   const [currentDurationUseState,setCurrentDuration] = useState(0);
+
+  //Kontextvariablen
+  const updateScore = useScore().setScore;
+
+  
+  //Temporöre Variablen zu Kontextvariablen
+  let tempGroceryArray:google.maps.LatLngLiteral;
+  
 
   const options = useMemo<MapOptions>(
     () => ({
@@ -413,7 +422,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating Grocery durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
+                    tempGroceryArray=MarkersArrayTogether[i][j].location
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
+                    console.log(tempGroceryArray)
                     
                   }
                 }
@@ -672,7 +683,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       }
       finalMean = Math.ceil(((fastestRouteGroceries+fastestRouteHealth+fastestRouteTransit)/60/finalDivisor));
       console.log("Value of final mean: " + finalMean);
-      console.log("Finaler Divisor war: " + finalDivisor)
+      console.log("Finaler Divisor war: " + finalDivisor);
       updateScore(finalMean.toString())},1500)
   }
 
@@ -698,14 +709,14 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         DrivingButtonString="";
         TransitButtonStringTravelMode="darkPink";
         BicycleButtonString="";
-        setTravelMode("transit")
+        setTravelMode("transit");
         break;
       case "bicycle":
         WalkingButtonString="";
         DrivingButtonString="";
         TransitButtonStringTravelMode="";
         BicycleButtonString="darkPink";
-        setTravelMode("bicycle")
+        setTravelMode("bicycle");
         break;
     }
     //Route wird erneut gesetzt, damit Inhalt des InfoWindows stimmt
@@ -911,27 +922,7 @@ const defaultOptions = {
   editable: false,
   visible: true,
 };
-const closeOptions = {
-  ...defaultOptions,
-  zIndex: 3,
-  fillOpacity: 0.05,
-  strokeColor: "#8BC34A",
-  fillColor: "#8BC34A",
-};
-const middleOptions = {
-  ...defaultOptions,
-  zIndex: 2,
-  fillOpacity: 0.05,
-  strokeColor: "#FBC02D",
-  fillColor: "#FBC02D",
-};
-const farOptions = {
-  ...defaultOptions,
-  zIndex: 1,
-  fillOpacity: 0.05,
-  strokeColor: "#FF5252",
-  fillColor: "#FF5252",
-};
+
 
 const generateHouses = (position: LatLngLiteral) => {
   const _houses: Array<LatLngLiteral> = [];

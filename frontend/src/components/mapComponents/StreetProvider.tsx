@@ -18,11 +18,18 @@ interface StreetProperties {
     setCity:(state:string) => void;
     streetName?: string;
     setStreet:(state:string) => void;
-    currentNearby:Array<google.maps.LatLngLiteral>
+    currentNearby:Array<google.maps.LatLngLiteral>;
     setNearby:(state:Array<google.maps.LatLngLiteral>) => void;
     currentScore?:string;
     setScore:(state:string)=> void;
-
+    currentClosestGrocery: google.maps.LatLngLiteral;
+    setCurrentClosestGrocery:(state:google.maps.LatLngLiteral)=>void;
+    currentClosestHealth: Array<google.maps.LatLngLiteral>;
+    setCurrentClosestHealth:(state:Array<google.maps.LatLngLiteral>)=>void;
+    currentClosestTransit :Array<google.maps.LatLngLiteral>;
+    setCurrentClosestTransit:(_state:Array<google.maps.LatLngLiteral>) => void,
+    currentTravelModeContext?:string;
+    setCurrentTravelModeContext:(state:string)=>void;
 }
 
 const streetContext = React.createContext<StreetProperties>({
@@ -35,27 +42,84 @@ const streetContext = React.createContext<StreetProperties>({
     currentNearby: [],
     setNearby:(_state:Array<google.maps.LatLngLiteral>) => {},
     currentScore:"42",
-    setScore:(_state:string) =>{}
+    setScore:(_state:string) =>{},
+    currentClosestGrocery :{lat:0,lng:0},
+    setCurrentClosestGrocery:(_state:google.maps.LatLngLiteral) => {},
+    currentClosestHealth :[],
+    setCurrentClosestHealth:(_state:Array<google.maps.LatLngLiteral>) => {},
+    currentClosestTransit :[],
+    setCurrentClosestTransit:(_state:Array<google.maps.LatLngLiteral>) => {},
+    currentTravelModeContext:"",
+    setCurrentTravelModeContext:(_state:string)=> {},
 })
 
 
 //Dieser Component wird um die ganze App gewrapped, damit es funktioniert
-export const StreetProvider = ({currentScoreValue,currentNearbyValue,cityValue,streetNameValue,zipCodeValue,children}:{currentScoreValue:string,currentNearbyValue:Array<google.maps.LatLngLiteral>,cityValue:string,zipCodeValue:string,streetNameValue:string,children:ReactNode}) => {
+export const StreetProvider = (
+{
+    currentScoreValue,
+    currentNearbyValue,
+    cityValue,
+    streetNameValue,
+    zipCodeValue,
+    currentClosestGroceryValue,
+    currentClosestHealthValue,
+    currentClosestTransitValue,
+    currentTravelModeContextValue,
+    children}:
+{
+    currentScoreValue:string,
+    currentNearbyValue:Array<google.maps.LatLngLiteral>,
+    cityValue:string,
+    zipCodeValue:string,
+    streetNameValue:string,
+    currentClosestGroceryValue:google.maps.LatLngLiteral,
+    currentClosestHealthValue:Array<google.maps.LatLngLiteral>,
+    currentClosestTransitValue:Array<google.maps.LatLngLiteral>,
+    currentTravelModeContextValue:string,
+    children:ReactNode}) => {
     
     const [streetName, setStreet] = useState(streetNameValue);
     const [zipCode,setZipCode] = useState(zipCodeValue);
     const [currentCity,setCity] = useState(cityValue);
     const [currentNearby,setNearby] = useState(currentNearbyValue);
     const [currentScore,setScore] = useState(currentScoreValue);
+    const [currentClosestGrocery,setCurrentClosestGrocery] = useState(currentClosestGroceryValue);
+    const [currentClosestHealth,setCurrentClosestHealth] = useState(currentClosestHealthValue);
+    const [currentClosestTransit,setCurrentClosestTransit] = useState(currentClosestTransitValue);
+    const [currentTravelModeContext,setCurrentTravelModeContext] = useState(currentTravelModeContextValue); 
 
     return(
         <streetContext.Provider value = {{
             
-            currentScore,currentNearby,streetName,zipCode,currentCity,setScore,setStreet,setZipCode,setCity,setNearby}}>
+            currentScore,currentNearby,streetName,zipCode,currentCity,currentClosestGrocery,currentClosestHealth,currentClosestTransit,currentTravelModeContext,
+            setScore,setStreet,setZipCode,setCity,setNearby,setCurrentClosestGrocery,setCurrentClosestHealth,setCurrentClosestTransit,setCurrentTravelModeContext}}>
             {children}
 
         </streetContext.Provider>
     )
+}
+
+//Die Contextvariablen werden exportiert
+export const useCurrentTravelModeContext= ()=>{
+    const {currentTravelModeContext,setCurrentTravelModeContext} = useContext(streetContext);
+    return {currentTravelModeContext,setCurrentTravelModeContext};
+}
+
+
+export const useCurrentClosestTransit= ()=>{
+    const {currentClosestTransit,setCurrentClosestTransit} = useContext(streetContext);
+    return {currentClosestTransit,setCurrentClosestTransit};
+}
+
+export const useCurrentClosestHealth = ()=>{
+    const {currentClosestHealth,setCurrentClosestHealth} = useContext(streetContext);
+    return {currentClosestHealth,setCurrentClosestHealth};
+}
+
+export const useCurrentClosestGrocery = ()=>{
+    const {currentClosestGrocery,setCurrentClosestGrocery} = useContext(streetContext);
+    return {currentClosestGrocery,setCurrentClosestGrocery};
 }
 
 //Die getter und setter exportieren
