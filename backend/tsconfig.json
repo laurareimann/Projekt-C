@@ -8,6 +8,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
     "paths":{
         "NodeConfig":["/global.d.ts"]
         

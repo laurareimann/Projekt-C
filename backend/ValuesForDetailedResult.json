@@ -1,0 +1,16 @@
+{
+  "currentScoreValue": 11,
+  "currentClosestGrocery": [
+    53.55345819999999,
+    9.988807699999999
+  ],
+  "currentClosestHealth": [
+    53.5511072,
+    9.995664099999999
+  ],
+  "currentClosestTransit": [
+    53.5608503,
+    53.5608503
+  ],
+  "currentTravelMode": "walking"
+}

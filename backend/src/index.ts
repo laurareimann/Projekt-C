@@ -6,15 +6,22 @@ import cors from "cors";
 import * as mongoose from 'mongoose';
 import path from "path"
 import test from 'node:test';
+import fs from "fs";
+import detailedResultValues from "../../frontend/ValuesForDetailedResult.json";
+import { pathToFileURL } from 'url';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const AddressModel = require("./db/usedAdresses");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const userModel = require("./db/user");
 
+console.log(detailedResultValues);
+
 //Configures environment variables -> mongoDB credentials
 dotenv.config();
 
+const filePathToJson = __dirname.split("C")[0] + "C" +"/frontend/ValuesForDetailedResult.json"
 
+console.log(filePathToJson)
 
 //Setup mongoDB | commented for now since we don't need it immediately
 const mongoDB_URI = (process.env.MONGODB_URI);
@@ -36,6 +43,43 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
+app.post("/updateJson",async(req,res)=>{
+
+  const data = {
+    GroceryLat:req.body.GroceryLat,
+    GroceryLng:req.body.GroceryLng,
+    TravelMode:req.body.tempCurrentTravelMode,
+    currentScore:req.body.tempCurrentScore,
+    HealthLat:req.body.HealthLat,
+    HealthLng:req.body.HealthLng,
+    TransitLat:req.body.TransitLat,
+    TransitLng:req.body.TransitLng,
+  }
+
+  console.log("updating Json file...")
+
+  try{
+    console.log(data);
+
+    const updatedJson = {
+      currentScoreValue:data.currentScore,
+      currentClosestGrocery:[data.GroceryLat,data.GroceryLng],
+      currentClosestHealth:[data.HealthLat,data.HealthLng],
+      currentClosestTransit:[data.TransitLat,data.TransitLng],
+      currentTravelMode:data.TravelMode
+    }
+
+    const updatedJsonData = JSON.stringify(updatedJson,null,2);
+   
+
+    fs.writeFileSync(filePathToJson,updatedJsonData)
+      console.log("Data written to file");
+      res.json("update successful")
+      }
+  catch(e){
+    console.log(e)
+  }
+})
 
 app.post("/saveAddress", async(req,res) => {
   
