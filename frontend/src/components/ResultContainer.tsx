@@ -16,9 +16,11 @@ const ResultContainer = styled.div`
     padding: 10px;
     border-radius: 26px;
     background-color: #FFECF8;
+    pointer-events: none;
     @media (max-width: 768px){
         grid-template-columns: 1fr 1fr;
         align-items: baseline;
+        gap: 20px;
     }
 `
 

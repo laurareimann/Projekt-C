@@ -20,6 +20,9 @@ width:420px;
 grid-template-columns: 1fr 1fr;
 margin-bottom: 20px;
 margin-top: 20px;
+@media (max-width: 768px) {
+    width: 100%
+}
 `
 
 const MapAndPrioGrid = styled.div`
