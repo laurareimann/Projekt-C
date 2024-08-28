@@ -350,7 +350,7 @@ const HeaderMobile = () => {
             >
               {globalLoggedInBool ? (
                 <>
-                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/profile-page">
+                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/profile">
                     <MenuProfileItem>
                       Profile
                     </MenuProfileItem>
@@ -369,13 +369,13 @@ const HeaderMobile = () => {
 
               ) : (
                 <>
-                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/login-page">
+                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/login">
                     <MenuProfileItem>
                       Login
                     </MenuProfileItem>
                   </MenuProfileOption>
 
-                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/register-page">
+                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/register">
                     <MenuProfileItem>
                       Register
                     </MenuProfileItem>

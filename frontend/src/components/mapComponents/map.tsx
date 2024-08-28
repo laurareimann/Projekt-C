@@ -16,7 +16,7 @@ import walkingIcon from "../../assets/white_walking.svg";
 import bikeIcon from "../../assets/white_bike.svg";
 import carIcon from "../../assets/white_car1.svg";
 import transitIcon from "../../assets/white_tram.svg";
-import { useScore ,useCurrentClosestGrocery,useCurrentClosestHealth,useCurrentClosestTransit,useCurrentTravelModeContext} from "./StreetProvider";
+import { useScore} from "./StreetProvider";
 import axios from "axios";
 //import { InfoWindow } from "react-google-maps";
 
@@ -185,6 +185,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const tempGroceryArray:Array<number>=[0.2,0.1];
   const tempHealthArray:Array<number>=[1.3,4.2];
   const tempTransitArray:Array<number>=[5.2,2.5];
+  let tempHealthDuration:number = 42;
+  let tempGroceryDuration:number = 42;
+  let tempTransitDuration:number = 42;
+  const tempSearchResultArray:Array<number>=[1.2,3.4];
   
   
 
@@ -219,6 +223,11 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     const HealthLng = tempHealthArray[1];
     const TransitLat = tempTransitArray[0];
     const TransitLng = tempTransitArray[1];
+    const SpotLat = tempSearchResultArray[0];
+    const SpotLng = tempSearchResultArray[1];
+    const currentGroceryDuration = tempGroceryDuration;
+    const currentHealthDuration = tempHealthDuration;
+    const currentTransitDuration = tempTransitDuration;
     
 
     try{
@@ -229,6 +238,11 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         HealthLng,
         TransitLat,
         TransitLng,
+        SpotLat,
+        SpotLng,
+        currentGroceryDuration,
+        currentHealthDuration,
+        currentTransitDuration,
         tempCurrentTravelMode,
         tempCurrentScore,
       })
@@ -240,8 +254,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     }catch(e){
       console.log(e)
     }
-
-
   }
 
 
@@ -322,16 +334,16 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       }
     }
 
-    //For debugging & sanity checks in the console
+    /*For debugging & sanity checks in the console
     console.log("Supermärkte");
     console.log(markersWithInfoGroceries);
     console.log("Gesundheitswesen");
     console.log(markersWithInfoHealth);
     console.log("ÖPNV");
     console.log(markersWithInfoTransit);
-  }
+    */
+    }
 
-  //Ist sehr schön, aber  wir so weit sind sollten wir dies nicht nach Luftlinie machen sondern dynamisch den Radius ändern
   //Circles
   // Gehgeschwindigkeit: 5km/h
   // Grün: 1250m, 15min zu Fuß
@@ -382,7 +394,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
     setTravelMode(travelModeParam);
 
-    //Switch-case, um Route im richtigen Modus anzeigenzulassen.
+    //Switch-case, um Route im richtigen Modus anzeigen zu lassen.
     switch (travelModeParam) {
       case "walking":
         directService.route({
@@ -451,7 +463,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     fastestRouteTransit = 10000;
     //setCurrentTravelMode(transitMode)
     //Text, der im ScoreContainer gesetzt wird
-    console.log(transitMode)
+    //console.log(transitMode)
 
     switch (transitMode) {
       case "walking":
@@ -754,6 +766,14 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       console.log("Final fastest route to a health deparment: " + fastestRouteHealth);
       console.log("Final fastest route to a transit station: " + fastestRouteTransit);
 
+      //Werte für JSON-Datei zwischenspeichern
+      tempGroceryDuration = Math.ceil(fastestRouteGroceries/60);
+      tempHealthDuration = Math.ceil(fastestRouteHealth/60);
+      tempTransitDuration = Math.ceil(fastestRouteTransit/60);
+      tempSearchResultArray[0] = startPoint.lat;
+      tempSearchResultArray[1] = startPoint.lng;
+
+      //Bools für die Gewichtung der Prio setzen
       if (groceryBool) {
         fastestRouteGroceries * 2;
         finalDivisor++;
@@ -766,13 +786,15 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         fastestRouteTransit * 2;
         finalDivisor++;
       }
+
+      //Finale Berechnung des Scores und updaten der JSON-Datei
       finalMean = Math.ceil(((fastestRouteGroceries + fastestRouteHealth + fastestRouteTransit) / 60 / finalDivisor));
       console.log("Value of final mean: " + finalMean);
       console.log("Finaler Divisor war: " + finalDivisor);
       updateScore(finalMean.toString());
       tempCurrentScore = finalMean;
       UpdateJson();
-    }, 1500)
+    }, 2000)
     
   }
 
@@ -910,7 +932,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       </ButtonGrid>
 
       <MapAndPrioGrid>
-
+        
         <GoogleMap zoom={14}
           center={center}
           mapContainerClassName="map-container"

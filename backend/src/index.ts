@@ -43,6 +43,64 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
+let currentUser:string;
+
+app.get("/GetSaved",async (req,res)=>{
+
+  const data = {
+    SentCurrentUser:req.query.currentUserParam,
+  }
+
+  const TempCurrentUser = data.SentCurrentUser;
+
+  console.log(TempCurrentUser);
+
+  try{
+    if(TempCurrentUser != ""){
+
+      const SavedData = await AddressModel.find({"whoSaved":TempCurrentUser,savedName:{"$gte":""}})
+      console.log(TempCurrentUser + " has saved the following searches")
+      //console.log(historyData)
+      const responseArray = JSON.stringify(SavedData,null,2);
+      res.json(responseArray)
+    }
+    else{
+      console.log("Nobody's logged in");
+    }
+  
+}catch(e){
+    console.log(e)
+  }
+})
+
+app.get("/getHistory",async (req,res)=>{
+
+  const data = {
+    SentCurrentUser:req.query.currentUserParam,
+  }
+
+  const TempCurrentUser = data.SentCurrentUser;
+
+  console.log(TempCurrentUser);
+
+  try{
+    if(TempCurrentUser != ""){
+
+      const historyData = await AddressModel.find({"whoSaved":TempCurrentUser})
+      /*console.log(TempCurrentUser + " has the following history")
+      console.log(historyData)*/
+      const responseArray = JSON.stringify(historyData,null,2);
+      res.json(responseArray)
+    }
+    else{
+      console.log("Nobody's logged in");
+    }
+  
+}catch(e){
+    console.log(e)
+  }
+})
+
 app.post("/updateJson",async(req,res)=>{
 
   const data = {
@@ -54,24 +112,31 @@ app.post("/updateJson",async(req,res)=>{
     HealthLng:req.body.HealthLng,
     TransitLat:req.body.TransitLat,
     TransitLng:req.body.TransitLng,
+    SpotLat:req.body.SpotLat,
+    SpotLng:req.body.SpotLng,
+    currentGroceryDuration:req.body.currentGroceryDuration,
+    currentHealthDuration:req.body.currentHealthDuration,
+    currentTransitDuration:req.body.currentTransitDuration
   }
 
   console.log("updating Json file...")
 
   try{
-    console.log(data);
 
     const updatedJson = {
       currentScoreValue:data.currentScore,
+      currentStartingSpot:[data.SpotLat,data.SpotLng],
       currentClosestGrocery:[data.GroceryLat,data.GroceryLng],
       currentClosestHealth:[data.HealthLat,data.HealthLng],
       currentClosestTransit:[data.TransitLat,data.TransitLng],
-      currentTravelMode:data.TravelMode
+      currentTravelMode:data.TravelMode,
+      currentGroceryDuration:data.currentGroceryDuration,
+      currentHealthDuration:data.currentHealthDuration,
+      currentTransitDuration:data.currentTransitDuration
     }
 
     const updatedJsonData = JSON.stringify(updatedJson,null,2);
    
-
     fs.writeFileSync(filePathToJson,updatedJsonData)
       console.log("Data written to file");
       res.json("update successful")
@@ -95,7 +160,7 @@ try{
 
   res.json("Address is being added");
 
-  const testAdress = new AddressModel({address:data.Address,googleMapsLat:data.MapLat,googleMapsLng:data.MapLng,whoSaved:data.currentUser})
+  const testAdress = new AddressModel({address:data.Address,googleMapsLat:data.MapLat,googleMapsLng:data.MapLng,whoSaved:currentUser})
 
   testAdress.save();
 
@@ -163,6 +228,7 @@ app.post("/login",async(req,res)=>{
       }else{
         console.log("Login successful")
         res.json("exist");
+        currentUser = userParam;
         
       }
     }if(checkForUser == null){

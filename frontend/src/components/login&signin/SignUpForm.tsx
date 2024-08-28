@@ -200,7 +200,7 @@ function SignUpForm(){
                       return 0;
                 }
                 else if(res.data==="SignUpSuccess"){
-                    window.location.replace("/login-page");
+                    window.location.replace("/login");
                 }
             })
             .catch((e:string)=>{
@@ -224,7 +224,7 @@ function SignUpForm(){
                         <StyledInput $isValid placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>
                         <StyledInput $isValid placeholder="Confirm Password" type="password" onChange={(e) => {setPasswordConfirm(e.target.value)}} />
                     </InputWrapper>
-                    <a href="loginPage" >Already registered? Click here to log in.</a>
+                    <a href="login" >Already registered? Click here to log in.</a>
                 <ButtonWrapper>
                     <StyledButton color="#FFC2EA" type='submit' onClick={submit}>Register</StyledButton>
                 </ButtonWrapper>

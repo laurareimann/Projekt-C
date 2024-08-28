@@ -6,9 +6,6 @@ const AddressSchema = new mongoose.Schema({
     googleMapsLng: Number,
     savedName: String,
     whoSaved: String,
-    closestGrocery: Number,
-    closestHealth: Number,
-    closestTransit: Number,
 })
 
 const AddressModel = mongoose.model("formeradresses",AddressSchema)
