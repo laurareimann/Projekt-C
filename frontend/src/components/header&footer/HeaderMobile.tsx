@@ -19,7 +19,6 @@ const Header = styled.header<{ visible: boolean }>`
     justify-content: space-between;
     align-items: center;
     height: 70px;
-    min-width: 380px;
     width: 100%;
     background-color: var(--color--white-shade);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
@@ -34,10 +33,6 @@ const Nav = styled.nav`
   align-items: center;
   margin: 15px 20px;
   width: 100%;
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
 `;
 
 const NavSection = styled.div`
@@ -55,6 +50,10 @@ const Title = styled.h2`
   @media (max-width: 380px) {
     font-size: 1.5rem;
   }
+`;
+
+const Spacer = styled.div`
+  height: 20px;
 `;
 
 const Profile = styled.button`
@@ -217,6 +216,37 @@ const burgerProfileStyles = {
   }
 }
 
+const getCookie = (name: string) => {
+  const cookies = document.cookie.split("; ").find((row) => row.startsWith(`${name}=`));
+
+  return cookies ? cookies.split("=")[1] : null;
+}
+
+let currentUser = getCookie("username");
+
+const deleteCookie = (name: string | null) => {
+
+  console.log("Attempting to log off " + name);
+
+  if (currentUser != "") {
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    currentUser = "";
+    console.log("Logging off")
+  }
+}
+
+let globalLoggedInBool: boolean = false;
+
+if (currentUser == null) {
+  console.log("No one's logged in atm");
+  globalLoggedInBool = false;
+} else {
+  console.log(currentUser + " is logged in");
+  globalLoggedInBool = true;
+}
+
+
+
 const HeaderMobile = () => {
   const [isVisible, setIsVisible] = useState(true);
 
@@ -267,71 +297,99 @@ const HeaderMobile = () => {
   }, [isProfileOpen]);
 
   return (
-    <Header visible={isVisible}>
-      <Nav>
-        <NavSection>
-          <BurgerButton onClick={handleMenuOpen}>
-            {isOpen ? <img src={burgerCross} /> : <img src={burgerBars} />}
-          </BurgerButton>
+    <>
+      <Header visible={isVisible}>
+        <Nav>
+          <NavSection>
+            <BurgerButton onClick={handleMenuOpen}>
+              {isOpen ? <img src={burgerCross} /> : <img src={burgerBars} />}
+            </BurgerButton>
 
-          <Menu
-            isOpen={isOpen}
-            onStateChange={({ isOpen }) => setIsOpen(isOpen)}
-            customBurgerIcon={false}
-            styles={burgerStyles}
-          >
-            <MenuOption onClick={() => setIsOpen(false)} href="/quiz">
-              <MenuItem>
-                <img src={quizIcon} alt="Quiz" />
-                Quiz
-              </MenuItem>
-            </MenuOption>
-            <MenuOption onClick={() => setIsOpen(false)} href="/about-us">
-              <MenuItem>
-                <img src={aboutUsIcon} alt="About Us" />
-                About Us
-              </MenuItem>
-            </MenuOption>
-            <MenuOption onClick={() => setIsOpen(false)} href="/evaluation">
-              <MenuItem>
-                <img src={evaluationIcon} alt="Evaluation" />
-                Evaluation
-              </MenuItem>
-            </MenuOption>
-          </Menu>
-        </NavSection>
+            <Menu
+              isOpen={isOpen}
+              onStateChange={({ isOpen }) => setIsOpen(isOpen)}
+              customBurgerIcon={false}
+              styles={burgerStyles}
+            >
+              <MenuOption onClick={() => setIsOpen(false)} href="/quiz">
+                <MenuItem>
+                  <img src={quizIcon} alt="Quiz" />
+                  Quiz
+                </MenuItem>
+              </MenuOption>
+              <MenuOption onClick={() => setIsOpen(false)} href="/about-us">
+                <MenuItem>
+                  <img src={aboutUsIcon} alt="About Us" />
+                  About Us
+                </MenuItem>
+              </MenuOption>
+              <MenuOption onClick={() => setIsOpen(false)} href="/evaluation">
+                <MenuItem>
+                  <img src={evaluationIcon} alt="Evaluation" />
+                  Evaluation
+                </MenuItem>
+              </MenuOption>
+            </Menu>
+          </NavSection>
 
-        <NavSection>
-          <Title onClick={() => window.location.href = '/'}>15 Minute City</Title>
-        </NavSection>
+          <NavSection>
+            <Title onClick={() => window.location.href = '/'}>15 Minute City</Title>
+          </NavSection>
 
-        <NavSection>
-          <Profile onClick={handleProfileOpen}>
-            <img src={profileIcon} alt="Profile" />
-          </Profile>
+          <NavSection>
+            <Profile onClick={handleProfileOpen}>
+              <img src={profileIcon} alt="Profile" />
+            </Profile>
 
-          <ProfileMenu
-            isOpen={isProfileOpen}
-            onStateChange={({ isOpen }) => setIsProfileOpen(isOpen)}
-            customBurgerIcon={false}
-            styles={burgerProfileStyles}
-            right
-          >
-            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/logInPage">
-              <MenuProfileItem>
-                Login
-              </MenuProfileItem>
-            </MenuProfileOption>
-            <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/registerPage">
-              <MenuProfileItem>
-                Register
-              </MenuProfileItem>
-            </MenuProfileOption>
-          </ProfileMenu>
-        </NavSection>
+            <ProfileMenu
+              isOpen={isProfileOpen}
+              onStateChange={({ isOpen }) => setIsProfileOpen(isOpen)}
+              customBurgerIcon={false}
+              styles={burgerProfileStyles}
+              right
+            >
+              {globalLoggedInBool ? (
+                <>
+                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/profile-page">
+                    <MenuProfileItem>
+                      Profile
+                    </MenuProfileItem>
+                  </MenuProfileOption>
 
-      </Nav>
-    </Header >
+                  <MenuProfileOption onClick={() => {
+                    setIsProfileOpen(false);
+                    deleteCookie(currentUser);
+                    window.location.replace("/");
+                  }}>
+                    <MenuProfileItem>
+                      Logout
+                    </MenuProfileItem>
+                  </MenuProfileOption>
+                </>
+
+              ) : (
+                <>
+                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/login-page">
+                    <MenuProfileItem>
+                      Login
+                    </MenuProfileItem>
+                  </MenuProfileOption>
+
+                  <MenuProfileOption onClick={() => setIsProfileOpen(false)} href="/register-page">
+                    <MenuProfileItem>
+                      Register
+                    </MenuProfileItem>
+                  </MenuProfileOption>
+                </>
+              )}
+
+            </ProfileMenu>
+          </NavSection>
+
+        </Nav >
+      </Header >
+      <Spacer />
+    </>
   );
 };
 
