@@ -4,7 +4,6 @@ import Address from './Address';
 import Score from './Score';
 import { useStreetNameNew,useZipCodeNew,useCityNew, useScore } from './mapComponents/StreetProvider';
 import MapWithoutSearch from './mapComponents/mapWithoutSearch';
-import React from 'react';
 
 const ResultContainer = styled.div`
     display: grid;
@@ -31,7 +30,6 @@ function ScoreContainer({color = "pink"}) {
     const customCity = useCityNew().currentCity;
     const customScore = useScore().currentScore;
     
-
     return (
         <ResultContainer>
             <MapWithoutSearch
@@ -43,8 +41,7 @@ function ScoreContainer({color = "pink"}) {
                     width='20vh'
                 />
                     <Address color={color} street={customStreet} zip={customZip} city={customCity}></Address>
-                    <Score color={color} score={customScore}></Score>
-                 
+                    <Score color={color} score={customScore}></Score>               
             </ResultContainer>
     );
 }

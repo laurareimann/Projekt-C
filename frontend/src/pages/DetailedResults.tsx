@@ -66,6 +66,7 @@ const ContentWrapper = styled.div`
     width: 100%;
   }
 `
+
 const Evaluation: React.FC = () => {  
     
     const [content, setContent] = React.useState("overallScore");
@@ -80,7 +81,6 @@ const Evaluation: React.FC = () => {
                                         height='50vh'
                                         width='50vh'
                                     />
-
                                     <DiagrammContainer></DiagrammContainer>
                                 </MapAndPrioGrid> 
                             </div>;
