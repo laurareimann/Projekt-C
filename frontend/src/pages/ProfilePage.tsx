@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import styled, { createGlobalStyle } from 'styled-components';
-import profileIcon from '../assets/ProfileIcon.svg';
+import profileIcon from '../assets/icons/ProfileIcon.svg';
 import ScoreContainer from '../components/ScoreContainer';
 import React, { useState } from "react";
 import Button from '../components/buttons/Buttons';
