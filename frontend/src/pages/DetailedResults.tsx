@@ -25,7 +25,7 @@ margin-top: 20px;
 }
 `
 
-const MapAndPrioGrid = styled.div`
+const HorizontalGrid = styled.div`
 display: grid;
 grid-template-columns: 1fr 1fr;
 grid-gap: 15px;
@@ -72,7 +72,7 @@ const Evaluation: React.FC = () => {
     const [content, setContent] = React.useState("overallScore");
   
     const ScoreTab = () =>  <div> 
-                                <MapAndPrioGrid>
+                                <HorizontalGrid>
                                     <MapWithoutSearch
                                         center={{ lat: 53.5688823, lng: 10.0330191 }}
                                         shouldRenderCircles={false}
@@ -82,7 +82,7 @@ const Evaluation: React.FC = () => {
                                         width='50vh'
                                     />
                                     <DiagrammContainer></DiagrammContainer>
-                                </MapAndPrioGrid> 
+                                </HorizontalGrid> 
                             </div>;
     
     const RoutesTab = () => <div>
