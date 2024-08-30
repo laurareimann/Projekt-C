@@ -5,27 +5,17 @@ import ScooterIcon from '../../assets/icons/scooter_white.svg';
 import TramIcon from '../../assets/icons/tram_white.svg';
 import BusIcon from '../../assets/icons/bus_white.svg';
 import WalkingIcon from '../../assets/icons/walking_white.svg';
-import { useState } from 'react';
-
 
 type TileButtonProps = {
     color?: string;
     icon?: string;
     text?: string;
     subline?: string;
-    onClick?: () => void; // Adding onClick function
+    onClick?: () => void; // onClick function for toggling state
+    selected?: boolean; // New prop to control selection state
 };
 
-function TileButton({ color = "blue", icon = '', text = '', subline = '', onClick }: TileButtonProps) {
-    const [isSelected, setIsSelected] = useState(false);
-
-    const handleClick = () => {
-        setIsSelected(!isSelected);
-        if (onClick) {
-            onClick();
-        }
-    };
-
+function TileButton({ color = "blue", icon = '', text = '', subline = '', onClick, selected = false }: TileButtonProps) {
     const iconMap: { [key: string]: string } = {
         bike: BikeIcon,
         skate: SkateIcon,
@@ -34,9 +24,11 @@ function TileButton({ color = "blue", icon = '', text = '', subline = '', onClic
         bus: BusIcon,
         walking: WalkingIcon,
     };
+
     const Icon = iconMap[icon] || null;
+
     return (
-        <StyledTileButton color={color} isSelected={isSelected} onClick={handleClick}>
+        <StyledTileButton color={color} isSelected={selected} onClick={onClick}>
             {Icon && <ButtonIcon src={Icon} alt={icon} icon={icon} />}
             <ButtonText>{text}</ButtonText>
             <ButtonSubline>{subline}</ButtonSubline>
@@ -63,29 +55,28 @@ const StyledTileButton = styled.button<{ color: string; isSelected: boolean }>`
                     "var(--color--pink-2)"
     };
     color: white;
-    
-    cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
+    cursor: pointer;
     transition: background-color 0.3s, opacity 0.3s;
 
     &:not(:disabled):hover {
-    border: 3px solid ${({ color }) =>
-        color === "blue" ? "var(--color--blue-4)" :
-            color === "green" ? "var(--color--green-3)" :
-                "var(--color--pink-3)"};
-}
-
-`
+        border: 3px solid ${({ color }) =>
+            color === "blue" ? "var(--color--blue-4)" :
+                color === "green" ? "var(--color--green-3)" :
+                    "var(--color--pink-3)"
+        };
+    }
+`;
 
 const ButtonIcon = styled.img<{ icon: string; }>`
-    height: ${({ icon }) =>
-        icon === '' ? '0' : '40px'};
-    width: ${({ icon }) =>
-        icon === '' ? '0' : '40px'};
-    `
+    height: ${({ icon }) => (icon === '' ? '0' : '40px')};
+    width: ${({ icon }) => (icon === '' ? '0' : '40px')};
+`;
+
 const ButtonText = styled.div`
     font-weight: 800;
     text-transform: uppercase;
-`
-const ButtonSubline = styled.div``
+`;
+
+const ButtonSubline = styled.div``;
 
 export default TileButton;

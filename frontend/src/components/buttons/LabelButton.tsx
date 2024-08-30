@@ -26,10 +26,10 @@ const StyledButton = styled.button<{ color?: string; selected?: boolean }>`
 
     &:hover {
         border: 2px solid ${({ color }) =>
-        color === "blue" ? "var(--color--blue-4)" :
-            color === "green" ? "var(--color--green-3)" :
-                "var(--color--pink-3)"
-    };
+            color === "blue" ? "var(--color--blue-4)" :
+                color === "green" ? "var(--color--green-3)" :
+                    "var(--color--pink-3)"
+        };
     }
 
     &:focus {
@@ -37,19 +37,19 @@ const StyledButton = styled.button<{ color?: string; selected?: boolean }>`
     }
 `;
 
-function LabelButton({ children = "", color = "pink", onClick = () => { } }) {
-    const [selected, setSelected] = useState(false);
+type LabelButtonProps = {
+    color?: string;
+    onClick?: () => void;
+    selected?: boolean; // New prop to control selection state
+    children?: React.ReactNode;
+};
 
-    const handleClick = () => {
-        setSelected(!selected);
-        onClick();
-    };
-
+function LabelButton({ color = "pink", onClick = () => { }, selected = false, children = "" }: LabelButtonProps) {
     return (
         <StyledButton
             color={color}
-            onClick={handleClick}
-            selected={selected}
+            onClick={onClick}
+            selected={selected} // Pass selected state
         >
             {children}
         </StyledButton>

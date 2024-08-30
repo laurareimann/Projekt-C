@@ -10,15 +10,13 @@ import {
 } from "@react-google-maps/api";
 import Places from "./places";
 import styled from "styled-components";
-import Button from "../buttons/Buttons";
-
 import MapLegend from "./mapLegend";
 import walkingIcon from "../../assets/white_walking.svg";
 import bikeIcon from "../../assets/white_bike.svg";
 import carIcon from "../../assets/white_car1.svg";
 import transitIcon from "../../assets/white_tram.svg";
-import FilterContainer from "../filterComponents/FilterContainer";
 import { useScore } from "./StreetProvider";
+import FilterOverlay from "../filterComponents/FilterOverlay";
 //import { InfoWindow } from "react-google-maps";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -148,7 +146,14 @@ const ControlContainer = styled.div`
   border-radius:20px;
   margin-bottom:10px;
 `
+const Searchbar = styled.div`
+display: flex;
+flex-direction: row;
+width: fit-content;
+align-items:flex-start;
+gap: 4px;
 
+`
 
 const defaultColors = ["green", "yellow", "red"];
 
@@ -756,69 +761,60 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     }
 
   }
-  const [showFilters, setShowFilters] = useState(false);
-
-  const handleFilterClick = () => {
-    setShowFilters(!showFilters);
-  };
-
-  const FilterOverlay = styled.div`
-  position: absolute;
-  z-index: 8;
-  top: 100px;
-  right: 0;
-  display: flex;  
-  
-  `
 
   return (
     <div>
-      <ControlContainer>
-        <Places setSpot={(position) => {
-          //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
-          setSelectedMarker(null)
-          setDirections(undefined);
-          const lat: number = position.lat;
-          const lng: number = position.lng;
+      <Searchbar>
+        <ControlContainer>
+          <Places setSpot={(position) => {
+            //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
+            setSelectedMarker(null)
+            setDirections(undefined);
+            const lat: number = position.lat;
+            const lng: number = position.lng;
 
-          //Die Arrays leeren
-          currentCategory1.splice(0, currentCategory1.length);
-          currentCategory2.splice(0, currentCategory2.length);
-          currentCategory3.splice(0, currentCategory3.length);
-          //"Neue" arrays
-          markersWithInfoTransit.splice(0, markersWithInfoTransit.length)
-          markersWithInfoGroceries.splice(0, markersWithInfoGroceries.length)
-          markersWithInfoHealth.splice(0, markersWithInfoHealth.length)
-          //NearbySearch-Requests für die verschiedenen types
-          const request = {
-            location: { lat, lng },
-            radius: 5000,
-            type: "grocery_or_supermarket"
-          }
-          const request_2 = {
-            location: { lat, lng },
-            radius: 5000,
-            type: "health"
-          }
-          const request_3 = {
-            location: { lat, lng },
-            radius: 5000,
-            type: "transit_station"
-          }
-          const requesttypes = [request, request_2, request_3]
-          //Es wird im vorgegebenen Umkreis nach places gesucht
-          performNearbySearch(requesttypes);
-          //Timeout von +- 1 Sekunde, damit die Marker richtig laden
-          setTimeout(() => {
-            setCalculationDone(true);
-            setSpot(position);
-            mapRef.current?.panTo(position)
-            calculateScorePrototype(position, travelMode);
-          }, 2000);
-          //Die flag der updateMarkers()-Funktion auf falsch stellen
-          updateCheck = false;
-        }} />
-      </ControlContainer>
+            //Die Arrays leeren
+            currentCategory1.splice(0, currentCategory1.length);
+            currentCategory2.splice(0, currentCategory2.length);
+            currentCategory3.splice(0, currentCategory3.length);
+            //"Neue" arrays
+            markersWithInfoTransit.splice(0, markersWithInfoTransit.length)
+            markersWithInfoGroceries.splice(0, markersWithInfoGroceries.length)
+            markersWithInfoHealth.splice(0, markersWithInfoHealth.length)
+            //NearbySearch-Requests für die verschiedenen types
+            const request = {
+              location: { lat, lng },
+              radius: 5000,
+              type: "grocery_or_supermarket"
+            }
+            const request_2 = {
+              location: { lat, lng },
+              radius: 5000,
+              type: "health"
+            }
+            const request_3 = {
+              location: { lat, lng },
+              radius: 5000,
+              type: "transit_station"
+            }
+            const requesttypes = [request, request_2, request_3]
+            //Es wird im vorgegebenen Umkreis nach places gesucht
+            performNearbySearch(requesttypes);
+            //Timeout von +- 1 Sekunde, damit die Marker richtig laden
+            setTimeout(() => {
+              setCalculationDone(true);
+              setSpot(position);
+              mapRef.current?.panTo(position)
+              calculateScorePrototype(position, travelMode);
+            }, 2000);
+            //Die flag der updateMarkers()-Funktion auf falsch stellen
+            updateCheck = false;
+          }} />
+        </ControlContainer>
+        <FilterOverlay />
+      </Searchbar>
+
+
       <ButtonGrid>
         <StyledButton color={WalkingButtonString} onClick={() => { setCurrentTravelMode("walking"); if (InitialCalculationDone == true) { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "walking"); } }}> <img src={walkingIcon} alt="Walking Icon" style={{ width: "30px", height: "30px" }} /></StyledButton>
         <StyledButton color={DrivingButtonString} onClick={() => { setCurrentTravelMode("driving"); if (InitialCalculationDone == true) { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "driving") } }}><img src={carIcon} alt="Car Icon" style={{ width: "30px", height: "30px" }} /></StyledButton>

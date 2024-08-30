@@ -5,6 +5,7 @@ import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
 import { ToastContainer } from 'react-toastify';
+import FilterOverlay from '../components/filterComponents/FilterOverlay.tsx';
 
 const HomePage: React.FC = () => {
 

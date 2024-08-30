@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Container from '../Container';
 import Button from '../buttons/Buttons';
@@ -7,17 +7,17 @@ import TileButton from '../buttons/TileButton';
 
 type TransportMethod = 'walking' | 'bike' | 'publicTransport' | 'car';
 type Preference =
-  | 'hairDresser' | 'nailSalon' | 'cosmeticStudio' | 'massage' | 'therme' | 'sauna' | 'solarium' | 'hospital'
-  | 'restaurants' | 'cafes' | 'bars' | 'clubs'
-  | 'hiking' | 'cycling' | 'aquatics' | 'gymnastics' | 'tennis' | 'soccer' | 'basketball' | 'skating' | 'indoorSports'
-  | 'theatres' | 'museums' | 'libraries' | 'bookStores' | 'galleries';
+    | 'hairDresser' | 'nailSalon' | 'cosmeticStudio' | 'massage' | 'therme' | 'sauna' | 'solarium' | 'hospital'
+    | 'restaurants' | 'cafes' | 'bars' | 'clubs'
+    | 'hiking' | 'cycling' | 'aquatics' | 'gymnastics' | 'tennis' | 'soccer' | 'basketball' | 'skating' | 'indoorSports'
+    | 'theatres' | 'museums' | 'libraries' | 'bookStores' | 'galleries';
 
 type FilterState = {
     transportMethod: Record<TransportMethod, boolean>;
     preferences: Record<Preference, boolean>;
 };
 
-function FilterContainer({ color = "blue", outline = true, children }: { color?: string; outline?: boolean; children?: React.ReactNode }) {
+function FilterContainer({ color = "blue", outline = true, children, onClose }: { color?: string; outline?: boolean; children?: React.ReactNode; onClose?: () => void }) {
     const [selectedFilters, setSelectedFilters] = useState<FilterState>({
         transportMethod: {
             walking: false,
@@ -63,9 +63,6 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                 [key]: !prevFilters.transportMethod[key]
             }
         }));
-
-        // Log the currently true filters
-        logSelectedFilters();
     };
 
     const handleLabelButtonClick = (key: Preference) => {
@@ -76,9 +73,6 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                 [key]: !prevFilters.preferences[key]
             }
         }));
-
-        // Log the currently true filters
-        logSelectedFilters();
     };
 
     const resetFilters = () => {
@@ -118,13 +112,10 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                 galleries: false
             }
         });
-
-        // Log the currently true filters
-        logSelectedFilters();
     };
 
-    // Log only the selected filters that are set to true
-    const logSelectedFilters = () => {
+    // Use useEffect to log the selected filters whenever they change
+    useEffect(() => {
         const activeTransportMethods = Object.entries(selectedFilters.transportMethod)
             .filter(([_, value]) => value)
             .map(([key]) => key);
@@ -135,7 +126,7 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
 
         console.log("Selected Transport Methods:", activeTransportMethods);
         console.log("Selected Preferences:", activePreferences);
-    };
+    }, [selectedFilters]); // Dependency array to watch for changes in selectedFilters
 
     const preferenceGroups = {
         'Health & Wellness': ['hairDresser', 'nailSalon', 'cosmeticStudio', 'massage', 'therme', 'sauna', 'solarium', 'hospital'],
@@ -147,6 +138,7 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
     return (
         <ContainerWrapper>
             <Container color={color} outline={outline}>
+                <CloseButton onClick={onClose}>&times;</CloseButton>
                 {children}
                 <FilterWrapper>
                     <h2>Filters</h2>
@@ -163,6 +155,7 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                                     key={text}
                                     icon={icon.toLowerCase()}
                                     text={text}
+                                    selected={selectedFilters.transportMethod[text.toLowerCase() as TransportMethod]} // Pass selected state
                                     onClick={() => handleTileButtonClick(text.toLowerCase() as TransportMethod)}
                                 ></TileButton>
                             ))}
@@ -177,6 +170,7 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                                     <LabelButton
                                         key={item}
                                         color='blue'
+                                        selected={selectedFilters.preferences[item as Preference]} // Pass selected state
                                         onClick={() => handleLabelButtonClick(item as Preference)}
                                     >
                                         {item}
@@ -187,6 +181,7 @@ function FilterContainer({ color = "blue", outline = true, children }: { color?:
                     ))}
                     <ResetWrapper>
                         <Button onClick={resetFilters}>Reset All</Button>
+                        <Button color={'blue'} onClick={onClose}>Save</Button>
                     </ResetWrapper>
                 </FilterWrapper>
             </Container>
@@ -203,7 +198,9 @@ const FilterWrapper = styled.div`
     overflow-y: auto;
 `;
 
-const ContainerWrapper = styled.div``;
+const ContainerWrapper = styled.div`
+    position: relative;
+`;
 
 const QuestionWrapper = styled.div`
     display: flex;
@@ -231,7 +228,22 @@ const LabelGrid = styled.div`
 const ResetWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
+    gap: 8px;
     width: 100%;
+`;
+
+const CloseButton = styled.button`
+    position: absolute; 
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: black;
+    cursor: pointer;
+    &:hover {
+        color: red;
+    }
 `;
 
 export default FilterContainer;
