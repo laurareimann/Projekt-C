@@ -224,7 +224,7 @@ const Test: React.FC = () => {
              */}
             <Column>
                 <Row>
-                    <ScoreContainer color='blue' score='42' buttonText='Results' outline={false} onClick={handleClick}></ScoreContainer>
+                    <ScoreContainer color='blue' buttonText='Results' outline={false} onClick={handleClick}></ScoreContainer>
                     <ScoreContainer color='green'></ScoreContainer>
                     <ScoreContainer color='pink'></ScoreContainer>
                 </Row>
