@@ -35,7 +35,7 @@ const Logo = styled.a`
     height: 75px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     img {
       width: 50px;
       height: 50px;
@@ -47,10 +47,10 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 80px;
+  padding: 0 80px;
   width: 100%;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     width: 100%;
   }
 `;
@@ -77,14 +77,14 @@ const NavItem = styled.a`
     margin-right: 0.25rem;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     font-size: 1rem;
   }
 
   
 
   span {
-    @media (max-width: 768px) {
+    @media (max-width: 1023px) {
       display: none;
     }
   }
@@ -98,7 +98,7 @@ const Profile = styled.a`
     height: 50px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     img {
       width: 40px;
       height: 40px;
