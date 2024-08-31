@@ -21,6 +21,7 @@ import TheTeam from './pages/TheTeam.tsx';
 import Concept from './pages/Concept.tsx';
 import FAQ from './pages/FAQ.tsx';
 import ProfilePage from './pages/ProfilePage.tsx';
+import Evaluation from './pages/DetailedResults.tsx';
 
 /*
 export const StreetContext = React.createContext("preview Street");
@@ -177,6 +178,7 @@ const App: React.FC = () => {
         <Route path="test" element={<Test />} />
         <Route path="terms" element={<Terms />} />
         <Route path="privacy" element={<Privacy />} />
+        <Route path="evaluation" element = {<Evaluation/>}/>
         <Route path="team" element={<TheTeam />} />
         <Route path="concept" element={<Concept />} />
         <Route path="faq" element={<FAQ />} />

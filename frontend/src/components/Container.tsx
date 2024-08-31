@@ -3,12 +3,11 @@ import styled from 'styled-components';
 import Button from './buttons/Buttons';
 
 //Siehe Kommentar in Inputforms
-const StyledContainer = styled.div <{ $hasOutline: boolean; color: string }>`
+const StyledContainer = styled.div <{ $hasOutline: boolean; color: string; height: number; width: number }>`
     display: grid;
     gap:16px;
-    width: 300px;
-    
-    height: 280px;
+    width: ${({width}) => width}px;
+    height: ${({height}) => height}px;
     box-sizing: border-box;
     border-radius: 26px;
     align-content: center;
@@ -37,9 +36,9 @@ const handleClick = () => {
 };
 
 
-function Container({ color = "pink", outline = true, children }: { color?: string; outline?: boolean; children?: React.ReactNode }) {
+function Container({ color = "pink", outline = true, height = 280, width = 300, children }: { color?: string; outline?: boolean; height?: number; width?: number; children?: React.ReactNode }) {
     return (
-        <StyledContainer color={color} $hasOutline={outline}>
+        <StyledContainer color={color} $hasOutline={outline} height={height} width={width}>
             {children}
         </StyledContainer>
     );
