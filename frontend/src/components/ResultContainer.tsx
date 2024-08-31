@@ -18,9 +18,9 @@ const ResultContainer = styled.div`
     pointer-events: none;
     @media (max-width: 768px){
         width: 90%;
-        grid-template-columns: 1fr 1fr;
-        align-items: center;
-        gap: 20px;
+        display: grid;
+        grid-template-columns: max-content;
+        padding-left: 12vh;
     }
 `
 
