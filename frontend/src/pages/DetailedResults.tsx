@@ -49,11 +49,14 @@ margin-bottom: 10px;
 `
 
 const DiagrammContainer = styled.div`
-  width: 40vh;
+  width: 50vh;
   height: 50vh;
   border: 4px solid var(--color--pink-3);
   border-radius: 20px;
   display:grid;
+  @media (max-width: 768px){
+    width: 40vh;
+  }
 `
 
 const ContentWrapper = styled.div`
@@ -70,6 +73,8 @@ const ContentWrapper = styled.div`
 const Evaluation: React.FC = () => {  
     
     const [content, setContent] = React.useState("overallScore");
+
+    const [buttonState, setButtonState] = React.useState([true, false]);
   
     const ScoreTab = () =>  <div> 
                                 <HorizontalGrid>
@@ -111,8 +116,10 @@ const Evaluation: React.FC = () => {
             <ResultContainer></ResultContainer>
 
             <ButtonGrid>
-                <Button onClick={() => setContent("overallScore")}> Overall Score </Button>
-                <Button onClick={() => setContent("routes")}> Routes </Button>
+                <Button onClick={() => {setContent("overallScore"), setButtonState([true, false])}}
+                        disabled={buttonState[0]}> Results </Button>
+                <Button onClick={() => {setContent("routes"), setButtonState([false, true])}}
+                        disabled={buttonState[1]}> Routes </Button>
             </ButtonGrid>
             
             <div>

@@ -17,8 +17,9 @@ const ResultContainer = styled.div`
     background-color: #FFECF8;
     pointer-events: none;
     @media (max-width: 768px){
+        width: 90%;
         grid-template-columns: 1fr 1fr;
-        align-items: baseline;
+        align-items: center;
         gap: 20px;
     }
 `
