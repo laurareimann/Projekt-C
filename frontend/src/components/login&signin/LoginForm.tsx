@@ -104,11 +104,11 @@ const StyledInput = styled.input<InputProps>`
     };
 
     @media (min-width: 769px) {
-        width: 350px;
+        width: 100%;
     }
 
     @media (max-width:768px){
-        width:355px;
+        width:100%;
     }
 `;
 
@@ -124,7 +124,8 @@ const LoginContainer = styled.div`
 
     @media (max-width: 768px) {
         border: none;
-        height: 100vh;
+        height: 10 0%;
+        width:100%;
         justify-content: center;
     }
 `
@@ -232,7 +233,7 @@ function LoginForm() {
                 <ButtonWrapper>
                     <StyledButton type="submit" onClick={submit} color="var(--color--pink-2)" >Log In</StyledButton>
                     <p> or </p>
-                    <a href="register-page">
+                    <a href="register">
                         <Button color="darkPink">Register</Button> </a>
                 </ButtonWrapper>
             </LoginContainer>
