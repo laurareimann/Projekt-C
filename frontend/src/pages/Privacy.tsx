@@ -3,8 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-    width: 80%;
+    width: 100%;
     text-align: start;
+    margin-left: 20%;
+    
 `;
 
 const Section = styled.div`
@@ -13,8 +15,10 @@ const Section = styled.div`
 
 const Privacy: React.FC = () => {
     return (
+        <div>
+            <h1>Privacy policy</h1>
         <Wrapper>
-            <h1>Privacy Policy</h1>
+            
 
             <Section>
                 <h2>Introduction</h2>
@@ -64,6 +68,7 @@ const Privacy: React.FC = () => {
 
             
         </Wrapper>
+        </div>
     );
 };
 
