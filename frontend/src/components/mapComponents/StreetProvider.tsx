@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-//useContext rettet mir das Leben und zahlreiche Haare vorm Rausziehen
 
 
 import React,{useState, useContext, ReactNode} from "react";
@@ -18,11 +17,10 @@ interface StreetProperties {
     setCity:(state:string) => void;
     streetName?: string;
     setStreet:(state:string) => void;
-    currentNearby:Array<google.maps.LatLngLiteral>
+    currentNearby:Array<google.maps.LatLngLiteral>;
     setNearby:(state:Array<google.maps.LatLngLiteral>) => void;
     currentScore?:string;
     setScore:(state:string)=> void;
-
 }
 
 const streetContext = React.createContext<StreetProperties>({
@@ -35,12 +33,26 @@ const streetContext = React.createContext<StreetProperties>({
     currentNearby: [],
     setNearby:(_state:Array<google.maps.LatLngLiteral>) => {},
     currentScore:"42",
-    setScore:(_state:string) =>{}
+    setScore:(_state:string) =>{},
 })
 
 
 //Dieser Component wird um die ganze App gewrapped, damit es funktioniert
-export const StreetProvider = ({currentScoreValue,currentNearbyValue,cityValue,streetNameValue,zipCodeValue,children}:{currentScoreValue:string,currentNearbyValue:Array<google.maps.LatLngLiteral>,cityValue:string,zipCodeValue:string,streetNameValue:string,children:ReactNode}) => {
+export const StreetProvider = (
+{
+    currentScoreValue,
+    currentNearbyValue,
+    cityValue,
+    streetNameValue,
+    zipCodeValue,
+    children}:
+{
+    currentScoreValue:string,
+    currentNearbyValue:Array<google.maps.LatLngLiteral>,
+    cityValue:string,
+    zipCodeValue:string,
+    streetNameValue:string,
+    children:ReactNode}) => {
     
     const [streetName, setStreet] = useState(streetNameValue);
     const [zipCode,setZipCode] = useState(zipCodeValue);
@@ -51,13 +63,15 @@ export const StreetProvider = ({currentScoreValue,currentNearbyValue,cityValue,s
     return(
         <streetContext.Provider value = {{
             
-            currentScore,currentNearby,streetName,zipCode,currentCity,setScore,setStreet,setZipCode,setCity,setNearby}}>
+            currentScore,currentNearby,streetName,zipCode,currentCity,
+            setScore,setStreet,setZipCode,setCity,setNearby}}>
             {children}
 
         </streetContext.Provider>
     )
 }
 
+//Die Contextvariablen werden exportiert
 //Die getter und setter exportieren
 export const useStreetNameNew = () =>{
     const {streetName,setStreet} = useContext(streetContext);

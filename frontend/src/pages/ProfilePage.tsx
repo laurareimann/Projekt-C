@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import styled, { createGlobalStyle } from 'styled-components';
 import profileIcon from '../assets/ProfileIcon.svg';
-import ScoreContainer from '../components/ScoreContainer';
-import React, { useState } from "react";
+import ProfileHistoryContainer from '../components/ProfileHistoryContainer';
+import React, { useState,useEffect } from "react";
 import Button from '../components/buttons/Buttons';
+import axios from 'axios';
 
 
 const ProfileContainer = styled.div`
@@ -86,23 +87,63 @@ const Wrapper = styled.div`
     margin-bottom: 1%;
 `;
 
+let historyArray: string;
+let savedArray: string;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let historyArrayForHTML: any = [];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let savedArrayForHTML:any = [];
+
+//Search history
+async function FetchHistory(){
+  console.log("Fetching Data from backend")
+
+  try{
+    axios.get("http://localhost:8080/getHistory",{params:{currentUserParam:currentUser}}).then((res:{data:string})=>{
+      historyArray = res.data;
+      historyArrayForHTML = JSON.parse(historyArray);
+      console.log(historyArrayForHTML);
+    })
+  }catch(e){console.log(e)}
+
+  
+}
+
+//Search history fetchen
+FetchHistory();
+
+//Gespeicherte Routen
+async function FetchSaved(){
+  console.log("Fetching Data from backend")
+
+  try{
+    axios.get("http://localhost:8080/GetSaved",{params:{currentUserParam:currentUser}}).then((res:{data:string})=>{
+      savedArray = res.data;
+      savedArrayForHTML = JSON.parse(savedArray);
+      console.log(savedArrayForHTML);
+    })
+  }catch(e){console.log(e)}
+
+  
+}
+//Gespeicherte Routen fetchen
+FetchSaved();
+
+//Von Profilseite zu map.tsx und Suche laden
+//Eventuell muss dies in map.tsx selbst geschehen
+function loadSearch(){
+  //ToDo-Implement
+}
+
+
 function ProfilePage(){
 
   const [openHistory, setOpenHistory] = useState(false);
   const [openSaved, setOpenSaved] = useState(false);
-  
-
-  const searchHistory = [
-    <ScoreContainer color='blue'/>,<ScoreContainer color ="blue"/>
-  ]
- 
-  const savedSearches = [
-    <ScoreContainer color="blue"/>
-  ]
-
 
     return(
       <div>
+        
         <ProfileContainer>
             <ProfilePic>
                 <img src={profileIcon}></img>
@@ -119,9 +160,10 @@ function ProfilePage(){
         {openSaved&& (
           <div>
           <ResultList>
-            {savedSearches.map(search => (
-              <ResultItem>
-                {search}
+            {savedArrayForHTML.map((search: {
+              address: string; whoSaved: string ;},index: React.Key | null | undefined) => (
+              <ResultItem key = {index}>
+                <ProfileHistoryContainer buttonText="View search" street={search.address} onClick={()=>{loadSearch()}}></ProfileHistoryContainer>
               </ResultItem>
             ))}
           </ResultList>
@@ -139,9 +181,12 @@ function ProfilePage(){
         {openHistory && (
           <div>
           <ResultList>
-            {searchHistory.map(search => (
-              <ResultItem>
-                {search}
+            {historyArrayForHTML.map((search: {
+              address: string; whoSaved: string ;},index: React.Key | null | undefined) => (
+              <ResultItem key = {index}>
+                <ProfileHistoryContainer outline={true} buttonText="View search" street={search.address} onClick={()=>{
+                  //redirect to detailed result here
+                }}></ProfileHistoryContainer>
               </ResultItem>
             ))}
           </ResultList>

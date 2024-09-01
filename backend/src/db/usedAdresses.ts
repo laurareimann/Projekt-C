@@ -5,7 +5,7 @@ const AddressSchema = new mongoose.Schema({
     googleMapsLat: Number,
     googleMapsLng: Number,
     savedName: String,
-    whoSaved: String
+    whoSaved: String,
 })
 
 const AddressModel = mongoose.model("formeradresses",AddressSchema)
