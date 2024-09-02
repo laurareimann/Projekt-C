@@ -3,14 +3,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-    width: 100%;
+    width: 50%;
     text-align: start;
-    margin-left: 20%;
+    margin-left: 2%;
     
 `;
 
 const Section = styled.div`
-    margin-bottom: 20px;
+    margin-bottom: 1%;
 `;
 
 const Privacy: React.FC = () => {
