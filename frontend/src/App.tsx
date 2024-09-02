@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import Header from './components/header&footer/Header.tsx';
 import Footer from './components/header&footer/Footer.tsx';
 
@@ -115,6 +115,11 @@ h5{
 }
 `;
 
+const PageContainer = styled.div`
+  min-height: 100vh ;
+  display: flex;
+  flex-direction: column;
+`
 
 const App: React.FC = () => {
 
@@ -128,6 +133,7 @@ const App: React.FC = () => {
 
   return (
     <BrowserRouter>
+    <PageContainer>
       <GlobalStyle />
       <Header />
       <Routes>
@@ -146,6 +152,7 @@ const App: React.FC = () => {
         <Route path="profile" element={<ProfilePage />} />      
       </Routes>
       <Footer />
+    </PageContainer>
     </BrowserRouter >
   )
 }
