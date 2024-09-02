@@ -124,7 +124,7 @@ const LoginContainer = styled.div`
 
     @media (max-width: 768px) {
         border: none;
-        height: 10 0%;
+        height: 100%;
         width:100%;
         justify-content: center;
     }
