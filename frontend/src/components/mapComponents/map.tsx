@@ -116,6 +116,60 @@ const StyledButton = styled.button`
     }
 `;
 
+const StyledPrioButton = styled.button`
+    background-color: ${({ color, disabled }) =>
+    disabled
+      ? color === "blue" ? "var(--color--blue-1)"
+        : color === "green" ? "var(--color--green-1)"
+          : "var(--color--pink-1)"
+      : color === "blue" ? "var(--color--blue-4)"
+        : color === "green" ? "var(--color--green-3)"
+          : color === "darkPink" ? "var(--color--pink-5)"
+            : "var(--color--pink-3)"
+
+  };
+    color: ${({ color, disabled }) =>
+    disabled
+      ? color === "blue" ? "var(--color--blue-3)"
+        : color === "green" ? "var(--color--green-4)"
+          : "var(--color--pink-4)"
+      : "white"
+  };
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    width: 40%;
+    height: fit-content;
+    border: none;
+    border-radius: 30px;
+    text-transform: uppercase;
+    cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
+    transition: background-color 0.3s, opacity 0.3s;
+
+    &:not(:disabled):hover {
+        background-color: ${({ color }) =>
+    color === "blue" ? "var(--color--blue-5)" :
+      color === "green" ? "var(--color--green-5)" :
+        "var(--color--pink-4)"};
+    }
+
+
+    @media (max-width: 1440px) {
+      width: 75%;
+    }
+
+    @media (max-width: 768px) {
+      width: 35%;
+    }
+
+    @media (max-width: 425px) {
+      width: 50%;
+    }
+
+`;
+
 const ButtonGrid = styled.div`
 display: grid;
 grid-gap: 4px;
@@ -131,16 +185,30 @@ display: grid;
 grid-gap:4px;
 place-items:center;
 width:100%;
-grid-template-columns: 75% 1%;
+grid-template-columns: 75% 20%;
 margin-bottom: 10px;
+
+@media (max-width: 768px) {
+  margin-left: 0;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1440px) {
+  grid-template-columns: 75% auto;
+}
 `
 
 const PriorityGrid = styled.div`
 display: grid;
 grid-gap: 4px;
-place-items:center;
-width:4px;
+place-items: start;
 margin-bottom: 10px;
+width: 100%;
+grid-template-columns: 1fr;
+
+@media (max-width: 768px) {
+  place-items: center;
+}
 `
 const ControlContainer = styled.div`
   height:fit-content;
@@ -994,7 +1062,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         </GoogleMap>
 
         <PriorityGrid>
-          <StyledButton color={GroceryButtonString} onClick={() => {
+          <StyledPrioButton color={GroceryButtonString} onClick={() => {
             setPriorityButton("Groceries");
             setGroceriesPriority(!isGroceriesPriority);
             groceryBool = !groceryBool;
@@ -1004,8 +1072,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
             }
 
-          }}>Prioritise Groceries</StyledButton>
-          <StyledButton color={HealthButtonString} onClick={() => {
+          }}>Prioritise Groceries</StyledPrioButton>
+          <StyledPrioButton color={HealthButtonString} onClick={() => {
             setPriorityButton("Health");
             setHealthPriority(!isHealthPriority);
             healthBool = !healthBool;
@@ -1015,8 +1083,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
             }
 
-          }}>Prioritise health departments</StyledButton>
-          <StyledButton color={TransitButtonString} onClick={() => {
+          }}>Prioritise health departments</StyledPrioButton>
+          <StyledPrioButton color={TransitButtonString} onClick={() => {
             setPriorityButton("Transit");
             setTransitPriority(!isTransitPriority);
             console.log(isTransitPriority);
@@ -1025,7 +1093,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             if (InitialCalculationDone) {
               { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
             }
-          }}>Prioritise transit stations</StyledButton>
+          }}>Prioritise transit stations</StyledPrioButton>
         </PriorityGrid>
       </MapAndPrioGrid>
     </div>
