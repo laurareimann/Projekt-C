@@ -104,6 +104,9 @@ async function FetchHistory(){
       historyArrayForHTML = JSON.parse(historyArray);
       console.log(historyArrayForHTML);
     })
+    if(historyArrayForHTML.length > 20){
+      historyArrayForHTML.slice(historyArrayForHTML.length-19,historyArrayForHTML.length)
+    }
   }catch(e){console.log(e)}
 
   
@@ -117,11 +120,18 @@ async function FetchSaved(){
   console.log("Fetching Data from backend")
 
   try{
-    axios.get("http://localhost:8080/GetSaved",{params:{currentUserParam:currentUser}}).then((res:{data:string})=>{
+    axios.get("http://localhost:8080/GetSaved",
+      {params:{currentUserParam:currentUser}}).then((res:{data:string})=>
+    {
       savedArray = res.data;
       savedArrayForHTML = JSON.parse(savedArray);
       console.log(savedArrayForHTML);
     })
+
+    if(savedArrayForHTML.length > 20){
+      //Splice array here
+    }
+
   }catch(e){console.log(e)}
 
   

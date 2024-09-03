@@ -76,6 +76,7 @@ const MarkersArrayTogether = [markersWithInfoGroceries, markersWithInfoHealth, m
 //Test, ob temp-Variablen außerhalb von Komponente gespeichert werden sollten
 let tempCurrentScore:number=42;
 let tempCurrentTravelMode:string="walking";
+let tempCurrentAdress:string="";
 
 const StyledButton = styled.button`
     background-color: ${({ color, disabled }) =>
@@ -152,6 +153,14 @@ const ControlContainer = styled.div`
   margin-bottom:10px;
 `
 
+const getCookie = (name:string) =>{
+  const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
+
+  return cookies ? cookies.split("=")[1] : null;
+}
+
+
+const currentUser = getCookie("username");
 
 const defaultColors = ["green", "yellow", "red"];
 
@@ -876,6 +885,34 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   }
 
+  async function saveSearch(spotLiterals:LatLngLiteral,addressParam:string){
+    //To-Do implement here
+    console.log("Implement save here");
+
+    const currentSpotLat=spotLiterals.lat;
+    const currentSpotLng=spotLiterals.lng;
+    const fullAdress=addressParam;
+    const tempName:string = "testThis";
+
+    console.log(currentSpotLat)
+    console.log(currentSpotLng)
+    console.log(fullAdress)
+
+    try{
+      await axios.post("http://localhost:8080/saveSearchForLater",{
+        currentUser,currentSpotLat,currentSpotLng,tempName,fullAdress
+      })
+      .then((res:{data:string})=>{
+        if(res.data==="save successful"){
+          console.log("Adress was successfully saved");
+        }
+      })
+    }catch(e){
+      console.log(e);
+    }
+
+  }
+
   return (
     <div>
       <ControlContainer>
@@ -994,6 +1031,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         </GoogleMap>
 
         <PriorityGrid>
+          {currentUser &&
+          <StyledButton onClick={()=>{saveSearch(spot!,currentUser)}}>Save Adress</StyledButton>
+          }
           <StyledButton color={GroceryButtonString} onClick={() => {
             setPriorityButton("Groceries");
             setGroceriesPriority(!isGroceriesPriority);

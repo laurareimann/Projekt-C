@@ -1,23 +1,23 @@
 {
-  "currentScoreValue": 10,
+  "currentScoreValue": 7,
   "currentStartingSpot": [
-    53.5688823,
-    10.0330191
+    53.46115649999999,
+    9.9695524
   ],
   "currentClosestGrocery": [
-    53.5642025,
-    10.0341141
+    53.4580472,
+    9.966241
   ],
   "currentClosestHealth": [
-    53.5694671,
-    10.0288
+    53.46167449999999,
+    9.975689899999999
   ],
   "currentClosestTransit": [
-    53.567127,
-    10.030884
+    53.45927349999999,
+    9.970972
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 12,
-  "currentHealthDuration": 11,
-  "currentTransitDuration": 8
+  "currentGroceryDuration": 8,
+  "currentHealthDuration": 8,
+  "currentTransitDuration": 4
 }

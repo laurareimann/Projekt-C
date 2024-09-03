@@ -1,14 +1,11 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import express, {Request, Response} from 'express';
+import express, {} from 'express';
 import * as dotenv from "dotenv";
 import cors from "cors";
 import * as mongoose from 'mongoose';
-import path from "path"
-import test from 'node:test';
 import fs from "fs";
 import detailedResultValues from "../../frontend/ValuesForDetailedResult.json";
-import { pathToFileURL } from 'url';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const AddressModel = require("./db/usedAdresses");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -45,6 +42,37 @@ app.use(express.urlencoded({extended:false}));
 
 let currentUser:string;
 
+app.post("/saveSearchForLater",async(req,res)=>{
+
+  const data = {
+    tempName:req.body.tempName,
+    whoSavedData:req.body.currentUser,
+    SpotLat:req.body.currentSpotLat,
+    SpotLng:req.body.currentSpotLng,
+    addressData:req.body.fullAdress
+  }
+
+    try{
+
+    const adressToSave = new AddressModel({
+      address:data.addressData,
+      googleMapsLat:data.SpotLat,
+      googleMapsLng:data.SpotLng,
+      savedName:data.tempName,
+      whoSaved:data.whoSavedData
+    })
+
+    console.log("The following is the adress, which is trying to be saved")
+    console.log(data)
+
+    adressToSave.save();
+    res.json("save successful");
+    }
+    catch(e){
+      console.log(e)
+    }
+})
+
 app.get("/GetSaved",async (req,res)=>{
 
   const data = {
@@ -53,15 +81,16 @@ app.get("/GetSaved",async (req,res)=>{
 
   const TempCurrentUser = data.SentCurrentUser;
 
-  console.log(TempCurrentUser);
+  console.log(TempCurrentUser + " is trying to save an address");
 
   try{
     if(TempCurrentUser != ""){
 
-      const SavedData = await AddressModel.find({"whoSaved":TempCurrentUser,savedName:{"$gte":""}})
+      const SavedData = await AddressModel.find({"whoSaved":TempCurrentUser,savedName:{$exists:true}})
       console.log(TempCurrentUser + " has saved the following searches")
       //console.log(historyData)
       const responseArray = JSON.stringify(SavedData,null,2);
+      console.log(responseArray)
       res.json(responseArray)
     }
     else{
