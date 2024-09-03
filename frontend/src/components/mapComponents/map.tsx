@@ -120,7 +120,7 @@ const ButtonGrid = styled.div`
 display: grid;
 grid-gap: 4px;
 place-items:center;
-width:420px;
+width: fit-content;
 grid-template-columns: 1fr 1fr 1fr 1fr;
 margin-bottom: 10px;
 `
