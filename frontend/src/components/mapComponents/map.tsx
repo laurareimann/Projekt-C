@@ -180,21 +180,16 @@ margin-bottom: 10px;
 `
 
 const MapAndPrioGrid = styled.div`
-margin-left: 2%;
 display: grid;
 grid-gap:4px;
 place-items:center;
 width:100%;
-grid-template-columns: 75% 20%;
+grid-template-columns: 1fr 60% 1fr;
 margin-bottom: 10px;
 
 @media (max-width: 768px) {
   margin-left: 0;
   grid-template-columns: 1fr;
-}
-
-@media (min-width: 1440px) {
-  grid-template-columns: 75% auto;
 }
 `
 
@@ -218,6 +213,14 @@ const ControlContainer = styled.div`
   background-color: var(--color--pink-3);
   border-radius:20px;
   margin-bottom:10px;
+
+  @media (max-width: 768px) {
+    width: 370px;
+  }
+
+  @media (max-width: 375px) {
+    width: 310px;
+  }
 `
 
 
@@ -1000,7 +1003,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       </ButtonGrid>
 
       <MapAndPrioGrid>
-        
+        <div></div> {/* Empty div for left column of MapAndPrioGrid */}
+
         <GoogleMap zoom={14}
           center={center}
           mapContainerClassName="map-container"

@@ -50,7 +50,7 @@ a {
   height:20px;
   width: 20%;
   padding: 1rem;
-  margin-bottom:200px;
+  margin-bottom:400px;
 }
 
 .controls input {
@@ -64,11 +64,10 @@ styled-component ersetzt werden kann.
 */
 
 .map-container {
-  width: 75%;
+  width: 100%;
   height: 60vh;
   border: 4px solid var(--color--pink-3);
   border-radius: 20px;
-  margin-left: 25%;
 
   @media (max-width: 768px) {
     width: 90%;
@@ -119,7 +118,13 @@ styled-component ersetzt werden kann.
     background-color: white;
   }
   
+  @media (max-width: 768px) {
+    width: 87%;
+  }
 
+  @media (max-width: 375px) {
+    width: 85%;
+  }
   
 }
 
