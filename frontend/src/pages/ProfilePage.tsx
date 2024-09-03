@@ -44,7 +44,7 @@ const ProfileTab = styled.div`
     
     background-color: var(--color--pink-1);
     cursor: pointer;
-    padding: 10px 0;
+    padding: 1% 0;
     border-radius: 10px;
     border-bottom: 1px solid #ccc;
     display: flex;
@@ -58,28 +58,35 @@ const Arrow = styled.span<{ isOpen: boolean }>`
 `;
 
 const ResultList = styled.ul`
+  
+  align-items: center;
+  justify-content: space-between;
   display: grid;
-  gap: 1%;
+  grid-gap:1%;
   z-index: 5;
   width: 100%;
-  min-width: 120px;
-  margin: 0;
   background: var(--color--pink-1);
   border-top: 2px;
   border-radius: 8px;
   box-sizing: border-box;
   color: var(--color--black-shade);
   transition: all .5s ease;
+  grid-template-columns: repeat(4,25%);
+  
 `
 
 const ResultItem = styled.li`
-      text-overflow: ellipsis;
-      overflow: hidden;
+      display:inline-block;
+      
+      
   &:hover{
     color: var(--color--blue-3);
   }
 `
 
+const ProfileListContainer = styled.div`
+  
+`
 
 const Wrapper = styled.div`
     width: 80%;
