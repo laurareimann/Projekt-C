@@ -1,16 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import styled, { createGlobalStyle } from 'styled-components';
-<<<<<<< HEAD
 import profileIcon from '../assets/icons/ProfileIcon.svg';
 import ScoreContainer from '../components/ScoreContainer';
 import React, { useState } from "react";
-=======
-import profileIcon from '../assets/ProfileIcon.svg';
-import ProfileHistoryContainer from '../components/ProfileHistoryContainer';
-import React, { useState,useEffect } from "react";
->>>>>>> origin/main
 import Button from '../components/buttons/Buttons';
 import axios from 'axios';
+import ProfileHistoryContainer from '../components/ProfileHistoryContainer';
 
 
 const ProfileContainer = styled.div`
