@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import MapPoint_blue from '../assets/map-point_blue.svg';
-import MapPoint_green from '../assets/map-point_green.svg';
-import MapPoint_pink from '../assets/map-point_pink.svg';
+import MapPoint_blue from '../assets/icons/map-point_blue.svg';
+import MapPoint_green from '../assets/icons/map-point_green.svg';
+import MapPoint_pink from '../assets/icons/map-point_pink.svg';
 
 const AddressWrapper = styled.div`
     display: flex;

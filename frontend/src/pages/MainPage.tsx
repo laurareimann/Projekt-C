@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-
-// Components
 import Map from "../components/mapComponents/map.tsx";
 import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
 import { ToastContainer } from 'react-toastify';
+import FilterOverlay from '../components/filterComponents/FilterOverlay.tsx';
 
 const HomePage: React.FC = () => {
 
     return (
-        <div>
+        <>
             <h1>15 Minute City Calculator</h1>
             <StreetProvider
                 cityValue="Hamburg"
@@ -28,7 +27,7 @@ const HomePage: React.FC = () => {
                 <QuizContainer color='pink'></QuizContainer>
             </StreetProvider>
             <ToastContainer></ToastContainer>
-        </div>
+        </>
     );
 };
 
