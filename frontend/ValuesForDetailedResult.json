@@ -1,0 +1,23 @@
+{
+  "currentScoreValue": 10,
+  "currentStartingSpot": [
+    53.5688823,
+    10.0330191
+  ],
+  "currentClosestGrocery": [
+    53.5642025,
+    10.0341141
+  ],
+  "currentClosestHealth": [
+    53.5694671,
+    10.0288
+  ],
+  "currentClosestTransit": [
+    53.567127,
+    10.030884
+  ],
+  "currentTravelMode": "walking",
+  "currentGroceryDuration": 12,
+  "currentHealthDuration": 11,
+  "currentTransitDuration": 8
+}

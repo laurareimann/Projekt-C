@@ -6,10 +6,13 @@ const Wrapper = styled.div`
     text-align: start;
 `;
 
+
 const Concept: React.FC = () => {
     return (
-        <Wrapper>
+        <div>
             <h1>Concept</h1>
+        <Wrapper>
+            
             <p>Our project is rooted in the idea of transforming urban environments into more sustainable and livable spaces. The 15-minute city is a central concept that guides our work.</p>
             
             <h3>The 15-Minute City Explained</h3>
@@ -31,6 +34,7 @@ const Concept: React.FC = () => {
             <h3>Why It Matters</h3>
             <p>Adopting the 15-minute city model is more than just a trend; it's a necessary step towards building healthier, more resilient urban environments. By making cities more accessible and reducing the need for long commutes, we can improve public health, decrease environmental impact, and create a sense of belonging in our communities.</p>
         </Wrapper>
+        </div>
     );
 };
 

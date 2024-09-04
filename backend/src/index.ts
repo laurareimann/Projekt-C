@@ -6,14 +6,22 @@ import cors from "cors";
 import * as mongoose from 'mongoose';
 import path from "path"
 import test from 'node:test';
+import fs from "fs";
+import detailedResultValues from "../../frontend/ValuesForDetailedResult.json";
+import { pathToFileURL } from 'url';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const AddressModel = require("./db/usedAdresses");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const userModel = require("./db/user");
 
+console.log(detailedResultValues);
+
 //Configures environment variables -> mongoDB credentials
 dotenv.config();
 
+const filePathToJson = __dirname.split("C")[0] + "C" +"/frontend/ValuesForDetailedResult.json"
+
+console.log(filePathToJson)
 
 //Setup mongoDB | commented for now since we don't need it immediately
 const mongoDB_URI = (process.env.MONGODB_URI);
@@ -27,9 +35,6 @@ mongoose.connect(mongoDB_URI).then(() => {
 })
 
 
-//Getting pages for redirect
-
-
 //Setup express
 const app = express();
 
@@ -38,6 +43,108 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
+let currentUser:string;
+
+app.get("/GetSaved",async (req,res)=>{
+
+  const data = {
+    SentCurrentUser:req.query.currentUserParam,
+  }
+
+  const TempCurrentUser = data.SentCurrentUser;
+
+  console.log(TempCurrentUser);
+
+  try{
+    if(TempCurrentUser != ""){
+
+      const SavedData = await AddressModel.find({"whoSaved":TempCurrentUser,savedName:{"$gte":""}})
+      console.log(TempCurrentUser + " has saved the following searches")
+      //console.log(historyData)
+      const responseArray = JSON.stringify(SavedData,null,2);
+      res.json(responseArray)
+    }
+    else{
+      console.log("Nobody's logged in");
+    }
+  
+}catch(e){
+    console.log(e)
+  }
+})
+
+app.get("/getHistory",async (req,res)=>{
+
+  const data = {
+    SentCurrentUser:req.query.currentUserParam,
+  }
+
+  const TempCurrentUser = data.SentCurrentUser;
+
+  console.log(TempCurrentUser);
+
+  try{
+    if(TempCurrentUser != ""){
+
+      const historyData = await AddressModel.find({"whoSaved":TempCurrentUser})
+      /*console.log(TempCurrentUser + " has the following history")
+      console.log(historyData)*/
+      const responseArray = JSON.stringify(historyData,null,2);
+      res.json(responseArray)
+    }
+    else{
+      console.log("Nobody's logged in");
+    }
+  
+}catch(e){
+    console.log(e)
+  }
+})
+
+app.post("/updateJson",async(req,res)=>{
+
+  const data = {
+    GroceryLat:req.body.GroceryLat,
+    GroceryLng:req.body.GroceryLng,
+    TravelMode:req.body.tempCurrentTravelMode,
+    currentScore:req.body.tempCurrentScore,
+    HealthLat:req.body.HealthLat,
+    HealthLng:req.body.HealthLng,
+    TransitLat:req.body.TransitLat,
+    TransitLng:req.body.TransitLng,
+    SpotLat:req.body.SpotLat,
+    SpotLng:req.body.SpotLng,
+    currentGroceryDuration:req.body.currentGroceryDuration,
+    currentHealthDuration:req.body.currentHealthDuration,
+    currentTransitDuration:req.body.currentTransitDuration
+  }
+
+  console.log("updating Json file...")
+
+  try{
+
+    const updatedJson = {
+      currentScoreValue:data.currentScore,
+      currentStartingSpot:[data.SpotLat,data.SpotLng],
+      currentClosestGrocery:[data.GroceryLat,data.GroceryLng],
+      currentClosestHealth:[data.HealthLat,data.HealthLng],
+      currentClosestTransit:[data.TransitLat,data.TransitLng],
+      currentTravelMode:data.TravelMode,
+      currentGroceryDuration:data.currentGroceryDuration,
+      currentHealthDuration:data.currentHealthDuration,
+      currentTransitDuration:data.currentTransitDuration
+    }
+
+    const updatedJsonData = JSON.stringify(updatedJson,null,2);
+   
+    fs.writeFileSync(filePathToJson,updatedJsonData)
+      console.log("Data written to file");
+      res.json("update successful")
+      }
+  catch(e){
+    console.log(e)
+  }
+})
 
 app.post("/saveAddress", async(req,res) => {
   
@@ -53,7 +160,7 @@ try{
 
   res.json("Address is being added");
 
-  const testAdress = new AddressModel({address:data.Address,googleMapsLat:data.MapLat,googleMapsLng:data.MapLng,whoSaved:data.currentUser})
+  const testAdress = new AddressModel({address:data.Address,googleMapsLat:data.MapLat,googleMapsLng:data.MapLng,whoSaved:currentUser})
 
   testAdress.save();
 
@@ -91,13 +198,13 @@ app.post("/signup", async(req,res) => {
         newUser.save();
         console.log("User successfully added")
         res.json("SignUpSuccess")
+        
       }
       if(password!=passwordConfirm){
         res.json("Passwords not matching");
         console.log("Passwords not matching");
       }
     }
-
   }
   catch(e){
     console.log("Error message: " + e);
@@ -121,6 +228,7 @@ app.post("/login",async(req,res)=>{
       }else{
         console.log("Login successful")
         res.json("exist");
+        currentUser = userParam;
         
       }
     }if(checkForUser == null){
@@ -145,3 +253,13 @@ app.listen(PORT,() => {
 
 
 
+/*
+In case we need to clean up the databases
+userModel.deleteMany({}).then(
+      console.log("Database deleted")
+    );
+    AddressModel.deleteMany({}).then(
+      console.log("Database deleted")
+    );
+
+*/

@@ -2,13 +2,11 @@ import styled from 'styled-components';
 import logo from '../../assets/icons/logo.svg';
 
 const FooterContainer = styled.footer`
-  position: absolute;
   left: 0;
   right: 0;
   min-width: 320px;
   width: 100%;
-  margin-top: 32px;
-  flex-direction: column;
+  margin-top: auto;
   justify-content: space-between;
   align-items: center;
   background-color: var(--color--blue-5);
@@ -198,7 +196,7 @@ function Footer() {
         </Column>
         <Column>
           <Headline>About us</Headline>
-          <Link href="/the-team">The team</Link>
+          <Link href="/team">The team</Link>
           <Link href="/concept">Concept</Link>
           <Link href="/faq">FAQ</Link>
         </Column>

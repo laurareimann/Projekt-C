@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-    width: 80%;
+    width: 100%;
     text-align: start;
 `;
 
@@ -13,7 +13,9 @@ const Question = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-`;
+    margin-left:2%;
+    margin-right:2%;
+    `;
 
 const Arrow = styled.span<{ isOpen: boolean }>`
     display: inline-block;
@@ -23,7 +25,10 @@ const Arrow = styled.span<{ isOpen: boolean }>`
 
 const Answer = styled.div`
     padding: 10px 0;
+    margin-left: 2%;
 `;
+
+
 
 const FAQ: React.FC = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(null);

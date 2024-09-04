@@ -1,9 +1,8 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import styled from 'styled-components';
 import './App.css' // Ist momentan vielleicht noch bisschen unübersichtlich vom css her, da aus dieser datei ja auch design änderungen kommen
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import Header from './components/header&footer/Header.tsx';
 import Footer from './components/header&footer/Footer.tsx';
 
@@ -21,17 +20,12 @@ import TheTeam from './pages/TheTeam.tsx';
 import Concept from './pages/Concept.tsx';
 import FAQ from './pages/FAQ.tsx';
 import ProfilePage from './pages/ProfilePage.tsx';
+import Evaluation from './pages/DetailedResults.tsx';
 
 /*
 export const StreetContext = React.createContext("preview Street");
 export const StateContext  = React.createContext("preview State");
 */
-
-
-interface MyComponentProps {
-  color: string;
-  children: React.ReactNode;
-}
 
 
 const GlobalStyle = createGlobalStyle`
@@ -121,38 +115,11 @@ h5{
 }
 `;
 
-const ColoredString = styled.p<{ color: string }>`
-  color: ${(props) => props.color};
-`;
-
-const ColoredParagrpah: React.FC<MyComponentProps> = ({ color, children }) => {
-  return <ColoredString color={color}>{children}</ColoredString>;
-};
-
-const MainContainer = styled.main`
-  padding-top: 70px;
-  margin: 0;
-  max-width: 1040px;
-  text-align: start;
-`;
-
-const ButtonGrid = styled.div`
-display: grid;
-grid-gap: 12px;
+const PageContainer = styled.div`
+  min-height: 100vh ;
+  display: flex;
+  flex-direction: column;
 `
-
-const ContainerGrid = styled.div`
-display: flex;
-flex-wrap: wrap;
-gap:12px;
-  
-`
-
-const InputGrid = styled.div`
-display: grid;
-grid-gap: 12px;
-`
-
 
 const App: React.FC = () => {
 
@@ -166,10 +133,11 @@ const App: React.FC = () => {
 
   return (
     <BrowserRouter>
+    <PageContainer>
       <GlobalStyle />
       <Header />
       <Routes>
-
+          /*hier alle Seiten anlegen */
         <Route index element={<Homepage />} />
         <Route path="about-us" element={<AboutUs />} />
         <Route path="login" element={<LogInPage />} />
@@ -177,13 +145,14 @@ const App: React.FC = () => {
         <Route path="test" element={<Test />} />
         <Route path="terms" element={<Terms />} />
         <Route path="privacy" element={<Privacy />} />
+        <Route path="evaluation" element = {<Evaluation/>}/>
         <Route path="team" element={<TheTeam />} />
         <Route path="concept" element={<Concept />} />
         <Route path="faq" element={<FAQ />} />
-        <Route path="profile" element={<ProfilePage />} />
-            /*hier alle Seiten anlegen */
+        <Route path="profile" element={<ProfilePage />} />      
       </Routes>
       <Footer />
+    </PageContainer>
     </BrowserRouter >
   )
 }

@@ -76,7 +76,7 @@ const StyledInput = styled.input<InputProps>`
     padding-left: 16px;
     outline: 0;
     border-radius: 8px;
-    display: flex;
+    display: center;
 
 
     &:not(disabled){
@@ -108,12 +108,12 @@ const StyledInput = styled.input<InputProps>`
     }
 
     @media (max-width:768px){
-        width:355px;
+        width:100%;
     }
 `;
 
 const SignUpContainer = styled.div`
-    width:500px;
+    width:50%;
     border: 8px solid var(--color--pink-1);
     border-radius: 20px;
     padding: 40px;
@@ -121,10 +121,12 @@ const SignUpContainer = styled.div`
     flex-direction: column;
     grid-gap: 32px;
     align-items: center;
+    justify-items: center;
 
     @media (max-width: 768px) {
         border: none;
-        height: 100vh;
+        height: 50%;
+        width: 100%;
         justify-content: center;
     }
 `
@@ -133,9 +135,10 @@ const InputWrapper = styled.div`
     width: fit-content;
     display: grid;
     grid-gap: 12px;
-    justify-items: left;
+    justify-content: center;
     
     @media (max-width: 768px) {
+        
     }
 `
 
@@ -200,7 +203,7 @@ function SignUpForm(){
                       return 0;
                 }
                 else if(res.data==="SignUpSuccess"){
-                    window.location.replace("/login-page");
+                    window.location.replace("/login");
                 }
             })
             .catch((e:string)=>{
@@ -224,7 +227,7 @@ function SignUpForm(){
                         <StyledInput $isValid placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>
                         <StyledInput $isValid placeholder="Confirm Password" type="password" onChange={(e) => {setPasswordConfirm(e.target.value)}} />
                     </InputWrapper>
-                    <a href="loginPage" >Already registered? Click here to log in.</a>
+                    <a href="login" >Already registered? Click here to log in.</a>
                 <ButtonWrapper>
                     <StyledButton color="#FFC2EA" type='submit' onClick={submit}>Register</StyledButton>
                 </ButtonWrapper>
