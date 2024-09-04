@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 //Stylesheets
 import styled from 'styled-components';
@@ -22,6 +21,7 @@ import Score from '../components/Score.tsx';
 import Address from '../components/Address.tsx';
 import LoginForm from '../components/login&signin/LoginForm.tsx';
 import SignUpForm from '../components/login&signin/SignUpForm.tsx';
+import FilterContainer from '../components/filterComponents/FilterContainer.tsx';
 
 
 // Funktionen und Styling
@@ -78,51 +78,51 @@ const Test: React.FC = () => {
             */}
 
             <ButtonGrid>
-            <Button onClick={()=>{
-                toast.info("This is a toast", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    transition: Bounce,
+                <Button onClick={() => {
+                    toast.info("This is a toast", {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
                     });
-            }}>
-                Toastify info
-            </Button>
-            <Button onClick={()=>{
-                toast.error("This is a toast", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    transition: Bounce,
+                }}>
+                    Toastify info
+                </Button>
+                <Button onClick={() => {
+                    toast.error("This is a toast", {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
                     });
-            }}>
-                Toastify error
-            </Button>
-            <Button onClick={()=>{
-                toast.warning("This is a toast", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    transition: Bounce,
+                }}>
+                    Toastify error
+                </Button>
+                <Button onClick={() => {
+                    toast.warning("This is a toast", {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
                     });
-            }}>
-                Toastify warning
-            </Button>
+                }}>
+                    Toastify warning
+                </Button>
             </ButtonGrid>
 
             {/*
@@ -135,30 +135,32 @@ const Test: React.FC = () => {
             center  (Object): { lat: 53.5688823, lng: 10.0330191 }
             */}
 
-                <StreetProvider currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]} currentScoreValue='42' cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
-                    <Map
-                        shouldRenderCircles={true}
-                        circleRadii={[1250, 2500, 3750]}
-                        circleColors={['green', 'yellow', 'red']}
-                    />
-                </StreetProvider>
-                <StreetProvider currentNearbyValue={[{lat:53.5688823,lng:10.0330191}]} currentScoreValue="42" cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
-                    <MapWithoutSearch
-                        shouldRenderCircles={true}
-                        circleRadii={[1250, 2500, 3750]}
-                        circleColors={['green', 'yellow', 'red']} 
-                        center={{ lat: 53.5688823, lng: 10.0330191 }}
-                        />
-                </StreetProvider>
+            <StreetProvider currentNearbyValue={[{ lat: 53.5688823, lng: 10.0330191 }]} currentScoreValue='42' cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
+                <Map
+                    shouldRenderCircles={true}
+                    circleRadii={[1250, 2500, 3750]}
+                    circleColors={['green', 'yellow', 'red']}
+                />
+            </StreetProvider>
+            <StreetProvider currentNearbyValue={[{ lat: 53.5688823, lng: 10.0330191 }]} currentScoreValue="42" cityValue="Hamburg" streetNameValue='Finkenau 35' zipCodeValue='22081'>
+                <MapWithoutSearch
+                    shouldRenderCircles={true}
+                    circleRadii={[1250, 2500, 3750]}
+                    circleColors={['green', 'yellow', 'red']}
+                    center={{ lat: 53.5688823, lng: 10.0330191 }}
+                />
+            </StreetProvider>
+            {/*Filter*/}
+            <FilterContainer />
 
             {/*
             Login&Signup
             Types: LoginForm, SignUpForm
             Used for entering and submitting credentials
             */}
-            
-            <LoginForm/>
-            <SignUpForm/>
+
+            <LoginForm />
+            <SignUpForm />
 
             {/*
             Dropdown
@@ -222,7 +224,7 @@ const Test: React.FC = () => {
              */}
             <Column>
                 <Row>
-                    <ScoreContainer color='blue' score='42' buttonText='Results' outline={false} onClick={handleClick}></ScoreContainer>
+                    <ScoreContainer color='blue' buttonText='Results' outline={false} onClick={handleClick}></ScoreContainer>
                     <ScoreContainer color='green'></ScoreContainer>
                     <ScoreContainer color='pink'></ScoreContainer>
                 </Row>
@@ -245,7 +247,6 @@ const Test: React.FC = () => {
                 <Column>
                     <Input placeholder='Custom Placeholder'></Input>
                     <Input disabled={true}></Input>
-                    <Input isValid={false}></Input>
                 </Column>
             </Row>
 
