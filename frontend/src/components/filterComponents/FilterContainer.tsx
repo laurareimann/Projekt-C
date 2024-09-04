@@ -17,6 +17,36 @@ type FilterState = {
     preferences: Record<Preference, boolean>;
 };
 
+const FContainer = styled.div<{ color: string; $hasOutline: boolean }>`
+z-index: 1000;
+ display: grid;
+ gap:16px;
+width: fit-content;
+    min-height: 280px;
+    padding: 24px;
+    box-sizing: border-box;
+    border-radius: 26px;
+    align-content: center;
+    justify-content: center;
+    box-shadow: 0px 0px 18px rgba(255, 255, 255, 0.5);
+    color: ${({ color }) =>
+    (color === "blue" ? "var(--color--blue-5)" :
+        (color === "green" ? "var(--color--green-5)" :
+            "var(--color--pink-5)"))};
+    
+    background-color: ${({ $hasOutline, color }) =>
+        $hasOutline ? "var(--color--white-shade)" :
+            (color === "blue" ? "var(--color--blue-1)" :
+                (color === "green" ? "var(--color--green-1)" :
+                    "var(--color--pink-1)"))};
+
+    border: ${({ $hasOutline, color }) =>
+        $hasOutline ? (color === "blue" ? "var(--color--blue-3) 3px solid" :
+            (color === "green" ? "var(--color--green-3) 3px solid" :
+                "var(--color--pink-3) 3px solid")) :
+            "none"};
+`
+
 function FilterContainer({ color = "blue", outline = true, children, onClose }: { color?: string; outline?: boolean; children?: React.ReactNode; onClose?: () => void }) {
     const [selectedFilters, setSelectedFilters] = useState<FilterState>({
         transportMethod: {
@@ -137,7 +167,7 @@ function FilterContainer({ color = "blue", outline = true, children, onClose }: 
 
     return (
         <ContainerWrapper>
-            <Container color={color} outline={outline}>
+            <FContainer color={color} outline={outline}>
                 <CloseButton onClick={onClose}>&times;</CloseButton>
                 {children}
                 <FilterWrapper>
@@ -184,7 +214,7 @@ function FilterContainer({ color = "blue", outline = true, children, onClose }: 
                         <Button color={'blue'} onClick={onClose}>Save</Button>
                     </ResetWrapper>
                 </FilterWrapper>
-            </Container>
+            </FContainer>
         </ContainerWrapper>
     );
 }

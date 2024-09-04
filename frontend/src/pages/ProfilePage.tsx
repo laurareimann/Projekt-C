@@ -2,10 +2,11 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import profileIcon from '../assets/icons/ProfileIcon.svg';
 import ScoreContainer from '../components/ScoreContainer';
-import React, { useState } from "react";
+import ProfileHistoryContainer from '../components/ProfileHistoryContainer';
+import React, { useState,useEffect } from "react";
 import Button from '../components/buttons/Buttons';
 import axios from 'axios';
-import ProfileHistoryContainer from '../components/ProfileHistoryContainer';
+
 
 
 const ProfileContainer = styled.div`
