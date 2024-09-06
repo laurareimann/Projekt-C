@@ -15,7 +15,7 @@ import walkingIcon from "../../assets/white_walking.svg";
 import bikeIcon from "../../assets/white_bike.svg";
 import carIcon from "../../assets/white_car1.svg";
 import transitIcon from "../../assets/white_tram.svg";
-import { useScore} from "./StreetProvider";
+import { useScore } from "./StreetProvider";
 import axios from "axios";
 import FilterOverlay from "../filterComponents/FilterOverlay";
 //import { InfoWindow } from "react-google-maps";
@@ -74,8 +74,8 @@ const markersWithInfoTransit: Array<MarkerWindow> = []
 const MarkersArrayTogether = [markersWithInfoGroceries, markersWithInfoHealth, markersWithInfoTransit]
 
 //Test, ob temp-Variablen außerhalb von Komponente gespeichert werden sollten
-let tempCurrentScore:number=42;
-let tempCurrentTravelMode:string="walking";
+let tempCurrentScore: number = 42;
+let tempCurrentTravelMode: string = "walking";
 
 const StyledButton = styled.button`
     background-color: ${({ color, disabled }) =>
@@ -212,7 +212,6 @@ const ControlContainer = styled.div`
   padding: 0.3rem;
   background-color: var(--color--pink-3);
   border-radius:20px;
-  margin-bottom:10px;
 
   @media (max-width: 768px) {
     width: 370px;
@@ -223,12 +222,17 @@ const ControlContainer = styled.div`
   }
 `
 const Searchbar = styled.div`
-display: flex;
-flex-direction: row;
-width: fit-content;
-align-items:flex-start;
-gap: 4px;
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  align-items:flex-start;
+  gap: 4px;
+  margin-bottom: 20px;
 
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 const defaultColors = ["green", "yellow", "red"];
@@ -258,17 +262,17 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   //Kontextvariablen
   const updateScore = useScore().setScore;
 
-  
+
   //Temporöre Variablen zu Kontextvariablen
-  const tempGroceryArray:Array<number>=[0.2,0.1];
-  const tempHealthArray:Array<number>=[1.3,4.2];
-  const tempTransitArray:Array<number>=[5.2,2.5];
-  let tempHealthDuration:number = 42;
-  let tempGroceryDuration:number = 42;
-  let tempTransitDuration:number = 42;
-  const tempSearchResultArray:Array<number>=[1.2,3.4];
-  
-  
+  const tempGroceryArray: Array<number> = [0.2, 0.1];
+  const tempHealthArray: Array<number> = [1.3, 4.2];
+  const tempTransitArray: Array<number> = [5.2, 2.5];
+  let tempHealthDuration: number = 42;
+  let tempGroceryDuration: number = 42;
+  let tempTransitDuration: number = 42;
+  const tempSearchResultArray: Array<number> = [1.2, 3.4];
+
+
 
   const options = useMemo<MapOptions>(
     () => ({
@@ -290,7 +294,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   )
 
   //Funktion, um Json-File zu updaten
-  async function UpdateJson(){
+  async function UpdateJson() {
     console.log("updating Json from frontend");
 
     console.log(tempGroceryArray)
@@ -306,10 +310,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     const currentGroceryDuration = tempGroceryDuration;
     const currentHealthDuration = tempHealthDuration;
     const currentTransitDuration = tempTransitDuration;
-    
 
-    try{
-      await axios.post("http://localhost:8080/updateJson",{
+
+    try {
+      await axios.post("http://localhost:8080/updateJson", {
         GroceryLat,
         GroceryLng,
         HealthLat,
@@ -324,12 +328,12 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         tempCurrentTravelMode,
         tempCurrentScore,
       })
-      .then((res:{data:string})=>{
-        if(res.data == "update successful"){
-          console.log("Updated Json File")
-        }
-      })
-    }catch(e){
+        .then((res: { data: string }) => {
+          if (res.data == "update successful") {
+            console.log("Updated Json File")
+          }
+        })
+    } catch (e) {
       console.log(e)
     }
   }
@@ -420,7 +424,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     console.log("ÖPNV");
     console.log(markersWithInfoTransit);
     */
-    }
+  }
 
   //Circles
   // Gehgeschwindigkeit: 5km/h
@@ -562,8 +566,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating Grocery durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
-                    tempGroceryArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempGroceryArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempGroceryArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempGroceryArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempGroceryArray)
 
@@ -584,8 +588,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating health durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
-                    tempHealthArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempHealthArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempHealthArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempHealthArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempHealthArray)
 
@@ -606,8 +610,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating transit durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
-                    tempTransitArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempTransitArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempTransitArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempTransitArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempTransitArray)
 
@@ -637,8 +641,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating Grocery durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
-                    tempGroceryArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempGroceryArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempGroceryArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempGroceryArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempGroceryArray)
                   }
@@ -658,8 +662,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating health durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
-                    tempHealthArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempHealthArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempHealthArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempHealthArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempHealthArray)
                   }
@@ -679,8 +683,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating transit durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
-                    tempTransitArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempTransitArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempTransitArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempTransitArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempTransitArray)
 
@@ -710,8 +714,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating Grocery durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
-                    tempGroceryArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempGroceryArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempGroceryArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempGroceryArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempGroceryArray)
 
@@ -732,8 +736,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating health durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
-                    tempHealthArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempHealthArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempHealthArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempHealthArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempHealthArray)
                   }
@@ -753,8 +757,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   // console.log("Calculating transit durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
-                    tempTransitArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempTransitArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempTransitArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempTransitArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempTransitArray)
 
@@ -784,8 +788,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating Grocery durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteGroceries) {
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
-                    tempGroceryArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempGroceryArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempGroceryArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempGroceryArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempGroceryArray)
                   }
@@ -805,8 +809,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating health durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteHealth) {
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
-                    tempHealthArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempHealthArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempHealthArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempHealthArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempHealthArray)
                   }
@@ -826,8 +830,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   //console.log("Calculating transit durations");
                   if (result.routes[0].legs[0].duration!.value < fastestRouteTransit) {
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
-                    tempTransitArray[0]=MarkersArrayTogether[i][j].location.lat;
-                    tempTransitArray[1]=MarkersArrayTogether[i][j].location.lng;
+                    tempTransitArray[0] = MarkersArrayTogether[i][j].location.lat;
+                    tempTransitArray[1] = MarkersArrayTogether[i][j].location.lng;
                     console.log("Duration of current route: " + result.routes[0].legs[0].duration!.value);
                     console.log(tempTransitArray)
                   }
@@ -845,9 +849,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       console.log("Final fastest route to a transit station: " + fastestRouteTransit);
 
       //Werte für JSON-Datei zwischenspeichern
-      tempGroceryDuration = Math.ceil(fastestRouteGroceries/60);
-      tempHealthDuration = Math.ceil(fastestRouteHealth/60);
-      tempTransitDuration = Math.ceil(fastestRouteTransit/60);
+      tempGroceryDuration = Math.ceil(fastestRouteGroceries / 60);
+      tempHealthDuration = Math.ceil(fastestRouteHealth / 60);
+      tempTransitDuration = Math.ceil(fastestRouteTransit / 60);
       tempSearchResultArray[0] = startPoint.lat;
       tempSearchResultArray[1] = startPoint.lng;
 
@@ -873,7 +877,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       tempCurrentScore = finalMean;
       UpdateJson();
     }, 2000)
-    
+
   }
 
   function setCurrentTravelMode(chosenMode: string) {
@@ -956,6 +960,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   return (
     <div>
+      <Searchbar>
         <ControlContainer>
           <Places setSpot={(position) => {
             //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
@@ -964,44 +969,47 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             const lat: number = position.lat;
             const lng: number = position.lng;
 
-          //Die Arrays leeren
-          currentCategory1.splice(0, currentCategory1.length);
-          currentCategory2.splice(0, currentCategory2.length);
-          currentCategory3.splice(0, currentCategory3.length);
-          //"Neue" arrays
-          markersWithInfoTransit.splice(0, markersWithInfoTransit.length)
-          markersWithInfoGroceries.splice(0, markersWithInfoGroceries.length)
-          markersWithInfoHealth.splice(0, markersWithInfoHealth.length)
-          //NearbySearch-Requests für die verschiedenen types
-          const request = {
-            location: { lat, lng },
-            radius: 5000,
-            type: "grocery_or_supermarket"
-          }
-          const request_2 = {
-            location: { lat, lng },
-            radius: 5000,
-            type: "doctor"
-          }
-          const request_3 = {
-            location: { lat, lng },
-            radius: 5000,
-            type: "transit_station"
-          }
-          const requesttypes = [request, request_2, request_3]
-          //Es wird im vorgegebenen Umkreis nach places gesucht
-          performNearbySearch(requesttypes);
-          //Timeout von +- 1 Sekunde, damit die Marker richtig laden
-          setTimeout(() => {
-            setCalculationDone(true);
-            setSpot(position);
-            mapRef.current?.panTo(position)
-            calculateScorePrototype(position, travelMode);
-          }, 2000);
-          //Die flag der updateMarkers()-Funktion auf falsch stellen
-          updateCheck = false;
-        }} />
-      </ControlContainer>
+            //Die Arrays leeren
+            currentCategory1.splice(0, currentCategory1.length);
+            currentCategory2.splice(0, currentCategory2.length);
+            currentCategory3.splice(0, currentCategory3.length);
+            //"Neue" arrays
+            markersWithInfoTransit.splice(0, markersWithInfoTransit.length)
+            markersWithInfoGroceries.splice(0, markersWithInfoGroceries.length)
+            markersWithInfoHealth.splice(0, markersWithInfoHealth.length)
+            //NearbySearch-Requests für die verschiedenen types
+            const request = {
+              location: { lat, lng },
+              radius: 5000,
+              type: "grocery_or_supermarket"
+            }
+            const request_2 = {
+              location: { lat, lng },
+              radius: 5000,
+              type: "doctor"
+            }
+            const request_3 = {
+              location: { lat, lng },
+              radius: 5000,
+              type: "transit_station"
+            }
+            const requesttypes = [request, request_2, request_3]
+            //Es wird im vorgegebenen Umkreis nach places gesucht
+            performNearbySearch(requesttypes);
+            //Timeout von +- 1 Sekunde, damit die Marker richtig laden
+            setTimeout(() => {
+              setCalculationDone(true);
+              setSpot(position);
+              mapRef.current?.panTo(position)
+              calculateScorePrototype(position, travelMode);
+            }, 2000);
+            //Die flag der updateMarkers()-Funktion auf falsch stellen
+            updateCheck = false;
+          }} />
+        </ControlContainer>
+        <FilterOverlay />
+      </Searchbar>
+
       <ButtonGrid>
         <StyledButton color={WalkingButtonString} onClick={() => { setCurrentTravelMode("walking"); if (InitialCalculationDone == true) { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "walking"); } }}> <img src={walkingIcon} alt="Walking Icon" style={{ width: "30px", height: "30px" }} /></StyledButton>
         <StyledButton color={DrivingButtonString} onClick={() => { setCurrentTravelMode("driving"); if (InitialCalculationDone == true) { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "driving") } }}><img src={carIcon} alt="Car Icon" style={{ width: "30px", height: "30px" }} /></StyledButton>
