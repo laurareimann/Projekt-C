@@ -107,7 +107,7 @@ a {
 //big text
 h4{
   line-height: 0.8;
-  font-size: 6.25rem;
+  font-size: 5rem;
   font-weight: 500;
   margin:0;
 }

@@ -9,7 +9,7 @@ import { useStreetNameNew,useZipCodeNew,useCityNew, useScore } from './mapCompon
 const ContainerContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
     align-items: center;
     text-align: -webkit-center;
     padding: 16px;
@@ -26,7 +26,7 @@ function ScoreContainer({color = "pink", buttonText = "View results", outline = 
     
 
     return (
-        <Container color={color} outline={outline}>
+        <Container color={color} outline={outline} height={240} width={260}>
             <ContainerContentWrapper>
                 <Score color={color} score={customScore}></Score>
                 <Address color={color} street={customStreet} zip={customZip} city={customCity}></Address>

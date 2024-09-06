@@ -176,7 +176,7 @@ grid-gap: 8px;
 place-items:center;
 width: fit-content;
 grid-template-columns: 1fr 1fr 1fr 1fr;
-margin-bottom: 10px;
+margin-bottom: 5px;
 `
 
 const MapAndPrioGrid = styled.div`
