@@ -172,7 +172,7 @@ const StyledPrioButton = styled.button`
 
 const ButtonGrid = styled.div`
 display: grid;
-grid-gap: 4px;
+grid-gap: 8px;
 place-items:center;
 width: fit-content;
 grid-template-columns: 1fr 1fr 1fr 1fr;
