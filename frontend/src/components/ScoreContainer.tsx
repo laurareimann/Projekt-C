@@ -26,7 +26,7 @@ function ScoreContainer({color = "pink", buttonText = "View results", outline = 
     
 
     return (
-        <Container color={color} outline={outline} height={240} width={260}>
+        <Container color={color} outline={outline} height={220} width={240}>
             <ContainerContentWrapper>
                 <Score color={color} score={customScore}></Score>
                 <Address color={color} street={customStreet} zip={customZip} city={customCity}></Address>

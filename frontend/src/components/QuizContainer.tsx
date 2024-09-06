@@ -9,7 +9,7 @@ import Address from './Address';
 const ContainerContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
     align-items: center;
     `
 
@@ -32,7 +32,7 @@ const MapPointIcon = styled.img`
 
 function QuizContainer({ street = "Finkenau 35", zip = "22081", city = "Hamburg", color = "pink", buttonText = "Start quiz", outline = true, onClick = () => { } }) {
     return (
-        <Container color={color} outline={outline} height={240} width={260}>
+        <Container color={color} outline={outline} height={220} width={240}>
             <ContainerContentWrapper>
                 <h2>Quiz</h2>
                 <p>Personalize your results!</p>
