@@ -10,7 +10,6 @@ import {
 } from "@react-google-maps/api";
 import Places from "./places";
 import styled from "styled-components";
-
 import MapLegend from "./mapLegend";
 import walkingIcon from "../../assets/white_walking.svg";
 import bikeIcon from "../../assets/white_bike.svg";
@@ -18,6 +17,7 @@ import carIcon from "../../assets/white_car1.svg";
 import transitIcon from "../../assets/white_tram.svg";
 import { useScore} from "./StreetProvider";
 import axios from "axios";
+import FilterOverlay from "../filterComponents/FilterOverlay";
 //import { InfoWindow } from "react-google-maps";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -222,7 +222,14 @@ const ControlContainer = styled.div`
     width: 310px;
   }
 `
+const Searchbar = styled.div`
+display: flex;
+flex-direction: row;
+width: fit-content;
+align-items:flex-start;
+gap: 4px;
 
+`
 
 const defaultColors = ["green", "yellow", "red"];
 
@@ -949,13 +956,13 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   return (
     <div>
-      <ControlContainer>
-        <Places setSpot={(position) => {
-          //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
-          setSelectedMarker(null)
-          setDirections(undefined);
-          const lat: number = position.lat;
-          const lng: number = position.lng;
+        <ControlContainer>
+          <Places setSpot={(position) => {
+            //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
+            setSelectedMarker(null)
+            setDirections(undefined);
+            const lat: number = position.lat;
+            const lng: number = position.lng;
 
           //Die Arrays leeren
           currentCategory1.splice(0, currentCategory1.length);

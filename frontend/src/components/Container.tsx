@@ -35,7 +35,6 @@ const handleClick = () => {
     console.log("Button clicked!");
 };
 
-
 function Container({ color = "pink", outline = true, height = 280, width = 300, children }: { color?: string; outline?: boolean; height?: number; width?: number; children?: React.ReactNode }) {
     return (
         <StyledContainer color={color} $hasOutline={outline} height={height} width={width}>
