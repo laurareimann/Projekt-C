@@ -6,6 +6,12 @@ import ScoreContainer from '../components/ScoreContainer';
 import QuizContainer from '../components/QuizContainer';
 import { ToastContainer } from 'react-toastify';
 import FilterOverlay from '../components/filterComponents/FilterOverlay.tsx';
+import styled from 'styled-components';
+
+
+const BlockContainer = styled.div`
+    display: block;
+`;
 
 const HomePage: React.FC = () => {
 
@@ -23,8 +29,10 @@ const HomePage: React.FC = () => {
                     circleRadii={[1250, 2500, 3750]}
                     circleColors={['green', 'yellow', 'red']}
                 />
-                <ScoreContainer color='blue'></ScoreContainer>
-                <QuizContainer color='pink'></QuizContainer>
+                <BlockContainer>
+                    <ScoreContainer color='blue'></ScoreContainer>
+                    <QuizContainer color='pink'></QuizContainer>
+                </BlockContainer>
             </StreetProvider>
             <ToastContainer></ToastContainer>
         </>
