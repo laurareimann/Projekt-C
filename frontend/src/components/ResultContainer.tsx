@@ -24,7 +24,7 @@ const ResultContainer = styled.div`
     }
 `
 
-function ScoreContainer({color = "pink"}) {
+function ScoreContainer({street = "", color = "pink"}) {
     
     const customStreet = useStreetNameNew().streetName;
     const customZip = useZipCodeNew().zipCode;
@@ -41,7 +41,7 @@ function ScoreContainer({color = "pink"}) {
                     height='14vh'
                     width='20vh'
                 />
-                    <Address color={color} street={customStreet} zip={customZip} city={customCity}></Address>
+                    <Address color={color} street={street} zip={customZip} city={customCity}></Address>
                     <Score color={color} score={customScore}></Score>               
             </ResultContainer>
     );

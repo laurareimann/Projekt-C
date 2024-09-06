@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Map from "../components/mapComponents/map.tsx";
 import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 
+
 // Components
 import { ToastContainer } from 'react-toastify';
 import React from 'react';
@@ -11,6 +12,8 @@ import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
 import { latLngEquals } from '@vis.gl/react-google-maps';
 import ResultContainer from '../components/ResultContainer.tsx';
 import ScoreContainer from '../components/ScoreContainer.tsx';
+import ProfileHistoryContainer from '../components/ProfileHistoryContainer.tsx';
+//import adressData from 'backend/src/db/usedAdresses.ts';
 
 const ButtonGrid = styled.div`
 display: grid;
@@ -113,7 +116,8 @@ const Evaluation: React.FC = () => {
 
             <h1>Detailed Results</h1>
 
-            <ResultContainer></ResultContainer>
+            <ResultContainer ></ResultContainer>
+            <ProfileHistoryContainer></ProfileHistoryContainer>
 
             <ButtonGrid>
                 <Button onClick={() => {setContent("overallScore"), setButtonState([true, false])}}
