@@ -10,7 +10,7 @@ const TeamGrid = styled.div`
     display: grid;
     width: 100%;
     padding: 10px;
-    grid-gap: 10px;
+    grid-gap: 8px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid layout */
     margin-top: 20px;
 
@@ -23,7 +23,7 @@ const TeamMemberCard = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     text-align: center;
