@@ -10,15 +10,18 @@ const ScoreWrapper = styled.div`
             : color === "green" ? "var(--color--green-5)"
                 : "var(--color--pink-5)"};
     
-    > div { 
-        font-size: 1rem;
-    }
+`
+
+const H2 = styled.div`
+    font-size: 3rem;
+    font-weight: 500;
+    line-height: 2.5rem;
 `
 
 function Score({ color = 'pink', score = "42" }) {
     return (
         <ScoreWrapper color ={color}>
-            <h4>{score}</h4>
+            <H2>{score}</H2>
             <h5>min</h5>
         </ScoreWrapper>
     );

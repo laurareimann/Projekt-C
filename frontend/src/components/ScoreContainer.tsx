@@ -12,8 +12,6 @@ const ContainerContentWrapper = styled.div`
     gap: 8px;
     align-items: center;
     text-align: -webkit-center;
-    padding: 16px;
-
     `
 
 function ScoreContainer({color = "pink", buttonText = "View results", outline = false, onClick = () => { } }) {
@@ -26,7 +24,7 @@ function ScoreContainer({color = "pink", buttonText = "View results", outline = 
     
 
     return (
-        <Container color={color} outline={outline} height={220} width={240}>
+        <Container color={color} outline={outline} height={210} width={220}>
             <ContainerContentWrapper>
                 <Score color={color} score={customScore}></Score>
                 <Address color={color} street={customStreet} zip={customZip} city={customCity}></Address>
