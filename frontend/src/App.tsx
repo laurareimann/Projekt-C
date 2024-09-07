@@ -72,10 +72,14 @@ const GlobalStyle = createGlobalStyle`
   // typography
   h1 {
   line-height: 3.5rem;
-  font-size: 3rem;
+  font-size: 2.25rem;
   font-weight: 500;
   text-align: center;
   margin: 0;
+
+  @media (max-width: 425px) {
+    font-size: 1.75rem;
+  }
 }
 h2 {
   line-height: 2.5rem;
@@ -103,7 +107,7 @@ a {
 //big text
 h4{
   line-height: 0.8;
-  font-size: 6.25rem;
+  font-size: 5rem;
   font-weight: 500;
   margin:0;
 }

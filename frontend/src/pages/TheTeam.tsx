@@ -7,22 +7,27 @@ const Wrapper = styled.div`
 `;
 
 const TeamGrid = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap; /* Ensure it wraps correctly on smaller screens */
+    display: grid;
+    width: 100%;
+    padding: 10px;
+    grid-gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid layout */
     margin-top: 20px;
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust for smaller screens */
+    }
 `;
 
 const TeamMemberCard = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     text-align: center;
-    width: 23%; /* Adjust width to fit four items in a row with spacing */
-    margin: 0 1%;
+    width: 100%; /* Adjust width to fit four items in a row with spacing */
 `;
 
 const TeamMemberImage = styled.div<{ color: string }>`
