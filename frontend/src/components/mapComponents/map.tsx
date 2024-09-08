@@ -239,7 +239,14 @@ const ControlContainer = styled.div`
   padding: 0.3rem;
   background-color: var(--color--pink-3);
   border-radius:20px;
-  margin-bottom:10px;
+
+  @media (max-width: 768px) {
+    width: 370px;
+  }
+
+  @media (max-width: 375px) {
+    width: 310px;
+  }
 `
 
 const getCookie = (name:string) =>{
@@ -353,14 +360,17 @@ const currentUser = getCookie("username");
 const defaultColors = ["green", "yellow", "red"];
 
 const Searchbar = styled.div`
-display: flex;
-flex-direction: row;
-width: fit-content;
-align-items:flex-start;
-gap: 4px;
-@media(max-width:768){
-      width:65%;
-    }
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  align-items:flex-start;
+  gap: 4px;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
@@ -1352,7 +1362,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             lng: selectedMarker.location.lng
           }}>
             <div>
-              <h2>{selectedMarker.name}</h2>
+              <h3>{selectedMarker.name}</h3>
               <h3>{travelMode}: {Math.ceil(currentDurationUseState / 60)} min </h3>
               <p>{selectedMarker.address}</p>
             </div>

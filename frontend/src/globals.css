@@ -103,8 +103,6 @@ styled-component ersetzt werden kann.
   left:5px;
 }
 
-
-
 .combobox-input {
 
   color:black;
@@ -121,7 +119,7 @@ styled-component ersetzt werden kann.
   }
   
   @media (max-width: 768px) {
-    width: 85%;
+    width: 87%;
   }
 
   @media (max-width: 375px) {
@@ -129,5 +127,3 @@ styled-component ersetzt werden kann.
   }
   
 }
-
-

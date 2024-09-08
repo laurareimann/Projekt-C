@@ -1,30 +1,30 @@
 {
-  "currentScoreValue": 5,
+  "currentScoreValue": 14,
   "currentStartingSpot": [
-    53.4635541,
-    9.969640799999999
+    38.8976763,
+    -77.0365298
   ],
   "currentClosestGrocery": [
-    53.4685,
-    9.9673
+    38.9008273,
+    -77.0491667
   ],
   "currentClosestHealth": [
-    53.46167449999999,
-    9.975689899999999
+    38.9016733,
+    -77.0380988
   ],
   "currentClosestTransit": [
-    53.46373699999999,
-    9.970164
+    38.9011403,
+    -77.0322339
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 9,
-  "currentHealthDuration": 7,
-  "currentTransitDuration": 1,
-  "currentStartAddress": "Am Schwarzenberg-Campus 1, 21073 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Buxtehuder Str. 76-80, 21073 Hamburg, Germany",
-  "currentClosestHealthAddress": "Schwarzenbergstraße 29, 21073 Hamburg, Germany",
-  "currentClosestTransitAddress": "Kasernenstraße (TU Hamburg), 21073 Hamburg, Germany",
-  "currentClosestGroceryName": "JET Tankstelle",
-  "currentClosestHealthName": "Medizinisches Versorgungszentrum Nephrocare Hamburg-Süderelbe GmbH",
-  "currentClosestTransitName": "Kasernenstraße (TU Hamburg)"
+  "currentGroceryDuration": 21,
+  "currentHealthDuration": 10,
+  "currentTransitDuration": 10,
+  "currentStartAddress": "1600 Pennsylvania Avenue NW, Washington, DC 20500, USA",
+  "currentClosestGroceryAddress": "2201 I St NW, Washington, DC 20037, USA",
+  "currentClosestHealthAddress": "1627 I St NW #700, Washington, DC 20006, USA",
+  "currentClosestTransitAddress": "McPherson Square Metrorail Station, 1400 I St NW, Washington, DC 20005, USA",
+  "currentClosestGroceryName": "Whole Foods Market",
+  "currentClosestHealthName": "Kimbrough William H MD",
+  "currentClosestTransitName": "McPherson Square Metrorail Station"
 }

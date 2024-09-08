@@ -74,6 +74,12 @@ const ResultList = styled.ul`
   color: var(--color--black-shade);
   transition: all .5s ease;
   grid-template-columns: repeat(3,33%);
+
+  @media (max-width:768px) {
+    align-items: left;
+    grid-template-columns: 1fr;
+    
+  }
   
 `
 
@@ -84,6 +90,12 @@ const ResultItem = styled.li`
       
   &:hover{
     color: var(--color--blue-3);
+  }
+  @media (max-width:768px){
+    
+    width:100%;
+    
+    
   }
 `
 
