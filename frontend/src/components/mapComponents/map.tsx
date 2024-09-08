@@ -18,6 +18,7 @@ import transitIcon from "../../assets/white_tram.svg";
 import { useScore } from "./StreetProvider";
 import axios from "axios";
 import FilterOverlay from "../filterComponents/FilterOverlay";
+import { Bounce, toast } from "react-toastify";
 //import { InfoWindow } from "react-google-maps";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -103,6 +104,19 @@ let finalCenter:google.maps.LatLngLiteral;
   let tempClosestTransitName:string;
   const tempSearchResultArray:Array<number>=[1.2,3.4];
 
+  const throwToast = (errorMessage: string) => {
+    toast.info(errorMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+    });
+}
 
 const StyledButton = styled.button`
     background-color: ${({ color, disabled }) =>
@@ -1378,7 +1392,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
         <PriorityGrid>
           {currentUser && spot &&
-          <StyledButton onClick={()=>{saveSearch(spot!,currentUser)}}>Save Address</StyledButton>
+          <StyledButton onClick={()=>{
+            saveSearch(spot!,currentUser);
+            throwToast("Address saved!");
+              }}>Save Address</StyledButton>
           }
           <StyledPrioButton color={GroceryButtonString} onClick={() => {
             setPriorityButton("Groceries");

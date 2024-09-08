@@ -22,6 +22,8 @@ const ProfilePic = styled.a`
 }
 `;
 
+
+
 const getCookie = (name:string) =>{
     const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
   
@@ -224,9 +226,9 @@ function ProfilePage(){
             {savedArrayForHTML.map((search: {
               address: string; savedName:string; whoSaved: string,googleMapsLat:number,googleMapsLng:number},index: React.Key | null | undefined) => (
               <ResultItem key = {index}>
-                <ProfileHistoryContainer  onClick={()=>{
+                <ProfileHistoryContainer  hasOutline={true} buttonText="Review search" street={search.address} onClick={()=>{
                   loadSearch(search.address,search.googleMapsLat,search.googleMapsLng);
-                }} savedAs={search.savedName}  street={search.address} >
+                }} savedAs={search.savedName}>
                   
                 </ProfileHistoryContainer>
               </ResultItem>
