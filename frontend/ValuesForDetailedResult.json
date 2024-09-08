@@ -1,30 +1,30 @@
 {
-  "currentScoreValue": 14,
+  "currentScoreValue": 5,
   "currentStartingSpot": [
-    53.54384289999999,
-    9.9890989
+    53.4635541,
+    9.969640799999999
   ],
   "currentClosestGrocery": [
-    53.55345819999999,
-    9.988807699999999
+    53.4685,
+    9.9673
   ],
   "currentClosestHealth": [
-    53.55004439999999,
-    9.998458299999998
+    53.46167449999999,
+    9.975689899999999
   ],
   "currentClosestTransit": [
-    53.54305,
-    9.9900735
+    53.46373699999999,
+    9.970164
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 23,
-  "currentHealthDuration": 17,
-  "currentTransitDuration": 3,
-  "currentStartAddress": "Kehrwieder 2/Block D, 20457 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Große Bleichen 30, 20354 Hamburg, Germany",
-  "currentClosestHealthAddress": "Speersort 8, 20095 Hamburg, Germany",
-  "currentClosestTransitAddress": "Am Sandtorkai, 20457 Hamburg, Germany",
-  "currentClosestGroceryName": "EDEKA Schlemmer Markt STRUVE",
-  "currentClosestHealthName": "Radiological alliance Speersort",
-  "currentClosestTransitName": "Am Sandtorkai"
+  "currentGroceryDuration": 9,
+  "currentHealthDuration": 7,
+  "currentTransitDuration": 1,
+  "currentStartAddress": "Am Schwarzenberg-Campus 1, 21073 Hamburg, Germany",
+  "currentClosestGroceryAddress": "Buxtehuder Str. 76-80, 21073 Hamburg, Germany",
+  "currentClosestHealthAddress": "Schwarzenbergstraße 29, 21073 Hamburg, Germany",
+  "currentClosestTransitAddress": "Kasernenstraße (TU Hamburg), 21073 Hamburg, Germany",
+  "currentClosestGroceryName": "JET Tankstelle",
+  "currentClosestHealthName": "Medizinisches Versorgungszentrum Nephrocare Hamburg-Süderelbe GmbH",
+  "currentClosestTransitName": "Kasernenstraße (TU Hamburg)"
 }
