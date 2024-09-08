@@ -1,23 +1,30 @@
 {
-  "currentScoreValue": 7,
+  "currentScoreValue": 14,
   "currentStartingSpot": [
-    53.46115649999999,
-    9.9695524
+    53.54384289999999,
+    9.9890989
   ],
   "currentClosestGrocery": [
-    53.4580472,
-    9.966241
+    53.55345819999999,
+    9.988807699999999
   ],
   "currentClosestHealth": [
-    53.46167449999999,
-    9.975689899999999
+    53.55004439999999,
+    9.998458299999998
   ],
   "currentClosestTransit": [
-    53.45927349999999,
-    9.970972
+    53.54305,
+    9.9900735
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 8,
-  "currentHealthDuration": 8,
-  "currentTransitDuration": 4
+  "currentGroceryDuration": 23,
+  "currentHealthDuration": 17,
+  "currentTransitDuration": 3,
+  "currentStartAddress": "Kehrwieder 2/Block D, 20457 Hamburg, Germany",
+  "currentClosestGroceryAddress": "Große Bleichen 30, 20354 Hamburg, Germany",
+  "currentClosestHealthAddress": "Speersort 8, 20095 Hamburg, Germany",
+  "currentClosestTransitAddress": "Am Sandtorkai, 20457 Hamburg, Germany",
+  "currentClosestGroceryName": "EDEKA Schlemmer Markt STRUVE",
+  "currentClosestHealthName": "Radiological alliance Speersort",
+  "currentClosestTransitName": "Am Sandtorkai"
 }

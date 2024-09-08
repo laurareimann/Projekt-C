@@ -21,6 +21,8 @@ interface StreetProperties {
     setNearby:(state:Array<google.maps.LatLngLiteral>) => void;
     currentScore?:string;
     setScore:(state:string)=> void;
+    loadFromProfile:boolean;
+    setLoadFromProfilePage:(state:boolean)=>void;
 }
 
 const streetContext = React.createContext<StreetProperties>({
@@ -34,6 +36,8 @@ const streetContext = React.createContext<StreetProperties>({
     setNearby:(_state:Array<google.maps.LatLngLiteral>) => {},
     currentScore:"42",
     setScore:(_state:string) =>{},
+    loadFromProfile:false,
+    setLoadFromProfilePage:(_state:boolean) => {}
 })
 
 
@@ -45,6 +49,7 @@ export const StreetProvider = (
     cityValue,
     streetNameValue,
     zipCodeValue,
+    loadFromProfilePageFlag,
     children}:
 {
     currentScoreValue:string,
@@ -52,6 +57,7 @@ export const StreetProvider = (
     cityValue:string,
     zipCodeValue:string,
     streetNameValue:string,
+    loadFromProfilePageFlag:boolean,
     children:ReactNode}) => {
     
     const [streetName, setStreet] = useState(streetNameValue);
@@ -59,12 +65,13 @@ export const StreetProvider = (
     const [currentCity,setCity] = useState(cityValue);
     const [currentNearby,setNearby] = useState(currentNearbyValue);
     const [currentScore,setScore] = useState(currentScoreValue);
+    const [loadFromProfile,setLoadFromProfilePage] = useState(loadFromProfilePageFlag);
 
     return(
         <streetContext.Provider value = {{
             
-            currentScore,currentNearby,streetName,zipCode,currentCity,
-            setScore,setStreet,setZipCode,setCity,setNearby}}>
+            currentScore,currentNearby,streetName,zipCode,currentCity,loadFromProfile,
+            setScore,setStreet,setZipCode,setCity,setNearby,setLoadFromProfilePage}}>
             {children}
 
         </streetContext.Provider>
@@ -73,6 +80,11 @@ export const StreetProvider = (
 
 //Die Contextvariablen werden exportiert
 //Die getter und setter exportieren
+export const useLoadFromProfile = () =>{
+    const {loadFromProfile,setLoadFromProfilePage} = useContext(streetContext);
+    return {loadFromProfile,setLoadFromProfilePage}
+}
+
 export const useStreetNameNew = () =>{
     const {streetName,setStreet} = useContext(streetContext);
     return {streetName,setStreet}

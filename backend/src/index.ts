@@ -5,24 +5,20 @@ import * as dotenv from "dotenv";
 import cors from "cors";
 import * as mongoose from 'mongoose';
 import fs from "fs";
-import detailedResultValues from "../../frontend/ValuesForDetailedResult.json";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const AddressModel = require("./db/usedAdresses");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const userModel = require("./db/user");
 
-console.log(detailedResultValues);
-
 //Configures environment variables -> mongoDB credentials
 dotenv.config();
 
-const filePathToJson = __dirname.split("C")[0] + "C" +"/frontend/ValuesForDetailedResult.json"
-
-console.log(filePathToJson)
+const filePathToJsonDetailed = __dirname.split("C")[0] + "C" +"/frontend/ValuesForDetailedResult.json"
+const filePathToJsonProfileLoad = __dirname.split("C")[0] + "C" +"/frontend/loadingFromProfileValues.json"
 
 //Setup mongoDB | commented for now since we don't need it immediately
 const mongoDB_URI = (process.env.MONGODB_URI);
-console.log("Current URL: " + mongoDB_URI);
+//console.log("Current URL: " + mongoDB_URI);
 
 mongoose.connect(mongoDB_URI).then(() => {
   console.log("Successfully connected to your databases");
@@ -40,7 +36,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
-let currentUser:string;
 
 app.post("/saveSearchForLater",async(req,res)=>{
 
@@ -61,9 +56,6 @@ app.post("/saveSearchForLater",async(req,res)=>{
       savedName:data.tempName,
       whoSaved:data.whoSavedData
     })
-
-    console.log("The following is the adress, which is trying to be saved")
-    console.log(data)
 
     adressToSave.save();
     res.json("save successful");
@@ -87,10 +79,7 @@ app.get("/GetSaved",async (req,res)=>{
     if(TempCurrentUser != ""){
 
       const SavedData = await AddressModel.find({"whoSaved":TempCurrentUser,savedName:{$exists:true}})
-      console.log(TempCurrentUser + " has saved the following searches")
-      //console.log(historyData)
       const responseArray = JSON.stringify(SavedData,null,2);
-      console.log(responseArray)
       res.json(responseArray)
     }
     else{
@@ -110,14 +99,12 @@ app.get("/getHistory",async (req,res)=>{
 
   const TempCurrentUser = data.SentCurrentUser;
 
-  console.log(TempCurrentUser);
+  console.log(TempCurrentUser + " is trying to fetch their search history");
 
   try{
     if(TempCurrentUser != ""){
 
       const historyData = await AddressModel.find({"whoSaved":TempCurrentUser})
-      /*console.log(TempCurrentUser + " has the following history")
-      console.log(historyData)*/
       const responseArray = JSON.stringify(historyData,null,2);
       res.json(responseArray)
     }
@@ -128,6 +115,29 @@ app.get("/getHistory",async (req,res)=>{
 }catch(e){
     console.log(e)
   }
+})
+
+app.get("/checkForLoadFromProfile",async(req,res)=>{
+
+  try{
+
+    const alternativeData =JSON.parse(fs.readFileSync(filePathToJsonProfileLoad,"utf-8"));
+  
+
+    const data = {
+      AddressLatToSend:alternativeData.currentAddressLat,
+      AddressLngToSend:alternativeData.currentAddressLng,
+      ShouldLoadBool:alternativeData.currentFlag,
+      AddressToSend:alternativeData.currentAddress
+    }
+
+    const constCheckData = JSON.stringify(data,null,2)
+
+    res.json(constCheckData);
+  }catch(e){
+    console.log(e)
+  }
+
 })
 
 app.post("/updateJson",async(req,res)=>{
@@ -145,7 +155,23 @@ app.post("/updateJson",async(req,res)=>{
     SpotLng:req.body.SpotLng,
     currentGroceryDuration:req.body.currentGroceryDuration,
     currentHealthDuration:req.body.currentHealthDuration,
-    currentTransitDuration:req.body.currentTransitDuration
+    currentTransitDuration:req.body.currentTransitDuration,
+    currentStartingAddressName:req.body.currentStartPointAddress,
+    currentClosestGroceryAddress:req.body.currentClosestGroceryAddress,
+    currentClosestHealthAddress:req.body.currentClosestHealthAddress,
+    currentClosestTransitAddress:req.body.currentClosestTransitAddress,
+    currentClosestGroceryName:req.body.currentClosestGroceryName,
+    currentClosestHealthName:req.body.currentClosestHealthName,
+    currentClosestTransitName:req.body.currentClosestTransitName
+  }
+
+  const resetCheckArray = JSON.parse(fs.readFileSync(filePathToJsonProfileLoad,"utf-8"))
+
+  const resetData = {
+    AddressLatToSend:resetCheckArray.currentAddressLat,
+    AddressLngToSend:resetCheckArray.currentAddressLng,
+    ShouldLoadBoold:false,
+    AddressToSend:resetCheckArray.currentAddress
   }
 
   console.log("updating Json file...")
@@ -161,14 +187,26 @@ app.post("/updateJson",async(req,res)=>{
       currentTravelMode:data.TravelMode,
       currentGroceryDuration:data.currentGroceryDuration,
       currentHealthDuration:data.currentHealthDuration,
-      currentTransitDuration:data.currentTransitDuration
+      currentTransitDuration:data.currentTransitDuration,
+      currentStartAddress:data.currentStartingAddressName,
+      currentClosestGroceryAddress:data.currentClosestGroceryAddress,
+      currentClosestHealthAddress:data.currentClosestHealthAddress,
+      currentClosestTransitAddress:data.currentClosestTransitAddress,
+      currentClosestGroceryName:data.currentClosestGroceryName,
+      currentClosestHealthName:data.currentClosestHealthName,
+      currentClosestTransitName:data.currentClosestTransitName
     }
 
     const updatedJsonData = JSON.stringify(updatedJson,null,2);
    
-    fs.writeFileSync(filePathToJson,updatedJsonData)
+    fs.writeFileSync(filePathToJsonDetailed,updatedJsonData)
       console.log("Data written to file");
+      console.log("Resetting profile check");
+    fs.writeFileSync(filePathToJsonProfileLoad,JSON.stringify(resetData,null,2))
       res.json("update successful")
+
+    
+
       }
   catch(e){
     console.log(e)
@@ -189,16 +227,49 @@ try{
 
   res.json("Address is being added");
 
-  const testAdress = new AddressModel({address:data.Address,googleMapsLat:data.MapLat,googleMapsLng:data.MapLng,whoSaved:currentUser})
+  const testAdress = new AddressModel({address:data.Address,googleMapsLat:data.MapLat,googleMapsLng:data.MapLng,whoSaved:data.currentUser})
 
   testAdress.save();
 
   console.log("Address successfully added");
+
+  
 }
 catch(e){
   console.log(e);
 }
 })
+
+app.post("/prepareLoadFromProfile",async(req,res)=>{
+
+  const setFlag = req.body.shouldLoadBool;
+  const address = req.body.addressToLoad;
+  const addressLat = req.body.addressLat;
+  const addressLng = req.body.addressLng;
+
+  console.log("Updating preparation json");
+
+  try{
+    const updatedJson = 
+    {
+      currentFlag:setFlag,
+      currentAddress:address,
+      currentAddressLat:addressLat,
+      currentAddressLng:addressLng
+    }
+
+  const updatedJsonData = JSON.stringify(updatedJson,null,2);
+
+  fs.writeFileSync(filePathToJsonProfileLoad,updatedJsonData);
+  console.log("Data written to file");
+  res.json("update successful");
+  }catch(e){
+  console.log(e);
+}
+
+})
+
+
 
 app.post("/signup", async(req,res) => {
   
@@ -257,7 +328,6 @@ app.post("/login",async(req,res)=>{
       }else{
         console.log("Login successful")
         res.json("exist");
-        currentUser = userParam;
         
       }
     }if(checkForUser == null){

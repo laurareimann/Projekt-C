@@ -1,14 +1,15 @@
 import styled from 'styled-components';
 import Button from './buttons/Buttons';
-import Container from './Container';
 import Address from './Address';
 
 
 
-const StyledContainer = styled.div <{ $hasOutline: boolean; color: string; height: number; width: number }>`
+const StyledContainer = styled.div <{ hasOutline: boolean; color: string;}>`
+    margin-top:2%;
+    margin-left: 2%;
     display: inline-block;
     height:100%;
-    width:50%;
+    width:95%;
     box-sizing: border-box;
     border-radius: 26px;
     align-content: center;
@@ -19,23 +20,18 @@ const StyledContainer = styled.div <{ $hasOutline: boolean; color: string; heigh
             (color === "green" ? "var(--color--green-5)" :
                 "var(--color--pink-5)"))};
     
-    background-color: ${({ $hasOutline, color }) =>
-        $hasOutline ? "var(--color--white-shade)" :
+    background-color: ${({ hasOutline, color }) =>
+        hasOutline ? "var(--color--white-shade)" :
             (color === "blue" ? "var(--color--blue-1)" :
                 (color === "green" ? "var(--color--green-1)" :
                     "var(--color--pink-1)"))};
 
-    border: ${({ $hasOutline, color }) =>
-        $hasOutline ? (color === "blue" ? "var(--color--blue-3) 3px solid" :
+    border: ${({ hasOutline, color }) =>
+        hasOutline ? (color === "blue" ? "var(--color--blue-3) 3px solid" :
             (color === "green" ? "var(--color--green-3) 3px solid" :
                 "var(--color--pink-3) 3px solid")) :
             "none"};
 `;
-
-
-
-
-
 
 
 
@@ -48,14 +44,15 @@ const ContainerContentWrapper = styled.div`
 
     `
 
-function ProfileHistoryContainer({street ="",  color = "pink", buttonText = "View results", hasOutline = false}) {
+function ProfileHistoryContainer({hasOutline = true , street ="",  color = "pink", buttonText = "View results",savedAs="",onClick = ()=>{}}) {
     
 
     return (
-        <StyledContainer color={color} $hasOutline={true}>
+        <StyledContainer color={color} hasOutline={hasOutline}>
             <ContainerContentWrapper>
-                <Address color={color} street={street}></Address>
-                <Button color={color}>{buttonText}</Button>
+                <h3>{savedAs}</h3>
+                <Address color={color} street={street} zip="" city=''></Address>
+                <Button onClick={onClick} color={color}>{buttonText}</Button>
             </ContainerContentWrapper>
         </StyledContainer>
     );

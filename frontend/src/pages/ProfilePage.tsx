@@ -29,6 +29,8 @@ const getCookie = (name:string) =>{
   }
   
   let currentUser = getCookie("username");
+
+  console.log(currentUser + " is currently logged in")
   
   const deleteCookie = (name: string | null) =>{
   
@@ -61,11 +63,9 @@ const Arrow = styled.span<{ isOpen: boolean }>`
 
 const ResultList = styled.ul`
   
-  align-items: center;
-  justify-content: space-between;
   display: grid;
-  grid-gap:1%;
-  z-index: 5;
+  
+  z-index: 1;
   width: 100%;
   background: var(--color--pink-1);
   border-top: 2px;
@@ -73,12 +73,13 @@ const ResultList = styled.ul`
   box-sizing: border-box;
   color: var(--color--black-shade);
   transition: all .5s ease;
-  grid-template-columns: repeat(4,25%);
+  grid-template-columns: repeat(3,33%);
   
 `
 
 const ResultItem = styled.li`
       display:inline-block;
+      margin-bottom: 3%;
       
       
   &:hover{
@@ -111,18 +112,19 @@ async function FetchHistory(){
     axios.get("http://localhost:8080/getHistory",{params:{currentUserParam:currentUser}}).then((res:{data:string})=>{
       historyArray = res.data;
       historyArrayForHTML = JSON.parse(historyArray);
-      console.log(historyArrayForHTML);
+      historyArrayForHTML.reverse();
+      if(historyArrayForHTML.length > 12){
+        historyArrayForHTML = historyArrayForHTML.slice(0,11)
+      }
     })
-    if(historyArrayForHTML.length > 20){
-      historyArrayForHTML.slice(historyArrayForHTML.length-19,historyArrayForHTML.length)
-    }
+    
+    
   }catch(e){console.log(e)}
 
   
 }
 
-//Search history fetchen
-FetchHistory();
+
 
 //Gespeicherte Routen
 async function FetchSaved(){
@@ -134,7 +136,6 @@ async function FetchSaved(){
     {
       savedArray = res.data;
       savedArrayForHTML = JSON.parse(savedArray);
-      console.log(savedArrayForHTML);
     })
 
     if(savedArrayForHTML.length > 20){
@@ -146,16 +147,45 @@ async function FetchSaved(){
   
 }
 //Gespeicherte Routen fetchen
-FetchSaved();
 
 //Von Profilseite zu map.tsx und Suche laden
 //Eventuell muss dies in map.tsx selbst geschehen
-function loadSearch(){
-  //ToDo-Implement
-}
+async function loadSearch(addressParam:string,addressLatParam:number,addressLngParam:number){
 
+  console.log("Attempting load from profile");
+
+  const addressToLoad = addressParam;
+  const addressLat = addressLatParam;
+  const addressLng = addressLngParam;
+  const shouldLoadBool:boolean = true;
+
+  console.log(addressLat);
+
+  try{
+      await axios.post("http://localhost:8080/prepareLoadFromProfile",{
+      addressToLoad,shouldLoadBool,addressLat,addressLng})
+      .then((res:{data:string})=>{
+        if(res.data === "update successful"){
+          console.log("Updated preparation");
+          window.location.assign("/")
+        }
+
+    })}catch(e){
+      console.log(e);
+    }}
+
+  
+
+
+FetchHistory();
+
+FetchSaved();
 
 function ProfilePage(){
+
+  //Search history fetchen
+
+
 
   const [openHistory, setOpenHistory] = useState(false);
   const [openSaved, setOpenSaved] = useState(false);
@@ -180,9 +210,13 @@ function ProfilePage(){
           <div>
           <ResultList>
             {savedArrayForHTML.map((search: {
-              address: string; whoSaved: string ;},index: React.Key | null | undefined) => (
+              address: string; savedName:string; whoSaved: string,googleMapsLat:number,googleMapsLng:number},index: React.Key | null | undefined) => (
               <ResultItem key = {index}>
-                <ProfileHistoryContainer buttonText="View search" street={search.address} onClick={()=>{loadSearch()}}></ProfileHistoryContainer>
+                <ProfileHistoryContainer  onClick={()=>{
+                  loadSearch(search.address,search.googleMapsLat,search.googleMapsLng);
+                }} savedAs={search.savedName}  street={search.address} >
+                  
+                </ProfileHistoryContainer>
               </ResultItem>
             ))}
           </ResultList>
@@ -201,10 +235,10 @@ function ProfilePage(){
           <div>
           <ResultList>
             {historyArrayForHTML.map((search: {
-              address: string; whoSaved: string ;},index: React.Key | null | undefined) => (
+              address: string; whoSaved: string,savedName:string, googleMapsLat:number,googleMapsLng:number ;},index: React.Key | null | undefined) => (
               <ResultItem key = {index}>
-                <ProfileHistoryContainer outline={true} buttonText="View search" street={search.address} onClick={()=>{
-                  //redirect to detailed result here
+                <ProfileHistoryContainer  hasOutline={true} buttonText="Review search" street={search.address} onClick={()=>{
+                  loadSearch(search.address,search.googleMapsLat,search.googleMapsLng);
                 }}></ProfileHistoryContainer>
               </ResultItem>
             ))}
