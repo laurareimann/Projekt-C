@@ -5,11 +5,10 @@ import Address from './Address';
 
 
 const StyledContainer = styled.div <{ hasOutline: boolean; color: string;}>`
-    margin-top:2%;
-    margin-left: 2%;
+    margin: 0;
     display: inline-block;
     height:100%;
-    width:95%;
+    width:100%;
     box-sizing: border-box;
     border-radius: 26px;
     align-content: center;
