@@ -144,7 +144,6 @@ if(currentUser == null){
 function HeaderDesktop() {
   // nur temporär um Login funktionalität zu testen
   // sollte später ausgelagert werden in richtigen Login Handler
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [isVisible, setIsVisible] = useState(true);
 

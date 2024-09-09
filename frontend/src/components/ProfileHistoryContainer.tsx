@@ -37,10 +37,13 @@ const StyledContainer = styled.div <{ hasOutline: boolean; color: string;}>`
 
 
 const ContainerContentWrapper = styled.div`
-    
+    display:flex;
+    flex-direction: column;
+    gap: 5px;
     align-items: center;
     text-align: -webkit-center;
     padding: 2%;
+
 
     `
 

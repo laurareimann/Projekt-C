@@ -10,16 +10,23 @@ import axios from 'axios';
 
 
 const ProfileContainer = styled.div`
-  display: grid;
   margin-bottom : 1%;
 `;
 
 const ProfilePic = styled.a`
   align-items: center;
   img {
-    width: 25%;
-    height: 100%;
+    width: 20%;
+    height: 20%;
 }
+
+@media(max-width:768px){
+  img{
+  width:50%;
+  height:100%;
+  }
+}
+
 `;
 
 
@@ -50,9 +57,9 @@ const ProfileTab = styled.div`
     
     background-color: var(--color--pink-1);
     cursor: pointer;
-    padding: 1% 0;
-    border-radius: 10px;
-    border-bottom: 1px solid #ccc;
+    padding: 1% 1%;
+    border:3px solid var(--color--pink-3);
+    border-radius:10px;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -66,16 +73,19 @@ const Arrow = styled.span<{ isOpen: boolean }>`
 const ResultList = styled.ul`
   
   display: grid;
-  
+  margin-top: 0;
+  padding-bottom: 1%;
+  padding-left:1%;
+  padding-right:0%;
   z-index: 1;
   width: 100%;
   background: var(--color--pink-1);
   border-top: 2px;
-  border-radius: 8px;
+  border-radius: 5px 5px 8px 8px;
   box-sizing: border-box;
   color: var(--color--black-shade);
   transition: all .5s ease;
-  grid-template-columns: repeat(3,33%);
+  grid-template-columns: repeat(auto-fit,minmax(260px,max-content));
 
   @media (max-width:768px) {
     align-items: left;
@@ -101,15 +111,18 @@ const ResultItem = styled.li`
   }
 `
 
-const ProfileListContainer = styled.div`
-  
-`
+
 
 const Wrapper = styled.div`
     width: 80%;
     text-align: start;
     margin-bottom: 1%;
 `;
+
+//Für eine Lücke zum Footer
+const PageContainer = styled.div`
+margin-bottom: 2%;
+`
 
 let historyArray: string;
 let savedArray: string;
@@ -197,22 +210,17 @@ FetchSaved();
 
 function ProfilePage(){
 
-  //Search history fetchen
-
-
-
   const [openHistory, setOpenHistory] = useState(false);
   const [openSaved, setOpenSaved] = useState(false);
 
     return(
-      <div>
-        
+        <PageContainer>
         <ProfileContainer>
             <ProfilePic>
                 <img src={profileIcon}></img>
-            </ProfilePic>
-            {currentUser}
-            </ProfileContainer>   
+            </ProfilePic>          
+        </ProfileContainer>   
+        <h1>{currentUser}</h1>
         {/*Saved searches*/}
         <Wrapper>
         <ProfileTab onClick={() => setOpenSaved(!openSaved)}>
@@ -264,7 +272,8 @@ function ProfilePage(){
         <Button onClick={()=>{
             console.log("Not yet implemented");
         }}>Change settings</Button>
-      </div>  
+        </PageContainer>
+       
     )
 }
 

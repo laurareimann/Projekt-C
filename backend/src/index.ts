@@ -13,8 +13,9 @@ const userModel = require("./db/user");
 //Configures environment variables -> mongoDB credentials
 dotenv.config();
 
-const filePathToJsonDetailed = __dirname.split("C")[0] + "C" +"/frontend/ValuesForDetailedResult.json"
-const filePathToJsonProfileLoad = __dirname.split("C")[0] + "C" +"/frontend/loadingFromProfileValues.json"
+const filePathToJsonDetailed = __dirname.split("-C")[0] + "-C" +"/frontend/ValuesForDetailedResult.json"
+const filePathToJsonProfileLoad = __dirname.split("-C")[0] + "-C" +"/frontend/loadingFromProfileValues.json"
+
 
 //Setup mongoDB | commented for now since we don't need it immediately
 const mongoDB_URI = (process.env.MONGODB_URI);
