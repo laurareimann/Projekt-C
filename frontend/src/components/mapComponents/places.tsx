@@ -16,7 +16,7 @@ import {
 import "@reach/combobox/styles.css";
 import "../../globals.css";
 import "../Inputforms";
-import {useStreetNameNew,useZipCodeNew,useCityNew,useNearby} from "./StreetProvider";
+import {useStreetNameNew,useZipCodeNew,useCityNew,useNearby, useLoadFromProfile} from "./StreetProvider";
 import {Bounce,toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 import axios from "axios";
@@ -33,6 +33,12 @@ type MapOptions = google.maps.MapOptions;
 //Werde noch schauen, ob das auch einfacher geht
 let placesMap: google.maps.Map;
 let service: google.maps.places.PlacesService;
+
+//Temporäre Variablen, um für den redirect vom profile zu checken
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let redirectCheckArray:any =[];
+let checkForLoadFlag:boolean;
+let addressToLoad:string = "";
 
 //temporäre arrays für den Algorithmus bzw. die Anzeige auf der Karte
 const currentByFootV2: Array<google.maps.LatLngLiteral> = []
@@ -55,26 +61,7 @@ const getCookie = (name:string) =>{
 const currentUser = getCookie("username");
 
 
-function InitMap(){
-
-  /*
-  const defaultCenter = useMemo<LatLngLiteral>(() => ({lat:53.5688823,lng:10.0330191}),[]);
-
-  const options = useMemo<MapOptions>(
-    ()=> ({
-      center:defaultCenter,
-      zoom:15
-    }),[defaultCenter]
-  )
-  
-
-  placesMap = new google.maps.Map(document.getElementById("map") as HTMLElement,options);
-    
-  service = new google.maps.places.PlacesService(placesMap);
-
-  console.log("Helper map successfully set up");
-*/
-}
+console.log("Ich bin von den places");
 
 
 export default function Places({ setSpot }: PlacesProps) {
@@ -147,13 +134,6 @@ export default function Places({ setSpot }: PlacesProps) {
   }}
 }
 
-async function performNearbySearch(requestParam: google.maps.places.PlaceSearchRequest){
-  
-  service.nearbySearch(requestParam,callback);
-  updateNearby(currentByFootV2);
-  
-}
-
   const handleSelect = async (val: string) => {
     setValue(val, false);
     clearSuggestions();
@@ -211,7 +191,7 @@ async function performNearbySearch(requestParam: google.maps.places.PlaceSearchR
           //Falls wir irgendwann noch das Bundesland brauchen
           case "administrative_area_level_1":
     }
-  
+      checkForLoadFlag = false;
     }
 
     try{
@@ -245,9 +225,6 @@ async function performNearbySearch(requestParam: google.maps.places.PlaceSearchR
     setSpot({ lat, lng });
   }
   };
-
-  
-
 
   return (
   <div>
