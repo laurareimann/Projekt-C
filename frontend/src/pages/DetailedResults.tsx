@@ -11,8 +11,8 @@ import Button from '../components/buttons/Buttons.tsx';
 import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
 import { latLngEquals } from '@vis.gl/react-google-maps';
 import ResultContainer from '../components/ResultContainer.tsx';
-import RoutesContainer from '../components/ScoreContainer.tsx';
 import AddressData from 'C:/Users/Nico/Documents/GitHub/Projekt-C/frontend/ValuesForDetailedResult.json';
+import RoutesContainer from '../components/RoutesContainer.tsx';
 
 
 const ButtonGrid = styled.div`
@@ -95,9 +95,29 @@ const Evaluation: React.FC = () => {
     
     const RoutesTab = () => <div>
                                 <ScoreContainerGrid>
-                                    <RoutesContainer buttonText='Show Route' ></RoutesContainer>
-                                    <RoutesContainer buttonText='Show Route'></RoutesContainer>
-                                    <RoutesContainer></RoutesContainer>
+                                <RoutesContainer
+                                    name={AddressData.currentClosestHealthName}
+                                    score={AddressData.currentHealthDuration.toString()}
+                                    street={AddressData.currentClosestHealthAddress.split(",")[0]}
+                                    zip={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[1]}
+                                    city={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[2]}>
+                                    </RoutesContainer>
+
+                                    <RoutesContainer
+                                    name={AddressData.currentClosestGroceryName}
+                                    score={AddressData.currentGroceryDuration.toString()}
+                                    street={AddressData.currentClosestGroceryAddress.split(",")[0]}
+                                    zip={AddressData.currentClosestGroceryAddress.split(",")[1].split(" ")[1]}
+                                    city={AddressData.currentClosestGroceryAddress.split(",")[1].split(" ")[2]}>
+                                    </RoutesContainer>
+
+                                    <RoutesContainer
+                                    name={AddressData.currentClosestTransitName}
+                                    score={AddressData.currentTransitDuration.toString()}
+                                    street={AddressData.currentClosestTransitAddress.split(",")[0]}
+                                    zip={AddressData.currentClosestTransitAddress.split(",")[1].split(" ")[1]}
+                                    city={AddressData.currentClosestTransitAddress.split(",")[1].split(" ")[2]}>
+                                    </RoutesContainer>
                                 </ScoreContainerGrid>
 
                                 <MapWithoutSearch
