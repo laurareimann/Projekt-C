@@ -11,9 +11,9 @@ import Button from '../components/buttons/Buttons.tsx';
 import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
 import { latLngEquals } from '@vis.gl/react-google-maps';
 import ResultContainer from '../components/ResultContainer.tsx';
-import ScoreContainer from '../components/ScoreContainer.tsx';
-import ProfileHistoryContainer from '../components/ProfileHistoryContainer.tsx';
-//import adressData from 'backend/src/db/usedAdresses.ts';
+import RoutesContainer from '../components/ScoreContainer.tsx';
+import AddressData from 'C:/Users/Nico/Documents/GitHub/Projekt-C/frontend/ValuesForDetailedResult.json';
+
 
 const ButtonGrid = styled.div`
 display: grid;
@@ -73,11 +73,16 @@ const ContentWrapper = styled.div`
   }
 `
 
+
+
 const Evaluation: React.FC = () => {  
     
     const [content, setContent] = React.useState("overallScore");
 
     const [buttonState, setButtonState] = React.useState([true, false]);
+
+    console.log("Bitch: " + 3);
+    // fetch(data);
   
     const ScoreTab = () =>  <div> 
                                 <HorizontalGrid>
@@ -95,11 +100,11 @@ const Evaluation: React.FC = () => {
     
     const RoutesTab = () => <div>
                                 <ScoreContainerGrid>
-                                    <ScoreContainer buttonText='Show Route'></ScoreContainer>
-                                    <ScoreContainer buttonText='Show Route'></ScoreContainer>
-                                    <ScoreContainer buttonText='Show Route'></ScoreContainer>
+                                    <RoutesContainer buttonText='Show Route' ></RoutesContainer>
+                                    <RoutesContainer buttonText='Show Route'></RoutesContainer>
+                                    <RoutesContainer></RoutesContainer>
                                 </ScoreContainerGrid>
-                            
+
                                 <MapWithoutSearch
                                     center={{ lat: 53.5688823, lng: 10.0330191 }}
                                     shouldRenderCircles={false}
@@ -116,8 +121,8 @@ const Evaluation: React.FC = () => {
 
             <h1>Detailed Results</h1>
 
-            <ResultContainer ></ResultContainer>
-            <ProfileHistoryContainer></ProfileHistoryContainer>
+            <ResultContainer score={AddressData.currentGroceryDuration.toString()}></ResultContainer>
+           {/*  <ProfileHistoryContainer street={data}></ProfileHistoryContainer> */}
 
             <ButtonGrid>
                 <Button onClick={() => {setContent("overallScore"), setButtonState([true, false])}}

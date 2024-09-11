@@ -5,7 +5,7 @@ import Score from './Score';
 import { useStreetNameNew,useZipCodeNew,useCityNew, useScore } from './mapComponents/StreetProvider';
 import MapWithoutSearch from './mapComponents/mapWithoutSearch';
 
-const ResultContainer = styled.div`
+const ResContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     width: fit-content;
@@ -24,15 +24,15 @@ const ResultContainer = styled.div`
     }
 `
 
-function ScoreContainer({street = "", color = "pink"}) {
+function ResultContainer({street = "", zip="", city="", score="", color = "pink"}) {
     
-    const customStreet = useStreetNameNew().streetName;
-    const customZip = useZipCodeNew().zipCode;
-    const customCity = useCityNew().currentCity;
-    const customScore = useScore().currentScore;
+    // const customStreet = useStreetNameNew().streetName;
+    // const customZip = useZipCodeNew().zipCode;
+    // const customCity = useCityNew().currentCity;
+    // const customScore = useScore().currentScore;
     
     return (
-        <ResultContainer>
+        <ResContainer>
             <MapWithoutSearch
                     center={{ lat: 53.5688823, lng: 10.0330191 }}
                     shouldRenderCircles={false}
@@ -41,11 +41,11 @@ function ScoreContainer({street = "", color = "pink"}) {
                     height='14vh'
                     width='20vh'
                 />
-                    <Address color={color} street={street} zip={customZip} city={customCity}></Address>
-                    <Score color={color} score={customScore}></Score>               
-            </ResultContainer>
+                    <Address color={color} street={street} zip={zip} city={city}></Address>
+                    <Score color={color} score={score}></Score>               
+            </ResContainer>
     );
 }
 
-export default ScoreContainer;
+export default ResultContainer;
 
