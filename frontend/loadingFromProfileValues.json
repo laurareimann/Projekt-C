@@ -1,6 +1,3 @@
 {
-  "AddressLatToSend": 47.6205063,
-  "AddressLngToSend": -122.3492774,
-  "ShouldLoadBoold": false,
-  "AddressToSend": "400 Broad St, Seattle, WA 98109, USA"
+  "ShouldLoadBoold": false
 }

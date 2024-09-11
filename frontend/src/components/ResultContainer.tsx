@@ -30,7 +30,7 @@ function ResultContainer({street = "", zip="", city="", score="", color = "pink"
     // const customZip = useZipCodeNew().zipCode;
     // const customCity = useCityNew().currentCity;
     // const customScore = useScore().currentScore;
-    
+
     return (
         <ResContainer>
             <MapWithoutSearch

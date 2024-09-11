@@ -73,16 +73,11 @@ const ContentWrapper = styled.div`
   }
 `
 
-
-
 const Evaluation: React.FC = () => {  
     
     const [content, setContent] = React.useState("overallScore");
 
     const [buttonState, setButtonState] = React.useState([true, false]);
-
-    console.log("Bitch: " + 3);
-    // fetch(data);
   
     const ScoreTab = () =>  <div> 
                                 <HorizontalGrid>
@@ -115,14 +110,20 @@ const Evaluation: React.FC = () => {
                                 />
                             </div>;
 
+
     return (
         <div>
             <ContentWrapper>
 
             <h1>Detailed Results</h1>
 
-            <ResultContainer score={AddressData.currentGroceryDuration.toString()}></ResultContainer>
-           {/*  <ProfileHistoryContainer street={data}></ProfileHistoryContainer> */}
+            <ResultContainer    
+                    score={AddressData.currentScoreValue.toString()}
+                    street={AddressData.currentStartAddress.split(",")[0]}
+                    zip={AddressData.currentStartAddress.split(",")[1].split(" ")[1]}
+                    city={AddressData.currentStartAddress.split(",")[1].split(" ")[2]}
+                    >
+            </ResultContainer>
 
             <ButtonGrid>
                 <Button onClick={() => {setContent("overallScore"), setButtonState([true, false])}}
