@@ -33,7 +33,7 @@ const streetContext = React.createContext<StreetProperties>({
     currentNearby: [],
     setNearby:(_state:Array<google.maps.LatLngLiteral>) => {},
     currentScore:"42",
-    setScore:(_state:string) =>{},
+    setScore:(_state:string) =>{}
 })
 
 
@@ -73,6 +73,7 @@ export const StreetProvider = (
 
 //Die Contextvariablen werden exportiert
 //Die getter und setter exportieren
+
 export const useStreetNameNew = () =>{
     const {streetName,setStreet} = useContext(streetContext);
     return {streetName,setStreet}

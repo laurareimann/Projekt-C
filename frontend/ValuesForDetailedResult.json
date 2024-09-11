@@ -1,23 +1,30 @@
 {
-  "currentScoreValue": 10,
+  "currentScoreValue": 16,
   "currentStartingSpot": [
-    53.5688823,
-    10.0330191
+    47.6205063,
+    -122.3492774
   ],
   "currentClosestGrocery": [
-    53.5642025,
-    10.0341141
+    47.6183573,
+    -122.3380162
   ],
   "currentClosestHealth": [
-    53.5694671,
-    10.0288
+    47.6264966,
+    -122.3297588
   ],
   "currentClosestTransit": [
-    53.567127,
-    10.030884
+    47.6212828,
+    -122.3497545
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 12,
-  "currentHealthDuration": 11,
-  "currentTransitDuration": 8
+  "currentGroceryDuration": 14,
+  "currentHealthDuration": 30,
+  "currentTransitDuration": 2,
+  "currentStartAddress": "400 Broad St, Seattle, WA 98109, USA",
+  "currentClosestGroceryAddress": "2210 Westlake Ave, Seattle, WA 98121, USA",
+  "currentClosestHealthAddress": "825 Eastlake Ave E, Seattle, WA 98109, USA",
+  "currentClosestTransitAddress": "Seattle Center Monorail, 370 Thomas St, Seattle, WA 98109, USA",
+  "currentClosestGroceryName": "Whole Foods Market",
+  "currentClosestHealthName": "Justin L. Speyer",
+  "currentClosestTransitName": "Seattle Center Monorail"
 }

@@ -43,6 +43,11 @@ const Logo = styled.a`
   }
 `;
 
+const ProfileAndLogout = styled.div`
+display:grid;
+grid-template-columns: repeat(2,40%);
+`
+
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -139,7 +144,6 @@ if(currentUser == null){
 function HeaderDesktop() {
   // nur temporär um Login funktionalität zu testen
   // sollte später ausgelagert werden in richtigen Login Handler
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [isVisible, setIsVisible] = useState(true);
 
@@ -179,20 +183,22 @@ function HeaderDesktop() {
           <span>Evaluation</span>
         </NavItem> 
         {globalLoggedInBool ? ( // State ändert sich momentan auch noch nicht
-          <Profile href="/profile">
-            <img src={profileIcon} alt="Profile" />     
-          </Profile>  
+          <p></p>
         ) : (
           <Profile href="/login">
             <Button color='pink'>Login</Button>
           </Profile>
         )}
         {globalLoggedInBool ? (
+          <ProfileAndLogout>
+            <Profile href="/profile">
+            <img src={profileIcon} alt="Profile" />   
+          </Profile> 
           <Button onClick={() => {
             deleteCookie(currentUser)
             window.location.replace("/");
           }}>Logout</Button>
-            
+            </ProfileAndLogout>
         ):(
           ""
         )}
