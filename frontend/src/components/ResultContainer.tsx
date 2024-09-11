@@ -2,7 +2,6 @@
 import styled from 'styled-components';
 import Address from './Address';
 import Score from './Score';
-import { useStreetNameNew,useZipCodeNew,useCityNew, useScore } from './mapComponents/StreetProvider';
 import MapWithoutSearch from './mapComponents/mapWithoutSearch';
 
 const ResContainer = styled.div`
@@ -25,11 +24,6 @@ const ResContainer = styled.div`
 `
 
 function ResultContainer({street = "", zip="", city="", score="", color = "pink"}) {
-    
-    // const customStreet = useStreetNameNew().streetName;
-    // const customZip = useZipCodeNew().zipCode;
-    // const customCity = useCityNew().currentCity;
-    // const customScore = useScore().currentScore;
 
     return (
         <ResContainer>

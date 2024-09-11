@@ -7,6 +7,7 @@ import QuizContainer from '../components/QuizContainer';
 import { ToastContainer } from 'react-toastify';
 import FilterOverlay from '../components/filterComponents/FilterOverlay.tsx';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 
 const BlockContainer = styled.div`
@@ -23,6 +24,12 @@ const BlockContainer = styled.div`
 
 const HomePage: React.FC = () => {
 
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+            navigate('/Evaluation'); // Für den Button spezifisch. War mir nicht ganz sicher, ob das auch ander geht.
+  };
+
     return (
         <>
             <h1>15 Minute City Calculator</h1>
@@ -38,7 +45,7 @@ const HomePage: React.FC = () => {
                     circleColors={['green', 'yellow', 'red']}
                 />
                 <BlockContainer>
-                    <ScoreContainer color='blue'></ScoreContainer>
+                    <ScoreContainer color='blue' onClick={handleClick}></ScoreContainer>
                     <QuizContainer color='pink'></QuizContainer>
                 </BlockContainer>
             </StreetProvider>

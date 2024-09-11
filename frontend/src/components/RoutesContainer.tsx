@@ -4,7 +4,7 @@ import Button from './buttons/Buttons';
 import Container from './Container';
 import Address from './Address';
 import Score from './Score';
-import { useStreetNameNew,useZipCodeNew,useCityNew, useScore } from './mapComponents/StreetProvider';
+import Name from './Name';
 
 const ContainerContentWrapper = styled.div`
     display: flex;
@@ -13,15 +13,15 @@ const ContainerContentWrapper = styled.div`
     align-items: center;
     text-align: -webkit-center;
     padding: 16px;
-
     `
 
 
 
-function RoutesContainer({street = "", zip="", city="", score="", color = "pink", buttonText = "View results", onClick = () => { }}) {
+function RoutesContainer({street = "", zip="", city="", score="",name="", color = "pink", buttonText = "View Route", onClick = () => { }}) {
     return (
-        <Container color={color}>
+        <Container color={color} outline={false}>
             <ContainerContentWrapper>
+                <Name name={name}></Name>
                 <Score color={color} score={score}></Score>
                 <Address color={color} street={street} zip={zip} city={city}></Address>
                 <Button color={color} onClick={onClick}>{buttonText}</Button>
