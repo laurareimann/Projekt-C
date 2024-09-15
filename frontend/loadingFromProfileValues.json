@@ -1,6 +1,8 @@
 {
-  "AddressLatToSend": 47.6205063,
-  "AddressLngToSend": -122.3492774,
-  "ShouldLoadBoold": false,
-  "AddressToSend": "400 Broad St, Seattle, WA 98109, USA"
+  "currentAddressLat": 53.5688823,
+  "currentAddressLng": 10.0330191,
+  "ShouldLoadBool": false,
+  "currentAddress": "Finkenau 35",
+  "currentAddressCity": "Hamburg",
+  "currentAddressZip": "22081"
 }

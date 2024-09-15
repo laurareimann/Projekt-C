@@ -46,14 +46,14 @@ const ContainerContentWrapper = styled.div`
 
     `
 
-function ProfileHistoryContainer({hasOutline = true , street ="",  color = "pink", buttonText = "View results",savedAs="",onClick = ()=>{}}) {
+function ProfileHistoryContainer({hasOutline = true ,city = "", street ="",  color = "pink", zip="", buttonText = "View results",savedAs="",onClick = ()=>{}}) {
     
 
     return (
         <StyledContainer color={color} hasOutline={hasOutline}>
             <ContainerContentWrapper>
                 <h3>{savedAs}</h3>
-                <Address color={color} street={street} zip="" city=''></Address>
+                <Address color={color} street={street} zip={zip} city={city}></Address>
                 <Button onClick={onClick} color={color}>{buttonText}</Button>
             </ContainerContentWrapper>
         </StyledContainer>

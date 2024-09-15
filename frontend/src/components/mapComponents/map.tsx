@@ -15,7 +15,7 @@ import walkingIcon from "../../assets/white_walking.svg";
 import bikeIcon from "../../assets/white_bike.svg";
 import carIcon from "../../assets/white_car1.svg";
 import transitIcon from "../../assets/white_tram.svg";
-import { useScore } from "./StreetProvider";
+import { useCityNew, useScore, useStreetNameNew, useZipCodeNew } from "./StreetProvider";
 import axios from "axios";
 import FilterOverlay from "../filterComponents/FilterOverlay";
 import { Bounce, toast } from "react-toastify";
@@ -86,6 +86,8 @@ let checkForLoadFlag:boolean;
 let addressToLoad:string = "";
 let addressToLoadLat:number;
 let addressToLoadLng:number;
+let addressCityToLoad:string = "";
+let addressZipToLoad:string = "";
 let altCenter:google.maps.LatLngLiteral;
 let finalCenter:google.maps.LatLngLiteral;
 
@@ -412,6 +414,12 @@ async function checkForLoadFromProfileFunc(){
       
       addressToLoadLng = formattedCheckArray.AddressLngToSend;
       console.log("Should the map be redirected: " + checkForLoadFlag)  
+
+      addressZipToLoad = formattedCheckArray.ZipToSend;
+
+      addressCityToLoad = formattedCheckArray.CityToSend;
+
+
     }
 
     altCenter = {lat:addressToLoadLat,lng:addressToLoadLng};
@@ -420,7 +428,8 @@ async function checkForLoadFromProfileFunc(){
 
     if(checkForLoadFlag == true){
       
-      finalCenter = altCenter
+      finalCenter = altCenter;
+      
       
     }else{
       finalCenter={lat: 53.5688823, lng: 10.0330191 }
@@ -467,6 +476,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   //Kontextvariablen
   const updateScore = useScore().setScore;
+  const updateStreet = useStreetNameNew().setStreet;
+  const updateZipCode = useZipCodeNew().setZipCode;
+  const updateCity = useCityNew().setCity;
 
   //Check für den redirect vom Profil aus
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -589,6 +601,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     updateCheck = false;
     
     },1000);
+    updateCity(addressCityToLoad);
+    updateStreet(addressToLoad);
+    updateZipCode(addressZipToLoad);
+
     checkForLoadFlag = false;
   }
 
@@ -1236,22 +1252,20 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   }
 
-  async function saveSearch(spotLiterals:LatLngLiteral,addressParam:string){
+  async function saveSearch(spotLiterals:LatLngLiteral){
     //To-Do implement here
     console.log("Implement save here");
 
     const currentSpotLat=spotLiterals.lat;
     const currentSpotLng=spotLiterals.lng;
-    const fullAdress=tempStartName;
     const tempName:string = "testThis";
 
     console.log(currentSpotLat)
     console.log(currentSpotLng)
-    console.log(fullAdress)
 
     try{
       await axios.post("http://localhost:8080/saveSearchForLater",{
-        currentUser,currentSpotLat,currentSpotLng,tempName,fullAdress
+        currentUser,currentSpotLat,currentSpotLng,tempName
       })
       .then((res:{data:string})=>{
         if(res.data==="save successful"){
@@ -1393,7 +1407,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         <PriorityGrid>
           {currentUser && spot &&
           <StyledButton onClick={()=>{
-            saveSearch(spot!,currentUser);
+            saveSearch(spot!);
             throwToast("Address saved!");
               }}>Save Address</StyledButton>
           }

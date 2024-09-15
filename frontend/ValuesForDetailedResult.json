@@ -1,30 +1,30 @@
 {
-  "currentScoreValue": 16,
+  "currentScoreValue": 4,
   "currentStartingSpot": [
-    47.6205063,
-    -122.3492774
+    53.5688823,
+    10.0330191
   ],
   "currentClosestGrocery": [
-    47.6183573,
-    -122.3380162
+    53.5628821,
+    10.0335561
   ],
   "currentClosestHealth": [
-    47.6264966,
-    -122.3297588
+    53.5694671,
+    10.0288
   ],
   "currentClosestTransit": [
-    47.6212828,
-    -122.3497545
+    53.567127,
+    10.030884
   ],
-  "currentTravelMode": "walking",
-  "currentGroceryDuration": 14,
-  "currentHealthDuration": 30,
-  "currentTransitDuration": 2,
-  "currentStartAddress": "400 Broad St, Seattle, WA 98109, USA",
-  "currentClosestGroceryAddress": "2210 Westlake Ave, Seattle, WA 98121, USA",
-  "currentClosestHealthAddress": "825 Eastlake Ave E, Seattle, WA 98109, USA",
-  "currentClosestTransitAddress": "Seattle Center Monorail, 370 Thomas St, Seattle, WA 98109, USA",
-  "currentClosestGroceryName": "Whole Foods Market",
-  "currentClosestHealthName": "Justin L. Speyer",
-  "currentClosestTransitName": "Seattle Center Monorail"
+  "currentTravelMode": "bicycle",
+  "currentGroceryDuration": 5,
+  "currentHealthDuration": 4,
+  "currentTransitDuration": 3,
+  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Germany",
+  "currentClosestGroceryAddress": "Lübecker Str. 116-124, 22087 Hamburg, Germany",
+  "currentClosestHealthAddress": "Lerchenfeld 14, 22081 Hamburg, Germany",
+  "currentClosestTransitAddress": "Uferstraße, 22081 Hamburg, Germany",
+  "currentClosestGroceryName": "ALDI Nord",
+  "currentClosestHealthName": "Dr. med. Christian Schindler",
+  "currentClosestTransitName": "Uferstraße"
 }
