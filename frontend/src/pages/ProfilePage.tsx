@@ -166,6 +166,7 @@ async function FetchSaved() {
         savedArray = res.data;
         savedArrayForHTML = JSON.parse(savedArray);
         savedArrayForHTML.reverse();
+        console.log(savedArrayForHTML);
         if(savedArrayForHTML.length > 20){
           savedArrayForHTML = savedArrayForHTML.slice(0,19);
         }

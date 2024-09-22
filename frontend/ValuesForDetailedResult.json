@@ -1,30 +1,30 @@
 {
-  "currentScoreValue": 16,
+  "currentScoreValue": 11,
   "currentStartingSpot": [
-    53.5413305,
-    9.9844647
+    53.5688823,
+    10.0330191
   ],
   "currentClosestGrocery": [
-    53.55345819999999,
-    9.988807699999999
+    53.5628821,
+    10.0335561
   ],
   "currentClosestHealth": [
-    53.54935649999999,
-    9.980366900000002
+    53.5694671,
+    10.0288
   ],
   "currentClosestTransit": [
-    53.542809,
-    9.985572
+    53.567127,
+    10.030884
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 26,
-  "currentHealthDuration": 19,
-  "currentTransitDuration": 4,
-  "currentStartAddress": "Platz d. Deutschen Einheit 4, 20457 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Große Bleichen 30, 20354 Hamburg, Germany",
-  "currentClosestHealthAddress": "Ludwig-Erhard-Straße 18, 20459 Hamburg, Germany",
-  "currentClosestTransitAddress": "Am Kaiserkai (Elbphilharmonie), 20457 Hamburg, Germany",
-  "currentClosestGroceryName": "EDEKA Schlemmer Markt STRUVE",
-  "currentClosestHealthName": "Rückenzentrum Am Michel - Hamburg",
-  "currentClosestTransitName": "Am Kaiserkai (Elbphilharmonie)"
+  "currentGroceryDuration": 14,
+  "currentHealthDuration": 11,
+  "currentTransitDuration": 8,
+  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Germany",
+  "currentClosestGroceryAddress": "Lübecker Str. 116-124, 22087 Hamburg, Germany",
+  "currentClosestHealthAddress": "Lerchenfeld 14, 22081 Hamburg, Germany",
+  "currentClosestTransitAddress": "Uferstraße, 22081 Hamburg, Germany",
+  "currentClosestGroceryName": "ALDI Nord",
+  "currentClosestHealthName": "Dr. med. Christian Schindler",
+  "currentClosestTransitName": "Uferstraße"
 }

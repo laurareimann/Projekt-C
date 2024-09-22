@@ -193,9 +193,10 @@ export default function Places({ setSpot }: PlacesProps) {
     }
       address = tmpStreetName + " " + tmpStreetNumber;
       console.log("The address to save is: " + address);
+      let tmpName:string = "temporary";
     try{
        axios.post("http://localhost:8080/saveAddress",{
-        lat,lng,address,currentUser,tmpZipCode,tmpCityName
+        lat,lng,address,currentUser,tmpZipCode,tmpCityName,tmpName
       })
       console.log("Adding address to database");
     }catch(e){

@@ -41,7 +41,7 @@ app.use(express.urlencoded({extended:false}));
 app.post("/saveSearchForLater",async(req,res)=>{
 
   const data = {
-    tempName:req.body.tempName,
+    savedName:req.body.nameToSave,
     whoSavedData:req.body.currentUser,
     SpotLat:req.body.currentSpotLat,
     SpotLng:req.body.currentSpotLng,
@@ -54,7 +54,8 @@ app.post("/saveSearchForLater",async(req,res)=>{
     try{
 
     const updateDecision = {
-      shouldBeSaved: decidedString
+      shouldBeSaved: decidedString,
+      savedName:data.savedName
     }
 
     const update = await AddressModel.findOneAndUpdate({
@@ -228,7 +229,8 @@ app.post("/saveAddress", async(req,res) => {
     Address:req.body.address,
     currentUser:req.body.currentUser,
     AddressZip:req.body.tmpZipCode,
-    AddressCity:req.body.tmpCityName
+    AddressCity:req.body.tmpCityName,
+    savedName:req.body.tmpName
   }
 
   const initialDecisionString:string = "Deciding";
@@ -243,6 +245,8 @@ try{
     shouldBeSaved:dontSaveString
   }
 
+  const tempSaveName:string = "";
+
   const setPossiblePriorResult = await AddressModel.findOneAndUpdate({
     "shouldBeSaved":initialDecisionString,whoSaved:data.currentUser},denySave)
 
@@ -256,7 +260,8 @@ try{
     whoSaved:data.currentUser,
     addressCity:data.AddressCity,
     addressZip:data.AddressZip,
-    shouldBeSaved:initialDecisionString
+    shouldBeSaved:initialDecisionString,
+    savedName:data.savedName
     })
 
   testAdress.save();

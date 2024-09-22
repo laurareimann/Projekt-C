@@ -73,7 +73,6 @@ let tempCurrentScore: number = 42;
 let tempCurrentTravelMode: string = "walking";
 let tempStartName:string;
 
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let redirectCheckArray:any =[];
 let checkForLoadFlag:boolean;
@@ -86,19 +85,19 @@ let altCenter:google.maps.LatLngLiteral;
 let finalCenter:google.maps.LatLngLiteral;
 
   //Temporöre Variablen zu Kontextvariablen
-  const tempGroceryArray:Array<number>=[0.2,0.1];
-  const tempHealthArray:Array<number>=[1.3,4.2];
-  const tempTransitArray:Array<number>=[5.2,2.5];
-  let tempHealthDuration:number = 42;
-  let tempGroceryDuration:number = 42;
-  let tempTransitDuration:number = 42;
-  let tempClosestGroceryAddress:string;
-  let tempClosestHealthAddress:string;
-  let tempClosestTransitAddress:string;
-  let tempClosestGroceryName:string;
-  let tempClosestHealthName:string;
-  let tempClosestTransitName:string;
-  const tempSearchResultArray:Array<number>=[1.2,3.4];
+const tempGroceryArray:Array<number>=[0.2,0.1];
+const tempHealthArray:Array<number>=[1.3,4.2];
+const tempTransitArray:Array<number>=[5.2,2.5];
+let tempHealthDuration:number = 42;
+let tempGroceryDuration:number = 42;
+let tempTransitDuration:number = 42;
+let tempClosestGroceryAddress:string;
+let tempClosestHealthAddress:string;
+let tempClosestTransitAddress:string;
+let tempClosestGroceryName:string;
+let tempClosestHealthName:string;
+let tempClosestTransitName:string;
+const tempSearchResultArray:Array<number>=[1.2,3.4];
 
   const throwToast = (errorMessage: string) => {
     toast.info(errorMessage, {
@@ -215,6 +214,23 @@ width: fit-content;
 grid-template-columns: 1fr 1fr 1fr 1fr;
 margin-bottom: 5px;
 `
+const SaveButtonGrid = styled.div`
+display: grid;
+grid-gap: 25%;
+width: 10%;
+grid-template-columns: 1fr 1fr;
+margin-bottom: 5px;
+margin-right: 20%;
+
+@media (max-width: 768px) {
+  grid-gap: 25%;
+  width: 25%;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 5px;
+  margin-right: 33%;
+}
+
+`
 
 const MapAndPrioGrid = styled.div`
 display: grid;
@@ -329,25 +345,40 @@ interface InputProps {
 }
 
 const LoginContainer = styled.div`
-    width:500px;
+    margin-bottom: 10%;
+    margin-left: 0%;
+    background-color: white;
+    width:25%;
+    height:20%;
+    position: absolute;
     border: 8px solid var(--color--pink-1);
     border-radius: 20px;
     padding: 40px;
     display: flex;
     flex-direction: column;
-    grid-gap: 32px;
+    grid-gap: 25px;
     align-items: center;
+    z-index: 10;
 
     @media (max-width: 768px) {
-        border: none;
-        height: 100%;
-        width:100%;
+        border-color: var(--color--pink-1);
+        height: 25%;
+        width:75%;
         justify-content: center;
     }
 `
-
-
-
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
 
 interface InputProps {
   $isValid?: boolean; //wird irrelevant sobald regex funktioniert
@@ -449,7 +480,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const [spot, setSpot] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
   const directService = new google.maps.DirectionsService();
-  
+  const [countHelper,setHelpCounter] = useState(0);
+  const [promptText,setPromptText] = useState("");
 
   //Variablen zur Score-Berechnung 
   const [selectedMarker, setSelectedMarker] = useState<MarkerWindow | null>()
@@ -465,6 +497,11 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const updateStreet = useStreetNameNew().setStreet;
   const updateZipCode = useZipCodeNew().setZipCode;
   const updateCity = useCityNew().setCity;
+
+  //Speicherung der derzeitigen Suche
+  const [saveCurrentResultName,setCurrentResultName] = useState('');
+  const [inputWindowOpenReact,setInputWindowOpen] = useState(false);
+  
 
   //Check für den redirect vom Profil aus
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1228,7 +1265,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   }
 
-  async function saveSearch(spotLiterals:LatLngLiteral){
+  async function saveSearch(spotLiterals:LatLngLiteral,nameToSave:string){
     //To-Do implement here
     console.log("Implement save here");
 
@@ -1241,7 +1278,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
     try{
       await axios.post("http://localhost:8080/saveSearchForLater",{
-        currentUser,currentSpotLat,currentSpotLng,tempName
+        currentUser,currentSpotLat,currentSpotLng,nameToSave
       })
       .then((res:{data:string})=>{
         if(res.data==="save successful"){
@@ -1307,6 +1344,29 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         <StyledButton color={BicycleButtonString} onClick={() => { setCurrentTravelMode("bicycle"); if (InitialCalculationDone == true) { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "bicycle") } }}><img src={bikeIcon} alt="bike Icon" style={{ width: "30px", height: "30px" }} /></StyledButton>
       </ButtonGrid>
 
+      {inputWindowOpenReact && <Overlay>
+      <LoginContainer>
+          <h3>Enter a name</h3> 
+          <InputWrapper>
+          <StyledInput placeholder={saveCurrentResultName} onChange={(e)=>{setCurrentResultName(e.target.value)}}></StyledInput>
+          </InputWrapper>
+          <SaveButtonGrid>
+            <StyledButton onClick={()=>{
+              console.log(saveCurrentResultName)
+              setInputWindowOpen(!inputWindowOpenReact);
+              saveSearch(spot!,saveCurrentResultName)
+              throwToast("Address saved!");
+              
+            }}>Save</StyledButton>
+            <StyledButton onClick={()=>{
+              setInputWindowOpen(!inputWindowOpenReact);
+              
+              }}>Close</StyledButton>
+          </SaveButtonGrid>
+          </LoginContainer>
+          
+          </Overlay>}
+
       <MapAndPrioGrid>
         <div></div> {/* Empty div for left column of MapAndPrioGrid */}
 
@@ -1370,13 +1430,19 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           )}
         </GoogleMap>
 
+       
+
+
         <PriorityGrid>
           {currentUser && spot &&
           <StyledButton onClick={()=>{
-            saveSearch(spot!);
-            throwToast("Address saved!");
-              }}>Save Address</StyledButton>
-          }
+            console.log(saveCurrentResultName);
+          setInputWindowOpen(!inputWindowOpenReact);
+            //saveSearch(spot!);
+            
+              }}>Click to save address</StyledButton>
+          }    
+      
           <StyledPrioButton color={GroceryButtonString} onClick={() => {
             setPriorityButton("Groceries");
             setGroceriesPriority(!isGroceriesPriority);
@@ -1409,6 +1475,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
             }
           }}>Prioritise transit stations</StyledPrioButton>
+          
         </PriorityGrid>
       </MapAndPrioGrid>
     </div>
