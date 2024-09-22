@@ -29,14 +29,8 @@ let placesMapV2: google.maps.Map;
 let service: google.maps.places.PlacesService;
 let infowindow: google.maps.InfoWindow;
 let setupCheck: boolean = false;
-let updateCheck: boolean = false;
 //Arrays in denen die NearbySearch-Ergebnisse gespeichert werden
 //Supermärkte,Läden et cetera
-const currentCategory1: Array<google.maps.LatLngLiteral> = []
-//Gesundheitswesen
-const currentCategory2: Array<google.maps.LatLngLiteral> = []
-//Öffentliche Verkehrsmittel(for now)
-const currentCategory3: Array<google.maps.LatLngLiteral> = []
 
 interface MarkerWindow {
   id: number
@@ -449,13 +443,6 @@ checkForLoadFromProfileFunc();
 
 export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750], circleColors = defaultColors }) {
 
-
-  const [helpCounter, setHelpCounter] = useState(0);
-
-  
-
- 
-
   //Wenn die map initialisiert wird, ist der default spot auf der HAW Finkenau
   const center = useMemo<LatLngLiteral>(() => ({lat:finalCenter.lat,lng:finalCenter.lng}), []);
   const [directions, setDirections] = useState<DirectionsResult>();
@@ -463,7 +450,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const mapRef = useRef<GoogleMap>();
   const directService = new google.maps.DirectionsService();
   
- 
 
   //Variablen zur Score-Berechnung 
   const [selectedMarker, setSelectedMarker] = useState<MarkerWindow | null>()
@@ -502,10 +488,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       zoom: 15
     }), [defaultCenter]
   )
-
-
-  
-
 
   //Funktion, um Json-File zu updaten
   async function UpdateJson() {
@@ -597,8 +579,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       setSpot(finalCenter);
       calculateScorePrototype(finalCenter, travelMode);
     }, 1500);
-    //Die flag der updateMarkers()-Funktion auf falsch stellen
-    updateCheck = false;
     
     },1000);
     updateCity(addressCityToLoad);
@@ -734,11 +714,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   console.log(shouldRenderCircles);
 
   //Kleine Helferfunktion. Inkrementiert eine Variable, damit sich die Karte aktualisiert. Werde noch testen, ob diese am Ende vonnöten ist oder nicht
-  function updateMarkers() {
-    if (updateCheck == false) {
-      setHelpCounter(helpCounter + 1);
-    }
-  }
+  
 
   const selectRouteFromMarker = (spotLiterals: LatLngLiteral, travelModeParam: string) => {
     if (!spot) return;
@@ -1278,8 +1254,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   }
 
-  
-
   return (
     <div>
       <Searchbar>
@@ -1291,12 +1265,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             setDirections(undefined);
             const lat: number = position.lat;
             const lng: number = position.lng;
-
-            //Die Arrays leeren
-            currentCategory1.splice(0, currentCategory1.length);
-            currentCategory2.splice(0, currentCategory2.length);
-            currentCategory3.splice(0, currentCategory3.length);
-            //"Neue" arrays
+            //Arrays leeren
             markersWithInfoTransit.splice(0, markersWithInfoTransit.length)
             markersWithInfoGroceries.splice(0, markersWithInfoGroceries.length)
             markersWithInfoHealth.splice(0, markersWithInfoHealth.length)
@@ -1326,9 +1295,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               mapRef.current?.panTo(position)
               calculateScorePrototype(position, travelMode);
             }, 2000);
-            //Die flag der updateMarkers()-Funktion auf falsch stellen
-            updateCheck = false;
-          
           }} />
         </ControlContainer>
         <FilterOverlay />
@@ -1350,7 +1316,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           options={options}
           onLoad={onLoad}
           onCenterChanged={() => {
-            updateMarkers();
+            
           }}
         >
         //Anzeige der Route(n)
@@ -1448,25 +1414,3 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     </div>
   )
 }
-
-const defaultOptions = {
-  strokeOpacity: 0.5,
-  strokeWeight: 2,
-  clickable: false,
-  draggable: false,
-  editable: false,
-  visible: true,
-};
-
-
-const generateHouses = (position: LatLngLiteral) => {
-  const _houses: Array<LatLngLiteral> = [];
-  for (let i = 0; i < 100; i++) {
-    const direction = Math.random() < 0.5 ? -2 : 2;
-    _houses.push({
-      lat: position.lat + Math.random() / direction,
-      lng: position.lng + Math.random() / direction,
-    });
-  }
-  return _houses;
-};

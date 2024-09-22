@@ -1,8 +1,8 @@
 {
-  "currentAddressLat": 53.5688823,
-  "currentAddressLng": 10.0330191,
+  "currentAddressLat": 48.2187966,
+  "currentAddressLng": 11.6247074,
   "ShouldLoadBool": false,
-  "currentAddress": "Finkenau 35",
-  "currentAddressCity": "Hamburg",
-  "currentAddressZip": "22081"
+  "currentAddress": "Werner-Heisenberg-Allee 25",
+  "currentAddressCity": "München",
+  "currentAddressZip": "80939"
 }
