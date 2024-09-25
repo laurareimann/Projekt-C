@@ -83,6 +83,8 @@ let addressCityToLoad:string = "";
 let addressZipToLoad:string = "";
 let altCenter:google.maps.LatLngLiteral;
 let finalCenter:google.maps.LatLngLiteral;
+let canInputWindowBeClosedNotReact:boolean = false;
+let isSaveButtonDisabled:boolean = true;
 
   //Temporöre Variablen zu Kontextvariablen
 const tempGroceryArray:Array<number>=[0.2,0.1];
@@ -99,7 +101,7 @@ let tempClosestHealthName:string;
 let tempClosestTransitName:string;
 const tempSearchResultArray:Array<number>=[1.2,3.4];
 
-  const throwToast = (errorMessage: string) => {
+  const throwInfo = (errorMessage: string) => {
     toast.info(errorMessage, {
         position: "top-center",
         autoClose: 5000,
@@ -112,6 +114,21 @@ const tempSearchResultArray:Array<number>=[1.2,3.4];
         transition: Bounce,
     });
 }
+
+const throwError = (errorMessage: string) => {
+  toast.error(errorMessage, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+  });
+}
+
 
 const StyledButton = styled.button`
     background-color: ${({ color, disabled }) =>
@@ -216,18 +233,17 @@ margin-bottom: 5px;
 `
 const SaveButtonGrid = styled.div`
 display: grid;
-grid-gap: 25%;
-width: 10%;
+grid-gap: 10%;
+
 grid-template-columns: 1fr 1fr;
 margin-bottom: 5px;
-margin-right: 20%;
+align-items: center;
 
 @media (max-width: 768px) {
-  grid-gap: 25%;
-  width: 25%;
+  align-items: center;
+  grid-gap: 1%;
   grid-template-columns: 1fr 1fr;
   margin-bottom: 5px;
-  margin-right: 33%;
 }
 
 `
@@ -349,7 +365,7 @@ const LoginContainer = styled.div`
     margin-left: 0%;
     background-color: white;
     width:25%;
-    height:20%;
+    height:fit-content;
     position: absolute;
     border: 8px solid var(--color--pink-1);
     border-radius: 20px;
@@ -362,7 +378,7 @@ const LoginContainer = styled.div`
 
     @media (max-width: 768px) {
         border-color: var(--color--pink-1);
-        height: 25%;
+        height: 30%;
         width:75%;
         justify-content: center;
     }
@@ -501,6 +517,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   //Speicherung der derzeitigen Suche
   const [saveCurrentResultName,setCurrentResultName] = useState('');
   const [inputWindowOpenReact,setInputWindowOpen] = useState(false);
+  const [canInputWindowBeClosed,setCanInfoWindowBeClosed] = useState(false);
   
 
   //Check für den redirect vom Profil aus
@@ -1268,7 +1285,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   async function saveSearch(spotLiterals:LatLngLiteral,nameToSave:string){
     //To-Do implement here
     console.log("Implement save here");
-
+    setCanInfoWindowBeClosed(false);
+    canInputWindowBeClosedNotReact = false;
     const currentSpotLat=spotLiterals.lat;
     const currentSpotLng=spotLiterals.lng;
     const tempName:string = "testThis";
@@ -1283,6 +1301,11 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       .then((res:{data:string})=>{
         if(res.data==="save successful"){
           console.log("Adress was successfully saved");
+          setCanInfoWindowBeClosed(true);
+          canInputWindowBeClosedNotReact = true;
+        }
+        if(res.data==="Name already exists"){
+          throwError("Name is already taken")
         }
       })
     }catch(e){
@@ -1331,6 +1354,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               setSpot(position);
               mapRef.current?.panTo(position)
               calculateScorePrototype(position, travelMode);
+              isSaveButtonDisabled = false;
             }, 2000);
           }} />
         </ControlContainer>
@@ -1346,17 +1370,29 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
       {inputWindowOpenReact && <Overlay>
       <LoginContainer>
-          <h3>Enter a name</h3> 
+          <h3>Enter a name under 18 letters</h3> 
           <InputWrapper>
           <StyledInput placeholder={saveCurrentResultName} onChange={(e)=>{setCurrentResultName(e.target.value)}}></StyledInput>
           </InputWrapper>
           <SaveButtonGrid>
             <StyledButton onClick={()=>{
               console.log(saveCurrentResultName)
-              setInputWindowOpen(!inputWindowOpenReact);
-              saveSearch(spot!,saveCurrentResultName)
-              throwToast("Address saved!");
               
+              if(saveCurrentResultName.length <= 18){
+              console.log(saveCurrentResultName);
+              saveSearch(spot!,saveCurrentResultName)
+              setTimeout(() => {
+                console.log("Input window can be closed: " + canInputWindowBeClosedNotReact)
+                if(canInputWindowBeClosedNotReact == true){
+                  setInputWindowOpen(!inputWindowOpenReact);
+                  throwInfo("Address saved!")
+                  isSaveButtonDisabled = true;
+                }
+              },750);
+              }
+              else{
+                throwError("Name is too long");
+              }
             }}>Save</StyledButton>
             <StyledButton onClick={()=>{
               setInputWindowOpen(!inputWindowOpenReact);
@@ -1434,13 +1470,11 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
 
         <PriorityGrid>
-          {currentUser && spot &&
-          <StyledButton onClick={()=>{
+          {currentUser &&
+          <StyledButton disabled={isSaveButtonDisabled} onClick={()=>{
             console.log(saveCurrentResultName);
-          setInputWindowOpen(!inputWindowOpenReact);
-            //saveSearch(spot!);
-            
-              }}>Click to save address</StyledButton>
+            setInputWindowOpen(!inputWindowOpenReact);}}
+            >Click to save address</StyledButton>
           }    
       
           <StyledPrioButton color={GroceryButtonString} onClick={() => {

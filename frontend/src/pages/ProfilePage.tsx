@@ -6,6 +6,9 @@ import ProfileHistoryContainer from '../components/ProfileHistoryContainer';
 import React, { useState, useEffect } from "react";
 import Button from '../components/buttons/Buttons';
 import axios from 'axios';
+import trash_bin from "../assets/trash_bin.svg";
+import Address from '../components/Address';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -29,6 +32,98 @@ const ProfilePic = styled.a`
 
 `;
 
+const ContainerContentWrapper = styled.div`
+    display:flex;
+    flex-direction: column;
+    gap: 2%;
+    align-items: center;
+    text-align: -webkit-center;
+    padding: 2%;
+`
+const SavedText = styled.p`
+
+`
+
+const StyledContainer = styled.div <{ hasOutline: boolean; color: string;}>`
+    margin: 0;
+    display: inline-block;
+    height:100%;
+    width:100%;
+    box-sizing: border-box;
+    border-radius: 26px;
+    align-content: center;
+    justify-content: center;
+    box-shadow: 0px 0px 18px rgba(255, 255, 255, 0.5);
+    color: ${({ color }) =>
+        (color === "blue" ? "var(--color--blue-5)" :
+            (color === "green" ? "var(--color--green-5)" :
+                "var(--color--pink-5)"))};
+    
+    background-color: ${({ hasOutline, color }) =>
+        hasOutline ? "var(--color--white-shade)" :
+            (color === "blue" ? "var(--color--blue-1)" :
+                (color === "green" ? "var(--color--green-1)" :
+                    "var(--color--pink-1)"))};
+
+    border: ${({ hasOutline, color }) =>
+        hasOutline ? (color === "blue" ? "var(--color--blue-3) 3px solid" :
+            (color === "green" ? "var(--color--green-3) 3px solid" :
+                "var(--color--pink-3) 3px solid")) :
+            "none"};
+
+    @media(max-width:426px) {
+      height:100%;
+      
+    }
+`;
+
+const StyledButton = styled.button`
+    background-color: ${({ color, disabled }) =>
+    disabled
+      ? color === "blue" ? "var(--color--blue-1)"
+        : color === "green" ? "var(--color--green-1)"
+          : "var(--color--pink-1)"
+      : color === "blue" ? "var(--color--blue-4)"
+        : color === "green" ? "var(--color--green-3)"
+          : color === "darkPink" ? "var(--color--pink-5)"
+            : "var(--color--pink-3)"
+
+  };
+    color: ${({ color, disabled }) =>
+    disabled
+      ? color === "blue" ? "var(--color--blue-3)"
+        : color === "green" ? "var(--color--green-4)"
+          : "var(--color--pink-4)"
+      : "white"
+  };
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 8px;
+    width: fit-content;
+    border: none;
+    border-radius: 30px;
+    height:100%;
+    text-transform: uppercase;
+    cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
+    transition: background-color 0.3s, opacity 0.3s;
+
+    &:not(:disabled):hover {
+        background-color: ${({ color }) =>
+    color === "blue" ? "var(--color--blue-5)" :
+      color === "green" ? "var(--color--green-5)" :
+        "var(--color--pink-4)"};
+    }
+`;
+
+const ContainerButtonGrid = styled.div`
+    display:grid;
+    grid-template-columns: 76% 1%;
+    align-items: center;
+    grid-gap: 2%;
+    margin-bottom:2% ;
+`
 
 
 const getCookie = (name: string) => {
@@ -101,7 +196,7 @@ const ResultItem = styled.li`
       justify-self: center;
       align-items: center;
       width: 250px;
-      height: 240px;
+      height: 250px;
       
       
   &:hover{
@@ -110,7 +205,7 @@ const ResultItem = styled.li`
 
   @media (max-width:425px) {
     display: inline-block;
-    height:150px;
+    height:97%;
   }
 `
 
@@ -144,7 +239,7 @@ async function FetchHistory() {
       historyArrayForHTML = JSON.parse(historyArray);
       historyArrayForHTML.reverse();
       if (historyArrayForHTML.length > 20) {
-        historyArrayForHTML = historyArrayForHTML.slice(0, 19)
+        historyArrayForHTML = historyArrayForHTML.slice(0, 20)
       }
     })
 
@@ -168,7 +263,8 @@ async function FetchSaved() {
         savedArrayForHTML.reverse();
         console.log(savedArrayForHTML);
         if(savedArrayForHTML.length > 20){
-          savedArrayForHTML = savedArrayForHTML.slice(0,19);
+          //Eventuelles Abkürzen der saved list
+          //savedArrayForHTML = savedArrayForHTML.slice(0,20);
         }
       })
 
@@ -213,7 +309,26 @@ async function loadSearch(addressParam: string, addressLatParam: number, address
   }
 }
 
+async function deleteOneSearch(searchName:string,userName:string){
+  console.log("attempting to delete selected search");
 
+  const nameOfUserParam:string = userName;
+  const nameOfSearchParam:string = searchName;
+
+  try{
+    await axios.get("http://localhost:8080/deleteSearch",{
+      params: { nameOfUser:nameOfUserParam, nameOfSearch:nameOfSearchParam}
+    }).then((res:{data:string})=>{
+      if(res.data === "search successfully deleted"){
+        console.log("Search was deleted successfully");
+        //window.location.reload();
+      }
+    })
+  }catch(e){
+    console.log(e);
+  }
+
+}
 
 
 FetchHistory();
@@ -224,6 +339,8 @@ function ProfilePage() {
 
   const [openHistory, setOpenHistory] = useState(false);
   const [openSaved, setOpenSaved] = useState(false);
+
+  const navigate = useNavigate();
 
   return (
     <PageContainer>
@@ -253,11 +370,20 @@ function ProfilePage() {
                 addressCity:string
               }, index: React.Key | null | undefined) => (
                 <ResultItem key={index}>
-                  <ProfileHistoryContainer city={search.addressCity} zip={search.addressZip} hasOutline={true} buttonText="Review search" street={search.addressFull} onClick={() => {
-                    loadSearch(search.addressFull, search.googleMapsLat, search.googleMapsLng,search.addressZip,search.addressCity);
-                  }} savedAs={search.savedName}>
-
-                  </ProfileHistoryContainer>
+                  <StyledContainer color="pink" hasOutline={true}>
+            <ContainerContentWrapper>
+            <h3>{search.savedName}</h3>
+                <Address color="pink" street={search.addressFull} zip={search.addressZip} city={search.addressCity}></Address>
+                <ContainerButtonGrid>
+                <StyledButton onClick={()=>{
+                  loadSearch(search.addressFull, search.googleMapsLat, search.googleMapsLng,search.addressCity,search.addressZip);
+                }} color="pink">review search</StyledButton>
+                <StyledButton> <img src={trash_bin} alt="Trash" style={{ width: "30px", height: "30px" }} onClick={()=>{
+                  deleteOneSearch(search.savedName,search.whoSaved); navigate(0)
+                }}/></StyledButton>
+                </ContainerButtonGrid>
+            </ContainerContentWrapper>
+        </StyledContainer>
                 </ResultItem>
               ))}
             </ResultList>
