@@ -174,8 +174,7 @@ function HeaderDesktop() {
           <span>Quiz</span>
         </NavItem>
         <NavItem href="/about-us">
-          <img src={aboutUsIcon} alt="About Us" onClick={() => {
-            deleteCookie(currentUser)}} />
+          <img src={aboutUsIcon} alt="About Us" />
           <span>About Us</span>
         </NavItem>
         <NavItem href="/evaluation">

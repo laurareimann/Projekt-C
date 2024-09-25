@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-
 // Warum beschwert er sich hier über fast refresh aber bei anderen nicht? Pls explain
 const LegendContainer = styled.div`
   position: absolute;

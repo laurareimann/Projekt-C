@@ -110,6 +110,7 @@ const ResultItem = styled.li`
 
   @media (max-width:425px) {
     display: inline-block;
+    height:150px;
   }
 `
 
@@ -142,8 +143,8 @@ async function FetchHistory() {
       historyArray = res.data;
       historyArrayForHTML = JSON.parse(historyArray);
       historyArrayForHTML.reverse();
-      if (historyArrayForHTML.length > 12) {
-        historyArrayForHTML = historyArrayForHTML.slice(0, 11)
+      if (historyArrayForHTML.length > 20) {
+        historyArrayForHTML = historyArrayForHTML.slice(0, 19)
       }
     })
 
@@ -164,6 +165,11 @@ async function FetchSaved() {
       { params: { currentUserParam: currentUser } }).then((res: { data: string }) => {
         savedArray = res.data;
         savedArrayForHTML = JSON.parse(savedArray);
+        savedArrayForHTML.reverse();
+        console.log(savedArrayForHTML);
+        if(savedArrayForHTML.length > 20){
+          savedArrayForHTML = savedArrayForHTML.slice(0,19);
+        }
       })
 
     if (savedArrayForHTML.length > 20) {
@@ -178,20 +184,22 @@ async function FetchSaved() {
 
 //Von Profilseite zu map.tsx und Suche laden
 //Eventuell muss dies in map.tsx selbst geschehen
-async function loadSearch(addressParam: string, addressLatParam: number, addressLngParam: number) {
+async function loadSearch(addressParam: string, addressLatParam: number, addressLngParam: number,addressCityParam:string,addressZipParam:string) {
 
   console.log("Attempting load from profile");
 
   const addressToLoad = addressParam;
   const addressLat = addressLatParam;
   const addressLng = addressLngParam;
+  const addressCity = addressCityParam;
+  const addressZip = addressZipParam;
   const shouldLoadBool: boolean = true;
 
   console.log(addressLat);
 
   try {
     await axios.post("http://localhost:8080/prepareLoadFromProfile", {
-      addressToLoad, shouldLoadBool, addressLat, addressLng
+      addressToLoad, shouldLoadBool, addressLat, addressLng,addressZip,addressCity
     })
       .then((res: { data: string }) => {
         if (res.data === "update successful") {
@@ -236,11 +244,17 @@ function ProfilePage() {
           <div>
             <ResultList>
               {savedArrayForHTML.map((search: {
-                address: string; savedName: string; whoSaved: string, googleMapsLat: number, googleMapsLng: number
+                addressFull: string, 
+                savedName: string, 
+                whoSaved: string, 
+                googleMapsLat: number, 
+                googleMapsLng: number,
+                addressZip:string,
+                addressCity:string
               }, index: React.Key | null | undefined) => (
                 <ResultItem key={index}>
-                  <ProfileHistoryContainer hasOutline={true} buttonText="Review search" street={search.address} onClick={() => {
-                    loadSearch(search.address, search.googleMapsLat, search.googleMapsLng);
+                  <ProfileHistoryContainer city={search.addressCity} zip={search.addressZip} hasOutline={true} buttonText="Review search" street={search.addressFull} onClick={() => {
+                    loadSearch(search.addressFull, search.googleMapsLat, search.googleMapsLng,search.addressZip,search.addressCity);
                   }} savedAs={search.savedName}>
 
                   </ProfileHistoryContainer>
@@ -262,11 +276,11 @@ function ProfilePage() {
           <div>
             <ResultList>
               {historyArrayForHTML.map((search: {
-                address: string; whoSaved: string, savedName: string, googleMapsLat: number, googleMapsLng: number;
+                addressFull: string; addressZip:string, addressCity:string, whoSaved: string, savedName: string, googleMapsLat: number, googleMapsLng: number;
               }, index: React.Key | null | undefined) => (
                 <ResultItem key={index}>
-                  <ProfileHistoryContainer hasOutline={true} buttonText="Review search" street={search.address} onClick={() => {
-                    loadSearch(search.address, search.googleMapsLat, search.googleMapsLng);
+                  <ProfileHistoryContainer hasOutline={true} buttonText="Review search" street={search.addressFull} city={search.addressCity} zip={search.addressZip}onClick={() => {
+                    loadSearch(search.addressFull, search.googleMapsLat, search.googleMapsLng,search.addressCity,search.addressZip);
                   }}></ProfileHistoryContainer>
                 </ResultItem>
               ))}

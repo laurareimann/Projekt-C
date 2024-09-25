@@ -16,7 +16,7 @@ import {
 import "@reach/combobox/styles.css";
 import "../../globals.css";
 import "../Inputforms";
-import {useStreetNameNew,useZipCodeNew,useCityNew,useNearby, useLoadFromProfile} from "./StreetProvider";
+import {useStreetNameNew,useZipCodeNew,useCityNew,useNearby} from "./StreetProvider";
 import {Bounce,toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 import axios from "axios";
@@ -99,18 +99,12 @@ export default function Places({ setSpot }: PlacesProps) {
   let tmpCheckForStreetNumber:boolean;
   let tmpCheckForZipCode:boolean;
   let tmpZipCode:string;
+  let tmpCityName:string;
   let tempPreviewAdress:string;
   tmpZipCode = "";
   tmpCheckForZipCode = false;
   tmpCheckForStreetNumber = false;
-  
-  let goodDuration:number;
-  let okayDuration:number;
-  let badDuration:number;
-
-  goodDuration = 15;
-  okayDuration = 25;
-  badDuration = 35;
+  tmpCityName="";
 
   const {
     ready,
@@ -181,22 +175,28 @@ export default function Places({ setSpot }: PlacesProps) {
           break; 
           case "postal_code":
             updateZipCode(results[0].address_components[i].long_name);
+            tmpZipCode = results[0].address_components[i].long_name;
           break;
           case "route":
             tmpStreetName = results[0].address_components[i].long_name
           break;
           case "locality":
             updateCity(results[0].address_components[i].long_name);
+            tmpCityName = results[0].address_components[i].long_name;
+            console.log(tmpCityName)
+            
           break;
           //Falls wir irgendwann noch das Bundesland brauchen
           case "administrative_area_level_1":
     }
       checkForLoadFlag = false;
     }
-
+      address = tmpStreetName + " " + tmpStreetNumber;
+      console.log("The address to save is: " + address);
+      let tmpName:string = "temporary";
     try{
        axios.post("http://localhost:8080/saveAddress",{
-        lat,lng,address,currentUser
+        lat,lng,address,currentUser,tmpZipCode,tmpCityName,tmpName
       })
       console.log("Adding address to database");
     }catch(e){
