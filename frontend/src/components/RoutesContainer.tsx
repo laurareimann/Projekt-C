@@ -13,9 +13,7 @@ const ContainerContentWrapper = styled.div`
     align-items: center;
     text-align: -webkit-center;
     padding: 16px;
-    
     `
-
 
 
 function RoutesContainer({street = "", zip="", city="", score="",name="", color = "pink", buttonText = "View Route", onClick = () => { }}) {

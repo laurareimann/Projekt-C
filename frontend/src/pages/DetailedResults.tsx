@@ -9,12 +9,9 @@ import { ToastContainer } from 'react-toastify';
 import React from 'react';
 import Button from '../components/buttons/Buttons.tsx';
 import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
-import { latLngEquals } from '@vis.gl/react-google-maps';
 import ResultContainer from '../components/ResultContainer.tsx';
 import AddressData from '../../ValuesForDetailedResult.json';
-import RoutesContainer from '../components/RoutesContainer.tsx';
 import RoutesMap from '../components/mapComponents/RoutesMap.tsx';
-import selectRouteFromButton from '../components/mapComponents/RoutesMap.tsx';
 
 
 const ButtonGrid = styled.div`
@@ -41,18 +38,6 @@ place-items:center;
 }
  `
 
-const ScoreContainerGrid = styled.div`
-display: grid;
-grid-gap: 15px;
-place-items:center;
-grid-template-columns: 1fr 1fr 1fr;
-margin-bottom: 10px;
-@media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    width: 100%;
-  }
-`
-
 const DiagrammContainer = styled.div`
   width: 50vh;
   height: 50vh;
@@ -74,9 +59,6 @@ const ContentWrapper = styled.div`
     width: 100%;
   }
 `
-
-
-
 
 
 const Evaluation: React.FC = () => {  
