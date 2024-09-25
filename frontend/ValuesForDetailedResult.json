@@ -1,30 +1,30 @@
 {
-  "currentScoreValue": 6,
+  "currentScoreValue": 12,
   "currentStartingSpot": [
-    47.37983639999999,
-    8.5361751
+    52.518619,
+    13.3763176
   ],
   "currentClosestGrocery": [
-    47.3779303,
-    8.539109699999997
+    52.52431,
+    13.3795
   ],
   "currentClosestHealth": [
-    47.3774318,
-    8.539951700000001
+    52.52109,
+    13.38493
   ],
   "currentClosestTransit": [
-    47.3781458,
-    8.540251699999999
+    52.52026859999999,
+    13.3870955
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 7,
-  "currentHealthDuration": 7,
-  "currentTransitDuration": 5,
-  "currentStartAddress": "Zollstrasse 11, 8005 Zürich, Schweiz",
-  "currentClosestGroceryAddress": "Hauptbahnhof, 8001 Zürich, Schweiz",
-  "currentClosestHealthAddress": "Bahnhofplatz 13, 8001 Zürich, Schweiz",
-  "currentClosestTransitAddress": "Zürich HB, Bahnhofplatz, 8001 Zürich, Schweiz",
-  "currentClosestGroceryName": "Migros-Supermarkt - Zürich - Hauptbahnhof",
-  "currentClosestHealthName": "Medbase Permanence Hauptbahnhof Zürich",
-  "currentClosestTransitName": "Zürich HB"
+  "currentGroceryDuration": 13,
+  "currentHealthDuration": 12,
+  "currentTransitDuration": 12,
+  "currentStartAddress": "Platz d. Republik 1, 10557 Berlin, Deutschland",
+  "currentClosestGroceryAddress": "Luisenstraße 52, 10117 Berlin, Deutschland",
+  "currentClosestHealthAddress": "Albrechtstraße 12, 10117 Berlin, Deutschland",
+  "currentClosestTransitAddress": "Friedrichstr., Georgenstraße 14/17, 10117 Berlin, Deutschland",
+  "currentClosestGroceryName": "Lidl",
+  "currentClosestHealthName": "Dr. med. Andrea Küchler & Dr. med. Imke Winzer",
+  "currentClosestTransitName": "Friedrichstr."
 }

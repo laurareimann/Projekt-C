@@ -13,6 +13,8 @@ import { latLngEquals } from '@vis.gl/react-google-maps';
 import ResultContainer from '../components/ResultContainer.tsx';
 import AddressData from 'C:/Users/Nico/Documents/GitHub/Projekt-C/frontend/ValuesForDetailedResult.json';
 import RoutesContainer from '../components/RoutesContainer.tsx';
+import RoutesMap from '../components/mapComponents/RoutesMap.tsx';
+import selectRouteFromButton from '../components/mapComponents/RoutesMap.tsx';
 
 
 const ButtonGrid = styled.div`
@@ -73,11 +75,15 @@ const ContentWrapper = styled.div`
   }
 `
 
+
+
+
+
 const Evaluation: React.FC = () => {  
     
     const [content, setContent] = React.useState("overallScore");
-
     const [buttonState, setButtonState] = React.useState([true, false]);
+
   
     const ScoreTab = () =>  <div> 
                                 <HorizontalGrid>
@@ -100,7 +106,8 @@ const Evaluation: React.FC = () => {
                                     score={AddressData.currentHealthDuration.toString()}
                                     street={AddressData.currentClosestHealthAddress.split(",")[0]}
                                     zip={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[1]}
-                                    city={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[2]}>
+                                    city={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[2]}
+                                    onClick = {()=>{selectRouteFromButton()}}>
                                     </RoutesContainer>
 
                                     <RoutesContainer
@@ -120,14 +127,18 @@ const Evaluation: React.FC = () => {
                                     </RoutesContainer>
                                 </ScoreContainerGrid>
 
-                                <MapWithoutSearch
+                                {/* <MapWithoutSearch
                                     center={{ lat: 53.5688823, lng: 10.0330191 }}
                                     shouldRenderCircles={false}
                                     circleRadii={[1250, 2500, 3750]}
                                     circleColors={['green', 'yellow', 'red']}
                                     height='30vh'
                                     width='107vh'
-                                />
+                                /> */}
+                                <RoutesMap
+                                //grocerySpot = {AddressData.currentClosestGrocery}
+                                
+                                ></RoutesMap>
                             </div>;
 
 

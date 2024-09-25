@@ -9,6 +9,11 @@ const ScoreWrapper = styled.div`
 `
 
 function Score({name = "HAW Hamburg" }) {
+
+    if(name.length >= 60){
+        name = name.substring(0, 56) + '\u2026'
+    }
+
     return (
         <ScoreWrapper>
             <p><b>{name}</b></p>
