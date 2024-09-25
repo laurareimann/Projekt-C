@@ -11,7 +11,7 @@ import Button from '../components/buttons/Buttons.tsx';
 import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
 import { latLngEquals } from '@vis.gl/react-google-maps';
 import ResultContainer from '../components/ResultContainer.tsx';
-import AddressData from 'C:/Users/Nico/Documents/GitHub/Projekt-C/frontend/ValuesForDetailedResult.json';
+import AddressData from '../../ValuesForDetailedResult.json';
 import RoutesContainer from '../components/RoutesContainer.tsx';
 import RoutesMap from '../components/mapComponents/RoutesMap.tsx';
 import selectRouteFromButton from '../components/mapComponents/RoutesMap.tsx';

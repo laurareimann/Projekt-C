@@ -15,66 +15,14 @@ import walkingIcon from "../../assets/white_walking.svg";
 import { useScore } from "./StreetProvider";
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
-import Data from 'C:/Users/Nico/Documents/GitHub/Projekt-C/frontend/ValuesForDetailedResult.json';
+import Data from "../../../ValuesForDetailedResult.json"
+  
 //import { InfoWindow } from "react-google-maps";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
-let placesMapV2: google.maps.Map;
-let service: google.maps.places.PlacesService;
-let infowindow: google.maps.InfoWindow;
-let setupCheck: boolean = false;
-let updateCheck: boolean = false;
-//Arrays in denen die NearbySearch-Ergebnisse gespeichert werden
-//Supermärkte,Läden et cetera
-const currentCategory1: Array<google.maps.LatLngLiteral> = []
-//Gesundheitswesen
-const currentCategory2: Array<google.maps.LatLngLiteral> = []
-//Öffentliche Verkehrsmittel(for now)
-const currentCategory3: Array<google.maps.LatLngLiteral> = []
-
-interface MarkerWindow {
-  id: number
-  address: string;
-  location: LatLngLiteral;
-  name: string,
-  prevState: null
-}
-
-//Variablen für die Berechnung des Scores
-let fastestRouteGroceries: number = 10000;
-let fastestRouteHealth: number = 10000;
-let fastestRouteTransit: number = 10000;
-let finalMean: number;
-let currentDuration: number;
-//Testweise bools, um Berechnung zu fixen
-let groceryBool: boolean = false;
-let healthBool: boolean = false;
-let transitBool: boolean = false;
-
-//Temp colours für die Buttons
-let GroceryButtonString: string = "";
-let HealthButtonString: string = "";
-let TransitButtonString: string = "";
-
-//Temp colours for the travelmode buttons
-let WalkingButtonString: string = "darkPink";
-let BicycleButtonString: string = "";
-let DrivingButtonString: string = "";
-let TransitButtonStringTravelMode: string = "";
-
-
-const markersWithInfoGroceries: Array<MarkerWindow> = []
-const markersWithInfoHealth: Array<MarkerWindow> = []
-const markersWithInfoTransit: Array<MarkerWindow> = []
-const MarkersArrayTogether = [markersWithInfoGroceries, markersWithInfoHealth, markersWithInfoTransit]
-
-//Test, ob temp-Variablen außerhalb von Komponente gespeichert werden sollten
-let tempCurrentScore: number = 42;
-let tempCurrentTravelMode: string = "walking";
-let tempStartName:string;
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -86,20 +34,7 @@ let addressToLoadLng:number;
 let altCenter:google.maps.LatLngLiteral;
 let finalCenter:google.maps.LatLngLiteral;
 
-  //Temporöre Variablen zu Kontextvariablen
-  const tempGroceryArray:Array<number>=[0.2,0.1];
-  const tempHealthArray:Array<number>=[1.3,4.2];
-  const tempTransitArray:Array<number>=[5.2,2.5];
-  let tempHealthDuration:number = 42;
-  let tempGroceryDuration:number = 42;
-  let tempTransitDuration:number = 42;
-  let tempClosestGroceryAddress:string;
-  let tempClosestHealthAddress:string;
-  let tempClosestTransitAddress:string;
-  let tempClosestGroceryName:string;
-  let tempClosestHealthName:string;
-  let tempClosestTransitName:string;
-  const tempSearchResultArray:Array<number>=[1.2,3.4];
+
 
   const throwToast = (errorMessage: string) => {
     toast.info(errorMessage, {
@@ -525,7 +460,6 @@ export default function RoutesMap() {
          })
          break;
     }
-    console.log("Derzeitige Dauer mit gewähltem travelmode: " + currentDuration);
   }
 
  
