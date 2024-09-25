@@ -100,45 +100,7 @@ const Evaluation: React.FC = () => {
                             </div>;
     
     const RoutesTab = () => <div>
-                                <ScoreContainerGrid>
-                                <RoutesContainer
-                                    name={AddressData.currentClosestHealthName}
-                                    score={AddressData.currentHealthDuration.toString()}
-                                    street={AddressData.currentClosestHealthAddress.split(",")[0]}
-                                    zip={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[1]}
-                                    city={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[2]}
-                                    onClick = {()=>{selectRouteFromButton()}}>
-                                    </RoutesContainer>
-
-                                    <RoutesContainer
-                                    name={AddressData.currentClosestGroceryName}
-                                    score={AddressData.currentGroceryDuration.toString()}
-                                    street={AddressData.currentClosestGroceryAddress.split(",")[0]}
-                                    zip={AddressData.currentClosestGroceryAddress.split(",")[1].split(" ")[1]}
-                                    city={AddressData.currentClosestGroceryAddress.split(",")[1].split(" ")[2]}>
-                                    </RoutesContainer>
-
-                                    <RoutesContainer
-                                    name={AddressData.currentClosestTransitName}
-                                    score={AddressData.currentTransitDuration.toString()}
-                                    street={AddressData.currentClosestTransitAddress.split(",")[0]}
-                                    zip={AddressData.currentClosestTransitAddress.split(",")[1].split(" ")[1]}
-                                    city={AddressData.currentClosestTransitAddress.split(",")[1].split(" ")[2]}>
-                                    </RoutesContainer>
-                                </ScoreContainerGrid>
-
-                                {/* <MapWithoutSearch
-                                    center={{ lat: 53.5688823, lng: 10.0330191 }}
-                                    shouldRenderCircles={false}
-                                    circleRadii={[1250, 2500, 3750]}
-                                    circleColors={['green', 'yellow', 'red']}
-                                    height='30vh'
-                                    width='107vh'
-                                /> */}
-                                <RoutesMap
-                                //grocerySpot = {AddressData.currentClosestGrocery}
-                                
-                                ></RoutesMap>
+                                <RoutesMap></RoutesMap>
                             </div>;
 
 

@@ -15,7 +15,8 @@ import walkingIcon from "../../assets/white_walking.svg";
 import { useScore } from "./StreetProvider";
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
-import Data from "../../../ValuesForDetailedResult.json"
+import AddressData from "../../../ValuesForDetailedResult.json"
+import RoutesContainer from '../../components/RoutesContainer.tsx';
   
 //import { InfoWindow } from "react-google-maps";
 
@@ -194,6 +195,17 @@ const ControlContainer = styled.div`
     width: 310px;
   }
 `
+const ScoreContainerGrid = styled.div`
+display: grid;
+grid-gap: 15px;
+place-items:center;
+grid-template-columns: 1fr 1fr 1fr;
+margin-bottom: 10px;
+@media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+`
 
 const getCookie = (name:string) =>{
   const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
@@ -369,11 +381,11 @@ async function checkForLoadFromProfileFunc(){
 checkForLoadFromProfileFunc();
 
     //const startingSpot = Data.currentClosestGrocery;
-    const startingSpot={lat: Data.currentStartingSpot[0], lng: Data.currentStartingSpot[1]};
-    const grocerySpot={lat: Data.currentClosestGrocery[0], lng: Data.currentClosestGrocery[1]};
-    const healthSpot ={lat: Data.currentClosestHealth[0], lng: Data.currentClosestHealth[1]};
-    const transitSpot={lat: Data.currentClosestTransit[0], lng: Data.currentClosestTransit[1]};
-    const travelMode = Data.currentTravelMode;
+    const startingSpot={lat: AddressData.currentStartingSpot[0], lng: AddressData.currentStartingSpot[1]};
+    const grocerySpot={lat: AddressData.currentClosestGrocery[0], lng: AddressData.currentClosestGrocery[1]};
+    const healthSpot ={lat: AddressData.currentClosestHealth[0], lng: AddressData.currentClosestHealth[1]};
+    const transitSpot={lat: AddressData.currentClosestTransit[0], lng: AddressData.currentClosestTransit[1]};
+    const travelMode = AddressData.currentTravelMode;
 
 
 
@@ -406,7 +418,7 @@ export default function RoutesMap() {
   const onLoad = useCallback((map: any) => (mapRef.current = map), []);
 
 
-  const selectRouteFromButton = () => {
+  const showGroceryRoute = () => {
 
     //setTravelMode(travelModeParam);
 
@@ -462,31 +474,160 @@ export default function RoutesMap() {
     }
   }
 
- 
+  const showHealthRoute = () => {
 
+    //setTravelMode(travelModeParam);
 
+    //Switch-case, um Route im richtigen Modus anzeigen zu lassen.
+    switch (travelMode) {
+      case "walking":
+        directService.route({
+          //origin: spot,
+          origin: startingSpot,
+          //destination: spotLiterals,
+          destination: healthSpot,
+          travelMode: google.maps.TravelMode.WALKING
+        }, (result, status) => {
+          if (status === "OK" && result) {
+            setDirections(result);
+          }
+        })
+        break;
+
+       case "driving":
+         directService.route({
+           origin: startingSpot,
+           destination: healthSpot,
+           travelMode: google.maps.TravelMode.DRIVING
+         }, (result, status) => {
+           if (status === "OK" && result) {
+             setDirections(result);
+           }
+         })
+         break;
+       case "bicycle":
+         directService.route({
+           origin: startingSpot,
+           destination: healthSpot,
+           travelMode: google.maps.TravelMode.BICYCLING
+         }, (result, status) => {
+           if (status === "OK" && result) {
+             setDirections(result);
+           }
+         })
+         break;
+       case "transit":
+         directService.route({
+           origin: startingSpot,
+           destination: healthSpot,
+           travelMode: google.maps.TravelMode.TRANSIT
+         }, (result, status) => {
+           if (status === "OK" && result) {
+             setDirections(result);
+           }
+         })
+         break;
+    }
+  }
+
+  const showTransitRoute = () => {
+
+    //setTravelMode(travelModeParam);
+
+    //Switch-case, um Route im richtigen Modus anzeigen zu lassen.
+    switch (travelMode) {
+      case "walking":
+        directService.route({
+          //origin: spot,
+          origin: transitSpot,
+          //destination: spotLiterals,
+          destination: grocerySpot,
+          travelMode: google.maps.TravelMode.WALKING
+        }, (result, status) => {
+          if (status === "OK" && result) {
+            setDirections(result);
+          }
+        })
+        break;
+
+       case "driving":
+         directService.route({
+           origin: startingSpot,
+           destination: transitSpot,
+           travelMode: google.maps.TravelMode.DRIVING
+         }, (result, status) => {
+           if (status === "OK" && result) {
+             setDirections(result);
+           }
+         })
+         break;
+       case "bicycle":
+         directService.route({
+           origin: startingSpot,
+           destination: transitSpot,
+           travelMode: google.maps.TravelMode.BICYCLING
+         }, (result, status) => {
+           if (status === "OK" && result) {
+             setDirections(result);
+           }
+         })
+         break;
+       case "transit":
+         directService.route({
+           origin: startingSpot,
+           destination: transitSpot,
+           travelMode: google.maps.TravelMode.TRANSIT
+         }, (result, status) => {
+           if (status === "OK" && result) {
+             setDirections(result);
+           }
+         })
+         break;
+    }
+  }
 
   
 
   return (
     <div>
+      
+      <ScoreContainerGrid>
+        <RoutesContainer
+            name={AddressData.currentClosestHealthName}
+            score={AddressData.currentHealthDuration.toString()}
+            street={AddressData.currentClosestHealthAddress.split(",")[0]}
+            zip={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[1]}
+            city={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[2]}
+            onClick = {()=>{showHealthRoute()}}>
+        </RoutesContainer>
+
+        <RoutesContainer
+            name={AddressData.currentClosestGroceryName}
+            score={AddressData.currentGroceryDuration.toString()}
+            street={AddressData.currentClosestGroceryAddress.split(",")[0]}
+            zip={AddressData.currentClosestGroceryAddress.split(",")[1].split(" ")[1]}
+            city={AddressData.currentClosestGroceryAddress.split(",")[1].split(" ")[2]}
+            onClick = {()=>{showGroceryRoute()}}>
+         </RoutesContainer>
+
+         <RoutesContainer
+            name={AddressData.currentClosestTransitName}
+            score={AddressData.currentTransitDuration.toString()}
+            street={AddressData.currentClosestTransitAddress.split(",")[0]}
+            zip={AddressData.currentClosestTransitAddress.split(",")[1].split(" ")[1]}
+            city={AddressData.currentClosestTransitAddress.split(",")[1].split(" ")[2]}
+            onClick = {()=>{showTransitRoute()}}>
+          </RoutesContainer>
+      </ScoreContainerGrid>                    
+
       <GoogleMap zoom={14}
           center={center}
           mapContainerClassName="map-container"
           options={options}
-          onLoad={onLoad}
-        >
+          onLoad={onLoad}>
+
         //Anzeige der Route(n)
           {directions && <DirectionsRenderer directions={directions} />}
-
-          {/* {shouldRenderCircles && spot && circles.map((circles, index) => (
-            <Circle
-              key={index}
-              center={spot}
-              radius={circles.radius}
-              options={circles.options}
-            />
-          ))} */}
 
         </GoogleMap>
 

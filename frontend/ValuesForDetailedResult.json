@@ -1,30 +1,30 @@
 {
-  "currentScoreValue": 12,
+  "currentScoreValue": 4,
   "currentStartingSpot": [
-    52.518619,
-    13.3763176
+    50.2535095,
+    8.645693
   ],
   "currentClosestGrocery": [
-    52.52431,
-    13.3795
+    50.25502769999999,
+    8.642906499999999
   ],
   "currentClosestHealth": [
-    52.52109,
-    13.38493
+    50.2541304,
+    8.645648099999999
   ],
   "currentClosestTransit": [
-    52.52026859999999,
-    13.3870955
+    50.25499,
+    8.64532
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 13,
-  "currentHealthDuration": 12,
-  "currentTransitDuration": 12,
-  "currentStartAddress": "Platz d. Republik 1, 10557 Berlin, Deutschland",
-  "currentClosestGroceryAddress": "Luisenstraße 52, 10117 Berlin, Deutschland",
-  "currentClosestHealthAddress": "Albrechtstraße 12, 10117 Berlin, Deutschland",
-  "currentClosestTransitAddress": "Friedrichstr., Georgenstraße 14/17, 10117 Berlin, Deutschland",
-  "currentClosestGroceryName": "Lidl",
-  "currentClosestHealthName": "Dr. med. Andrea Küchler & Dr. med. Imke Winzer",
-  "currentClosestTransitName": "Friedrichstr."
+  "currentGroceryDuration": 6,
+  "currentHealthDuration": 1,
+  "currentTransitDuration": 4,
+  "currentStartAddress": "Am Zollstock 1, 61381 Friedrichsdorf, Deutschland",
+  "currentClosestGroceryAddress": "Wilhelmstraße 23, 61381 Friedrichsdorf, Deutschland",
+  "currentClosestHealthAddress": "Am Houiller Pl. 2, 61381 Friedrichsdorf, Deutschland",
+  "currentClosestTransitAddress": "Friedrichsdorf Cheshamer Straße, 61381 Friedrichsdorf, Deutschland",
+  "currentClosestGroceryName": "REWE Center",
+  "currentClosestHealthName": "Dr. G. Steffen-Adler",
+  "currentClosestTransitName": "Friedrichsdorf Cheshamer Straße"
 }
