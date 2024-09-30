@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-    width: 100%;
+    width: 55%;
     text-align: start;
+
+    @media (max-width: 768px) {
+        width: 80%;
+    }
 `;
 
 const Question = styled.div`
@@ -61,24 +65,26 @@ const FAQ: React.FC = () => {
     ];
 
     return (
-        <Wrapper>
-            <h1>Frequently Asked Questions</h1>
-            {faqs.map((faq, index) => (
-                <div key={index}>
-                    <Question onClick={() => toggleQuestion(index)}>
-                        <h3>{faq.question}</h3>
-                        <Arrow isOpen={openIndex === index}>
-                            &gt;
-                        </Arrow>
-                    </Question>
-                    {openIndex === index && (
-                        <Answer>
-                            <p>{faq.answer}</p>
-                        </Answer>
-                    )}
-                </div>
-            ))}
-        </Wrapper>
+        <div>
+            <Wrapper>
+                <h1>Frequently Asked Questions</h1>
+                {faqs.map((faq, index) => (
+                    <div key={index}>
+                        <Question onClick={() => toggleQuestion(index)}>
+                            <h3>{faq.question}</h3>
+                            <Arrow isOpen={openIndex === index}>
+                                &gt;
+                            </Arrow>
+                        </Question>
+                        {openIndex === index && (
+                            <Answer>
+                                <p>{faq.answer}</p>
+                            </Answer>
+                        )}
+                    </div>
+                ))}
+            </Wrapper>
+        </div>
     );
 };
 
