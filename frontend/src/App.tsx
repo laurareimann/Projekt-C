@@ -125,6 +125,10 @@ const PageContainer = styled.div`
   flex-direction: column;
 `
 
+const FooterSpacer  = styled.div`
+  height: 20px;
+`
+
 const App: React.FC = () => {
 
   const { isLoaded } = useLoadScript({
@@ -155,6 +159,7 @@ const App: React.FC = () => {
         <Route path="faq" element={<FAQ />} />
         <Route path="profile" element={<ProfilePage />} />      
       </Routes>
+      <FooterSpacer />
       <Footer />
     </PageContainer>
     </BrowserRouter >

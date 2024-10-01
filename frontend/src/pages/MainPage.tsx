@@ -15,7 +15,6 @@ const BlockContainer = styled.div`
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin-bottom: 10px;
 
     @media (max-width: 550px) {
         flex-direction: column;

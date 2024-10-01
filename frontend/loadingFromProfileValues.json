@@ -1,3 +1,8 @@
 {
-  "ShouldLoadBoold": false
+  "currentAddressLat": 53.5688823,
+  "currentAddressLng": 10.0330191,
+  "ShouldLoadBool": false,
+  "currentAddress": "Finkenau 35",
+  "currentAddressCity": "22081",
+  "currentAddressZip": "Hamburg"
 }

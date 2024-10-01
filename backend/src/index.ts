@@ -41,24 +41,27 @@ app.use(express.urlencoded({extended:false}));
 app.post("/saveSearchForLater",async(req,res)=>{
 
   const data = {
-    tempName:req.body.tempName,
+    savedName:req.body.nameToSave,
     whoSavedData:req.body.currentUser,
     SpotLat:req.body.currentSpotLat,
     SpotLng:req.body.currentSpotLng,
-    addressData:req.body.fullAdress
   }
+
+  const decisionString = "Deciding";
+
+  const decidedString = "WasSaved";
 
     try{
 
-    const adressToSave = new AddressModel({
-      address:data.addressData,
-      googleMapsLat:data.SpotLat,
-      googleMapsLng:data.SpotLng,
-      savedName:data.tempName,
-      whoSaved:data.whoSavedData
-    })
+    const updateDecision = {
+      shouldBeSaved: decidedString,
+      savedName:data.savedName
+    }
 
-    adressToSave.save();
+    const update = await AddressModel.findOneAndUpdate({
+      "shouldBeSaved":decisionString,whoSaved:data.whoSavedData},updateDecision)
+
+    //adressToSave.save();
     res.json("save successful");
     }
     catch(e){
@@ -74,12 +77,12 @@ app.get("/GetSaved",async (req,res)=>{
 
   const TempCurrentUser = data.SentCurrentUser;
 
-  console.log(TempCurrentUser + " is trying to save an address");
+  console.log(TempCurrentUser + " is trying to fetch their saved addresses");
 
   try{
     if(TempCurrentUser != ""){
 
-      const SavedData = await AddressModel.find({"whoSaved":TempCurrentUser,savedName:{$exists:true}})
+      const SavedData = await AddressModel.find({"whoSaved":TempCurrentUser,shouldBeSaved:"WasSaved"})
       const responseArray = JSON.stringify(SavedData,null,2);
       res.json(responseArray)
     }
@@ -129,7 +132,9 @@ app.get("/checkForLoadFromProfile",async(req,res)=>{
       AddressLatToSend:alternativeData.currentAddressLat,
       AddressLngToSend:alternativeData.currentAddressLng,
       ShouldLoadBool:alternativeData.currentFlag,
-      AddressToSend:alternativeData.currentAddress
+      AddressToSend:alternativeData.currentAddress,
+      CityToSend:alternativeData.currentAddressCity,
+      ZipToSend:alternativeData.currentAddressZip
     }
 
     const constCheckData = JSON.stringify(data,null,2)
@@ -169,10 +174,12 @@ app.post("/updateJson",async(req,res)=>{
   const resetCheckArray = JSON.parse(fs.readFileSync(filePathToJsonProfileLoad,"utf-8"))
 
   const resetData = {
-    AddressLatToSend:resetCheckArray.currentAddressLat,
-    AddressLngToSend:resetCheckArray.currentAddressLng,
-    ShouldLoadBoold:false,
-    AddressToSend:resetCheckArray.currentAddress
+    currentAddressLat:resetCheckArray.currentAddressLat,
+    currentAddressLng:resetCheckArray.currentAddressLng,
+    ShouldLoadBool:false,
+    currentAddress:resetCheckArray.currentAddress,
+    currentAddressCity:resetCheckArray.currentAddressCity,
+    currentAddressZip:resetCheckArray.currentAddressZip
   }
 
   console.log("updating Json file...")
@@ -220,15 +227,42 @@ app.post("/saveAddress", async(req,res) => {
     MapLat:req.body.lat,
     MapLng:req.body.lng,
     Address:req.body.address,
-    currentUser:req.body.currentUser
+    currentUser:req.body.currentUser,
+    AddressZip:req.body.tmpZipCode,
+    AddressCity:req.body.tmpCityName,
+    savedName:req.body.tmpName
   }
+
+  const initialDecisionString:string = "Deciding";
+  const dontSaveString:string = "WontBeSaved";
 
 try{
   console.log(data);
 
+  //Before new address is added, check if another search was issued beforehand and set that one to not be saved
+
+  const denySave = {
+    shouldBeSaved:dontSaveString
+  }
+
+  const tempSaveName:string = "";
+
+  const setPossiblePriorResult = await AddressModel.findOneAndUpdate({
+    "shouldBeSaved":initialDecisionString,whoSaved:data.currentUser},denySave)
+
+
   res.json("Address is being added");
 
-  const testAdress = new AddressModel({address:data.Address,googleMapsLat:data.MapLat,googleMapsLng:data.MapLng,whoSaved:data.currentUser})
+  const testAdress = new AddressModel({
+    addressFull:data.Address,
+    googleMapsLat:data.MapLat,
+    googleMapsLng:data.MapLng,
+    whoSaved:data.currentUser,
+    addressCity:data.AddressCity,
+    addressZip:data.AddressZip,
+    shouldBeSaved:initialDecisionString,
+    savedName:data.savedName
+    })
 
   testAdress.save();
 
@@ -247,6 +281,8 @@ app.post("/prepareLoadFromProfile",async(req,res)=>{
   const address = req.body.addressToLoad;
   const addressLat = req.body.addressLat;
   const addressLng = req.body.addressLng;
+  const addressZip = req.body.addressZip;
+  const addressCity = req.body.addressCity;
 
   console.log("Updating preparation json");
 
@@ -256,7 +292,9 @@ app.post("/prepareLoadFromProfile",async(req,res)=>{
       currentFlag:setFlag,
       currentAddress:address,
       currentAddressLat:addressLat,
-      currentAddressLng:addressLng
+      currentAddressLng:addressLng,
+      currentAddressCity:addressCity,
+      currentAddressZip:addressZip,
     }
 
   const updatedJsonData = JSON.stringify(updatedJson,null,2);
@@ -335,6 +373,7 @@ app.post("/login",async(req,res)=>{
       console.log("User not yet registered");
       res.json("notexist");
     }
+    
   }
   catch(e){
     console.log("Error message " + e);
