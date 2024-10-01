@@ -58,11 +58,19 @@ app.post("/saveSearchForLater",async(req,res)=>{
       savedName:data.savedName
     }
 
+    const check = await AddressModel.findOne({savedName:data.savedName,whoSaved:data.whoSavedData})
+
+    if(check==null){
+
     const update = await AddressModel.findOneAndUpdate({
       "shouldBeSaved":decisionString,whoSaved:data.whoSavedData},updateDecision)
-
     //adressToSave.save();
     res.json("save successful");
+    }
+    else{
+      res.json("Name already exists");
+    }
+
     }
     catch(e){
       console.log(e)
@@ -308,7 +316,40 @@ app.post("/prepareLoadFromProfile",async(req,res)=>{
 
 })
 
+app.get("/deleteSearch",async(req,res)=>{
+  //delete the requested search here
 
+  const data ={
+    userName:req.query.nameOfUser,
+    savedName:req.query.nameOfSearch
+  }
+
+
+  const decidedString:string = "WasSaved"
+  const denyString:string = "WontBeSaved"
+  const deletedString:string = "";
+
+  try{
+
+    const deleteSearch = {
+      shouldBeSaved:denyString,
+      savedName:deletedString
+    }
+
+    const update = await AddressModel.findOneAndUpdate({
+      "shouldBeSaved":decidedString,
+      whoSaved:data.userName,
+      savedName:data.savedName},deleteSearch);
+      res.json("search successfully deleted")
+
+  }catch(e){
+    console.log(e)
+  }
+
+
+
+
+})
 
 app.post("/signup", async(req,res) => {
   
@@ -367,7 +408,6 @@ app.post("/login",async(req,res)=>{
       }else{
         console.log("Login successful")
         res.json("exist");
-        
       }
     }if(checkForUser == null){
       console.log("User not yet registered");
