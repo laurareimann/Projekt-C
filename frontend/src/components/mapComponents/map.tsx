@@ -689,7 +689,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }
         //Apotheken, Kliniken et cetera
         if (results[i].types.includes("doctor")) {
-          console.log("Gesundheitswesen: " + results[i].name)
+          console.log("Gesundheitswesen-Name: " + results[i].name)
+          console.log("Gesundheitswesen-Types: " + results[i].types)
           markersWithInfoHealth.push({
             id: i,
             location: {
@@ -1332,17 +1333,17 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             //NearbySearch-Requests für die verschiedenen types
             const request = {
               location: { lat, lng },
-              radius: 5000,
+              radius: 3800,
               type: "grocery_or_supermarket"
             }
             const request_2 = {
               location: { lat, lng },
-              radius: 5000,
+              radius: 3800,
               type: "doctor"
             }
             const request_3 = {
               location: { lat, lng },
-              radius: 5000,
+              radius: 3800,
               type: "transit_station"
             }
             const requesttypes = [request, request_2, request_3]
