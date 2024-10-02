@@ -228,8 +228,8 @@ export default function RoutesMap() {
     switch (travelMode) {
       case "walking":
         directService.route({
-          origin: transitSpot,
-          destination: grocerySpot,
+          origin: startingSpot,
+          destination: transitSpot,
           travelMode: google.maps.TravelMode.WALKING
         }, (result, status) => {
           if (status === "OK" && result) {
