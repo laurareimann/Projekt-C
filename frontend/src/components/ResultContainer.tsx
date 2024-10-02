@@ -32,6 +32,7 @@ function ResultContainer({street = "", zip="", city="", score="", color = "pink"
                     shouldRenderCircles={false}
                     circleRadii={[1250, 2500, 3750]}
                     circleColors={['green', 'yellow', 'red']}
+                    shouldRenderMarkers = {false}
                     height='14vh'
                     width='20vh'
                 />

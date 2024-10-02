@@ -1,30 +1,30 @@
 {
-  "currentScoreValue": 11,
+  "currentScoreValue": 17,
   "currentStartingSpot": [
-    53.5688823,
-    10.0330191
+    52.1282516,
+    11.6495704
   ],
   "currentClosestGrocery": [
-    53.5628821,
-    10.0335561
+    52.129913,
+    11.638859
   ],
   "currentClosestHealth": [
-    53.5694671,
-    10.0288
+    52.130185,
+    11.6350089
   ],
   "currentClosestTransit": [
-    53.567127,
-    10.030884
+    52.12312,
+    11.6548844
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 14,
-  "currentHealthDuration": 11,
-  "currentTransitDuration": 8,
-  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Lübecker Str. 116-124, 22087 Hamburg, Germany",
-  "currentClosestHealthAddress": "Lerchenfeld 14, 22081 Hamburg, Germany",
-  "currentClosestTransitAddress": "Uferstraße, 22081 Hamburg, Germany",
-  "currentClosestGroceryName": "ALDI Nord",
-  "currentClosestHealthName": "Dr. med. Christian Schindler",
-  "currentClosestTransitName": "Uferstraße"
+  "currentGroceryDuration": 18,
+  "currentHealthDuration": 20,
+  "currentTransitDuration": 14,
+  "currentStartAddress": "Zollstraße 1, 39114 Magdeburg, Deutschland",
+  "currentClosestGroceryAddress": "Ernst-Reuter-Allee 11, 39104 Magdeburg, Deutschland",
+  "currentClosestHealthAddress": "Ulrichpl. 2, 39104 Magdeburg, Deutschland",
+  "currentClosestTransitAddress": "Magdeburg, Am Cracauer Tor, 39114 Magdeburg, Deutschland",
+  "currentClosestGroceryName": "REWE",
+  "currentClosestHealthName": "Herr Dr. med. Olaf Effenberger",
+  "currentClosestTransitName": "Magdeburg, Am Cracauer Tor"
 }

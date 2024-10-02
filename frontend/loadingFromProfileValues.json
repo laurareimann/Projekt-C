@@ -1,8 +1,8 @@
 {
-  "currentAddressLat": 53.5688823,
-  "currentAddressLng": 10.0330191,
+  "currentAddressLat": 52.1282516,
+  "currentAddressLng": 11.6495704,
   "ShouldLoadBool": false,
-  "currentAddress": "Finkenau 35",
-  "currentAddressCity": "22081",
-  "currentAddressZip": "Hamburg"
+  "currentAddress": "Zollstraße 1",
+  "currentAddressCity": "Magdeburg",
+  "currentAddressZip": "39114"
 }

@@ -15,6 +15,12 @@ import MapLegend from "./mapLegend";
 
 import walkingIcon from "../../assets/walkingIcon.svg";
 import { Container } from "react-bootstrap";
+import AddressData from "../../../ValuesForDetailedResult.json"
+
+const startingSpot={lat: AddressData.currentStartingSpot[0], lng: AddressData.currentStartingSpot[1]};
+const grocerySpot={lat: AddressData.currentClosestGrocery[0], lng: AddressData.currentClosestGrocery[1]};
+const healthSpot ={lat: AddressData.currentClosestHealth[0], lng: AddressData.currentClosestHealth[1]};
+const transitSpot={lat: AddressData.currentClosestTransit[0], lng: AddressData.currentClosestTransit[1]};
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -38,6 +44,7 @@ interface MapWithoutSearchProps {
   shouldRenderCircles?: boolean;
   circleRadii?: number[];
   circleColors?: string[];
+  shouldRenderMarkers?: boolean;
   height?: string;
   width?: string;
 }
@@ -51,6 +58,7 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
   shouldRenderCircles = true,
   circleRadii = [1250, 2500, 3750],
   circleColors = defaultColors,
+  shouldRenderMarkers = true,
   height = "50vh", //default
   width = "50vh"   //default
   
@@ -114,7 +122,7 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
       <MapContainer height={height} width={width}>
         <GoogleMap
           zoom={13}
-          center={center}
+          center={startingSpot}
           mapContainerClassName="map-container-without-search"
           options={options}
           onLoad={onLoad}
@@ -123,13 +131,28 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
           {shouldRenderCircles && (
             <Marker position={center} />
           )}
-        {shouldRenderCircles && (
+        {/* {shouldRenderCircles && (
           <MapLegend
             circleRadii={circleRadii}
             circleColors={circleColors}
             logo={walkingIcon}
           />
+        )} */}
+
+        <Marker position={startingSpot}></Marker>
+        {shouldRenderMarkers && (
+        <Marker position={grocerySpot} icon='http://maps.google.com/mapfiles/ms/icons/green-dot.png'></Marker>
         )}
+        {shouldRenderMarkers && (
+          <Marker position={healthSpot} icon='http://maps.google.com/mapfiles/ms/icons/blue-dot.png'></Marker>
+        )}
+        {shouldRenderMarkers && (
+            <Marker position={transitSpot} icon='http://maps.google.com/mapfiles/ms/icons/red-dot.png'></Marker>
+        )}
+        
+        
+        
+
         </GoogleMap>
         </MapContainer>
     </div>
