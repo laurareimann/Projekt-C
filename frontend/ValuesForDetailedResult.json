@@ -1,30 +1,30 @@
 {
-  "currentScoreValue": 17,
+  "currentScoreValue": 19,
   "currentStartingSpot": [
-    52.1282516,
-    11.6495704
+    54.87015,
+    8.88251
   ],
   "currentClosestGrocery": [
-    52.129913,
-    11.638859
+    54.869822,
+    8.9066332
   ],
   "currentClosestHealth": [
-    52.130185,
-    11.6350089
+    54.8712028,
+    8.9077623
   ],
   "currentClosestTransit": [
-    52.12312,
-    11.6548844
+    54.872601,
+    8.883047
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 18,
-  "currentHealthDuration": 20,
-  "currentTransitDuration": 14,
-  "currentStartAddress": "Zollstraße 1, 39114 Magdeburg, Deutschland",
-  "currentClosestGroceryAddress": "Ernst-Reuter-Allee 11, 39104 Magdeburg, Deutschland",
-  "currentClosestHealthAddress": "Ulrichpl. 2, 39104 Magdeburg, Deutschland",
-  "currentClosestTransitAddress": "Magdeburg, Am Cracauer Tor, 39114 Magdeburg, Deutschland",
-  "currentClosestGroceryName": "REWE",
-  "currentClosestHealthName": "Herr Dr. med. Olaf Effenberger",
-  "currentClosestTransitName": "Magdeburg, Am Cracauer Tor"
+  "currentGroceryDuration": 25,
+  "currentHealthDuration": 28,
+  "currentTransitDuration": 4,
+  "currentStartAddress": "Zollstraße 11, 25923 Süderlügum, Deutschland",
+  "currentClosestGroceryAddress": "Hauptstraße 6 A, 25923 Süderlügum, Deutschland",
+  "currentClosestHealthAddress": "Mittelweg 2, 25923 Süderlügum, Deutschland",
+  "currentClosestTransitAddress": "Wimmersbüll, Schule, 25923 Süderlügum, Deutschland",
+  "currentClosestGroceryName": "ALDI Nord",
+  "currentClosestHealthName": "Hausarztpraxis Dr. Büchner Süderlügum",
+  "currentClosestTransitName": "Wimmersbüll, Schule"
 }

@@ -12,7 +12,6 @@ import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
 import ResultContainer from '../components/ResultContainer.tsx';
 import AddressData from '../../ValuesForDetailedResult.json';
 import RoutesMap from '../components/mapComponents/RoutesMap.tsx';
-import ScoreMap from '../components/mapComponents/ScoreMap.tsx';
 
 
 const ButtonGrid = styled.div`
@@ -71,7 +70,6 @@ const Evaluation: React.FC = () => {
     const ScoreTab = () =>  <div> 
                                 <HorizontalGrid>
                                     <MapWithoutSearch
-                                        center={{ lat: 53.5688823, lng: 10.0330191 }}
                                         shouldRenderCircles={true}
                                         circleRadii={[1250, 2500, 3750]}
                                         circleColors={['green', 'yellow', 'red']}
