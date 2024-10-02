@@ -106,6 +106,8 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
     setMapLoaded(true);
   }, []);
 
+  
+
 
   return (
     <div>

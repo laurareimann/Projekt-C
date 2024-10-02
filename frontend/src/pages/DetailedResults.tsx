@@ -3,14 +3,16 @@ import styled from 'styled-components';
 import Map from "../components/mapComponents/map.tsx";
 import StreetProvider from '../components/mapComponents/StreetProvider.tsx';
 
+
 // Components
 import { ToastContainer } from 'react-toastify';
 import React from 'react';
 import Button from '../components/buttons/Buttons.tsx';
 import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
-import { latLngEquals } from '@vis.gl/react-google-maps';
 import ResultContainer from '../components/ResultContainer.tsx';
-import ScoreContainer from '../components/ScoreContainer.tsx';
+import AddressData from '../../ValuesForDetailedResult.json';
+import RoutesMap from '../components/mapComponents/RoutesMap.tsx';
+
 
 const ButtonGrid = styled.div`
 display: grid;
@@ -36,18 +38,6 @@ place-items:center;
 }
  `
 
-const ScoreContainerGrid = styled.div`
-display: grid;
-grid-gap: 15px;
-place-items:center;
-grid-template-columns: 1fr 1fr 1fr;
-margin-bottom: 10px;
-@media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    width: 100%;
-  }
-`
-
 const DiagrammContainer = styled.div`
   width: 50vh;
   height: 50vh;
@@ -70,11 +60,12 @@ const ContentWrapper = styled.div`
   }
 `
 
+
 const Evaluation: React.FC = () => {  
     
     const [content, setContent] = React.useState("overallScore");
-
     const [buttonState, setButtonState] = React.useState([true, false]);
+
   
     const ScoreTab = () =>  <div> 
                                 <HorizontalGrid>
@@ -91,21 +82,9 @@ const Evaluation: React.FC = () => {
                             </div>;
     
     const RoutesTab = () => <div>
-                                <ScoreContainerGrid>
-                                    <ScoreContainer buttonText='Show Route'></ScoreContainer>
-                                    <ScoreContainer buttonText='Show Route'></ScoreContainer>
-                                    <ScoreContainer buttonText='Show Route'></ScoreContainer>
-                                </ScoreContainerGrid>
-                            
-                                <MapWithoutSearch
-                                    center={{ lat: 53.5688823, lng: 10.0330191 }}
-                                    shouldRenderCircles={false}
-                                    circleRadii={[1250, 2500, 3750]}
-                                    circleColors={['green', 'yellow', 'red']}
-                                    height='30vh'
-                                    width='107vh'
-                                />
+                                <RoutesMap></RoutesMap>
                             </div>;
+
 
     return (
         <div>
@@ -113,7 +92,13 @@ const Evaluation: React.FC = () => {
 
             <h1>Detailed Results</h1>
 
-            <ResultContainer></ResultContainer>
+            <ResultContainer    
+                    score={AddressData.currentScoreValue.toString()}
+                    street={AddressData.currentStartAddress.split(",")[0]}
+                    zip={AddressData.currentStartAddress.split(",")[1].split(" ")[1]}
+                    city={AddressData.currentStartAddress.split(",")[1].split(" ")[2]}
+                    >
+            </ResultContainer>
 
             <ButtonGrid>
                 <Button onClick={() => {setContent("overallScore"), setButtonState([true, false])}}
