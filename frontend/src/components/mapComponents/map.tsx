@@ -29,6 +29,8 @@ let placesMapV2: google.maps.Map;
 let service: google.maps.places.PlacesService;
 let infowindow: google.maps.InfoWindow;
 let setupCheck: boolean = false;
+
+
 //Arrays in denen die NearbySearch-Ergebnisse gespeichert werden
 //Supermärkte,Läden et cetera
 
@@ -37,6 +39,7 @@ interface MarkerWindow {
   address: string;
   location: LatLngLiteral;
   name: string,
+  buildingType:string,
   prevState: null
 }
 
@@ -496,8 +499,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const [spot, setSpot] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
   const directService = new google.maps.DirectionsService();
-  const [countHelper,setHelpCounter] = useState(0);
-  const [promptText,setPromptText] = useState("");
 
   //Variablen zur Score-Berechnung 
   const [selectedMarker, setSelectedMarker] = useState<MarkerWindow | null>()
@@ -626,7 +627,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     }
     const requesttypes = [request, request_2, request_3]
     //Es wird im vorgegebenen Umkreis nach places gesucht
-    performNearbySearch(requesttypes);
+    //performNearbySearch(requesttypes);
+    newNearbySearch({lat,lng});
     //Timeout von +- 1 Sekunde, damit die Marker richtig laden
     setTimeout(() => {
       setCalculationDone(true);
@@ -644,7 +646,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   //Suche in der Nähe gelegender places
   async function performNearbySearch(requestList: google.maps.places.PlaceSearchRequest[]) {
-    service.nearbySearch(requestList[0], callback);
+    //service.nearbySearch(requestList[0], callback);
     service.nearbySearch(requestList[1], callback);
     service.nearbySearch(requestList[2], callback);
   }
@@ -684,6 +686,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             },
             address: results[i].vicinity,
             name: results[i].name,
+            buildingType:results[i].types[0],
             prevState: null
           })
         }
@@ -699,6 +702,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             },
             address: results[i].vicinity,
             name: results[i].name,
+            buildingType:results[i].types[0],
             prevState: null
           })
         }
@@ -714,6 +718,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             },
             address: results[i].vicinity,
             name: results[i].name,
+            buildingType:results[i].types[0],
             prevState: null
           })
         }
@@ -1315,6 +1320,84 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   }
 
+  async function newNearbySearch(centerParam:google.maps.LatLngLiteral){
+    const { Place, SearchNearbyRankPreference } = await google.maps.importLibrary('places') as google.maps.PlacesLibrary;
+
+    const request_newAPI = {
+      fields:["displayName","location","businessStatus","types","formattedAddress","photos"],
+      locationRestriction:{
+        center:centerParam,
+        radius:3750
+      },
+      includedPrimaryTypes:["supermarket","cafe","pharmacy"],
+      maxResultCount:20,
+      rankPreference:SearchNearbyRankPreference.DISTANCE,
+      language:"en-UK"
+    }
+
+    const {places} = await Place.searchNearby(request_newAPI);
+    
+    if(places.length){
+   
+      console.log(places)
+
+      for(let i = 0; i < places.length; i++){
+        //Groceries
+        if(places[i].types!.includes("supermarket")){
+          console.log("Supermarket added")
+          markersWithInfoGroceries.push({
+            id:i,
+            location:{
+              lat:places[i].location!.lat(),
+              lng:places[i].location!.lng()
+            },
+            address:places[i].formattedAddress!,
+            name:places[i].displayName!,
+            buildingType:places[i].types![0],
+            prevState:null
+          })
+        }
+      } 
+
+      for(let i = 0; i < places.length; i++){
+        //Health
+        if(places[i].types!.includes("pharmacy")){
+          console.log("pharmacy added")
+          markersWithInfoHealth.push({
+            id:i,
+            location:{
+              lat:places[i].location!.lat(),
+              lng:places[i].location!.lng()
+            },
+            address:places[i].formattedAddress!,
+            name:places[i].displayName!,
+            buildingType:places[i].types![0],
+            prevState:null
+          })
+        }
+      }
+
+      for(let i = 0; i < places.length; i++){
+        //Transit
+        if(places[i].types!.includes("cafe")){
+          console.log("cafe added")
+          markersWithInfoTransit.push({
+            id:i,
+            location:{
+              lat:places[i].location!.lat(),
+              lng:places[i].location!.lng()
+            },
+            address:places[i].formattedAddress!,
+            name:places[i].displayName!,
+            buildingType:places[i].types![0],
+            prevState:null
+          })
+        }
+      }
+
+    }
+  }
+
   return (
     <div>
       <Searchbar>
@@ -1346,9 +1429,18 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               radius: 3800,
               type: "transit_station"
             }
-            const requesttypes = [request, request_2, request_3]
+
+            //Neue API
+            newNearbySearch({lat,lng})
+            console.log(markersWithInfoGroceries)
+            console.log(markersWithInfoHealth)
+            console.log(markersWithInfoTransit)
+
+            //Alte API
+            //const requesttypes = [request, request_2, request_3]
             //Es wird im vorgegebenen Umkreis nach places gesucht
-            performNearbySearch(requesttypes);
+            //performNearbySearch(requesttypes);
+
             //Timeout von +- 1 Sekunde, damit die Marker richtig laden
             setTimeout(() => {
               setCalculationDone(true);
@@ -1453,8 +1545,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             lng: selectedMarker.location.lng
           }}>
             <div>
-              <h3>{selectedMarker.name}</h3>
-              <h3>{travelMode}: {Math.ceil(currentDurationUseState / 60)} min </h3>
+              
+              <h3>Name: {selectedMarker.name}</h3>
+              <h3>Type: {selectedMarker.buildingType}</h3>
+              <h3>Length by {travelMode}: {Math.ceil(currentDurationUseState / 60)} min </h3>
               <p>{selectedMarker.address}</p>
             </div>
           </InfoWindow>}
