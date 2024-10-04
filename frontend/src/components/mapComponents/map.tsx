@@ -104,6 +104,12 @@ let tempClosestHealthName:string;
 let tempClosestTransitName:string;
 const tempSearchResultArray:Array<number>=[1.2,3.4];
 
+//Array von strings zur Übergabe an die finale Filterkomponente
+const socialPreferencesStrings:string[] = [];
+const healthPreferencesStrings:string[] = [];
+const culturePreferencesStrings:string[] = [];
+const sportsPreferencesStrings:string[] = [];
+
   const throwInfo = (errorMessage: string) => {
     toast.info(errorMessage, {
         position: "top-center",
@@ -399,12 +405,6 @@ const Overlay = styled.div`
   z-index: 1000;
 `;
 
-interface InputProps {
-  $isValid?: boolean; //wird irrelevant sobald regex funktioniert
-}
-
-
-
 const InputWrapper = styled.div`
     width: fit-content;
     display: grid;
@@ -518,7 +518,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   //Speicherung der derzeitigen Suche
   const [saveCurrentResultName,setCurrentResultName] = useState('');
   const [inputWindowOpenReact,setInputWindowOpen] = useState(false);
-  const [canInputWindowBeClosed,setCanInfoWindowBeClosed] = useState(false);
   
 
   //Check für den redirect vom Profil aus
@@ -771,10 +770,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onLoad = useCallback((map: any) => (mapRef.current = map), []);
-  console.log(shouldRenderCircles);
+  //console.log(shouldRenderCircles);
 
-  //Kleine Helferfunktion. Inkrementiert eine Variable, damit sich die Karte aktualisiert. Werde noch testen, ob diese am Ende vonnöten ist oder nicht
-  
 
   const selectRouteFromMarker = (spotLiterals: LatLngLiteral, travelModeParam: string) => {
     if (!spot) return;
@@ -1291,7 +1288,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   async function saveSearch(spotLiterals:LatLngLiteral,nameToSave:string){
     //To-Do implement here
     console.log("Implement save here");
-    setCanInfoWindowBeClosed(false);
+
     canInputWindowBeClosedNotReact = false;
     const currentSpotLat=spotLiterals.lat;
     const currentSpotLng=spotLiterals.lng;
@@ -1307,7 +1304,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       .then((res:{data:string})=>{
         if(res.data==="save successful"){
           console.log("Adress was successfully saved");
-          setCanInfoWindowBeClosed(true);
+
           canInputWindowBeClosedNotReact = true;
         }
         if(res.data==="Name already exists"){
@@ -1323,8 +1320,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   async function newNearbySearch(centerParam:google.maps.LatLngLiteral){
     const { Place, SearchNearbyRankPreference } = await google.maps.importLibrary('places') as google.maps.PlacesLibrary;
 
-    const request_newAPI = {
-      fields:["displayName","location","businessStatus","types","formattedAddress","photos"],
+    const request_social_new_API = {
+      fields:["displayName","location","businessStatus","types","formattedAddress"],
       locationRestriction:{
         center:centerParam,
         radius:3750
@@ -1335,7 +1332,31 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       language:"en-UK"
     }
 
-    const {places} = await Place.searchNearby(request_newAPI);
+    const request_culture_new_API = {
+      fields:["displayName","location","businessStatus","types","formattedAddress"],
+      locationRestriction:{
+        center:centerParam,
+        radius:3750
+      },
+      includedPrimaryTypes:["library","book_store","performing_arts_theater","museum","art_gallery"],
+      maxResultCount:20,
+      rankPreference:SearchNearbyRankPreference.DISTANCE,
+      language:"en-UK"
+    }
+
+    const request_health_new_API = {
+      fields:["displayName","location","businessStatus","types","formattedAddress"],
+      locationRestriction:{
+        center:centerParam,
+        radius:3750
+      },
+      includedPrimaryTypes:["beauty_salon","hair_care","spa","hospital","pharmacy"],
+      maxResultCount:20,
+      rankPreference:SearchNearbyRankPreference.DISTANCE,
+      language:"en-UK"
+    }
+
+    const {places} = await Place.searchNearby(request_social_new_API);
     
     if(places.length){
    
