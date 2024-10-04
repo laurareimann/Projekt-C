@@ -308,7 +308,7 @@ export default function RoutesMap() {
       </ScoreContainerGrid>                    
 
       <GoogleMap zoom={14}
-          center={center}
+          center={startingSpot}
           mapContainerClassName="map-container"
           options={options}
           onLoad={onLoad}>

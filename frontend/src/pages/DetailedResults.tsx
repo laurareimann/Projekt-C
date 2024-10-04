@@ -70,8 +70,7 @@ const Evaluation: React.FC = () => {
     const ScoreTab = () =>  <div> 
                                 <HorizontalGrid>
                                     <MapWithoutSearch
-                                        center={{ lat: 53.5688823, lng: 10.0330191 }}
-                                        shouldRenderCircles={false}
+                                        shouldRenderCircles={true}
                                         circleRadii={[1250, 2500, 3750]}
                                         circleColors={['green', 'yellow', 'red']}
                                         height='50vh'

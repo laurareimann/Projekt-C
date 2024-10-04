@@ -28,10 +28,10 @@ function ResultContainer({street = "", zip="", city="", score="", color = "pink"
     return (
         <ResContainer>
             <MapWithoutSearch
-                    center={{ lat: 53.5688823, lng: 10.0330191 }}
                     shouldRenderCircles={false}
                     circleRadii={[1250, 2500, 3750]}
                     circleColors={['green', 'yellow', 'red']}
+                    shouldRenderMarkers = {false}
                     height='14vh'
                     width='20vh'
                 />

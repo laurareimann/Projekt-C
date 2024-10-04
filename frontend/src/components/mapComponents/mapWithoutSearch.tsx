@@ -1,25 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "../../globals.css";
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import {
-  GoogleMap,
-  Marker,
-  DirectionsRenderer,
-  Circle,
-  MarkerClusterer,
-} from "@react-google-maps/api";
-import Places from "./places";
-import Distance from "./distance";
+import {GoogleMap, Marker} from "@react-google-maps/api";
 import styled from "styled-components";
-import MapLegend from "./mapLegend";
+import AddressData from "../../../ValuesForDetailedResult.json"
 
-import walkingIcon from "../../assets/walkingIcon.svg";
-import { Container } from "react-bootstrap";
-
-type LatLngLiteral = google.maps.LatLngLiteral;
-type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
-
 
 const MapContainer = styled.div<{ height: string; width: string }>`
   position: relative;
@@ -34,23 +20,28 @@ const MapContainer = styled.div<{ height: string; width: string }>`
 
 // Typescript Props
 interface MapWithoutSearchProps {
-  center: LatLngLiteral;
   shouldRenderCircles?: boolean;
   circleRadii?: number[];
   circleColors?: string[];
+  shouldRenderMarkers?: boolean;
   height?: string;
   width?: string;
 }
 
-const defaultCenter: LatLngLiteral = { lat: 53.5688823, lng: 10.0330191 };
 const defaultColors = ["green", "yellow", "red"];
+
+const startingSpot={lat: AddressData.currentStartingSpot[0], lng: AddressData.currentStartingSpot[1]};
+const grocerySpot={lat: AddressData.currentClosestGrocery[0], lng: AddressData.currentClosestGrocery[1]};
+const healthSpot ={lat: AddressData.currentClosestHealth[0], lng: AddressData.currentClosestHealth[1]};
+const transitSpot={lat: AddressData.currentClosestTransit[0], lng: AddressData.currentClosestTransit[1]};
+
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
 const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
-  center = defaultCenter,
   shouldRenderCircles = true,
   circleRadii = [1250, 2500, 3750],
   circleColors = defaultColors,
+  shouldRenderMarkers = true,
   height = "50vh", //default
   width = "50vh"   //default
   
@@ -79,7 +70,6 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
       // Create new circles
       const newCircles = circleRadii.map((radius, index) => {
         return new google.maps.Circle({
-          center,
           radius,
           strokeColor: circleColors[index],
           strokeOpacity: 0.4,
@@ -95,7 +85,7 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
       // Clear circles if shouldRenderCircles is false
       setCircles([]);
     }
-  }, [mapLoaded, shouldRenderCircles, center, circleRadii]);
+  }, [mapLoaded, shouldRenderCircles, circleRadii]);
 
   //Der error ist irgendwie nicht entfernbar. Wenn man den type spezifiziert, funktioniert der Rest des codes nicht
   //Ist vorerst nicht wichtig, aber im Hinterkopf behalten!
@@ -106,7 +96,6 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
     setMapLoaded(true);
   }, []);
 
-  
 
 
   return (
@@ -114,23 +103,25 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
       <MapContainer height={height} width={width}>
         <GoogleMap
           zoom={13}
-          center={center}
+          center={startingSpot}
           mapContainerClassName="map-container-without-search"
           options={options}
           onLoad={onLoad}
         >
-          {/* Render dynamically generated circles */}
-          {shouldRenderCircles && (
-            <Marker position={center} />
-          )}
-        {shouldRenderCircles && (
-          <MapLegend
-            circleRadii={circleRadii}
-            circleColors={circleColors}
-            logo={walkingIcon}
-          />
+
+        <Marker position={startingSpot}></Marker>
+
+        {shouldRenderMarkers && (
+        <Marker position={grocerySpot} icon='http://maps.google.com/mapfiles/ms/icons/green-dot.png'></Marker>
         )}
-        </GoogleMap>
+        {shouldRenderMarkers && (
+          <Marker position={healthSpot} icon='http://maps.google.com/mapfiles/ms/icons/blue-dot.png'></Marker>
+        )}
+        {shouldRenderMarkers && (
+            <Marker position={transitSpot} icon='http://maps.google.com/mapfiles/ms/icons/red-dot.png'></Marker>
+        )}
+        
+         </GoogleMap>
         </MapContainer>
     </div>
   )
@@ -138,44 +129,3 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
 
 export default MapWithoutSearch;
 
-const defaultOptions = {
-  strokeOpacity: 0.5,
-  strokeWeight: 2,
-  clickable: false,
-  draggable: false,
-  editable: false,
-  visible: true,
-};
-const closeOptions = {
-  ...defaultOptions,
-  zIndex: 3,
-  fillOpacity: 0.05,
-  strokeColor: "#8BC34A",
-  fillColor: "#8BC34A",
-};
-const middleOptions = {
-  ...defaultOptions,
-  zIndex: 2,
-  fillOpacity: 0.05,
-  strokeColor: "#FBC02D",
-  fillColor: "#FBC02D",
-};
-const farOptions = {
-  ...defaultOptions,
-  zIndex: 1,
-  fillOpacity: 0.05,
-  strokeColor: "#FF5252",
-  fillColor: "#FF5252",
-};
-
-const generateHouses = (position: LatLngLiteral) => {
-  const _houses: Array<LatLngLiteral> = [];
-  for (let i = 0; i < 100; i++) {
-    const direction = Math.random() < 0.5 ? -2 : 2;
-    _houses.push({
-      lat: position.lat + Math.random() / direction,
-      lng: position.lng + Math.random() / direction,
-    });
-  }
-  return _houses;
-};

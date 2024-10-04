@@ -1,30 +1,30 @@
 {
-  "currentScoreValue": 11,
+  "currentScoreValue": 19,
   "currentStartingSpot": [
-    53.5688823,
-    10.0330191
+    54.87015,
+    8.88251
   ],
   "currentClosestGrocery": [
-    53.5628821,
-    10.0335561
+    54.869822,
+    8.9066332
   ],
   "currentClosestHealth": [
-    53.5694671,
-    10.0288
+    54.8712028,
+    8.9077623
   ],
   "currentClosestTransit": [
-    53.567127,
-    10.030884
+    54.872601,
+    8.883047
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 14,
-  "currentHealthDuration": 11,
-  "currentTransitDuration": 8,
-  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Lübecker Str. 116-124, 22087 Hamburg, Germany",
-  "currentClosestHealthAddress": "Lerchenfeld 14, 22081 Hamburg, Germany",
-  "currentClosestTransitAddress": "Uferstraße, 22081 Hamburg, Germany",
+  "currentGroceryDuration": 25,
+  "currentHealthDuration": 28,
+  "currentTransitDuration": 4,
+  "currentStartAddress": "Zollstraße 11, 25923 Süderlügum, Deutschland",
+  "currentClosestGroceryAddress": "Hauptstraße 6 A, 25923 Süderlügum, Deutschland",
+  "currentClosestHealthAddress": "Mittelweg 2, 25923 Süderlügum, Deutschland",
+  "currentClosestTransitAddress": "Wimmersbüll, Schule, 25923 Süderlügum, Deutschland",
   "currentClosestGroceryName": "ALDI Nord",
-  "currentClosestHealthName": "Dr. med. Christian Schindler",
-  "currentClosestTransitName": "Uferstraße"
+  "currentClosestHealthName": "Hausarztpraxis Dr. Büchner Süderlügum",
+  "currentClosestTransitName": "Wimmersbüll, Schule"
 }

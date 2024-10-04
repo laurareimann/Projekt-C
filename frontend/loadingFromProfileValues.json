@@ -1,8 +1,8 @@
 {
-  "currentAddressLat": 53.5688823,
-  "currentAddressLng": 10.0330191,
+  "currentAddressLat": 54.87015,
+  "currentAddressLng": 8.88251,
   "ShouldLoadBool": false,
-  "currentAddress": "Finkenau 35",
-  "currentAddressCity": "22081",
-  "currentAddressZip": "Hamburg"
+  "currentAddress": "Zollstraße 11",
+  "currentAddressCity": "Süderlügum",
+  "currentAddressZip": "25923"
 }
