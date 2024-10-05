@@ -105,9 +105,9 @@ let tempClosestTransitName:string;
 const tempSearchResultArray:Array<number>=[1.2,3.4];
 
 //Array von strings zur Übergabe an die finale Filterkomponente
-const socialPreferencesStrings:string[] = [];
-const healthPreferencesStrings:string[] = [];
-const culturePreferencesStrings:string[] = [];
+const socialPreferencesStrings:string[] = ["cafe","bar","night_club","restaurant"];
+const healthPreferencesStrings:string[] = ["beauty_salon","hair_care","spa","hospital","pharmacy"];
+const culturePreferencesStrings:string[] = ["library","book_store","performing_arts_theater","museum","art_gallery"];
 const sportsPreferencesStrings:string[] = [];
 
   const throwInfo = (errorMessage: string) => {
@@ -608,26 +608,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       const lat: number = finalCenter.lat;
       const lng: number = finalCenter.lng;
 
-    //NearbySearch-Requests für die verschiedenen types
-    const request = {
-      location: { lat, lng },
-      radius: 5000,
-      type: "grocery_or_supermarket"
-    }
-    const request_2 = {
-      location: { lat, lng },
-      radius: 5000,
-      type: "doctor"
-    }
-    const request_3 = {
-      location: { lat, lng },
-      radius: 5000,
-      type: "transit_station"
-    }
-    const requesttypes = [request, request_2, request_3]
     //Es wird im vorgegebenen Umkreis nach places gesucht
-    //performNearbySearch(requesttypes);
-    newNearbySearch({lat,lng});
+    newNearbySearch({lat,lng},0,socialPreferencesStrings)
+    newNearbySearch({lat,lng},1,healthPreferencesStrings)
+    newNearbySearch({lat,lng},2,culturePreferencesStrings)
     //Timeout von +- 1 Sekunde, damit die Marker richtig laden
     setTimeout(() => {
       setCalculationDone(true);
@@ -1317,7 +1301,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   }
 
-  async function newNearbySearch(centerParam:google.maps.LatLngLiteral){
+  
+
+
+  async function newNearbySearch(centerParam:google.maps.LatLngLiteral,whichRequest:number,preferenceList:string[]){
     const { Place, SearchNearbyRankPreference } = await google.maps.importLibrary('places') as google.maps.PlacesLibrary;
 
     const request_social_new_API = {
@@ -1356,66 +1343,75 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       language:"en-UK"
     }
 
-    const {places} = await Place.searchNearby(request_social_new_API);
+    const current_request_new_API = {
+      fields:["displayName","location","businessStatus","types","formattedAddress"],
+      locationRestriction:{
+        center:centerParam,
+        radius:3750
+      },
+      includedPrimaryTypes:preferenceList,
+      maxResultCount:10,
+      rankPreference:SearchNearbyRankPreference.DISTANCE,
+      language:"en-UK"
+    }
+
+    const {places} = await Place.searchNearby(current_request_new_API);
     
+    
+
     if(places.length){
    
       console.log(places)
 
-      for(let i = 0; i < places.length; i++){
-        //Groceries
-        if(places[i].types!.includes("supermarket")){
-          console.log("Supermarket added")
-          markersWithInfoGroceries.push({
-            id:i,
-            location:{
-              lat:places[i].location!.lat(),
-              lng:places[i].location!.lng()
-            },
-            address:places[i].formattedAddress!,
-            name:places[i].displayName!,
-            buildingType:places[i].types![0],
-            prevState:null
-          })
-        }
-      } 
+      switch(whichRequest){
+        case 0:
+          for(let i = 0; i< places.length; i++){
+            markersWithInfoGroceries.push({
+              id:i,
+              location:{
+                lat:places[i].location!.lat(),
+                lng:places[i].location!.lng()
+              },
+              address:places[i].formattedAddress!,
+              name:places[i].displayName!,
+              buildingType:places[i].types![0],
+              prevState:null
+            })
+          }
+          break;
 
-      for(let i = 0; i < places.length; i++){
-        //Health
-        if(places[i].types!.includes("pharmacy")){
-          console.log("pharmacy added")
-          markersWithInfoHealth.push({
-            id:i,
-            location:{
-              lat:places[i].location!.lat(),
-              lng:places[i].location!.lng()
-            },
-            address:places[i].formattedAddress!,
-            name:places[i].displayName!,
-            buildingType:places[i].types![0],
-            prevState:null
-          })
-        }
+        case 1:
+          for(let i = 0; i< places.length; i++){
+            markersWithInfoHealth.push({
+              id:i,
+              location:{
+                lat:places[i].location!.lat(),
+                lng:places[i].location!.lng()
+              },
+              address:places[i].formattedAddress!,
+              name:places[i].displayName!,
+              buildingType:places[i].types![0],
+              prevState:null
+            })
+          }
+          break;
+
+        case 2:
+          for(let i = 0; i< places.length; i++){
+            markersWithInfoTransit.push({
+              id:i,
+              location:{
+                lat:places[i].location!.lat(),
+                lng:places[i].location!.lng()
+              },
+              address:places[i].formattedAddress!,
+              name:places[i].displayName!,
+              buildingType:places[i].types![0],
+              prevState:null
+            })
+          }
+          break;
       }
-
-      for(let i = 0; i < places.length; i++){
-        //Transit
-        if(places[i].types!.includes("cafe")){
-          console.log("cafe added")
-          markersWithInfoTransit.push({
-            id:i,
-            location:{
-              lat:places[i].location!.lat(),
-              lng:places[i].location!.lng()
-            },
-            address:places[i].formattedAddress!,
-            name:places[i].displayName!,
-            buildingType:places[i].types![0],
-            prevState:null
-          })
-        }
-      }
-
     }
   }
 
@@ -1452,7 +1448,13 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             }
 
             //Neue API
-            newNearbySearch({lat,lng})
+
+
+
+            newNearbySearch({lat,lng},0,socialPreferencesStrings)
+            newNearbySearch({lat,lng},1,healthPreferencesStrings)
+            newNearbySearch({lat,lng},2,culturePreferencesStrings)
+
             console.log(markersWithInfoGroceries)
             console.log(markersWithInfoHealth)
             console.log(markersWithInfoTransit)

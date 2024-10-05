@@ -34,12 +34,6 @@ type MapOptions = google.maps.MapOptions;
 let placesMap: google.maps.Map;
 let service: google.maps.places.PlacesService;
 
-//Temporäre Variablen, um für den redirect vom profile zu checken
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let redirectCheckArray:any =[];
-let checkForLoadFlag:boolean;
-let addressToLoad:string = "";
-
 //temporäre arrays für den Algorithmus bzw. die Anzeige auf der Karte
 const currentByFootV2: Array<google.maps.LatLngLiteral> = []
 
@@ -189,7 +183,6 @@ export default function Places({ setSpot }: PlacesProps) {
           //Falls wir irgendwann noch das Bundesland brauchen
           case "administrative_area_level_1":
     }
-      checkForLoadFlag = false;
     }
       address = tmpStreetName + " " + tmpStreetNumber;
       console.log("The address to save is: " + address);

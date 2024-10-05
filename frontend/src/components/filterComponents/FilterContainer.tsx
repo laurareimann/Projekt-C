@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Container from '../Container';
 import Button from '../buttons/Buttons';
 import LabelButton from '../buttons/LabelButton';
 import TileButton from '../buttons/TileButton';
@@ -47,7 +46,7 @@ width: fit-content;
             "none"};
 `
 
-function FilterContainer({ color = "blue", outline = true, children, onClose }: { color?: string; outline?: boolean; children?: React.ReactNode; onClose?: () => void }) {
+function FilterContainer({ color = "blue", children, onClose }: { color?: string; outline?: boolean; children?: React.ReactNode; onClose?: () => void }) {
     const [selectedFilters, setSelectedFilters] = useState<FilterState>({
         transportMethod: {
             walking: false,
@@ -147,11 +146,11 @@ function FilterContainer({ color = "blue", outline = true, children, onClose }: 
     // Use useEffect to log the selected filters whenever they change
     useEffect(() => {
         const activeTransportMethods = Object.entries(selectedFilters.transportMethod)
-            .filter(([_, value]) => value)
+            .filter(([value]) => value)
             .map(([key]) => key);
 
         const activePreferences = Object.entries(selectedFilters.preferences)
-            .filter(([_, value]) => value)
+            .filter(([value]) => value)
             .map(([key]) => key);
 
         console.log("Selected Transport Methods:", activeTransportMethods);
@@ -167,7 +166,7 @@ function FilterContainer({ color = "blue", outline = true, children, onClose }: 
 
     return (
         <ContainerWrapper>
-            <FContainer color={color} outline={outline}>
+            <FContainer color={color} $hasOutline={false}>
                 <CloseButton onClick={onClose}>&times;</CloseButton>
                 {children}
                 <FilterWrapper>
