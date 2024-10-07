@@ -39,15 +39,21 @@ const AboutUs: React.FC = () => {
                     <p>Our core objective is to provide citizens with the information they need to make informed choices about their communities. This website serves as a resource for individuals seeking a better quality of life and for policymakers considering improvements to urban environments.</p>
                 </Section>
 
-                <p>Here's a breakdown of how we hope to contribute:</p>
-                <ul>
-                    <li>Provide information on the 15-minute city concept and its benefits</li>
-                    <li>Offer resources for individuals looking to make their communities more sustainable</li>
-                    <li>Encourage policymakers to consider the 15-minute city model in their urban planning</li>
-                </ul>
-                <h3>Our Team</h3>
-                <p>This project wouldn't be possible without the dedication of our team:</p>
-                <p>Laura, Leon, Nico, and Niko</p>
+                <Section>
+                    <p>Here's a breakdown of how we hope to contribute:</p>
+                    <ul>
+                        <li>Provide information on the 15-minute city concept and its benefits</li>
+                        <li>Offer resources for individuals looking to make their communities more sustainable</li>
+                        <li>Encourage policymakers to consider the 15-minute city model in their urban planning</li>
+                    </ul>
+                </Section>
+
+                <Section>
+                    <h3>Our Team</h3>
+                    <p>This project wouldn't be possible without the dedication of our team:</p>
+                    <p>Laura, Leon, Nico, and Niko</p>
+                </Section>
+
             </Wrapper>
         </div>
     );
