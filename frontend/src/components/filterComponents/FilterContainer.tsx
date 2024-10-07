@@ -6,10 +6,9 @@ import TileButton from '../buttons/TileButton';
 
 type TransportMethod = 'walking' | 'bike' | 'publicTransport' | 'car';
 type Preference =
-    | 'hairDresser' | 'nailSalon' | 'cosmeticStudio' | 'massage' | 'therme' | 'sauna' | 'solarium' | 'hospital'
-    | 'restaurants' | 'cafes' | 'bars' | 'clubs'
-    | 'hiking' | 'cycling' | 'aquatics' | 'gymnastics' | 'tennis' | 'soccer' | 'basketball' | 'skating' | 'indoorSports'
-    | 'theatres' | 'museums' | 'libraries' | 'bookStores' | 'galleries';
+    | 'hairDresser' | 'beautySalon' | 'spa' | 'hospital'
+    | 'restaurants' | 'cafes' | 'bars' | 'nightClubs'
+    | 'nationalPark' | 'gym'  | 'theatres' | 'museums' | 'libraries' | 'galleries';
 
 type FilterState = {
     transportMethod: Record<TransportMethod, boolean>;
@@ -56,30 +55,18 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
         },
         preferences: {
             hairDresser: false,
-            nailSalon: false,
-            cosmeticStudio: false,
-            massage: false,
-            therme: false,
-            sauna: false,
-            solarium: false,
+            beautySalon: false,
+            spa: false,
             hospital: false,
             restaurants: false,
             cafes: false,
             bars: false,
-            clubs: false,
-            hiking: false,
-            cycling: false,
-            aquatics: false,
-            gymnastics: false,
-            tennis: false,
-            soccer: false,
-            basketball: false,
-            skating: false,
-            indoorSports: false,
+            nightClubs: false,
+            nationalPark: false,
+            gym: false,
             theatres: false,
             museums: false,
             libraries: false,
-            bookStores: false,
             galleries: false
         }
     });
@@ -114,31 +101,19 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
             },
             preferences: {
                 hairDresser: false,
-                nailSalon: false,
-                cosmeticStudio: false,
-                massage: false,
-                therme: false,
-                sauna: false,
-                solarium: false,
-                hospital: false,
-                restaurants: false,
-                cafes: false,
-                bars: false,
-                clubs: false,
-                hiking: false,
-                cycling: false,
-                aquatics: false,
-                gymnastics: false,
-                tennis: false,
-                soccer: false,
-                basketball: false,
-                skating: false,
-                indoorSports: false,
-                theatres: false,
-                museums: false,
-                libraries: false,
-                bookStores: false,
-                galleries: false
+            beautySalon: false,
+            spa: false,
+            hospital: false,
+            restaurants: false,
+            cafes: false,
+            bars: false,
+            nightClubs: false,
+            nationalPark: false,
+            gym: false,
+            theatres: false,
+            museums: false,
+            libraries: false,
+            galleries: false
             }
         });
     };
@@ -158,15 +133,15 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
     }, [selectedFilters]); // Dependency array to watch for changes in selectedFilters
 
     const preferenceGroups = {
-        'Health & Wellness': ['hairDresser', 'nailSalon', 'cosmeticStudio', 'massage', 'therme', 'sauna', 'solarium', 'hospital'],
+        'Health & Wellness': ['hairDresser', 'spa', 'hospital'],
         'Social': ['restaurants', 'cafes', 'bars', 'clubs'],
-        'Sports & Activities': ['hiking', 'cycling', 'aquatics', 'gymnastics', 'tennis', 'soccer', 'basketball', 'skating', 'indoorSports'],
-        'Culture': ['theatres', 'museums', 'libraries', 'bookStores', 'galleries']
+        'Sports & Activities': ['nationalParks', 'gym'],
+        'Culture': ['theatres', 'museums', 'libraries', 'galleries']
     };
 
     return (
         <ContainerWrapper>
-            <FContainer color={color} $hasOutline={false}>
+            <FContainer color={color} $hasOutline={outline}>
                 <CloseButton onClick={onClose}>&times;</CloseButton>
                 {children}
                 <FilterWrapper>
