@@ -20,6 +20,7 @@ import { useCityNew, useScore, useStreetNameNew, useZipCodeNew } from "./StreetP
 import axios from "axios";
 import FilterOverlay from "../filterComponents/FilterOverlay";
 import { Bounce, toast } from "react-toastify";
+import FilterContainer from "../filterComponents/FilterContainer.tsx"
 //import { InfoWindow } from "react-google-maps";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -79,7 +80,7 @@ let tempStartName:string;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let redirectCheckArray:any =[];
-let checkForLoadFlag:boolean;
+let checkForLoadFlag:boolean = false;
 let addressToLoad:string = "";
 let addressToLoadLat:number;
 let addressToLoadLng:number;
@@ -89,6 +90,8 @@ let altCenter:google.maps.LatLngLiteral;
 let finalCenter:google.maps.LatLngLiteral;
 let canInputWindowBeClosedNotReact:boolean = false;
 let isSaveButtonDisabled:boolean = true;
+
+
 
   //Temporöre Variablen zu Kontextvariablen
 const tempGroceryArray:Array<number>=[0.2,0.1];
@@ -106,10 +109,11 @@ let tempClosestTransitName:string;
 const tempSearchResultArray:Array<number>=[1.2,3.4];
 
 //Array von strings zur Übergabe an die finale Filterkomponente
-const socialPreferencesStrings:string[] = ["cafe","bar","night_club","restaurant"];
-const healthPreferencesStrings:string[] = ["beauty_salon","hair_care","spa","hospital","pharmacy"];
-const culturePreferencesStrings:string[] = ["library","book_store","performing_arts_theater","museum","art_gallery"];
+const socialPreferencesStrings:Array<string> = [];
+const healthPreferencesStrings:string[] = [];
+const culturePreferencesStrings:string[] = [];
 const sportsPreferencesStrings:string[] = [];
+let preferenceArray:string;
 
   const throwInfo = (errorMessage: string) => {
     toast.info(errorMessage, {
@@ -466,6 +470,9 @@ async function checkForLoadFromProfileFunc(){
 
 
     }
+    if(res.data===""){
+      finalCenter={lat: 53.5688823, lng: 10.0330191 }
+    }
 
     altCenter = {lat:addressToLoadLat,lng:addressToLoadLng};
 
@@ -488,11 +495,59 @@ async function checkForLoadFromProfileFunc(){
 
 }
 
+
 checkForLoadFromProfileFunc();
 
+async function getPreferences(){
+  console.log("Getting preferences");
 
+  try{
+    axios.get("http://localhost:8080/getPreferences").then((res:{data:string})=>{
+      if(res.data!=""){
+        console.log(res.data)
+        preferenceArray = res.data;
+        console.log(preferenceArray);
+        console.log("Fetching prefernces");
+
+        const formattedPrefernceArray = JSON.parse(preferenceArray);
+        console.log("Current preferences: "+ formattedPrefernceArray)
+
+        /*
+        socialPreferencesStrings = formattedPrefernceArray.socialListSend;
+        healthPreferencesStrings = formattedPrefernceArray.wellnessListSend;
+        culturePreferencesStrings = formattedPrefernceArray.cultureListSend;
+        */
+
+        for(let i = 0; i < formattedPrefernceArray.socialListSend.length; i++){
+          socialPreferencesStrings.push(formattedPrefernceArray.socialListSend[i]);
+        }
+
+        for(let i = 0; i< formattedPrefernceArray.cultureListSend.length;i++){
+          culturePreferencesStrings.push(formattedPrefernceArray.cultureListSend[i]);
+        }
+
+        for(let i = 0; i < formattedPrefernceArray.wellnessListSend.length;i++){
+          healthPreferencesStrings.push(formattedPrefernceArray.wellnessListSend[i]);
+        }
+
+
+        console.log("Current preferences after JSON");
+        console.log(culturePreferencesStrings);
+        console.log(healthPreferencesStrings);
+        console.log(socialPreferencesStrings);
+
+      }
+    })
+  }
+  catch(e){
+    console.log(e);
+  }
+
+}
 
 export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750], circleColors = defaultColors }) {
+
+  
 
   //Wenn die map initialisiert wird, ist der default spot auf der HAW Finkenau
   const center = useMemo<LatLngLiteral>(() => ({lat:finalCenter.lat,lng:finalCenter.lng}), []);
@@ -603,6 +658,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   }
 
   if(checkForLoadFlag==true){
+    
+    setTimeout(()=>{getPreferences();},1500)
+    
     setTimeout(()=>{
       //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
       console.log("I loaded the map");
@@ -620,7 +678,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       calculateScorePrototype(finalCenter, travelMode);
     }, 1500);
     
-    },1000);
+    },2000);
     updateCity(addressCityToLoad);
     updateStreet(addressToLoad);
     updateZipCode(addressZipToLoad);
@@ -1306,43 +1364,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
 
   async function newNearbySearch(centerParam:google.maps.LatLngLiteral,whichRequest:number,preferenceList:string[]){
+    
+    console.log("Current preferences in nearbySearch: " + preferenceList);
+    
     const { Place, SearchNearbyRankPreference } = await google.maps.importLibrary('places') as google.maps.PlacesLibrary;
-
-    const request_social_new_API = {
-      fields:["displayName","location","businessStatus","types","formattedAddress"],
-      locationRestriction:{
-        center:centerParam,
-        radius:3750
-      },
-      includedPrimaryTypes:["supermarket","cafe","pharmacy"],
-      maxResultCount:20,
-      rankPreference:SearchNearbyRankPreference.DISTANCE,
-      language:"en-UK"
-    }
-
-    const request_culture_new_API = {
-      fields:["displayName","location","businessStatus","types","formattedAddress"],
-      locationRestriction:{
-        center:centerParam,
-        radius:3750
-      },
-      includedPrimaryTypes:["library","book_store","performing_arts_theater","museum","art_gallery"],
-      maxResultCount:20,
-      rankPreference:SearchNearbyRankPreference.DISTANCE,
-      language:"en-UK"
-    }
-
-    const request_health_new_API = {
-      fields:["displayName","location","businessStatus","types","formattedAddress"],
-      locationRestriction:{
-        center:centerParam,
-        radius:3750
-      },
-      includedPrimaryTypes:["beauty_salon","hair_care","spa","hospital","pharmacy"],
-      maxResultCount:20,
-      rankPreference:SearchNearbyRankPreference.DISTANCE,
-      language:"en-UK"
-    }
 
     const current_request_new_API = {
       fields:["displayName","location","businessStatus","types","formattedAddress"],
@@ -1421,8 +1446,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       <Searchbar>
         <ControlContainer>
           <Places setSpot={(position) => {
+            
             //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
-            console.log("I am calling the wrong function")
             setSelectedMarker(null)
             setDirections(undefined);
             const lat: number = position.lat;
@@ -1431,6 +1456,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             markersWithInfoTransit.splice(0, markersWithInfoTransit.length)
             markersWithInfoGroceries.splice(0, markersWithInfoGroceries.length)
             markersWithInfoHealth.splice(0, markersWithInfoHealth.length)
+            getPreferences();
             //NearbySearch-Requests für die verschiedenen types
             const request = {
               location: { lat, lng },
@@ -1449,16 +1475,20 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             }
 
             //Neue API
+            setTimeout(()=>{
+              newNearbySearch({lat,lng},0,socialPreferencesStrings)
+              newNearbySearch({lat,lng},1,healthPreferencesStrings)
+              newNearbySearch({lat,lng},2,culturePreferencesStrings)
 
-
-
-            newNearbySearch({lat,lng},0,socialPreferencesStrings)
-            newNearbySearch({lat,lng},1,healthPreferencesStrings)
-            newNearbySearch({lat,lng},2,culturePreferencesStrings)
-
-            console.log(markersWithInfoGroceries)
-            console.log(markersWithInfoHealth)
-            console.log(markersWithInfoTransit)
+              console.log("Grocery markers");
+              console.log(markersWithInfoGroceries)
+              console.log("Health markers");
+              console.log(markersWithInfoHealth)
+              console.log("Transit markers");
+              console.log(markersWithInfoTransit)
+            
+            },1000)
+            
 
             //Alte API
             //const requesttypes = [request, request_2, request_3]
@@ -1472,7 +1502,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               mapRef.current?.panTo(position)
               calculateScorePrototype(position, travelMode);
               isSaveButtonDisabled = false;
-            }, 2000);
+            }, 2500);
           }} />
         </ControlContainer>
         <FilterOverlay />
