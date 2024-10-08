@@ -187,7 +187,6 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
 
     }
 
-
     return (
         <ContainerWrapper>
             <FContainer color={color} $hasOutline={false}>
