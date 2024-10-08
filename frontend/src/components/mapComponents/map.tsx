@@ -12,6 +12,7 @@ import Places from "./places";
 import styled from "styled-components";
 import MapLegend from "./mapLegend";
 import walkingIcon from "../../assets/white_walking.svg";
+import walkingIconLegend from "../../assets/walkingIcon.svg";
 import bikeIcon from "../../assets/white_bike.svg";
 import carIcon from "../../assets/white_car1.svg";
 import transitIcon from "../../assets/white_tram.svg";
@@ -1579,7 +1580,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             <MapLegend
               circleRadii={circleRadii}
               circleColors={circleColors}
-              logo={walkingIcon}
+              //logo={walkingIconLegend}
             />
           )}
         </GoogleMap>
