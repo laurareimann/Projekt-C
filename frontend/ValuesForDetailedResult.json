@@ -1,0 +1,30 @@
+{
+  "currentScoreValue": 11,
+  "currentStartingSpot": [
+    53.5688823,
+    10.0330191
+  ],
+  "currentClosestGrocery": [
+    53.5628821,
+    10.0335561
+  ],
+  "currentClosestHealth": [
+    53.5694671,
+    10.0288
+  ],
+  "currentClosestTransit": [
+    53.567127,
+    10.030884
+  ],
+  "currentTravelMode": "walking",
+  "currentGroceryDuration": 14,
+  "currentHealthDuration": 11,
+  "currentTransitDuration": 8,
+  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Germany",
+  "currentClosestGroceryAddress": "Lübecker Str. 116-124, 22087 Hamburg, Germany",
+  "currentClosestHealthAddress": "Lerchenfeld 14, 22081 Hamburg, Germany",
+  "currentClosestTransitAddress": "Uferstraße, 22081 Hamburg, Germany",
+  "currentClosestGroceryName": "ALDI Nord",
+  "currentClosestHealthName": "Dr. med. Christian Schindler",
+  "currentClosestTransitName": "Uferstraße"
+}

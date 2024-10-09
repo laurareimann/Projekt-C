@@ -7,8 +7,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-ValuesForDetailedResult.json
-loadingFromProfileValues.json
 
 node_modules
 dist
