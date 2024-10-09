@@ -34,7 +34,6 @@ let setupCheck: boolean = false;
 
 //Arrays in denen die NearbySearch-Ergebnisse gespeichert werden
 //Supermärkte,Läden et cetera
-
 interface MarkerWindow {
   id: number
   address: string;
@@ -66,7 +65,7 @@ let BicycleButtonString: string = "";
 let DrivingButtonString: string = "";
 let TransitButtonStringTravelMode: string = "";
 
-
+//Marker-Arrays in denen u.a. die Orte der Marker auf der map gespeichert werden
 const markersWithInfoGroceries: Array<MarkerWindow> = []
 const markersWithInfoHealth: Array<MarkerWindow> = []
 const markersWithInfoTransit: Array<MarkerWindow> = []
@@ -79,7 +78,7 @@ let tempStartName:string;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let redirectCheckArray:any =[];
-let checkForLoadFlag:boolean;
+let checkForLoadFlag:boolean = false;
 let addressToLoad:string = "";
 let addressToLoadLat:number;
 let addressToLoadLng:number;
@@ -90,7 +89,9 @@ let finalCenter:google.maps.LatLngLiteral;
 let canInputWindowBeClosedNotReact:boolean = false;
 let isSaveButtonDisabled:boolean = true;
 
-  //Temporöre Variablen zu Kontextvariablen
+
+
+//Variablen zu detailed result page
 const tempGroceryArray:Array<number>=[0.2,0.1];
 const tempHealthArray:Array<number>=[1.3,4.2];
 const tempTransitArray:Array<number>=[5.2,2.5];
@@ -104,6 +105,13 @@ let tempClosestGroceryName:string;
 let tempClosestHealthName:string;
 let tempClosestTransitName:string;
 const tempSearchResultArray:Array<number>=[1.2,3.4];
+
+//Array von strings der jeweiligen Filter
+const socialPreferencesStrings:Array<string> = [];
+const healthPreferencesStrings:string[] = [];
+const culturePreferencesStrings:string[] = [];
+const sportsPreferencesStrings:string[] = [];
+let preferenceArray:string;
 
   const throwInfo = (errorMessage: string) => {
     toast.info(errorMessage, {
@@ -400,12 +408,6 @@ const Overlay = styled.div`
   z-index: 1000;
 `;
 
-interface InputProps {
-  $isValid?: boolean; //wird irrelevant sobald regex funktioniert
-}
-
-
-
 const InputWrapper = styled.div`
     width: fit-content;
     display: grid;
@@ -434,7 +436,7 @@ const Searchbar = styled.div`
   }
 `
 
-//Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
+//Wenn Suche aus dem Profil geladen wird
 async function checkForLoadFromProfileFunc(){
 
   console.log("Checking whether page needs to be redirected");
@@ -466,6 +468,10 @@ async function checkForLoadFromProfileFunc(){
 
 
     }
+    //Übersehener case, falls das preloaden aus irgendeinem Grund schiefgeht
+    if(res.data===""){
+      finalCenter={lat: 53.5688823, lng: 10.0330191 }
+    }
 
     altCenter = {lat:addressToLoadLat,lng:addressToLoadLng};
 
@@ -479,18 +485,52 @@ async function checkForLoadFromProfileFunc(){
     }else{
       finalCenter={lat: 53.5688823, lng: 10.0330191 }
     }
-
     })
-
   }catch(e){
     console.log(e)
   }
 
 }
 
+
 checkForLoadFromProfileFunc();
 
+async function getPreferences(){
+  console.log("Getting preferences");
+  //Präferenzen werden aus der dafür erstellten JSON-Datei gelesen
+  try{
+    axios.get("http://localhost:8080/getPreferences").then((res:{data:string})=>{
+      if(res.data!=""){
+        preferenceArray = res.data;
+        console.log("Fetching prefernces");
 
+        const formattedPrefernceArray = JSON.parse(preferenceArray);
+
+        //Filter auf die dazugehörigen Listen aufteilen
+        for(let i = 0; i < formattedPrefernceArray.socialListSend.length; i++){
+          socialPreferencesStrings.push(formattedPrefernceArray.socialListSend[i]);
+        }
+
+        for(let i = 0; i< formattedPrefernceArray.cultureListSend.length;i++){
+          culturePreferencesStrings.push(formattedPrefernceArray.cultureListSend[i]);
+        }
+
+        for(let i = 0; i < formattedPrefernceArray.wellnessListSend.length;i++){
+          healthPreferencesStrings.push(formattedPrefernceArray.wellnessListSend[i]);
+        }
+
+        console.log("Current preferences after JSON");
+        console.log(culturePreferencesStrings);
+        console.log(healthPreferencesStrings);
+        console.log(socialPreferencesStrings);
+      }
+    })
+  }
+  catch(e){
+    console.log(e);
+  }
+
+}
 
 export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750], circleColors = defaultColors }) {
 
@@ -519,7 +559,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   //Speicherung der derzeitigen Suche
   const [saveCurrentResultName,setCurrentResultName] = useState('');
   const [inputWindowOpenReact,setInputWindowOpen] = useState(false);
-  const [canInputWindowBeClosed,setCanInfoWindowBeClosed] = useState(false);
   
 
   //Check für den redirect vom Profil aus
@@ -604,32 +643,18 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   }
 
   if(checkForLoadFlag==true){
+    //Ein timeout muss gesetzt werden, weil sonst die preferences zu langsam eingelesen werden
+    setTimeout(()=>{getPreferences();},1500)
+    
     setTimeout(()=>{
-      //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
       console.log("I loaded the map");
       const lat: number = finalCenter.lat;
       const lng: number = finalCenter.lng;
 
-    //NearbySearch-Requests für die verschiedenen types
-    const request = {
-      location: { lat, lng },
-      radius: 5000,
-      type: "grocery_or_supermarket"
-    }
-    const request_2 = {
-      location: { lat, lng },
-      radius: 5000,
-      type: "doctor"
-    }
-    const request_3 = {
-      location: { lat, lng },
-      radius: 5000,
-      type: "transit_station"
-    }
-    const requesttypes = [request, request_2, request_3]
     //Es wird im vorgegebenen Umkreis nach places gesucht
-    //performNearbySearch(requesttypes);
-    newNearbySearch({lat,lng});
+    newNearbySearch({lat,lng},0,socialPreferencesStrings)
+    newNearbySearch({lat,lng},1,healthPreferencesStrings)
+    newNearbySearch({lat,lng},2,culturePreferencesStrings)
     //Timeout von +- 1 Sekunde, damit die Marker richtig laden
     setTimeout(() => {
       setCalculationDone(true);
@@ -637,19 +662,12 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       calculateScorePrototype(finalCenter, travelMode);
     }, 1500);
     
-    },1000);
+    },2000);
     updateCity(addressCityToLoad);
     updateStreet(addressToLoad);
     updateZipCode(addressZipToLoad);
 
     checkForLoadFlag = false;
-  }
-
-  //Suche in der Nähe gelegender places
-  async function performNearbySearch(requestList: google.maps.places.PlaceSearchRequest[]) {
-    //service.nearbySearch(requestList[0], callback);
-    service.nearbySearch(requestList[1], callback);
-    service.nearbySearch(requestList[2], callback);
   }
 
   //Wenn die helper map noch nicht initialisiert wurde -> dies bitte tun
@@ -663,77 +681,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     }, 500);
     //Danach die flag auf true setzen
     setupCheck = true;
-  }
-
-
-  //Callback-Funktion für die NearbySearch
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function callback(results: any, status: any) {
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-
-      if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-        console.log("You are requesting too fast");
-      }
-
-      for (let i = 0; i < results.length; i++) {
-        //Supermärkte werden in Array 1 abgelegt
-        if (results[i].types.includes("supermarket")) {
-          console.log("Supermarkt: " + results[i].name)
-          markersWithInfoGroceries.push({
-            id: i,
-            location: {
-              lat: results[i].geometry.location.lat(),
-              lng: results[i].geometry.location.lng()
-            },
-            address: results[i].vicinity,
-            name: results[i].name,
-            buildingType:results[i].types[0],
-            prevState: null
-          })
-        }
-        //Apotheken, Kliniken et cetera
-        if (results[i].types.includes("doctor")) {
-          console.log("Gesundheitswesen-Name: " + results[i].name)
-          console.log("Gesundheitswesen-Types: " + results[i].types)
-          markersWithInfoHealth.push({
-            id: i,
-            location: {
-              lat: results[i].geometry.location.lat(),
-              lng: results[i].geometry.location.lng()
-            },
-            address: results[i].vicinity,
-            name: results[i].name,
-            buildingType:results[i].types[0],
-            prevState: null
-          })
-        }
-        //Öffentlicher Personen-Nahverkehr
-        if (results[i].types.includes("transit_station")) {
-          console.log("ÖPNV: " + results[i].name)
-          console.log("ÖPNV-Typ: " + results[i].types)
-          markersWithInfoTransit.push({
-            id: i,
-            location: {
-              lat: results[i].geometry.location.lat(),
-              lng: results[i].geometry.location.lng()
-            },
-            address: results[i].vicinity,
-            name: results[i].name,
-            buildingType:results[i].types[0],
-            prevState: null
-          })
-        }
-      }
-    }
-
-    /*For debugging & sanity checks in the console
-    console.log("Supermärkte");
-    console.log(markersWithInfoGroceries);
-    console.log("Gesundheitswesen");
-    console.log(markersWithInfoHealth);
-    console.log("ÖPNV");
-    console.log(markersWithInfoTransit);
-    */
   }
 
   //Circles
@@ -772,10 +719,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onLoad = useCallback((map: any) => (mapRef.current = map), []);
-  console.log(shouldRenderCircles);
+  //console.log(shouldRenderCircles);
 
-  //Kleine Helferfunktion. Inkrementiert eine Variable, damit sich die Karte aktualisiert. Werde noch testen, ob diese am Ende vonnöten ist oder nicht
-  
 
   const selectRouteFromMarker = (spotLiterals: LatLngLiteral, travelModeParam: string) => {
     if (!spot) return;
@@ -1289,10 +1234,11 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   }
 
+  //Save search on the designated profile
   async function saveSearch(spotLiterals:LatLngLiteral,nameToSave:string){
     //To-Do implement here
     console.log("Implement save here");
-    setCanInfoWindowBeClosed(false);
+
     canInputWindowBeClosedNotReact = false;
     const currentSpotLat=spotLiterals.lat;
     const currentSpotLng=spotLiterals.lng;
@@ -1308,7 +1254,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       .then((res:{data:string})=>{
         if(res.data==="save successful"){
           console.log("Adress was successfully saved");
-          setCanInfoWindowBeClosed(true);
+
           canInputWindowBeClosedNotReact = true;
         }
         if(res.data==="Name already exists"){
@@ -1321,81 +1267,82 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
   }
 
-  async function newNearbySearch(centerParam:google.maps.LatLngLiteral){
+  //NearbySearch mit neuer Places API
+  async function newNearbySearch(centerParam:google.maps.LatLngLiteral,whichRequest:number,preferenceList:string[]){
+    
+    console.log("Current preferences in nearbySearch: " + preferenceList);
+    
     const { Place, SearchNearbyRankPreference } = await google.maps.importLibrary('places') as google.maps.PlacesLibrary;
 
-    const request_newAPI = {
-      fields:["displayName","location","businessStatus","types","formattedAddress","photos"],
+    const current_request_new_API = {
+      fields:["displayName","location","businessStatus","types","formattedAddress"],
       locationRestriction:{
         center:centerParam,
         radius:3750
       },
-      includedPrimaryTypes:["supermarket","cafe","pharmacy"],
-      maxResultCount:20,
+      includedPrimaryTypes:preferenceList,
+      maxResultCount:10,
       rankPreference:SearchNearbyRankPreference.DISTANCE,
       language:"en-UK"
     }
 
-    const {places} = await Place.searchNearby(request_newAPI);
+    const {places} = await Place.searchNearby(current_request_new_API);
     
+    
+
     if(places.length){
    
       console.log(places)
 
-      for(let i = 0; i < places.length; i++){
-        //Groceries
-        if(places[i].types!.includes("supermarket")){
-          console.log("Supermarket added")
-          markersWithInfoGroceries.push({
-            id:i,
-            location:{
-              lat:places[i].location!.lat(),
-              lng:places[i].location!.lng()
-            },
-            address:places[i].formattedAddress!,
-            name:places[i].displayName!,
-            buildingType:places[i].types![0],
-            prevState:null
-          })
-        }
-      } 
+      switch(whichRequest){
+        case 0:
+          for(let i = 0; i< places.length; i++){
+            markersWithInfoGroceries.push({
+              id:i,
+              location:{
+                lat:places[i].location!.lat(),
+                lng:places[i].location!.lng()
+              },
+              address:places[i].formattedAddress!,
+              name:places[i].displayName!,
+              buildingType:places[i].types![0],
+              prevState:null
+            })
+          }
+          break;
 
-      for(let i = 0; i < places.length; i++){
-        //Health
-        if(places[i].types!.includes("pharmacy")){
-          console.log("pharmacy added")
-          markersWithInfoHealth.push({
-            id:i,
-            location:{
-              lat:places[i].location!.lat(),
-              lng:places[i].location!.lng()
-            },
-            address:places[i].formattedAddress!,
-            name:places[i].displayName!,
-            buildingType:places[i].types![0],
-            prevState:null
-          })
-        }
+        case 1:
+          for(let i = 0; i< places.length; i++){
+            markersWithInfoHealth.push({
+              id:i,
+              location:{
+                lat:places[i].location!.lat(),
+                lng:places[i].location!.lng()
+              },
+              address:places[i].formattedAddress!,
+              name:places[i].displayName!,
+              buildingType:places[i].types![0],
+              prevState:null
+            })
+          }
+          break;
+
+        case 2:
+          for(let i = 0; i< places.length; i++){
+            markersWithInfoTransit.push({
+              id:i,
+              location:{
+                lat:places[i].location!.lat(),
+                lng:places[i].location!.lng()
+              },
+              address:places[i].formattedAddress!,
+              name:places[i].displayName!,
+              buildingType:places[i].types![0],
+              prevState:null
+            })
+          }
+          break;
       }
-
-      for(let i = 0; i < places.length; i++){
-        //Transit
-        if(places[i].types!.includes("cafe")){
-          console.log("cafe added")
-          markersWithInfoTransit.push({
-            id:i,
-            location:{
-              lat:places[i].location!.lat(),
-              lng:places[i].location!.lng()
-            },
-            address:places[i].formattedAddress!,
-            name:places[i].displayName!,
-            buildingType:places[i].types![0],
-            prevState:null
-          })
-        }
-      }
-
     }
   }
 
@@ -1404,8 +1351,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       <Searchbar>
         <ControlContainer>
           <Places setSpot={(position) => {
+            
             //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
-            console.log("I am calling the wrong function")
             setSelectedMarker(null)
             setDirections(undefined);
             const lat: number = position.lat;
@@ -1414,34 +1361,24 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             markersWithInfoTransit.splice(0, markersWithInfoTransit.length)
             markersWithInfoGroceries.splice(0, markersWithInfoGroceries.length)
             markersWithInfoHealth.splice(0, markersWithInfoHealth.length)
-            //NearbySearch-Requests für die verschiedenen types
-            const request = {
-              location: { lat, lng },
-              radius: 3800,
-              type: "grocery_or_supermarket"
-            }
-            const request_2 = {
-              location: { lat, lng },
-              radius: 3800,
-              type: "doctor"
-            }
-            const request_3 = {
-              location: { lat, lng },
-              radius: 3800,
-              type: "transit_station"
-            }
+            //Werte der Filter werden geladen
+            getPreferences();
 
-            //Neue API
-            newNearbySearch({lat,lng})
-            console.log(markersWithInfoGroceries)
-            console.log(markersWithInfoHealth)
-            console.log(markersWithInfoTransit)
+            //Bevor Suche stattfindet muss wie oben erwähnt ein kleiner timeout passieren
+            setTimeout(()=>{
+              newNearbySearch({lat,lng},0,socialPreferencesStrings)
+              newNearbySearch({lat,lng},1,healthPreferencesStrings)
+              newNearbySearch({lat,lng},2,culturePreferencesStrings)
 
-            //Alte API
-            //const requesttypes = [request, request_2, request_3]
-            //Es wird im vorgegebenen Umkreis nach places gesucht
-            //performNearbySearch(requesttypes);
-
+              console.log("Grocery markers");
+              console.log(markersWithInfoGroceries)
+              console.log("Health markers");
+              console.log(markersWithInfoHealth)
+              console.log("Transit markers");
+              console.log(markersWithInfoTransit)
+            
+            },1000)
+            
             //Timeout von +- 1 Sekunde, damit die Marker richtig laden
             setTimeout(() => {
               setCalculationDone(true);
@@ -1449,7 +1386,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               mapRef.current?.panTo(position)
               calculateScorePrototype(position, travelMode);
               isSaveButtonDisabled = false;
-            }, 2000);
+            }, 2500);
           }} />
         </ControlContainer>
         <FilterOverlay />
@@ -1473,25 +1410,22 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               console.log(saveCurrentResultName)
               
               if(saveCurrentResultName.length <= 18){
-              console.log(saveCurrentResultName);
-              saveSearch(spot!,saveCurrentResultName)
-              setTimeout(() => {
-                console.log("Input window can be closed: " + canInputWindowBeClosedNotReact)
-                if(canInputWindowBeClosedNotReact == true){
-                  setInputWindowOpen(!inputWindowOpenReact);
-                  throwInfo("Address saved!")
-                  isSaveButtonDisabled = true;
-                }
-              },750);
+                console.log(saveCurrentResultName);
+                saveSearch(spot!,saveCurrentResultName)
+                setTimeout(() => {
+                  console.log("Input window can be closed: " + canInputWindowBeClosedNotReact)
+                  if(canInputWindowBeClosedNotReact == true){
+                    setInputWindowOpen(!inputWindowOpenReact);
+                    throwInfo("Address saved!")
+                    isSaveButtonDisabled = true;
+                  }
+                },750);
               }
               else{
                 throwError("Name is too long");
               }
             }}>Save</StyledButton>
-            <StyledButton onClick={()=>{
-              setInputWindowOpen(!inputWindowOpenReact);
-              
-              }}>Close</StyledButton>
+            <StyledButton onClick={()=>{setInputWindowOpen(!inputWindowOpenReact);}}>Close</StyledButton>
           </SaveButtonGrid>
           </LoginContainer>
           
@@ -1505,9 +1439,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           mapContainerClassName="map-container"
           options={options}
           onLoad={onLoad}
-          onCenterChanged={() => {
-            
-          }}
+          onCenterChanged={() => {}}
         >
         //Anzeige der Route(n)
           {directions && <DirectionsRenderer directions={directions} />}
