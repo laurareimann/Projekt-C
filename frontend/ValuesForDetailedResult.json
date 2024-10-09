@@ -1,35 +1,37 @@
 {
-  "currentScoreValue": 1,
+  "currentScoreValue": 6,
   "currentStartingSpot": [
-    53.5529136,
-    10.0100097
+    53.56834509999999,
+    10.0328485
   ],
   "currentClosestGrocery": [
-    53.5530889,
-    10.009956599999999
+    53.5706032,
+    10.027138299999999
   ],
   "currentClosestHealth": [
-    53.553249699999995,
-    10.010100699999999
+    53.5673769,
+    10.0299359
   ],
   "currentClosestTransit": [
-    53.552130000000005,
-    10.00995
+    53.5679429,
+    10.030135000000001
   ],
   "currentClosestPreference": [
-    6.9,
-    9.6
+    53.567923900000004,
+    10.0306258
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 1,
-  "currentHealthDuration": 1,
-  "currentTransitDuration": 2,
-  "currentPreferenceDuration": 84,
-  "currentStartAddress": "Steindamm 2, 20099 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Steintorweg 2, 20099 Hamburg, Germany",
-  "currentClosestHealthAddress": "Steintorweg 4, 20099 Hamburg, Germany",
-  "currentClosestTransitAddress": "Hauptbahnhof/ZOB, 20097 Hamburg, Germany",
-  "currentClosestGroceryName": "Nordafrikanische Lebensmittel",
-  "currentClosestHealthName": "Dr. med. Ulrich Kondziella",
-  "currentClosestTransitName": "Hauptbahnhof/ZOB"
+  "currentGroceryDuration": 9,
+  "currentHealthDuration": 6,
+  "currentTransitDuration": 4,
+  "currentPreferenceDuration": 5,
+  "currentStartAddress": "Finkenau 42, 22081 Hamburg, Germany",
+  "currentClosestGroceryAddress": "Hamburger Str. 1, 22083 Hamburg, Germany",
+  "currentClosestHealthAddress": "Immenhof 2, 22087 Hamburg, Germany",
+  "currentClosestTransitAddress": "Uferstraße, 22081 Hamburg, Germany",
+  "currentClosestPreferenceAddress": "Lerchenfeld 2A, 22081 Hamburg, Germany",
+  "currentClosestGroceryName": "PENNY",
+  "currentClosestHealthName": "Frau Marie-Luise Schumacher",
+  "currentClosestTransitName": "Uferstraße",
+  "currentClosestPreferenceName": "ICAT – HFBK Hamburg"
 }

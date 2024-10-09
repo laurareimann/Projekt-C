@@ -1,8 +1,8 @@
 {
-  "currentAddressLat": 51.99666999999999,
-  "currentAddressLng": 7.464739999999999,
+  "currentAddressLat": 53.4610267,
+  "currentAddressLng": 9.9693478,
   "ShouldLoadBool": false,
-  "currentAddress": "Zur Aabrücke 13",
-  "currentAddressCity": "Havixbeck",
-  "currentAddressZip": "48329"
+  "currentAddress": "Denickestraße 22",
+  "currentAddressCity": "Hamburg",
+  "currentAddressZip": "21073"
 }

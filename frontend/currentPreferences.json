@@ -1,3 +1,10 @@
 {
-  "preferenceList": []
+  "preferenceList": [
+    "hair_care",
+    "spa",
+    "restaurant",
+    "night_club",
+    "library",
+    "art_gallery"
+  ]
 }

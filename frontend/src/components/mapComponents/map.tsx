@@ -682,7 +682,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       setCalculationDone(true);
       setSpot(finalCenter);
       calculateScorePrototype(finalCenter, travelMode);
-    }, 1000);
+    }, 1250);
     
     },1500);
     updateCity(addressCityToLoad);
@@ -1574,7 +1574,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               mapRef.current?.panTo(position)
               calculateScorePrototype(position, travelMode);
               isSaveButtonDisabled = false;
-            }, 2250);
+            }, 2500);
           }} />
         </ControlContainer>
         <FilterOverlay />

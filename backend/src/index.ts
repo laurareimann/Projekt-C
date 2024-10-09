@@ -184,6 +184,7 @@ app.post("/updateJson",async(req,res)=>{
     currentClosestPreferenceName:req.body.currentClosestPreferenceName
   }
 
+
   const resetCheckArray = JSON.parse(fs.readFileSync(filePathToJsonProfileLoad,"utf-8"))
 
   const resetData = {
@@ -198,6 +199,8 @@ app.post("/updateJson",async(req,res)=>{
   console.log("updating Json file...")
 
   try{
+
+    console.log(data);
 
     const updatedJson = {
       currentScoreValue:data.currentScore,
