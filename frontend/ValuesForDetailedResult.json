@@ -1,30 +1,35 @@
 {
-  "currentScoreValue": 11,
+  "currentScoreValue": 1,
   "currentStartingSpot": [
-    53.5688823,
-    10.0330191
+    53.5529136,
+    10.0100097
   ],
   "currentClosestGrocery": [
-    53.5628821,
-    10.0335561
+    53.5530889,
+    10.009956599999999
   ],
   "currentClosestHealth": [
-    53.5694671,
-    10.0288
+    53.553249699999995,
+    10.010100699999999
   ],
   "currentClosestTransit": [
-    53.567127,
-    10.030884
+    53.552130000000005,
+    10.00995
+  ],
+  "currentClosestPreference": [
+    6.9,
+    9.6
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 14,
-  "currentHealthDuration": 11,
-  "currentTransitDuration": 8,
-  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Lübecker Str. 116-124, 22087 Hamburg, Germany",
-  "currentClosestHealthAddress": "Lerchenfeld 14, 22081 Hamburg, Germany",
-  "currentClosestTransitAddress": "Uferstraße, 22081 Hamburg, Germany",
-  "currentClosestGroceryName": "ALDI Nord",
-  "currentClosestHealthName": "Dr. med. Christian Schindler",
-  "currentClosestTransitName": "Uferstraße"
+  "currentGroceryDuration": 1,
+  "currentHealthDuration": 1,
+  "currentTransitDuration": 2,
+  "currentPreferenceDuration": 84,
+  "currentStartAddress": "Steindamm 2, 20099 Hamburg, Germany",
+  "currentClosestGroceryAddress": "Steintorweg 2, 20099 Hamburg, Germany",
+  "currentClosestHealthAddress": "Steintorweg 4, 20099 Hamburg, Germany",
+  "currentClosestTransitAddress": "Hauptbahnhof/ZOB, 20097 Hamburg, Germany",
+  "currentClosestGroceryName": "Nordafrikanische Lebensmittel",
+  "currentClosestHealthName": "Dr. med. Ulrich Kondziella",
+  "currentClosestTransitName": "Hauptbahnhof/ZOB"
 }

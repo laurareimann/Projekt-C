@@ -165,18 +165,23 @@ app.post("/updateJson",async(req,res)=>{
     HealthLng:req.body.HealthLng,
     TransitLat:req.body.TransitLat,
     TransitLng:req.body.TransitLng,
+    PreferenceLat:req.body.PreferenceLat,
+    PreferenceLng:req.body.PreferenceLng,
     SpotLat:req.body.SpotLat,
     SpotLng:req.body.SpotLng,
     currentGroceryDuration:req.body.currentGroceryDuration,
     currentHealthDuration:req.body.currentHealthDuration,
     currentTransitDuration:req.body.currentTransitDuration,
+    currentPreferenceDuration:req.body.currentPreferenceDuration,
     currentStartingAddressName:req.body.currentStartPointAddress,
     currentClosestGroceryAddress:req.body.currentClosestGroceryAddress,
     currentClosestHealthAddress:req.body.currentClosestHealthAddress,
     currentClosestTransitAddress:req.body.currentClosestTransitAddress,
+    currentClosestPreferenceAddress:req.body.currentClosestPreferenceAddress,
     currentClosestGroceryName:req.body.currentClosestGroceryName,
     currentClosestHealthName:req.body.currentClosestHealthName,
-    currentClosestTransitName:req.body.currentClosestTransitName
+    currentClosestTransitName:req.body.currentClosestTransitName,
+    currentClosestPreferenceName:req.body.currentClosestPreferenceName
   }
 
   const resetCheckArray = JSON.parse(fs.readFileSync(filePathToJsonProfileLoad,"utf-8"))
@@ -200,17 +205,21 @@ app.post("/updateJson",async(req,res)=>{
       currentClosestGrocery:[data.GroceryLat,data.GroceryLng],
       currentClosestHealth:[data.HealthLat,data.HealthLng],
       currentClosestTransit:[data.TransitLat,data.TransitLng],
+      currentClosestPreference:[data.PreferenceLat,data.PreferenceLng],
       currentTravelMode:data.TravelMode,
       currentGroceryDuration:data.currentGroceryDuration,
       currentHealthDuration:data.currentHealthDuration,
       currentTransitDuration:data.currentTransitDuration,
+      currentPreferenceDuration:data.currentPreferenceDuration,
       currentStartAddress:data.currentStartingAddressName,
       currentClosestGroceryAddress:data.currentClosestGroceryAddress,
       currentClosestHealthAddress:data.currentClosestHealthAddress,
       currentClosestTransitAddress:data.currentClosestTransitAddress,
+      currentClosestPreferenceAddress:data.currentClosestPreferenceAddress,
       currentClosestGroceryName:data.currentClosestGroceryName,
       currentClosestHealthName:data.currentClosestHealthName,
-      currentClosestTransitName:data.currentClosestTransitName
+      currentClosestTransitName:data.currentClosestTransitName,
+      currentClosestPreferenceName:data.currentClosestPreferenceName
     }
 
     const updatedJsonData = JSON.stringify(updatedJson,null,2);
@@ -250,10 +259,7 @@ app.post("/updatePreferenceJson",async(req,res)=>{
    artGallery:req.body.artGalleryBool
   }
 
-  const wellnessList:string[]=[];
-  const socialList:string[]=[];
-  const sportsList:string[]=[];
-  const cultureList:string[]=[];
+  const preferenceList:string[] = [];
 
   console.log("updating Json file...")
   console.log()
@@ -262,28 +268,28 @@ app.post("/updatePreferenceJson",async(req,res)=>{
 
     //Manuell die Preferenzen hinzufügen, bevor ich einen Weg finde, das zu automatisieren
   //Wellness
-  if(data.hairDresser == true){wellnessList.push("hair_care")}
-  if(data.spa == true){wellnessList.push("spa")}
-  if(data.hospital == true){wellnessList.push("hospital")}
-  if(data.pharmacy == true){wellnessList.push("pharmacy")}
-  if(data.beautySalon == true){wellnessList.push("beauty_salon")}
+  if(data.hairDresser == true){preferenceList.push("hair_care")}
+  if(data.spa == true){preferenceList.push("spa")}
+  if(data.hospital == true){preferenceList.push("hospital")}
+  if(data.pharmacy == true){preferenceList.push("pharmacy")}
+  if(data.beautySalon == true){preferenceList.push("beauty_salon")}
   //Social
-  if(data.restaurant == true){socialList.push("restaurant")}
-  if(data.cafe == true){socialList.push("cafe")}
-  if(data.bar == true){socialList.push("bar")}
-  if(data.club == true){socialList.push("night_club")}
+  if(data.restaurant == true){preferenceList.push("restaurant")}
+  if(data.cafe == true){preferenceList.push("cafe")}
+  if(data.bar == true){preferenceList.push("bar")}
+  if(data.club == true){preferenceList.push("night_club")}
   //Culture
-  if(data.theatre == true){cultureList.push("performing_arts_theater")}
-  if(data.library == true){cultureList.push("library")}
-  if(data.artGallery == true){cultureList.push("art_gallery")}
-  if(data.museum == true){cultureList.push("museum")}
+  if(data.theatre == true){preferenceList.push("performing_arts_theater")}
+  if(data.library == true){preferenceList.push("library")}
+  if(data.artGallery == true){preferenceList.push("art_gallery")}
+  if(data.museum == true){preferenceList.push("museum")}
   //Sports
-  if(data.gym == true){sportsList.push("gym")}
-  if(data.hiking == true){sportsList.push("hiking_area")}
-  if(data.park == true)(sportsList.push("park"))
+  if(data.gym == true){preferenceList.push("gym")}
+  if(data.hiking == true){preferenceList.push("hiking_area")}
+  if(data.park == true)(preferenceList.push("park"))
 
     const updatedJson = {
-      wellnessList,socialList,cultureList
+      preferenceList
     }
 
     const updatedJsonData = JSON.stringify(updatedJson,null,2);
@@ -305,9 +311,7 @@ app.get("/getPreferences",async(req,res)=>{
     const preferenceData = JSON.parse(fs.readFileSync(filePathToJsonPreferences,"utf-8"));
     
     const data = {
-      socialListSend:preferenceData.socialList,
-      wellnessListSend:preferenceData.wellnessList,
-      cultureListSend:preferenceData.cultureList
+      preferenceListSend:preferenceData.preferenceList
     }
 
     const preferenceDataSend = JSON.stringify(data,null,2);

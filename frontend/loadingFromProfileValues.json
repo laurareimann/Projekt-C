@@ -1,8 +1,8 @@
 {
-  "currentAddressLat": 53.5688823,
-  "currentAddressLng": 10.0330191,
+  "currentAddressLat": 51.99666999999999,
+  "currentAddressLng": 7.464739999999999,
   "ShouldLoadBool": false,
-  "currentAddress": "Finkenau 35",
-  "currentAddressCity": "22081",
-  "currentAddressZip": "Hamburg"
+  "currentAddress": "Zur Aabrücke 13",
+  "currentAddressCity": "Havixbeck",
+  "currentAddressZip": "48329"
 }
