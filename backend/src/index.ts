@@ -15,7 +15,7 @@ dotenv.config();
 
 const filePathToJsonDetailed = __dirname.split("-C")[0] + "-C" +"/frontend/ValuesForDetailedResult.json"
 const filePathToJsonProfileLoad = __dirname.split("-C")[0] + "-C" +"/frontend/loadingFromProfileValues.json"
-
+const filePathToJsonPreferences = __dirname.split("-C")[0] + "-C" +"/frontend/currentPreferences.json"
 
 //Setup mongoDB | commented for now since we don't need it immediately
 const mongoDB_URI = (process.env.MONGODB_URI);
@@ -226,6 +226,96 @@ app.post("/updateJson",async(req,res)=>{
       }
   catch(e){
     console.log(e)
+  }
+})
+
+app.post("/updatePreferenceJson",async(req,res)=>{
+
+  const data = {
+   hairDresser:req.body.hairDresserBool,
+   spa:req.body.spaBool,
+   hospital:req.body.hospitalBool,
+   pharmacy:req.body.pharmacyBool,
+   beautySalon:req.body.beautySalonBool,
+   restaurant:req.body.restaurantBool,
+   cafe:req.body.cafeBool,
+   bar:req.body.barBool,
+   club:req.body.clubBool,
+   park:req.body.parkBool,
+   gym:req.body.gymBool,
+   hiking:req.body.hikingBool,
+   theatre:req.body.theatreBool,
+   museum:req.body.museumBool,
+   library:req.body.libraryBool,
+   artGallery:req.body.artGalleryBool
+  }
+
+  const wellnessList:string[]=[];
+  const socialList:string[]=[];
+  const sportsList:string[]=[];
+  const cultureList:string[]=[];
+
+  console.log("updating Json file...")
+  console.log()
+
+  try{
+
+    //Manuell die Preferenzen hinzufügen, bevor ich einen Weg finde, das zu automatisieren
+  //Wellness
+  if(data.hairDresser == true){wellnessList.push("hair_care")}
+  if(data.spa == true){wellnessList.push("spa")}
+  if(data.hospital == true){wellnessList.push("hospital")}
+  if(data.pharmacy == true){wellnessList.push("pharmacy")}
+  if(data.beautySalon == true){wellnessList.push("beauty_salon")}
+  //Social
+  if(data.restaurant == true){socialList.push("restaurant")}
+  if(data.cafe == true){socialList.push("cafe")}
+  if(data.bar == true){socialList.push("bar")}
+  if(data.club == true){socialList.push("night_club")}
+  //Culture
+  if(data.theatre == true){cultureList.push("performing_arts_theater")}
+  if(data.library == true){cultureList.push("library")}
+  if(data.artGallery == true){cultureList.push("art_gallery")}
+  if(data.museum == true){cultureList.push("museum")}
+  //Sports
+  if(data.gym == true){sportsList.push("gym")}
+  if(data.hiking == true){sportsList.push("hiking_area")}
+  if(data.park == true)(sportsList.push("park"))
+
+    const updatedJson = {
+      wellnessList,socialList,cultureList
+    }
+
+    const updatedJsonData = JSON.stringify(updatedJson,null,2);
+   
+    fs.writeFileSync(filePathToJsonPreferences,updatedJsonData)
+      console.log("Data written to file");
+      console.log("Resetting profile check");
+
+      res.json("update successful")
+      }
+  catch(e){
+    console.log(e)
+  }
+})
+
+app.get("/getPreferences",async(req,res)=>{
+  try{
+    
+    const preferenceData = JSON.parse(fs.readFileSync(filePathToJsonPreferences,"utf-8"));
+    
+    const data = {
+      socialListSend:preferenceData.socialList,
+      wellnessListSend:preferenceData.wellnessList,
+      cultureListSend:preferenceData.cultureList
+    }
+
+    const preferenceDataSend = JSON.stringify(data,null,2);
+
+    res.json(preferenceDataSend);
+
+  }catch(e){
+    console.log(3)
   }
 })
 

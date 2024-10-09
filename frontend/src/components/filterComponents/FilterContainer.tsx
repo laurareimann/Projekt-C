@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Container from '../Container';
 import Button from '../buttons/Buttons';
 import LabelButton from '../buttons/LabelButton';
 import TileButton from '../buttons/TileButton';
+import axios from 'axios';
 
 type TransportMethod = 'walking' | 'bike' | 'publicTransport' | 'car';
 type Preference =
-    | 'hairDresser' | 'beautySalon' | 'spa' | 'hospital'
-    | 'restaurants' | 'cafes' | 'bars' | 'nightClubs'
-    | 'nationalPark' | 'gym'  | 'theatres' | 'museums' | 'libraries' | 'galleries';
+    | 'hairDresser' | 'beautySalon' | 'spa' | 'hospital' | 'pharmacy'
+    | 'restaurants' | 'cafes' | 'bars' | 'clubs'
+    | 'nationalPark' | 'gym' | 'hikingArea'  
+    | 'theatres' | 'museums' | 'libraries' | 'galleries';
 
 type FilterState = {
     transportMethod: Record<TransportMethod, boolean>;
@@ -46,7 +47,7 @@ width: fit-content;
             "none"};
 `
 
-function FilterContainer({ color = "blue", outline = true, children, onClose }: { color?: string; outline?: boolean; children?: React.ReactNode; onClose?: () => void }) {
+function FilterContainer({ color = "blue", children, onClose }: { color?: string; outline?: boolean; children?: React.ReactNode; onClose?: () => void }) {
     const [selectedFilters, setSelectedFilters] = useState<FilterState>({
         transportMethod: {
             walking: false,
@@ -59,12 +60,14 @@ function FilterContainer({ color = "blue", outline = true, children, onClose }: 
             beautySalon: false,
             spa: false,
             hospital: false,
+            pharmacy:false,
             restaurants: false,
             cafes: false,
             bars: false,
-            nightClubs: false,
+            clubs: false,
             nationalPark: false,
             gym: false,
+            hikingArea:false,
             theatres: false,
             museums: false,
             libraries: false,
@@ -101,16 +104,18 @@ function FilterContainer({ color = "blue", outline = true, children, onClose }: 
                 car: false
             },
             preferences: {
-                hairDresser: false,
+            hairDresser: false,
             beautySalon: false,
             spa: false,
             hospital: false,
             restaurants: false,
+            pharmacy:false,
             cafes: false,
             bars: false,
-            nightClubs: false,
+            clubs: false,
             nationalPark: false,
             gym: false,
+            hikingArea:false,
             theatres: false,
             museums: false,
             libraries: false,
@@ -122,11 +127,11 @@ function FilterContainer({ color = "blue", outline = true, children, onClose }: 
     // Use useEffect to log the selected filters whenever they change
     useEffect(() => {
         const activeTransportMethods = Object.entries(selectedFilters.transportMethod)
-            .filter(([_, value]) => value)
+            .filter(([value]) => value)
             .map(([key]) => key);
 
         const activePreferences = Object.entries(selectedFilters.preferences)
-            .filter(([_, value]) => value)
+            .filter(([value]) => value)
             .map(([key]) => key);
 
         console.log("Selected Transport Methods:", activeTransportMethods);
@@ -134,15 +139,57 @@ function FilterContainer({ color = "blue", outline = true, children, onClose }: 
     }, [selectedFilters]); // Dependency array to watch for changes in selectedFilters
 
     const preferenceGroups = {
-        'Health & Wellness': ['hairDresser', 'spa', 'hospital'],
+        'Health & Wellness': ['hairDresser', 'spa', 'hospital','pharmacy','beautySalon'],
         'Social': ['restaurants', 'cafes', 'bars', 'clubs'],
-        'Sports & Activities': ['nationalParks', 'gym'],
+        'Sports & Activities': ['nationalParks', 'gym','hiking area'],
         'Culture': ['theatres', 'museums', 'libraries', 'galleries']
     };
 
+    async function updatePreferences(chosenPreferences: Record<Preference, boolean>){
+        console.log(chosenPreferences);
+
+        //Health&Wellness
+        const hairDresserBool = chosenPreferences.hairDresser;
+        const spaBool = chosenPreferences.spa;
+        const hospitalBool = chosenPreferences.hospital;
+        const beautySalonBool = chosenPreferences.beautySalon;
+        const pharmacyBool = chosenPreferences.pharmacy;
+        //Social
+        const restaurantBool = chosenPreferences.restaurants;
+        const cafeBool = chosenPreferences.cafes;
+        const barBool = chosenPreferences.bars;
+        const clubBool = chosenPreferences.clubs;
+        //Sports&Activities
+        const parkBool = chosenPreferences.nationalPark;
+        const gymBool = chosenPreferences.gym;
+        const hikingBool =  chosenPreferences.hikingArea;
+        //Culture
+        const theatreBool = chosenPreferences.theatres;
+        const museumBool = chosenPreferences.museums;
+        const libraryBool = chosenPreferences.libraries;
+        const artGalleryBool = chosenPreferences.galleries;
+
+
+        try{
+            await axios.post("http://localhost:8080/updatePreferenceJson",{
+                hairDresserBool,spaBool,hospitalBool,beautySalonBool,pharmacyBool,
+                restaurantBool,cafeBool,barBool,clubBool,
+                parkBool,gymBool,hikingBool,
+                theatreBool,museumBool,libraryBool,artGalleryBool
+            }).then((res:{data:string})=>{
+                if(res.data == "update successful"){
+                    console.log("Updated preference Json File");
+                }
+            })
+        }catch(e){
+            console.log(e)
+        }
+
+    }
+
     return (
         <ContainerWrapper>
-            <FContainer color={color} $hasOutline={outline}>
+            <FContainer color={color} $hasOutline={false}>
                 <CloseButton onClick={onClose}>&times;</CloseButton>
                 {children}
                 <FilterWrapper>
@@ -186,7 +233,11 @@ function FilterContainer({ color = "blue", outline = true, children, onClose }: 
                     ))}
                     <ResetWrapper>
                         <Button onClick={resetFilters}>Reset All</Button>
-                        <Button color={'blue'} onClick={onClose}>Save</Button>
+                        <Button color={'blue'} onClick={()=>{
+                            onClose;
+                            console.log(selectedFilters.preferences.bars);
+                            updatePreferences(selectedFilters.preferences)}
+                            }>Save</Button>
                     </ResetWrapper>
                 </FilterWrapper>
             </FContainer>

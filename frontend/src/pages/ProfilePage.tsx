@@ -209,8 +209,6 @@ const ResultItem = styled.li`
   }
 `
 
-
-
 const Wrapper = styled.div`
     width: 80%;
     text-align: start;
