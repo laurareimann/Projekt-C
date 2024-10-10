@@ -1,30 +1,30 @@
 {
-  "currentScoreValue": 11,
+  "currentScoreValue": 0,
   "currentStartingSpot": [
     53.5688823,
     10.0330191
   ],
   "currentClosestGrocery": [
-    53.5628821,
-    10.0335561
+    53.5688823,
+    10.033019099999999
   ],
   "currentClosestHealth": [
-    53.5694671,
-    10.0288
+    53.5688823,
+    10.033019099999999
   ],
   "currentClosestTransit": [
-    53.567127,
-    10.030884
+    53.5688823,
+    10.033019099999999
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 14,
-  "currentHealthDuration": 11,
-  "currentTransitDuration": 8,
-  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Lübecker Str. 116-124, 22087 Hamburg, Germany",
-  "currentClosestHealthAddress": "Lerchenfeld 14, 22081 Hamburg, Germany",
-  "currentClosestTransitAddress": "Uferstraße, 22081 Hamburg, Germany",
-  "currentClosestGroceryName": "ALDI Nord",
-  "currentClosestHealthName": "Dr. med. Christian Schindler",
-  "currentClosestTransitName": "Uferstraße"
+  "currentGroceryDuration": 0,
+  "currentHealthDuration": 0,
+  "currentTransitDuration": 0,
+  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Deutschland",
+  "currentClosestGroceryAddress": "Finkenau 35, 22081 Hamburg, Deutschland",
+  "currentClosestHealthAddress": "Finkenau 35, 22081 Hamburg, Deutschland",
+  "currentClosestTransitAddress": "Finkenau 35, 22081 Hamburg, Deutschland",
+  "currentClosestGroceryName": "HAW Hamburg - Faculty of Design, Media, and Information",
+  "currentClosestHealthName": "HAW Hamburg - Faculty of Design, Media, and Information",
+  "currentClosestTransitName": "HAW Hamburg - Faculty of Design, Media, and Information"
 }
