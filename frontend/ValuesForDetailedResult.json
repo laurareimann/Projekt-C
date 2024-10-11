@@ -1,37 +1,30 @@
 {
-  "currentScoreValue": 6,
+  "currentScoreValue": 0,
   "currentStartingSpot": [
     53.56834509999999,
     10.0328485
   ],
   "currentClosestGrocery": [
-    53.5706032,
-    10.027138299999999
+    53.5688823,
+    10.033019099999999
   ],
   "currentClosestHealth": [
-    53.5673769,
-    10.0299359
+    53.5688823,
+    10.033019099999999
   ],
   "currentClosestTransit": [
-    53.5679429,
-    10.030135000000001
-  ],
-  "currentClosestPreference": [
-    53.567923900000004,
-    10.0306258
+    53.5688823,
+    10.033019099999999
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 9,
-  "currentHealthDuration": 6,
-  "currentTransitDuration": 4,
-  "currentPreferenceDuration": 5,
-  "currentStartAddress": "Finkenau 42, 22081 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Hamburger Str. 1, 22083 Hamburg, Germany",
-  "currentClosestHealthAddress": "Immenhof 2, 22087 Hamburg, Germany",
-  "currentClosestTransitAddress": "Uferstraße, 22081 Hamburg, Germany",
-  "currentClosestPreferenceAddress": "Lerchenfeld 2A, 22081 Hamburg, Germany",
-  "currentClosestGroceryName": "PENNY",
-  "currentClosestHealthName": "Frau Marie-Luise Schumacher",
-  "currentClosestTransitName": "Uferstraße",
-  "currentClosestPreferenceName": "ICAT – HFBK Hamburg"
+  "currentGroceryDuration": 0,
+  "currentHealthDuration": 0,
+  "currentTransitDuration": 0,
+  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Deutschland",
+  "currentClosestGroceryAddress": "Finkenau 35, 22081 Hamburg, Deutschland",
+  "currentClosestHealthAddress": "Finkenau 35, 22081 Hamburg, Deutschland",
+  "currentClosestTransitAddress": "Finkenau 35, 22081 Hamburg, Deutschland",
+  "currentClosestGroceryName": "HAW Hamburg - Faculty of Design, Media, and Information",
+  "currentClosestHealthName": "HAW Hamburg - Faculty of Design, Media, and Information",
+  "currentClosestTransitName": "HAW Hamburg - Faculty of Design, Media, and Information"
 }

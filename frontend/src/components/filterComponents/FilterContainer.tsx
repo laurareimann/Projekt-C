@@ -7,9 +7,8 @@ import axios from 'axios';
 
 type TransportMethod = 'walking' | 'bike' | 'publicTransport' | 'car';
 type Preference =
-    | 'hairDresser' | 'beautySalon' | 'spa' | 'hospital' | 'pharmacy'
     | 'restaurants' | 'cafes' | 'bars' | 'clubs'
-    | 'nationalPark' | 'gym' | 'hikingArea'  
+    | 'park' | 'gym' | 'hikingArea' | 'hairDresser' | 'beautySalon' | 'spa'
     | 'theatres' | 'museums' | 'libraries' | 'galleries';
 
 type FilterState = {
@@ -59,13 +58,11 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
             hairDresser: false,
             beautySalon: false,
             spa: false,
-            hospital: false,
-            pharmacy:false,
             restaurants: false,
             cafes: false,
             bars: false,
             clubs: false,
-            nationalPark: false,
+            park: false,
             gym: false,
             hikingArea:false,
             theatres: false,
@@ -107,13 +104,11 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
             hairDresser: false,
             beautySalon: false,
             spa: false,
-            hospital: false,
             restaurants: false,
-            pharmacy:false,
             cafes: false,
             bars: false,
             clubs: false,
-            nationalPark: false,
+            park: false,
             gym: false,
             hikingArea:false,
             theatres: false,
@@ -139,30 +134,26 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
     }, [selectedFilters]); // Dependency array to watch for changes in selectedFilters
 
     const preferenceGroups = {
-        'Health & Wellness': ['hairDresser', 'spa', 'hospital','pharmacy','beautySalon'],
         'Social': ['restaurants', 'cafes', 'bars', 'clubs'],
-        'Sports & Activities': ['nationalParks', 'gym','hikingArea'],
+        'Sports & Wellness': ['parks', 'gym','hiking area', 'hairDresser', 'spa', 'beautySalon'],
         'Culture': ['theatres', 'museums', 'libraries', 'galleries']
     };
 
     async function updatePreferences(chosenPreferences: Record<Preference, boolean>,shouldReset:boolean){
         console.log(chosenPreferences);
 
-        //Health&Wellness
-        let hairDresserBool = chosenPreferences.hairDresser;
-        let spaBool = chosenPreferences.spa;
-        let hospitalBool = chosenPreferences.hospital;
-        let beautySalonBool = chosenPreferences.beautySalon;
-        let pharmacyBool = chosenPreferences.pharmacy;
         //Social
         let restaurantBool = chosenPreferences.restaurants;
         let cafeBool = chosenPreferences.cafes;
         let barBool = chosenPreferences.bars;
         let clubBool = chosenPreferences.clubs;
-        //Sports&Activities
-        let parkBool = chosenPreferences.nationalPark;
+        //Sports&Wellness
+        let parkBool = chosenPreferences.park;
         let gymBool = chosenPreferences.gym;
         let hikingBool =  chosenPreferences.hikingArea;
+        let hairDresserBool = chosenPreferences.hairDresser;
+        let spaBool = chosenPreferences.spa;
+        let beautySalonBool = chosenPreferences.beautySalon;
         //Culture
         let theatreBool = chosenPreferences.theatres;
         let museumBool = chosenPreferences.museums;
@@ -173,9 +164,7 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
             if(shouldReset == true){
                 hairDresserBool = false;
                 spaBool = false;
-                hospitalBool = false;
                 beautySalonBool =false;
-                pharmacyBool = false;
                 restaurantBool = false;
                 cafeBool = false;
                 barBool =false;
@@ -190,7 +179,7 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
             }    
 
             await axios.post("http://localhost:8080/updatePreferenceJson",{
-                hairDresserBool,spaBool,hospitalBool,beautySalonBool,pharmacyBool,
+                hairDresserBool,spaBool,beautySalonBool,
                 restaurantBool,cafeBool,barBool,clubBool,
                 parkBool,gymBool,hikingBool,
                 theatreBool,museumBool,libraryBool,artGalleryBool

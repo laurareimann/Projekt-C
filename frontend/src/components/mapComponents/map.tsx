@@ -39,7 +39,7 @@ interface MarkerWindow {
   address: string;
   location: LatLngLiteral;
   name: string,
-  buildingType:string,
+  buildingType: string,
   prevState: null
 }
 
@@ -79,71 +79,71 @@ const MarkersArrayTogether = [markersWithInfoGroceries, markersWithInfoHealth, m
 //Test, ob temp-Variablen außerhalb von Komponente gespeichert werden sollten
 let tempCurrentScore: number = 42;
 let tempCurrentTravelMode: string = "walking";
-let tempStartName:string;
+let tempStartName: string;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let redirectCheckArray:any =[];
-let checkForLoadFlag:boolean = false;
-let addressToLoad:string = "";
-let addressToLoadLat:number;
-let addressToLoadLng:number;
-let addressCityToLoad:string = "";
-let addressZipToLoad:string = "";
-let altCenter:google.maps.LatLngLiteral;
-let finalCenter:google.maps.LatLngLiteral;
-let canInputWindowBeClosedNotReact:boolean = false;
-let isSaveButtonDisabled:boolean = true;
+let redirectCheckArray: any = [];
+let checkForLoadFlag: boolean = false;
+let addressToLoad: string = "";
+let addressToLoadLat: number;
+let addressToLoadLng: number;
+let addressCityToLoad: string = "";
+let addressZipToLoad: string = "";
+let altCenter: google.maps.LatLngLiteral;
+let finalCenter: google.maps.LatLngLiteral;
+let canInputWindowBeClosedNotReact: boolean = false;
+let isSaveButtonDisabled: boolean = true;
 
 
 
 //Variablen zu detailed result page
-const tempGroceryArray:Array<number>=[0.2,0.1];
-const tempHealthArray:Array<number>=[1.3,4.2];
-const tempTransitArray:Array<number>=[5.2,2.5];
+const tempGroceryArray: Array<number> = [0.2, 0.1];
+const tempHealthArray: Array<number> = [1.3, 4.2];
+const tempTransitArray: Array<number> = [5.2, 2.5];
 const tempPrefArray:Array<number>=[6.9,9.6];
-let tempHealthDuration:number = 42;
-let tempGroceryDuration:number = 42;
-let tempTransitDuration:number = 42;
+let tempHealthDuration: number = 42;
+let tempGroceryDuration: number = 42;
+let tempTransitDuration: number = 42;
 let tempPreferenceDuration:number = 42;
-let tempClosestGroceryAddress:string;
-let tempClosestHealthAddress:string;
-let tempClosestTransitAddress:string;
+let tempClosestGroceryAddress: string;
+let tempClosestHealthAddress: string;
+let tempClosestTransitAddress: string;
 let tempClosestPreferenceAddress:string;
-let tempClosestGroceryName:string;
-let tempClosestHealthName:string;
-let tempClosestTransitName:string;
+let tempClosestGroceryName: string;
+let tempClosestHealthName: string;
+let tempClosestTransitName: string;
 let tempClosestPreferenceName:string;
-const tempSearchResultArray:Array<number>=[1.2,3.4];
+const tempSearchResultArray: Array<number> = [1.2, 3.4];
 
 //Array von strings der jeweiligen Filter
 const personalPreferenceArray:Array<string>=[];
 let preferenceArray:string;
 
 const throwInfo = (errorMessage: string) => {
-    toast.info(errorMessage, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        transition: Bounce,
-    });
+  toast.info(errorMessage, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    transition: Bounce,
+  });
 }
 
 const throwError = (errorMessage: string) => {
   toast.error(errorMessage, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      transition: Bounce,
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    transition: Bounce,
   });
 }
 
@@ -309,29 +309,29 @@ const ControlContainer = styled.div`
   }
 `
 
-const getCookie = (name:string) =>{
-  const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
+const getCookie = (name: string) => {
+  const cookies = document.cookie.split("; ").find((row) => row.startsWith(`${name}=`));
 
   return cookies ? cookies.split("=")[1] : null;
 }
 
 const StyledInput = styled.input<InputProps>`
     background-color: ${({ $isValid }) =>
-        $isValid
-            ? "white" : "var(--color--error-red-light)"
-    };
+    $isValid
+      ? "white" : "var(--color--error-red-light)"
+  };
 
     color: ${({ disabled, $isValid }) =>
-        disabled
-            ? "var(--color--disabled-gray)" : $isValid
-                ? "var(--color--blue-5)" : "var(--color--error-red)"
-    };
+    disabled
+      ? "var(--color--disabled-gray)" : $isValid
+        ? "var(--color--blue-5)" : "var(--color--error-red)"
+  };
     
     border: 2.5px solid ${({ disabled, $isValid }) =>
-        disabled
-            ? "var(--color--disabled-gray)" : $isValid
-                ? "var(--color--blue-5)" : "var(--color--error-red)"
-    }; 
+    disabled
+      ? "var(--color--disabled-gray)" : $isValid
+        ? "var(--color--blue-5)" : "var(--color--error-red)"
+  }; 
     font-weight: 700;
     font-size: 18px; 
     height: 60px; 
@@ -343,8 +343,8 @@ const StyledInput = styled.input<InputProps>`
 
     &:not(disabled){
         border: 2.5px solid  ${({ $isValid }) =>
-        $isValid
-            ? "var(--color--pink-2)" : "var(--color--error-red)"};
+    $isValid
+      ? "var(--color--pink-2)" : "var(--color--error-red)"};
     }
     
 
@@ -352,11 +352,11 @@ const StyledInput = styled.input<InputProps>`
     &:not(:disabled):hover {
 
         border: 2.5px solid  ${({ $isValid }) =>
-        $isValid
-            ? "var(--color--pink-3)" : "var(--color--error-red)"};
+    $isValid
+      ? "var(--color--pink-3)" : "var(--color--error-red)"};
         color: ${({ $isValid }) =>
-        $isValid
-            ? "var(--color--pink-3)" : "var(--color--error-red)"};
+    $isValid
+      ? "var(--color--pink-3)" : "var(--color--error-red)"};
     };
 
     &::placeholder{
@@ -443,56 +443,56 @@ const Searchbar = styled.div`
 `
 
 //Wenn Suche aus dem Profil geladen wird
-async function checkForLoadFromProfileFunc(){
+async function checkForLoadFromProfileFunc() {
 
   console.log("Checking whether page needs to be redirected");
 
-  try{
+  try {
     axios.get("http://localhost:8080/checkForLoadFromProfile").then((
-      res:{data:string}
-    )=>{
-      if(res.data!=""){
-      redirectCheckArray = res.data;
+      res: { data: string }
+    ) => {
+      if (res.data != "") {
+        redirectCheckArray = res.data;
 
-      console.log("The following is the reload check array");
-      console.log(redirectCheckArray);
+        console.log("The following is the reload check array");
+        console.log(redirectCheckArray);
 
-      const formattedCheckArray = JSON.parse(redirectCheckArray);
-  
-      addressToLoad = formattedCheckArray.AddressToSend;
-      console.log(addressToLoad)
-      checkForLoadFlag = formattedCheckArray.ShouldLoadBool;
-      
-      addressToLoadLat = formattedCheckArray.AddressLatToSend;
-      
-      addressToLoadLng = formattedCheckArray.AddressLngToSend;
-      console.log("Should the map be redirected: " + checkForLoadFlag)  
+        const formattedCheckArray = JSON.parse(redirectCheckArray);
 
-      addressZipToLoad = formattedCheckArray.ZipToSend;
+        addressToLoad = formattedCheckArray.AddressToSend;
+        console.log(addressToLoad)
+        checkForLoadFlag = formattedCheckArray.ShouldLoadBool;
 
-      addressCityToLoad = formattedCheckArray.CityToSend;
+        addressToLoadLat = formattedCheckArray.AddressLatToSend;
+
+        addressToLoadLng = formattedCheckArray.AddressLngToSend;
+        console.log("Should the map be redirected: " + checkForLoadFlag)
+
+        addressZipToLoad = formattedCheckArray.ZipToSend;
+
+        addressCityToLoad = formattedCheckArray.CityToSend;
 
 
-    }
-    //Übersehener case, falls das preloaden aus irgendeinem Grund schiefgeht
-    if(res.data===""){
-      finalCenter={lat: 53.5688823, lng: 10.0330191 }
-    }
+      }
+      //Übersehener case, falls das preloaden aus irgendeinem Grund schiefgeht
+      if (res.data === "") {
+        finalCenter = { lat: 53.5688823, lng: 10.0330191 }
+      }
 
-    altCenter = {lat:addressToLoadLat,lng:addressToLoadLng};
+      altCenter = { lat: addressToLoadLat, lng: addressToLoadLng };
 
-    console.log(altCenter)
+      console.log(altCenter)
 
-    if(checkForLoadFlag == true){
-      
-      finalCenter = altCenter;
-      
-      
-    }else{
-      finalCenter={lat: 53.5688823, lng: 10.0330191 }
-    }
+      if (checkForLoadFlag == true) {
+
+        finalCenter = altCenter;
+
+
+      } else {
+        finalCenter = { lat: 53.5688823, lng: 10.0330191 }
+      }
     })
-  }catch(e){
+  } catch (e) {
     console.log(e)
   }
 
@@ -502,6 +502,7 @@ async function checkForLoadFromProfileFunc(){
 checkForLoadFromProfileFunc();
 
 async function getPreferences(){
+  console.log("Getting preferences");
   //Präferenzen werden aus der dafür erstellten JSON-Datei gelesen
   try{
     axios.get("http://localhost:8080/getPreferences").then((res:{data:string})=>{
@@ -534,7 +535,7 @@ async function getPreferences(){
       }
     })
   }
-  catch(e){
+  catch (e) {
     console.log(e);
   }
 
@@ -543,7 +544,7 @@ async function getPreferences(){
 export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2500, 3750], circleColors = defaultColors }) {
 
   //Wenn die map initialisiert wird, ist der default spot auf der HAW Finkenau
-  const center = useMemo<LatLngLiteral>(() => ({lat:finalCenter.lat,lng:finalCenter.lng}), []);
+  const center = useMemo<LatLngLiteral>(() => ({ lat: finalCenter.lat, lng: finalCenter.lng }), []);
   const [directions, setDirections] = useState<DirectionsResult>();
   const [spot, setSpot] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
@@ -566,9 +567,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const updateCity = useCityNew().setCity;
 
   //Speicherung der derzeitigen Suche
-  const [saveCurrentResultName,setCurrentResultName] = useState('');
-  const [inputWindowOpenReact,setInputWindowOpen] = useState(false);
-  
+  const [saveCurrentResultName, setCurrentResultName] = useState('');
+  const [inputWindowOpenReact, setInputWindowOpen] = useState(false);
+
 
   //Check für den redirect vom Profil aus
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -661,7 +662,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     }
   }
 
-  if(checkForLoadFlag==true){
+  if (checkForLoadFlag == true) {
     //Ein timeout muss gesetzt werden, weil sonst die preferences zu langsam eingelesen werden
     //setTimeout(()=>{getPreferences();},1500)
     
@@ -864,7 +865,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
                     tempHealthArray[0] = MarkersArrayTogether[i][j].location.lat;
                     tempHealthArray[1] = MarkersArrayTogether[i][j].location.lng;
-                    tempClosestHealthAddress=result.routes[0].legs[0].end_address;
+                    tempClosestHealthAddress = result.routes[0].legs[0].end_address;
                     tempClosestHealthName = MarkersArrayTogether[i][j].name;
                   }
                 }
@@ -885,7 +886,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
                     tempTransitArray[0] = MarkersArrayTogether[i][j].location.lat;
                     tempTransitArray[1] = MarkersArrayTogether[i][j].location.lng;
-                    tempClosestTransitAddress=result.routes[0].legs[0].end_address;
+                    tempClosestTransitAddress = result.routes[0].legs[0].end_address;
                     tempClosestTransitName = MarkersArrayTogether[i][j].name;
                   }
                 }
@@ -937,7 +938,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
                     tempGroceryArray[0] = MarkersArrayTogether[i][j].location.lat;
                     tempGroceryArray[1] = MarkersArrayTogether[i][j].location.lng;
-                    tempClosestGroceryAddress=result.routes[0].legs[0].end_address;
+                    tempClosestGroceryAddress = result.routes[0].legs[0].end_address;
                     tempClosestGroceryName = MarkersArrayTogether[i][j].name;
                   }
                 }
@@ -958,7 +959,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
                     tempHealthArray[0] = MarkersArrayTogether[i][j].location.lat;
                     tempHealthArray[1] = MarkersArrayTogether[i][j].location.lng;
-                    tempClosestHealthAddress=result.routes[0].legs[0].end_address;
+                    tempClosestHealthAddress = result.routes[0].legs[0].end_address;
                     tempClosestHealthName = MarkersArrayTogether[i][j].name;
                   }
                 }
@@ -979,7 +980,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
                     tempTransitArray[0] = MarkersArrayTogether[i][j].location.lat;
                     tempTransitArray[1] = MarkersArrayTogether[i][j].location.lng;
-                    tempClosestTransitAddress=result.routes[0].legs[0].end_address;
+                    tempClosestTransitAddress = result.routes[0].legs[0].end_address;
                     tempClosestTransitName = MarkersArrayTogether[i][j].name;
                   }
                 }
@@ -1031,7 +1032,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
                     tempGroceryArray[0] = MarkersArrayTogether[i][j].location.lat;
                     tempGroceryArray[1] = MarkersArrayTogether[i][j].location.lng;
-                    tempClosestGroceryAddress=result.routes[0].legs[0].end_address;
+                    tempClosestGroceryAddress = result.routes[0].legs[0].end_address;
                     tempClosestGroceryName = MarkersArrayTogether[i][j].name;
                   }
                 }
@@ -1052,7 +1053,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
                     tempHealthArray[0] = MarkersArrayTogether[i][j].location.lat;
                     tempHealthArray[1] = MarkersArrayTogether[i][j].location.lng;
-                    tempClosestHealthAddress=result.routes[0].legs[0].end_address;
+                    tempClosestHealthAddress = result.routes[0].legs[0].end_address;
                     tempClosestHealthName = MarkersArrayTogether[i][j].name;
                   }
                 }
@@ -1073,7 +1074,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
                     tempTransitArray[0] = MarkersArrayTogether[i][j].location.lat;
                     tempTransitArray[1] = MarkersArrayTogether[i][j].location.lng;
-                    tempClosestTransitAddress=result.routes[0].legs[0].end_address;
+                    tempClosestTransitAddress = result.routes[0].legs[0].end_address;
                     tempClosestTransitName = MarkersArrayTogether[i][j].name;
                   }
                 }
@@ -1125,7 +1126,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                     fastestRouteGroceries = result.routes[0].legs[0].duration!.value;
                     tempGroceryArray[0] = MarkersArrayTogether[i][j].location.lat;
                     tempGroceryArray[1] = MarkersArrayTogether[i][j].location.lng;
-                    tempClosestGroceryAddress=result.routes[0].legs[0].end_address;
+                    tempClosestGroceryAddress = result.routes[0].legs[0].end_address;
                     tempClosestGroceryName = MarkersArrayTogether[i][j].name;
                   }
                 }
@@ -1146,7 +1147,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                     fastestRouteHealth = result.routes[0].legs[0].duration!.value;
                     tempHealthArray[0] = MarkersArrayTogether[i][j].location.lat;
                     tempHealthArray[1] = MarkersArrayTogether[i][j].location.lng;
-                    tempClosestHealthAddress=result.routes[0].legs[0].end_address;
+                    tempClosestHealthAddress = result.routes[0].legs[0].end_address;
                     tempClosestHealthName = MarkersArrayTogether[i][j].name;
                   }
                 }
@@ -1167,7 +1168,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                     fastestRouteTransit = result.routes[0].legs[0].duration!.value;
                     tempTransitArray[0] = MarkersArrayTogether[i][j].location.lat;
                     tempTransitArray[1] = MarkersArrayTogether[i][j].location.lng;
-                    tempClosestTransitAddress=result.routes[0].legs[0].end_address;
+                    tempClosestTransitAddress = result.routes[0].legs[0].end_address;
                     tempClosestTransitName = MarkersArrayTogether[i][j].name;
                   }
                 }
@@ -1333,33 +1334,33 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   }
 
   //Save search on the designated profile
-  async function saveSearch(spotLiterals:LatLngLiteral,nameToSave:string){
+  async function saveSearch(spotLiterals: LatLngLiteral, nameToSave: string) {
     //To-Do implement here
     console.log("Implement save here");
 
     canInputWindowBeClosedNotReact = false;
-    const currentSpotLat=spotLiterals.lat;
-    const currentSpotLng=spotLiterals.lng;
-    const tempName:string = "testThis";
+    const currentSpotLat = spotLiterals.lat;
+    const currentSpotLng = spotLiterals.lng;
+    const tempName: string = "testThis";
 
     console.log(currentSpotLat)
     console.log(currentSpotLng)
 
-    try{
-      await axios.post("http://localhost:8080/saveSearchForLater",{
-        currentUser,currentSpotLat,currentSpotLng,nameToSave
+    try {
+      await axios.post("http://localhost:8080/saveSearchForLater", {
+        currentUser, currentSpotLat, currentSpotLng, nameToSave
       })
-      .then((res:{data:string})=>{
-        if(res.data==="save successful"){
-          console.log("Adress was successfully saved");
+        .then((res: { data: string }) => {
+          if (res.data === "save successful") {
+            console.log("Adress was successfully saved");
 
-          canInputWindowBeClosedNotReact = true;
-        }
-        if(res.data==="Name already exists"){
-          throwError("Name is already taken")
-        }
-      })
-    }catch(e){
+            canInputWindowBeClosedNotReact = true;
+          }
+          if (res.data === "Name already exists") {
+            throwError("Name is already taken")
+          }
+        })
+    } catch (e) {
       console.log(e);
     }
 
@@ -1461,41 +1462,41 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
    
       console.log(places)
 
-      switch(whichRequest){
+      switch (whichRequest) {
         case 0:
-          for(let i = 0; i< places.length; i++){
+          for (let i = 0; i < places.length; i++) {
             markersWithInfoGroceries.push({
-              id:i,
-              location:{
-                lat:places[i].location!.lat(),
-                lng:places[i].location!.lng()
+              id: i,
+              location: {
+                lat: places[i].location!.lat(),
+                lng: places[i].location!.lng()
               },
-              address:places[i].formattedAddress!,
-              name:places[i].displayName!,
-              buildingType:places[i].types![0],
-              prevState:null
+              address: places[i].formattedAddress!,
+              name: places[i].displayName!,
+              buildingType: places[i].types![0],
+              prevState: null
             })
           }
           break;
 
         case 1:
-          for(let i = 0; i< places.length; i++){
+          for (let i = 0; i < places.length; i++) {
             markersWithInfoHealth.push({
-              id:i,
-              location:{
-                lat:places[i].location!.lat(),
-                lng:places[i].location!.lng()
+              id: i,
+              location: {
+                lat: places[i].location!.lat(),
+                lng: places[i].location!.lng()
               },
-              address:places[i].formattedAddress!,
-              name:places[i].displayName!,
-              buildingType:places[i].types![0],
-              prevState:null
+              address: places[i].formattedAddress!,
+              name: places[i].displayName!,
+              buildingType: places[i].types![0],
+              prevState: null
             })
           }
           break;
 
         case 2:
-          for(let i = 0; i< places.length; i++){
+          for (let i = 0; i < places.length; i++) {
             markersWithInfoTransit.push({
               id:i,
               location:{
@@ -1508,24 +1509,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               prevState:null
             })
           }
-          break;
-        
-        case 3:
-          if(isPreferenceEmpty == false){
-            for(let i = 0; i< places.length; i++){
-              markersWithInfoPersonalFilters.push({
-                id:i,
-                location:{
-                  lat:places[i].location!.lat(),
-                  lng:places[i].location!.lng()
-                },
-                address:places[i].formattedAddress!,
-                name:places[i].displayName!,
-                buildingType:places[i].types![0],
-                prevState:null
-              })
-            }
-          }
             break;
       }
     }
@@ -1536,7 +1519,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       <Searchbar>
         <ControlContainer>
           <Places setSpot={(position) => {
-            
+
             //Schnellstwerte für neuen Durchlauf des Algorithmus zurücksetzen
             setSelectedMarker(null)
             setDirections(undefined);
@@ -1597,35 +1580,35 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       </ButtonGrid>
 
       {inputWindowOpenReact && <Overlay>
-      <LoginContainer>
-          <h3>Enter a name under 18 letters</h3> 
+        <LoginContainer>
+          <h3>Enter a name under 18 letters</h3>
           <InputWrapper>
-          <StyledInput placeholder={saveCurrentResultName} onChange={(e)=>{setCurrentResultName(e.target.value)}}></StyledInput>
+            <StyledInput placeholder={saveCurrentResultName} onChange={(e) => { setCurrentResultName(e.target.value) }}></StyledInput>
           </InputWrapper>
           <SaveButtonGrid>
             <StyledButton onClick={()=>{
               console.log(saveCurrentResultName)    
               if(saveCurrentResultName.length <= 18){
                 console.log(saveCurrentResultName);
-                saveSearch(spot!,saveCurrentResultName)
+                saveSearch(spot!, saveCurrentResultName)
                 setTimeout(() => {
                   console.log("Input window can be closed: " + canInputWindowBeClosedNotReact)
-                  if(canInputWindowBeClosedNotReact == true){
+                  if (canInputWindowBeClosedNotReact == true) {
                     setInputWindowOpen(!inputWindowOpenReact);
                     throwInfo("Address saved!")
                     isSaveButtonDisabled = true;
                   }
-                },750);
+                }, 750);
               }
-              else{
+              else {
                 throwError("Name is too long");
               }
             }}>Save</StyledButton>
-            <StyledButton onClick={()=>{setInputWindowOpen(!inputWindowOpenReact);}}>Close</StyledButton>
+            <StyledButton onClick={() => { setInputWindowOpen(!inputWindowOpenReact); }}>Close</StyledButton>
           </SaveButtonGrid>
-          </LoginContainer>
-          
-          </Overlay>}
+        </LoginContainer>
+
+      </Overlay>}
 
       <MapAndPrioGrid>
         <div></div> {/* Empty div for left column of MapAndPrioGrid */}
@@ -1635,7 +1618,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           mapContainerClassName="map-container"
           options={options}
           onLoad={onLoad}
-          onCenterChanged={() => {}}
+          onCenterChanged={() => { }}
         >
         //Anzeige der Route(n)
           {directions && <DirectionsRenderer directions={directions} />}
@@ -1679,33 +1662,35 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             lng: selectedMarker.location.lng
           }}>
             <div>
-              
-              <h3>Name: {selectedMarker.name}</h3>
-              <h3>Type: {selectedMarker.buildingType}</h3>
-              <h3>Length by {travelMode}: {Math.ceil(currentDurationUseState / 60)} min </h3>
-              <p>{selectedMarker.address}</p>
+              <h5>{selectedMarker.name}</h5>
+              <p>
+                {selectedMarker.address.split(',')[0]}<br />
+                {selectedMarker.address.split(',')[1].trim()}
+              </p>
+              <p>{travelMode}: {Math.ceil(currentDurationUseState / 60)} min </p>
             </div>
           </InfoWindow>}
           {shouldRenderCircles && spot && (
             <MapLegend
               circleRadii={circleRadii}
               circleColors={circleColors}
-              //logo={walkingIconLegend}
+            //logo={walkingIconLegend}
             />
           )}
         </GoogleMap>
 
-       
+
 
 
         <PriorityGrid>
           {currentUser &&
-          <StyledButton disabled={isSaveButtonDisabled} onClick={()=>{
-            console.log(saveCurrentResultName);
-            setInputWindowOpen(!inputWindowOpenReact);}}
+            <StyledButton disabled={isSaveButtonDisabled} onClick={() => {
+              console.log(saveCurrentResultName);
+              setInputWindowOpen(!inputWindowOpenReact);
+            }}
             >Click to save address</StyledButton>
-          }    
-      
+          }
+
           <StyledPrioButton color={GroceryButtonString} onClick={() => {
             setPriorityButton("Groceries");
             setGroceriesPriority(!isGroceriesPriority);
