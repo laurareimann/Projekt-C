@@ -7,9 +7,8 @@ import axios from 'axios';
 
 type TransportMethod = 'walking' | 'bike' | 'publicTransport' | 'car';
 type Preference =
-    | 'hairDresser' | 'beautySalon' | 'spa' | 'hospital' | 'pharmacy'
     | 'restaurants' | 'cafes' | 'bars' | 'clubs'
-    | 'nationalPark' | 'gym' | 'hikingArea'  
+    | 'park' | 'gym' | 'hikingArea' | 'hairDresser' | 'beautySalon' | 'spa'
     | 'theatres' | 'museums' | 'libraries' | 'galleries';
 
 type FilterState = {
@@ -59,13 +58,11 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
             hairDresser: false,
             beautySalon: false,
             spa: false,
-            hospital: false,
-            pharmacy:false,
             restaurants: false,
             cafes: false,
             bars: false,
             clubs: false,
-            nationalPark: false,
+            park: false,
             gym: false,
             hikingArea:false,
             theatres: false,
@@ -107,13 +104,11 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
             hairDresser: false,
             beautySalon: false,
             spa: false,
-            hospital: false,
             restaurants: false,
-            pharmacy:false,
             cafes: false,
             bars: false,
             clubs: false,
-            nationalPark: false,
+            park: false,
             gym: false,
             hikingArea:false,
             theatres: false,
@@ -139,30 +134,26 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
     }, [selectedFilters]); // Dependency array to watch for changes in selectedFilters
 
     const preferenceGroups = {
-        'Health & Wellness': ['hairDresser', 'spa', 'hospital','pharmacy','beautySalon'],
         'Social': ['restaurants', 'cafes', 'bars', 'clubs'],
-        'Sports & Activities': ['nationalParks', 'gym','hiking area'],
+        'Sports & Wellness': ['parks', 'gym','hiking area', 'hairDresser', 'spa', 'beautySalon'],
         'Culture': ['theatres', 'museums', 'libraries', 'galleries']
     };
 
     async function updatePreferences(chosenPreferences: Record<Preference, boolean>){
         console.log(chosenPreferences);
 
-        //Health&Wellness
-        const hairDresserBool = chosenPreferences.hairDresser;
-        const spaBool = chosenPreferences.spa;
-        const hospitalBool = chosenPreferences.hospital;
-        const beautySalonBool = chosenPreferences.beautySalon;
-        const pharmacyBool = chosenPreferences.pharmacy;
         //Social
         const restaurantBool = chosenPreferences.restaurants;
         const cafeBool = chosenPreferences.cafes;
         const barBool = chosenPreferences.bars;
         const clubBool = chosenPreferences.clubs;
-        //Sports&Activities
-        const parkBool = chosenPreferences.nationalPark;
+        //Sports&Wellness
+        const parkBool = chosenPreferences.park;
         const gymBool = chosenPreferences.gym;
         const hikingBool =  chosenPreferences.hikingArea;
+        const hairDresserBool = chosenPreferences.hairDresser;
+        const spaBool = chosenPreferences.spa;
+        const beautySalonBool = chosenPreferences.beautySalon;
         //Culture
         const theatreBool = chosenPreferences.theatres;
         const museumBool = chosenPreferences.museums;
@@ -172,7 +163,7 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
 
         try{
             await axios.post("http://localhost:8080/updatePreferenceJson",{
-                hairDresserBool,spaBool,hospitalBool,beautySalonBool,pharmacyBool,
+                hairDresserBool,spaBool,beautySalonBool,
                 restaurantBool,cafeBool,barBool,clubBool,
                 parkBool,gymBool,hikingBool,
                 theatreBool,museumBool,libraryBool,artGalleryBool
