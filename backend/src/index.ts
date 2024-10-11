@@ -246,8 +246,6 @@ app.post("/updatePreferenceJson",async(req,res)=>{
   const data = {
    hairDresser:req.body.hairDresserBool,
    spa:req.body.spaBool,
-   hospital:req.body.hospitalBool,
-   pharmacy:req.body.pharmacyBool,
    beautySalon:req.body.beautySalonBool,
    restaurant:req.body.restaurantBool,
    cafe:req.body.cafeBool,
@@ -273,8 +271,6 @@ app.post("/updatePreferenceJson",async(req,res)=>{
   //Wellness
   if(data.hairDresser == true){preferenceList.push("hair_care")}
   if(data.spa == true){preferenceList.push("spa")}
-  if(data.hospital == true){preferenceList.push("hospital")}
-  if(data.pharmacy == true){preferenceList.push("pharmacy")}
   if(data.beautySalon == true){preferenceList.push("beauty_salon")}
   //Social
   if(data.restaurant == true){preferenceList.push("restaurant")}

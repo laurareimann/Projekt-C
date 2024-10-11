@@ -606,25 +606,35 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     const HealthLng = tempHealthArray[1];
     const TransitLat = tempTransitArray[0];
     const TransitLng = tempTransitArray[1];
-    const PreferenceLat = tempPrefArray[0];
-    const PreferenceLng = tempPrefArray[1];
+    let PreferenceLat = tempPrefArray[0];
+    let PreferenceLng = tempPrefArray[1];
     const SpotLat = tempSearchResultArray[0];
     const SpotLng = tempSearchResultArray[1];
     const currentGroceryDuration = tempGroceryDuration;
     const currentHealthDuration = tempHealthDuration;
     const currentTransitDuration = tempTransitDuration;
-    const currentPreferenceDuration = tempPreferenceDuration;
+    let currentPreferenceDuration = tempPreferenceDuration;
     const currentStartPointAddress = tempStartName;
     const currentClosestGroceryAddress = tempClosestGroceryAddress;
     const currentClosestHealthAddress = tempClosestHealthAddress;
     const currentClosestTransitAddress = tempClosestTransitAddress;
-    const currentClosestPreferenceAddress = tempClosestPreferenceAddress;
+    let currentClosestPreferenceAddress = tempClosestPreferenceAddress;
     const currentClosestGroceryName = tempClosestGroceryName;
     const currentClosestHealthName = tempClosestHealthName;
     const currentClosestTransitName = tempClosestTransitName;
-    const currentClosestPreferenceName = tempClosestPreferenceName;
+    let currentClosestPreferenceName = tempClosestPreferenceName;
 
     try {
+
+      if(isPreferenceEmpty){
+        currentClosestPreferenceAddress = "";
+        currentClosestPreferenceName = ""
+        PreferenceLat = 0;
+        PreferenceLng = 0;
+        currentPreferenceDuration = 0; 
+      }
+
+
       await axios.post("http://localhost:8080/updateJson", {
         GroceryLat,
         GroceryLng,
@@ -683,9 +693,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       setCalculationDone(true);
       setSpot(finalCenter);
       calculateScorePrototype(finalCenter, travelMode);
-    }, 1250);
+    }, 1500);
     
-    },1500);
+    },1750);
     updateCity(addressCityToLoad);
     updateStreet(addressToLoad);
     updateZipCode(addressZipToLoad);
@@ -1510,6 +1520,23 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             })
           }
             break;
+
+          case 3:
+            if(isPreferenceEmpty == false){
+              for (let i = 0; i < places.length; i++) {
+                markersWithInfoPersonalFilters.push({
+                  id:i,
+                  location:{
+                    lat:places[i].location!.lat(),
+                    lng:places[i].location!.lng()
+                  },
+                  address:places[i].formattedAddress!,
+                  name:places[i].displayName!,
+                  buildingType:places[i].types![0],
+                  prevState:null
+                })
+              }
+            }
       }
     }
   }
@@ -1531,15 +1558,15 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             markersWithInfoHealth.splice(0, markersWithInfoHealth.length)
             markersWithInfoPersonalFilters.splice(0, markersWithInfoPersonalFilters.length)
             //Werte der Filter werden geladen
-            getPreferences();
-
+            
+            setTimeout(()=>{getPreferences();},1500)
             //Bevor Suche stattfindet muss wie oben erwähnt ein kleiner timeout passieren
             setTimeout(()=>{
               newNearbySearch({lat,lng},0)
               newNearbySearch({lat,lng},1)
               newNearbySearch({lat,lng},2)
               newNearbySearch({lat,lng},3)
-              //Sanity check
+              //Sanity che
               console.log("Grocery markers");
               console.log(markersWithInfoGroceries)
               console.log("Health markers");
