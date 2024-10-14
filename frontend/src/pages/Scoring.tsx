@@ -14,6 +14,12 @@ const Section = styled.div`
     margin-bottom: 20px;
 `;
 
+const ListElement = styled.li`
+  line-height: 1.5rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+`
+
 const AboutUs: React.FC = () => {
     return (
         <div>
@@ -27,22 +33,22 @@ const AboutUs: React.FC = () => {
                 <Section>
                     <h3>How It Works</h3>
 
-                    <p><b>1. Default Score Calculation</b></p>
+                    <p><strong>1. Default Score Calculation</strong></p>
                     <p>When you provide an address, our algorithm automatically searches for the nearest locations in three key categories:</p>
                     <ul>
-                        <li><b>Grocery:</b> Supermarkets, grocery stores, and other places where you can easily buy food and household items.</li>
-                        <li><b>Health:</b> Pharmacies, clinics, hospitals, and other healthcare facilities that are important for your well-being.</li>
-                        <li><b>Transit:</b> Public transportation options like bus stops, subway stations, and train stations for easy commuting.</li>
+                        <ListElement><strong>Grocery:</strong> Supermarkets, grocery stores, and other places where you can easily buy food and household items.</ListElement>
+                        <ListElement><strong>Health:</strong> Pharmacies, clinics, hospitals, and other healthcare facilities that are important for your well-being.</ListElement>
+                        <ListElement><strong>Transit:</strong> Public transportation options like bus stops, subway stations, and train stations for easy commuting.</ListElement>
                     </ul>
                     <p>For each of these categories, the algorithm identifies the nearest place and calculates the time it would take to get there. These times are then averaged together to provide a single score, expressed in minutes. This number gives you an overview of how long, on average, it takes to reach important services from the given address.</p>
                 </Section>
 
                 <Section>
-                    <p><b>2. Customizing the Score</b></p>
+                    <p><strong>2. Customizing the Score</strong></p>
                     <p>Because everyone has different priorities, you can customize your Travel Time Score to better match your individual needs. By applying filters, you can refine the calculation to focus on the services and amenities that are most relevant to you. For example:</p>
                     <ul>
-                        <li>You might want to include other locations such as parks, restaurants or entertainment.</li>
-                        <li>Adjust the mode of travel (e.g., walking, cycling, driving, or public transport) to see how different options affect the score.</li>
+                        <ListElement>You might want to include other locations such as parks, restaurants or entertainment.</ListElement>
+                        <ListElement>Adjust the mode of travel (e.g., walking, cycling, driving, or public transport) to see how different options affect the score.</ListElement>
                     </ul>
                     <p>Once you apply these filters, the system recalculates the nearest relevant places, and a new, personalized score is generated based on the updated average travel time.</p>
                 </Section>

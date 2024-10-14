@@ -101,11 +101,6 @@ p {
   font-weight: 400;
   margin:0;
 }
-li {
-  line-height: 1.5rem;
-  font-size: 1.125rem;
-  font-weight: 400;
-}
 a {
   color: var(--color--blue-4);
   text-decoration: underline;
