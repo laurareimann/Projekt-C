@@ -49,8 +49,9 @@ const AboutUs: React.FC = () => {
                     <ul>
                         <ListElement>You might want to include other locations such as parks, restaurants or entertainment.</ListElement>
                         <ListElement>Adjust the mode of travel (e.g., walking, cycling, driving, or public transport) to see how different options affect the score.</ListElement>
+                        <ListElement>You can choose to prioritize specific categories which will effect the weighting in the final score.</ListElement>
                     </ul>
-                    <p>Once you apply these filters, the system recalculates the nearest relevant places, and a new, personalized score is generated based on the updated average travel time.</p>
+                    <p>When you change the mode of travel after you already searched for an address, the score will be recalculated to fit that chosen travel mode. Filters for additional locations need to be applied before entering an address to take effect.</p>
                 </Section>
 
                 <Section>
