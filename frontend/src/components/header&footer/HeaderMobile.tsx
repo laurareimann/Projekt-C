@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { slide as Menu } from 'react-burger-menu';
 import { slide as ProfileMenu } from 'react-burger-menu';
-import quizIcon from '../../assets/icons/QuizIcon.svg';
+import scoringIcon from '../../assets/icons/QuizIcon.svg';
 import aboutUsIcon from '../../assets/icons/AboutIcon.svg';
 import evaluationIcon from '../../assets/icons/EvaluationIcon.svg';
 import profileIcon from '../../assets/icons/ProfileIcon.svg';
@@ -310,10 +310,10 @@ const HeaderMobile = () => {
               customBurgerIcon={false}
               styles={burgerStyles}
             >
-              <MenuOption onClick={() => setIsOpen(false)} href="/quiz">
+              <MenuOption onClick={() => setIsOpen(false)} href="/scoring">
                 <MenuItem>
-                  <img src={quizIcon} alt="Quiz" />
-                  Quiz
+                  <img src={scoringIcon} alt="Scoring" />
+                  Scoring
                 </MenuItem>
               </MenuOption>
               <MenuOption onClick={() => setIsOpen(false)} href="/about-us">

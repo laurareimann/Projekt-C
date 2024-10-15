@@ -21,6 +21,7 @@ import Concept from './pages/Concept.tsx';
 import FAQ from './pages/FAQ.tsx';
 import ProfilePage from './pages/ProfilePage.tsx';
 import Evaluation from './pages/DetailedResults.tsx';
+import Scoring from './pages/Scoring.tsx';
 
 /*
 export const StreetContext = React.createContext("preview Street");
@@ -157,7 +158,8 @@ const App: React.FC = () => {
         <Route path="team" element={<TheTeam />} />
         <Route path="concept" element={<Concept />} />
         <Route path="faq" element={<FAQ />} />
-        <Route path="profile" element={<ProfilePage />} />      
+        <Route path="profile" element={<ProfilePage />} />    
+        <Route path="scoring" element={<Scoring />} />
       </Routes>
       <FooterSpacer />
       <Footer />
