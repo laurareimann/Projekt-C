@@ -14,6 +14,12 @@ const Section = styled.div`
     margin-bottom: 20px;
 `;
 
+const ListElement = styled.li`
+  line-height: 1.5rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+`
+
 
 const Concept: React.FC = () => {
     return (
@@ -34,11 +40,11 @@ const Concept: React.FC = () => {
                     <h3>Core Principles</h3>
                     <p>The concept of the 15-minute city is built upon several key principles that drive its implementation:</p>
                     <ul>
-                        <li><strong>Proximity:</strong> Ensuring that daily needs are within a short distance, reducing reliance on cars.</li>
-                        <li><strong>Accessibility:</strong> Making sure that everyone, regardless of age or ability, can access necessary services easily.</li>
-                        <li><strong>Sustainability:</strong> Promoting environmentally friendly modes of transport like walking, cycling, and public transit.</li>
-                        <li><strong>Community:</strong> Enhancing social interactions and community ties by designing shared spaces.</li>
-                        <li><strong>Resilience:</strong> Creating cities that can adapt to economic, social, and environmental changes.</li>
+                        <ListElement><strong>Proximity:</strong> Ensuring that daily needs are within a short distance, reducing reliance on cars.</ListElement>
+                        <ListElement><strong>Accessibility:</strong> Making sure that everyone, regardless of age or ability, can access necessary services easily.</ListElement>
+                        <ListElement><strong>Sustainability:</strong> Promoting environmentally friendly modes of transport like walking, cycling, and public transit.</ListElement>
+                        <ListElement><strong>Community:</strong> Enhancing social interactions and community ties by designing shared spaces.</ListElement>
+                        <ListElement><strong>Resilience:</strong> Creating cities that can adapt to economic, social, and environmental changes.</ListElement>
                     </ul>
                 </Section>
 

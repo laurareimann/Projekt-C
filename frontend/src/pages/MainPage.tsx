@@ -45,7 +45,6 @@ const HomePage: React.FC = () => {
                 />
                 <BlockContainer>
                     <ScoreContainer color='blue' onClick={handleClick}></ScoreContainer>
-                    <QuizContainer color='pink'></QuizContainer>
                 </BlockContainer>
             </StreetProvider>
             <ToastContainer></ToastContainer>

@@ -14,6 +14,12 @@ const Section = styled.div`
     margin-bottom: 20px;
 `;
 
+const ListElement = styled.li`
+  line-height: 1.5rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+`
+
 const AboutUs: React.FC = () => {
     return (
         <div>
@@ -42,9 +48,9 @@ const AboutUs: React.FC = () => {
                 <Section>
                     <p>Here's a breakdown of how we hope to contribute:</p>
                     <ul>
-                        <li>Provide information on the 15-minute city concept and its benefits</li>
-                        <li>Offer resources for individuals looking to make their communities more sustainable</li>
-                        <li>Encourage policymakers to consider the 15-minute city model in their urban planning</li>
+                        <ListElement>Provide information on the 15-minute city concept and its benefits</ListElement>
+                        <ListElement>Offer resources for individuals looking to make their communities more sustainable</ListElement>
+                        <ListElement>Encourage policymakers to consider the 15-minute city model in their urban planning</ListElement>
                     </ul>
                 </Section>
 
