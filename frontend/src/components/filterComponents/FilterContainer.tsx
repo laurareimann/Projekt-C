@@ -135,33 +135,49 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
 
     const preferenceGroups = {
         'Social': ['restaurants', 'cafes', 'bars', 'clubs'],
-        'Sports & Wellness': ['parks', 'gym','hiking area', 'hairDresser', 'spa', 'beautySalon'],
+        'Sports & Wellness': ['parks', 'gym','hikingArea', 'hairDresser', 'spa', 'beautySalon'],
         'Culture': ['theatres', 'museums', 'libraries', 'galleries']
     };
 
-    async function updatePreferences(chosenPreferences: Record<Preference, boolean>){
+    async function updatePreferences(chosenPreferences: Record<Preference, boolean>,shouldReset:boolean){
         console.log(chosenPreferences);
 
         //Social
-        const restaurantBool = chosenPreferences.restaurants;
-        const cafeBool = chosenPreferences.cafes;
-        const barBool = chosenPreferences.bars;
-        const clubBool = chosenPreferences.clubs;
+        let restaurantBool = chosenPreferences.restaurants;
+        let cafeBool = chosenPreferences.cafes;
+        let barBool = chosenPreferences.bars;
+        let clubBool = chosenPreferences.clubs;
         //Sports&Wellness
-        const parkBool = chosenPreferences.park;
-        const gymBool = chosenPreferences.gym;
-        const hikingBool =  chosenPreferences.hikingArea;
-        const hairDresserBool = chosenPreferences.hairDresser;
-        const spaBool = chosenPreferences.spa;
-        const beautySalonBool = chosenPreferences.beautySalon;
+        let parkBool = chosenPreferences.park;
+        let gymBool = chosenPreferences.gym;
+        let hikingBool =  chosenPreferences.hikingArea;
+        let hairDresserBool = chosenPreferences.hairDresser;
+        let spaBool = chosenPreferences.spa;
+        let beautySalonBool = chosenPreferences.beautySalon;
         //Culture
-        const theatreBool = chosenPreferences.theatres;
-        const museumBool = chosenPreferences.museums;
-        const libraryBool = chosenPreferences.libraries;
-        const artGalleryBool = chosenPreferences.galleries;
-
+        let theatreBool = chosenPreferences.theatres;
+        let museumBool = chosenPreferences.museums;
+        let libraryBool = chosenPreferences.libraries;
+        let artGalleryBool = chosenPreferences.galleries;
 
         try{
+            if(shouldReset == true){
+                hairDresserBool = false;
+                spaBool = false;
+                beautySalonBool =false;
+                restaurantBool = false;
+                cafeBool = false;
+                barBool =false;
+                clubBool = false;
+                parkBool = false;
+                gymBool = false;
+                hikingBool = false;
+                theatreBool =false;
+                museumBool = false;
+                libraryBool = false;
+                artGalleryBool = false;
+            }    
+
             await axios.post("http://localhost:8080/updatePreferenceJson",{
                 hairDresserBool,spaBool,beautySalonBool,
                 restaurantBool,cafeBool,barBool,clubBool,
@@ -223,11 +239,14 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
                         </QuestionWrapper>
                     ))}
                     <ResetWrapper>
-                        <Button onClick={resetFilters}>Reset All</Button>
+                        <Button onClick={()=>{
+                            resetFilters();
+                            setTimeout(()=>{updatePreferences(selectedFilters.preferences,true)},250)
+                        }}>Reset All</Button>
                         <Button color={'blue'} onClick={()=>{
                             onClose;
                             console.log(selectedFilters.preferences.bars);
-                            updatePreferences(selectedFilters.preferences)}
+                            updatePreferences(selectedFilters.preferences,false)}
                             }>Save</Button>
                     </ResetWrapper>
                 </FilterWrapper>

@@ -1,8 +1,8 @@
 {
-  "currentAddressLat": 53.5688823,
-  "currentAddressLng": 10.0330191,
+  "currentAddressLat": 53.5545872,
+  "currentAddressLng": 9.9677539,
   "ShouldLoadBool": false,
-  "currentAddress": "Finkenau 35",
-  "currentAddressCity": "22081",
-  "currentAddressZip": "Hamburg"
+  "currentAddress": "Harald-Stender-Platz 1",
+  "currentAddressCity": "Hamburg",
+  "currentAddressZip": "20359"
 }

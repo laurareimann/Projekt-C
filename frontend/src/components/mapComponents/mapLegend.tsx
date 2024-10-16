@@ -60,6 +60,10 @@ const mapLegend: React.FC<MapLegendProps> = ({ circleRadii, circleColors, logo }
             icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
             text: 'Transit',
         },
+        {
+            icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+            text: "Preferences",
+        }
     ];
 
     return (
