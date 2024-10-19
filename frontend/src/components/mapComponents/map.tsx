@@ -20,6 +20,7 @@ import { useCityNew, useScore, useStreetNameNew, useZipCodeNew } from "./StreetP
 import axios from "axios";
 import FilterOverlay from "../filterComponents/FilterOverlay";
 import { Bounce, toast } from "react-toastify";
+import AdaptedFilterContainer from "../filterComponents/FilterAdapted";
 //import { InfoWindow } from "react-google-maps";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -40,7 +41,6 @@ interface MarkerWindow {
   location: LatLngLiteral;
   name: string,
   buildingType: string,
-  prevState: null
 }
 
 //Variablen für die Berechnung des Scores
@@ -498,9 +498,9 @@ async function checkForLoadFromProfileFunc() {
 
 }
 
-
 checkForLoadFromProfileFunc();
 
+//Die gesetzten flags der Filter werden für den Algorithmus geladen
 async function getPreferences(){
   console.log("Getting preferences");
   //Präferenzen werden aus der dafür erstellten JSON-Datei gelesen
@@ -510,7 +510,7 @@ async function getPreferences(){
       console.log("Fetching prefernces");
       preferenceArray = res.data;
       console.log("Current sent preference array: " + preferenceArray)
-
+      //Array "lesbar" machen
       const formattedPreferenceArray = JSON.parse(preferenceArray);
       console.log(formattedPreferenceArray)
       console.log(formattedPreferenceArray.preferenceListSend[0])
@@ -828,14 +828,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     fastestRouteHealth = 5000;
     fastestRouteTransit = 5000;
     fastestRoutePreference = 5000;
-    //setCurrentTravelMode(transitMode)
-    //Text, der im ScoreContainer gesetzt wird
-    //console.log(transitMode)
 
     switch (transitMode) {
       case "walking":
         //Loop durch das Array mit allen Marker-Arrays, um den Medianwert auszurechnen
-        //Vorerst nur mit Walking, aber nach Ausbau der Funktion auch mit anderen TransitMethods
         for (let i = 0; i < MarkersArrayTogether.length; i++) {
           for (let j = 0; j < MarkersArrayTogether[i].length; j++) {
             if (i == 0) {
@@ -929,7 +925,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         break;
       case "driving":
         //Loop durch das Array mit allen Marker-Arrays, um den Medianwert auszurechnen
-        //Vorerst nur mit Walking, aber nach Ausbau der Funktion auch mit anderen TransitMethods
         for (let i = 0; i < MarkersArrayTogether.length; i++) {
           for (let j = 0; j < MarkersArrayTogether[i].length; j++) {
             if (i == 0) {
@@ -1023,7 +1018,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         break;
       case "transit":
         //Loop durch das Array mit allen Marker-Arrays, um den Medianwert auszurechnen
-        //Vorerst nur mit Walking, aber nach Ausbau der Funktion auch mit anderen TransitMethods
         for (let i = 0; i < MarkersArrayTogether.length; i++) {
           for (let j = 0; j < MarkersArrayTogether[i].length; j++) {
             if (i == 0) {
@@ -1117,7 +1111,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         break;
       case "bicycle":
         //Loop durch das Array mit allen Marker-Arrays, um den Medianwert auszurechnen
-        //Vorerst nur mit Walking, aber nach Ausbau der Funktion auch mit anderen TransitMethods
         for (let i = 0; i < MarkersArrayTogether.length; i++) {
           for (let j = 0; j < MarkersArrayTogether[i].length; j++) {
             if (i == 0) {
@@ -1245,7 +1238,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
       //Finale Berechnung des Scores und updaten der JSON-Datei
       if(isPreferenceEmpty == false){
-      finalMean = Math.ceil(((fastestRouteGroceries + fastestRouteHealth + fastestRouteTransit+fastestRoutePreference) / 60 / finalDivisor));
+      finalMean = Math.ceil(((fastestRouteGroceries + fastestRouteHealth + fastestRouteTransit + fastestRoutePreference) / 60 / finalDivisor));
       }
       else{
         finalMean = Math.ceil(((fastestRouteGroceries + fastestRouteHealth + fastestRouteTransit) / 60 / finalDivisor));
@@ -1484,7 +1477,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               address: places[i].formattedAddress!,
               name: places[i].displayName!,
               buildingType: places[i].types![0],
-              prevState: null
             })
           }
           break;
@@ -1500,7 +1492,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               address: places[i].formattedAddress!,
               name: places[i].displayName!,
               buildingType: places[i].types![0],
-              prevState: null
             })
           }
           break;
@@ -1516,7 +1507,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               address:places[i].formattedAddress!,
               name:places[i].displayName!,
               buildingType:places[i].types![0],
-              prevState:null
             })
           }
             break;
@@ -1533,7 +1523,6 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
                   address:places[i].formattedAddress!,
                   name:places[i].displayName!,
                   buildingType:places[i].types![0],
-                  prevState:null
                 })
               }
             }
@@ -1587,7 +1576,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             }, 2500);
           }} />
         </ControlContainer>
-        <FilterOverlay />
+       {//<FilterOverlay />
+}
+      <AdaptedFilterContainer></AdaptedFilterContainer>
       </Searchbar>
 
       <ButtonGrid>

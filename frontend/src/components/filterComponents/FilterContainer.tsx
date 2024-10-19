@@ -135,7 +135,7 @@ function FilterContainer({ color = "blue", children, onClose }: { color?: string
 
     const preferenceGroups = {
         'Social': ['restaurants', 'cafes', 'bars', 'clubs'],
-        'Sports & Wellness': ['parks', 'gym','hikingArea', 'hairDresser', 'spa', 'beautySalon'],
+        'Sports & Wellness': ['park', 'gym','hikingArea', 'hairDresser', 'spa', 'beautySalon'],
         'Culture': ['theatres', 'museums', 'libraries', 'galleries']
     };
 

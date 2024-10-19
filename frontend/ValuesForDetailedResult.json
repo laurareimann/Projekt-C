@@ -1,37 +1,37 @@
 {
-  "currentScoreValue": 6,
+  "currentScoreValue": 10,
   "currentStartingSpot": [
-    53.5545872,
-    9.9677539
+    53.5688823,
+    10.0330191
   ],
   "currentClosestGrocery": [
-    53.5536222,
-    9.96332
+    53.5706032,
+    10.027138299999999
   ],
   "currentClosestHealth": [
-    53.5555503,
-    9.966999999999999
+    53.5673769,
+    10.0299359
   ],
   "currentClosestTransit": [
-    53.5545109,
-    9.9646261
+    53.570147,
+    10.037284999999999
   ],
   "currentClosestPreference": [
-    53.553833,
-    9.9671363
+    53.5672862,
+    10.034184699999999
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 9,
-  "currentHealthDuration": 5,
+  "currentGroceryDuration": 13,
+  "currentHealthDuration": 9,
   "currentTransitDuration": 6,
-  "currentPreferenceDuration": 2,
-  "currentStartAddress": "Harald-Stender-Platz 1, 20359 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Hein-Hoyer-Straße 76, 20359 Hamburg, Germany",
-  "currentClosestHealthAddress": "Neuer Kamp 31, 20359 Hamburg, Germany",
-  "currentClosestTransitAddress": "Paulinenstraße, 20359 Hamburg, Germany",
-  "currentClosestPreferenceAddress": "Harald-Stender-Platz 1, 20359 Hamburg, Germany",
-  "currentClosestGroceryName": "Mercearia Brasileira & Portuguesa",
-  "currentClosestHealthName": "Impfzentrum Rindermarkthalle - Impfangebot Hamburg",
-  "currentClosestTransitName": "Paulinenstraße",
-  "currentClosestPreferenceName": "Millerntor Gallery"
+  "currentPreferenceDuration": 10,
+  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Germany",
+  "currentClosestGroceryAddress": "Hamburger Str. 1, 22083 Hamburg, Germany",
+  "currentClosestHealthAddress": "Immenhof 2, 22087 Hamburg, Germany",
+  "currentClosestTransitAddress": "Gluckstraße, 22081 Hamburg, Germany",
+  "currentClosestPreferenceAddress": "Kuhmühlenteich und Eilbekkanal, Eilenau, Ecke Lerchenfeld, Wartenau, 22089 Hamburg, Germany",
+  "currentClosestGroceryName": "PENNY",
+  "currentClosestHealthName": "Frau Marie-Luise Schumacher",
+  "currentClosestTransitName": "Gluckstraße",
+  "currentClosestPreferenceName": "Kuhmühlenteich und Eilbekkanal"
 }
