@@ -1,37 +1,37 @@
 {
-  "currentScoreValue": 6,
+  "currentScoreValue": 11,
   "currentStartingSpot": [
-    53.5545872,
-    9.9677539
+    54.87015,
+    8.88251
   ],
   "currentClosestGrocery": [
-    53.5536222,
-    9.96332
+    54.8700659,
+    8.893500699999999
   ],
   "currentClosestHealth": [
-    53.5555503,
-    9.966999999999999
+    54.8713516,
+    8.9072733
   ],
   "currentClosestTransit": [
-    53.5545109,
-    9.9646261
+    54.872600999999996,
+    8.883047
   ],
   "currentClosestPreference": [
-    53.553833,
-    9.9671363
+    0,
+    0
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 9,
-  "currentHealthDuration": 5,
-  "currentTransitDuration": 6,
-  "currentPreferenceDuration": 2,
-  "currentStartAddress": "Harald-Stender-Platz 1, 20359 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Hein-Hoyer-Straße 76, 20359 Hamburg, Germany",
-  "currentClosestHealthAddress": "Neuer Kamp 31, 20359 Hamburg, Germany",
-  "currentClosestTransitAddress": "Paulinenstraße, 20359 Hamburg, Germany",
-  "currentClosestPreferenceAddress": "Harald-Stender-Platz 1, 20359 Hamburg, Germany",
-  "currentClosestGroceryName": "Mercearia Brasileira & Portuguesa",
-  "currentClosestHealthName": "Impfzentrum Rindermarkthalle - Impfangebot Hamburg",
-  "currentClosestTransitName": "Paulinenstraße",
-  "currentClosestPreferenceName": "Millerntor Gallery"
+  "currentGroceryDuration": 12,
+  "currentHealthDuration": 28,
+  "currentTransitDuration": 4,
+  "currentPreferenceDuration": 0,
+  "currentStartAddress": "Zollstraße 11, 25923 Süderlügum, Deutschland",
+  "currentClosestGroceryAddress": "Bahnhofstraße 74, 25923 Süderlügum, Deutschland",
+  "currentClosestHealthAddress": "Hauptstraße 20, 25923 Süderlügum, Deutschland",
+  "currentClosestTransitAddress": "Wimmersbüll, Schule, 25923 Süderlügum, Deutschland",
+  "currentClosestPreferenceAddress": "",
+  "currentClosestGroceryName": "Volker Bienemann",
+  "currentClosestHealthName": "Grenz Apotheke",
+  "currentClosestTransitName": "Wimmersbüll, Schule",
+  "currentClosestPreferenceName": ""
 }

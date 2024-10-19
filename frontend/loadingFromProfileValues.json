@@ -1,8 +1,8 @@
 {
-  "currentAddressLat": 53.5545872,
-  "currentAddressLng": 9.9677539,
+  "currentAddressLat": 47.37983639999999,
+  "currentAddressLng": 8.5361751,
   "ShouldLoadBool": false,
-  "currentAddress": "Harald-Stender-Platz 1",
-  "currentAddressCity": "Hamburg",
-  "currentAddressZip": "20359"
+  "currentAddress": "Zollstrasse 11",
+  "currentAddressCity": "Zürich",
+  "currentAddressZip": "8005"
 }
