@@ -115,7 +115,7 @@ checkForLoadFromProfileFunc();
   const travelMode = AddressData.currentTravelMode;
 
 
-// Wahrscheinlich voll clunky aber es funktioniert.
+// Wahrscheinlich voll clunky aber es funktioniert. Bei Usestates hatte ich immer Renderprobleme.
  if(AddressData.currentClosestPreferenceAddress != ""){
       routeState = "preferenceRoutes";
  }else{
