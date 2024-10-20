@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "../../globals.css";
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import React from "react";
 import {GoogleMap, Marker} from "@react-google-maps/api";
 import styled from "styled-components";
 import AddressData from "../../../ValuesForDetailedResult.json"
@@ -34,7 +35,7 @@ const startingSpot={lat: AddressData.currentStartingSpot[0], lng: AddressData.cu
 const grocerySpot={lat: AddressData.currentClosestGrocery[0], lng: AddressData.currentClosestGrocery[1]};
 const healthSpot ={lat: AddressData.currentClosestHealth[0], lng: AddressData.currentClosestHealth[1]};
 const transitSpot={lat: AddressData.currentClosestTransit[0], lng: AddressData.currentClosestTransit[1]};
-
+const preferenceSpot={lat: AddressData.currentClosestPreference[0], lng: AddressData.currentClosestPreference[1]};
 
 //Map component aus Google-Tutorial. Ist jetzt erstmal für unsere test page. 
 const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
@@ -60,7 +61,7 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
       clickableIcons: true,
       mapId: import.meta.env.VITE_MAP_ID
     }), []);
-
+  
 
   useEffect(() => {
     if (mapLoaded && shouldRenderCircles) {
@@ -96,8 +97,6 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
     setMapLoaded(true);
   }, []);
 
-
-
   return (
     <div>
       <MapContainer height={height} width={width}>
@@ -120,7 +119,9 @@ const MapWithoutSearch: React.FC<MapWithoutSearchProps> = ({
         {shouldRenderMarkers && (
             <Marker position={transitSpot} icon='http://maps.google.com/mapfiles/ms/icons/red-dot.png'></Marker>
         )}
-        
+        {shouldRenderMarkers && (
+            <Marker position={preferenceSpot} icon='http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'></Marker>
+        )}
          </GoogleMap>
         </MapContainer>
     </div>

@@ -1,37 +1,37 @@
 {
-  "currentScoreValue": 3,
+  "currentScoreValue": 11,
   "currentStartingSpot": [
-    53.4635541,
-    9.969640799999999
+    54.87015,
+    8.88251
   ],
   "currentClosestGrocery": [
-    53.46414,
-    9.9654486
+    54.8700659,
+    8.893500699999999
   ],
   "currentClosestHealth": [
-    53.4644649,
-    9.9646523
+    54.8713516,
+    8.9072733
   ],
   "currentClosestTransit": [
-    53.463736999999995,
-    9.970163999999999
+    54.872600999999996,
+    8.883047
   ],
   "currentClosestPreference": [
-    53.4632252,
-    9.9702661
+    0,
+    0
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 5,
-  "currentHealthDuration": 5,
-  "currentTransitDuration": 1,
-  "currentPreferenceDuration": 2,
-  "currentStartAddress": "Am Schwarzenberg-Campus 1, 21073 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Gazertstraße 1, 21075 Hamburg, Germany",
-  "currentClosestHealthAddress": "Alter Postweg 25, 21075 Hamburg, Germany",
-  "currentClosestTransitAddress": "Kasernenstraße (TU Hamburg), 21073 Hamburg, Germany",
-  "currentClosestPreferenceAddress": "Am Schwarzenberg-Campus 1, 21073 Hamburg, Germany",
-  "currentClosestGroceryName": "Sebastian's Markt",
-  "currentClosestHealthName": "Facharztteam Heimfeld (Ambulanzzentrum UKE)",
-  "currentClosestTransitName": "Kasernenstraße (TU Hamburg)",
-  "currentClosestPreferenceName": "Sofa Café AStA TUHH"
+  "currentGroceryDuration": 12,
+  "currentHealthDuration": 28,
+  "currentTransitDuration": 4,
+  "currentPreferenceDuration": 0,
+  "currentStartAddress": "Zollstraße 11, 25923 Süderlügum, Deutschland",
+  "currentClosestGroceryAddress": "Bahnhofstraße 74, 25923 Süderlügum, Deutschland",
+  "currentClosestHealthAddress": "Hauptstraße 20, 25923 Süderlügum, Deutschland",
+  "currentClosestTransitAddress": "Wimmersbüll, Schule, 25923 Süderlügum, Deutschland",
+  "currentClosestPreferenceAddress": "",
+  "currentClosestGroceryName": "Volker Bienemann",
+  "currentClosestHealthName": "Grenz Apotheke",
+  "currentClosestTransitName": "Wimmersbüll, Schule",
+  "currentClosestPreferenceName": ""
 }
