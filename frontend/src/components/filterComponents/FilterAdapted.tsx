@@ -72,6 +72,32 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
         }
     });
 
+    const [prevSelectedFilters, setPrevSelectedFilters] = useState<FilterState>({
+        transportMethod: {
+            walking: false,
+            bike: false,
+            publicTransport: false,
+            car: false
+        },
+        preferences: {
+            hairDresser: false,
+            beautySalon: false,
+            spa: false,
+            restaurants: false,
+            cafes: false,
+            bars: false,
+            clubs: false,
+            park: false,
+            gym: false,
+            hikingArea:false,
+            theatres: false,
+            museums: false,
+            libraries: false,
+            galleries: false
+        }
+    });
+
+
     const handleTileButtonClick = (key: TransportMethod) => {
         setSelectedFilters(prevFilters => ({
             ...prevFilters,
@@ -125,9 +151,16 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
         setFilterVisible((prev) => !prev);
     };
 
-    const handleClose = () => {
+    function handleClose(shouldReset:boolean){
+        if(shouldReset === false){
+            setPrevSelectedFilters(selectedFilters);
+        }
+        if(shouldReset === true){
+            setSelectedFilters(prevSelectedFilters);
+        }
         setFilterVisible(false);
-    };
+        console.log("Filter window was closed");
+    }
 
 
 
@@ -214,7 +247,9 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
         
         <ContainerWrapper >
             <FContainer color={color} $hasOutline={false}>
-                <CloseButton onClick={handleClose}>&times;</CloseButton>
+                <CloseButton onClick={()=>{
+                    handleClose(true);
+                }}>&times;</CloseButton>
                 {children}
                 <FilterWrapper>
                     <h2>Filters</h2>
@@ -258,13 +293,13 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
                     <ResetWrapper>
                         <Button onClick={()=>{
                             resetFilters();
-                            setTimeout(()=>{updatePreferences(selectedFilters.preferences,true)},250)
+                            //setTimeout(()=>{updatePreferences(selectedFilters.preferences,true)},250)
                         }}>Reset All</Button>
                         <Button color={'blue'} onClick={()=>{
                             onClose;
                             console.log(selectedFilters.preferences.bars);
                             updatePreferences(selectedFilters.preferences,false);
-                            handleClose();}
+                            handleClose(false);}
                             }>Save</Button>
                     </ResetWrapper>
                 </FilterWrapper>

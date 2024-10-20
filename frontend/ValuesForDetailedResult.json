@@ -1,37 +1,37 @@
 {
-  "currentScoreValue": 10,
+  "currentScoreValue": 3,
   "currentStartingSpot": [
-    53.5688823,
-    10.0330191
+    53.4635541,
+    9.969640799999999
   ],
   "currentClosestGrocery": [
-    53.5706032,
-    10.027138299999999
+    53.46414,
+    9.9654486
   ],
   "currentClosestHealth": [
-    53.5673769,
-    10.0299359
+    53.4644649,
+    9.9646523
   ],
   "currentClosestTransit": [
-    53.570147,
-    10.037284999999999
+    53.463736999999995,
+    9.970163999999999
   ],
   "currentClosestPreference": [
-    53.5672862,
-    10.034184699999999
+    53.4632252,
+    9.9702661
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 13,
-  "currentHealthDuration": 9,
-  "currentTransitDuration": 6,
-  "currentPreferenceDuration": 10,
-  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Hamburger Str. 1, 22083 Hamburg, Germany",
-  "currentClosestHealthAddress": "Immenhof 2, 22087 Hamburg, Germany",
-  "currentClosestTransitAddress": "Gluckstraße, 22081 Hamburg, Germany",
-  "currentClosestPreferenceAddress": "Kuhmühlenteich und Eilbekkanal, Eilenau, Ecke Lerchenfeld, Wartenau, 22089 Hamburg, Germany",
-  "currentClosestGroceryName": "PENNY",
-  "currentClosestHealthName": "Frau Marie-Luise Schumacher",
-  "currentClosestTransitName": "Gluckstraße",
-  "currentClosestPreferenceName": "Kuhmühlenteich und Eilbekkanal"
+  "currentGroceryDuration": 5,
+  "currentHealthDuration": 5,
+  "currentTransitDuration": 1,
+  "currentPreferenceDuration": 2,
+  "currentStartAddress": "Am Schwarzenberg-Campus 1, 21073 Hamburg, Germany",
+  "currentClosestGroceryAddress": "Gazertstraße 1, 21075 Hamburg, Germany",
+  "currentClosestHealthAddress": "Alter Postweg 25, 21075 Hamburg, Germany",
+  "currentClosestTransitAddress": "Kasernenstraße (TU Hamburg), 21073 Hamburg, Germany",
+  "currentClosestPreferenceAddress": "Am Schwarzenberg-Campus 1, 21073 Hamburg, Germany",
+  "currentClosestGroceryName": "Sebastian's Markt",
+  "currentClosestHealthName": "Facharztteam Heimfeld (Ambulanzzentrum UKE)",
+  "currentClosestTransitName": "Kasernenstraße (TU Hamburg)",
+  "currentClosestPreferenceName": "Sofa Café AStA TUHH"
 }
