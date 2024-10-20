@@ -12,6 +12,7 @@ import styled from "styled-components";
 import axios from "axios";
 import AddressData from "../../../ValuesForDetailedResult.json"
 import RoutesContainer from '../../components/RoutesContainer.tsx';
+import React from "react";
   
 //import { InfoWindow } from "react-google-maps";
 
@@ -30,11 +31,25 @@ let addressToLoadLng:number;
 let altCenter:google.maps.LatLngLiteral;
 let finalCenter:google.maps.LatLngLiteral;
 
-const ScoreContainerGrid = styled.div`
+let routeState = "";
+
+const StandardGrid = styled.div`
 display: grid;
 grid-gap: 15px;
 place-items:center;
 grid-template-columns: 1fr 1fr 1fr;
+margin-bottom: 10px;
+@media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+`
+
+const PreferenceGrid = styled.div`
+display: grid;
+grid-gap: 15px;
+place-items:center;
+grid-template-columns: 1fr 1fr 1fr 1fr;
 margin-bottom: 10px;
 @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -96,9 +111,16 @@ checkForLoadFromProfileFunc();
   const grocerySpot={lat: AddressData.currentClosestGrocery[0], lng: AddressData.currentClosestGrocery[1]};
   const healthSpot ={lat: AddressData.currentClosestHealth[0], lng: AddressData.currentClosestHealth[1]};
   const transitSpot={lat: AddressData.currentClosestTransit[0], lng: AddressData.currentClosestTransit[1]};
+  const preferenceSpot={lat: AddressData.currentClosestPreference[0], lng: AddressData.currentClosestPreference[1]};
   const travelMode = AddressData.currentTravelMode;
 
 
+// Wahrscheinlich voll clunky aber es funktioniert. Bei Usestates hatte ich immer Renderprobleme.
+ if(AddressData.currentClosestPreferenceAddress != ""){
+      routeState = "preferenceRoutes";
+ }else{
+      routeState = "standardRoutes";
+ }
 
 export default function RoutesMap() {
 
@@ -274,27 +296,74 @@ export default function RoutesMap() {
     }
   }
 
+  const showPreferenceRoute = () => {
+      switch (travelMode) {
+        case "walking":
+          directService.route({
+            origin: startingSpot,
+            destination: preferenceSpot,
+            travelMode: google.maps.TravelMode.WALKING
+          }, (result, status) => {
+            if (status === "OK" && result) {
+              setDirections(result);
+            }
+          })
+          break;
   
-  return (
-    <div>
-      
-      <ScoreContainerGrid>
-        <RoutesContainer
-            name={AddressData.currentClosestHealthName}
-            score={AddressData.currentHealthDuration.toString()}
-            street={AddressData.currentClosestHealthAddress.split(",")[0]}
-            zip={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[1]}
-            city={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[2]}
-            onClick = {()=>{showHealthRoute()}}>
-        </RoutesContainer>
-
-        <RoutesContainer
+         case "driving":
+           directService.route({
+             origin: startingSpot,
+             destination: preferenceSpot,
+             travelMode: google.maps.TravelMode.DRIVING
+           }, (result, status) => {
+             if (status === "OK" && result) {
+               setDirections(result);
+             }
+           })
+           break;
+         case "bicycle":
+           directService.route({
+             origin: startingSpot,
+             destination: preferenceSpot,
+             travelMode: google.maps.TravelMode.BICYCLING
+           }, (result, status) => {
+             if (status === "OK" && result) {
+               setDirections(result);
+             }
+           })
+           break;
+         case "transit":
+           directService.route({
+             origin: startingSpot,
+             destination: preferenceSpot,
+             travelMode: google.maps.TravelMode.TRANSIT
+           }, (result, status) => {
+             if (status === "OK" && result) {
+               setDirections(result);
+             }
+           })
+           break;
+      }
+    }
+    
+    const StandardRoutes = () =>  <div> 
+        <StandardGrid>
+          <RoutesContainer
             name={AddressData.currentClosestGroceryName}
             score={AddressData.currentGroceryDuration.toString()}
             street={AddressData.currentClosestGroceryAddress.split(",")[0]}
             zip={AddressData.currentClosestGroceryAddress.split(",")[1].split(" ")[1]}
             city={AddressData.currentClosestGroceryAddress.split(",")[1].split(" ")[2]}
             onClick = {()=>{showGroceryRoute()}}>
+          </RoutesContainer>
+
+         <RoutesContainer
+            name={AddressData.currentClosestHealthName}
+            score={AddressData.currentHealthDuration.toString()}
+            street={AddressData.currentClosestHealthAddress.split(",")[0]}
+            zip={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[1]}
+            city={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[2]}
+            onClick = {()=>{showHealthRoute()}}>
          </RoutesContainer>
 
          <RoutesContainer
@@ -304,10 +373,60 @@ export default function RoutesMap() {
             zip={AddressData.currentClosestTransitAddress.split(",")[1].split(" ")[1]}
             city={AddressData.currentClosestTransitAddress.split(",")[1].split(" ")[2]}
             onClick = {()=>{showTransitRoute()}}>
-          </RoutesContainer>
-      </ScoreContainerGrid>                    
+         </RoutesContainer>
 
-      <GoogleMap zoom={14}
+        </StandardGrid>
+                            </div>;
+
+    const PreferenceRoutes = () =>  
+    <div> 
+  	<PreferenceGrid>
+      <RoutesContainer
+          name={AddressData.currentClosestGroceryName}
+          score={AddressData.currentGroceryDuration.toString()}
+          street={AddressData.currentClosestGroceryAddress.split(",")[0]}
+          zip={AddressData.currentClosestGroceryAddress.split(",")[1].split(" ")[1]}
+          city={AddressData.currentClosestGroceryAddress.split(",")[1].split(" ")[2]}
+          onClick = {()=>{showGroceryRoute()}}>
+      </RoutesContainer>
+
+      <RoutesContainer
+          name={AddressData.currentClosestHealthName}
+          score={AddressData.currentHealthDuration.toString()}
+          street={AddressData.currentClosestHealthAddress.split(",")[0]}
+          zip={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[1]}
+          city={AddressData.currentClosestHealthAddress.split(",")[1].split(" ")[2]}
+          onClick = {()=>{showHealthRoute()}}>
+      </RoutesContainer>
+
+      <RoutesContainer
+          name={AddressData.currentClosestTransitName}
+          score={AddressData.currentTransitDuration.toString()}
+          street={AddressData.currentClosestTransitAddress.split(",")[0]}
+          zip={AddressData.currentClosestTransitAddress.split(",")[1].split(" ")[1]}
+          city={AddressData.currentClosestTransitAddress.split(",")[1].split(" ")[2]}
+          onClick = {()=>{showTransitRoute()}}>
+      </RoutesContainer>
+
+      <RoutesContainer
+          name={AddressData.currentClosestPreferenceName}
+          score={AddressData.currentPreferenceDuration.toString()}            
+          street={AddressData.currentClosestPreferenceAddress.split(",")[0]}
+          zip={AddressData.currentClosestPreferenceAddress.split(",")[1].split(" ")[1]}
+          city={AddressData.currentClosestPreferenceAddress.split(",")[1].split(" ")[2]}
+          onClick = {()=>{showPreferenceRoute()}}>
+      </RoutesContainer>
+
+    </PreferenceGrid>
+    </div>;
+  
+  return (
+    <div>
+
+      {routeState === "standardRoutes" && <StandardRoutes/>}
+      {routeState === "preferenceRoutes" && <PreferenceRoutes/>}
+                         
+        <GoogleMap zoom={14}
           center={startingSpot}
           mapContainerClassName="map-container"
           options={options}
