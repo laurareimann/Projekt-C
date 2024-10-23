@@ -2,17 +2,16 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from '../buttons/Buttons';
 import LabelButton from '../buttons/LabelButton';
-import TileButton from '../buttons/TileButton';
 import axios from 'axios';
 
-type TransportMethod = 'walking' | 'bike' | 'publicTransport' | 'car';
+let resetPrefsOnReload:boolean = true;
+
 type Preference =
     | 'restaurants' | 'cafes' | 'bars' | 'clubs'
     | 'park' | 'gym' | 'hikingArea' | 'hairDresser' | 'beautySalon' | 'spa'
     | 'theatres' | 'museums' | 'libraries' | 'galleries';
 
 type FilterState = {
-    transportMethod: Record<TransportMethod, boolean>;
     preferences: Record<Preference, boolean>;
 };
 
@@ -46,14 +45,8 @@ width: fit-content;
             "none"};
 `
 
-function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: string; outline?: boolean; children?: React.ReactNode; onClose?: () => void }) {
+function AdaptedFilterContainer({color = "blue", children, onClose, onSave}: { color?: string; outline?: boolean; children?: React.ReactNode; onClose?: () => void; onSave?: (selectedFilters: FilterState) => void }) {
     const [selectedFilters, setSelectedFilters] = useState<FilterState>({
-        transportMethod: {
-            walking: false,
-            bike: false,
-            publicTransport: false,
-            car: false
-        },
         preferences: {
             hairDresser: false,
             beautySalon: false,
@@ -73,12 +66,6 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
     });
 
     const [prevSelectedFilters, setPrevSelectedFilters] = useState<FilterState>({
-        transportMethod: {
-            walking: false,
-            bike: false,
-            publicTransport: false,
-            car: false
-        },
         preferences: {
             hairDresser: false,
             beautySalon: false,
@@ -97,17 +84,6 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
         }
     });
 
-
-    const handleTileButtonClick = (key: TransportMethod) => {
-        setSelectedFilters(prevFilters => ({
-            ...prevFilters,
-            transportMethod: {
-                ...prevFilters.transportMethod,
-                [key]: !prevFilters.transportMethod[key]
-            }
-        }));
-    };
-
     const handleLabelButtonClick = (key: Preference) => {
         setSelectedFilters(prevFilters => ({
             ...prevFilters,
@@ -120,12 +96,6 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
 
     const resetFilters = () => {
         setSelectedFilters({
-            transportMethod: {
-                walking: false,
-                bike: false,
-                publicTransport: false,
-                car: false
-            },
             preferences: {
             hairDresser: false,
             beautySalon: false,
@@ -144,6 +114,13 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
             }
         });
     };
+
+    if(resetPrefsOnReload === true){
+    resetFilters();
+    updatePreferences(selectedFilters.preferences,false);
+    resetPrefsOnReload = false;
+    console.log("Preferences have been reset, because the site has been loaded anew");
+}
 
     const [isFilterVisible, setFilterVisible] = useState(false);
 
@@ -166,15 +143,11 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
 
     // Use useEffect to log the selected filters whenever they change
     useEffect(() => {
-        const activeTransportMethods = Object.entries(selectedFilters.transportMethod)
-            .filter(([value]) => value)
-            .map(([key]) => key);
 
         const activePreferences = Object.entries(selectedFilters.preferences)
             .filter(([value]) => value)
             .map(([key]) => key);
 
-        console.log("Selected Transport Methods:", activeTransportMethods);
         console.log("Selected Preferences:", activePreferences);
     }, [selectedFilters]); // Dependency array to watch for changes in selectedFilters
 
@@ -223,6 +196,9 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
                 artGalleryBool = false;
             }    
 
+
+            console.log("Test debug printing bools: " + spaBool + " " + libraryBool + " " + restaurantBool)
+
             await axios.post("http://localhost:8080/updatePreferenceJson",{
                 hairDresserBool,spaBool,beautySalonBool,
                 restaurantBool,cafeBool,barBool,clubBool,
@@ -253,26 +229,6 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
                 {children}
                 <FilterWrapper>
                     <h2>Filters</h2>
-                    <QuestionWrapper>
-                        <p>What is your preferred method of transport?</p>
-                        <TileGrid>
-                            {[
-                                { text: 'Walking', icon: 'walking' },
-                                { text: 'Bike', icon: 'bike' },
-                                { text: 'Public Transport', icon: 'tram' },
-                                { text: 'Car', icon: 'bus' }
-                            ].map(({ text, icon }) => (
-                                <TileButton
-                                    key={text}
-                                    icon={icon.toLowerCase()}
-                                    text={text}
-                                    selected={selectedFilters.transportMethod[text.toLowerCase() as TransportMethod]} // Pass selected state
-                                    onClick={() => handleTileButtonClick(text.toLowerCase() as TransportMethod)}
-                                ></TileButton>
-                            ))}
-                        </TileGrid>
-                    </QuestionWrapper>
-                    <h3 style={{ "marginBottom": 0 }}>Preferences</h3>
                     {Object.entries(preferenceGroups).map(([group, items]) => (
                         <QuestionWrapper key={group}>
                             <p>{group}</p>
@@ -299,6 +255,9 @@ function AdaptedFilterContainer({color = "blue", children, onClose }: { color?: 
                             onClose;
                             console.log(selectedFilters.preferences.bars);
                             updatePreferences(selectedFilters.preferences,false);
+                            if (onSave) {
+                                onSave(selectedFilters); // Pass selectedFilters to the onSave function
+                            }
                             handleClose(false);}
                             }>Save</Button>
                     </ResetWrapper>
@@ -345,7 +304,6 @@ const FilterWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
-    height: 80vh;
     overflow-y: auto;
 `;
 
@@ -360,13 +318,7 @@ const QuestionWrapper = styled.div`
     width: -webkit-fill-available;
     gap: 8px;
     padding-bottom: 16px;
-    border-bottom: 1px solid var(--color--blue-5);
-`;
-
-const TileGrid = styled.div`
-    display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 8px;
+    border-bottom: 2px solid var(--color--blue-2);
 `;
 
 const LabelGrid = styled.div`
@@ -382,7 +334,5 @@ const ResetWrapper = styled.div`
     gap: 8px;
     width: 100%;
 `;
-
-
 
 export default AdaptedFilterContainer;

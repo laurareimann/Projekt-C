@@ -1,8 +1,8 @@
 {
-  "currentAddressLat": 47.37983639999999,
-  "currentAddressLng": 8.5361751,
+  "currentAddressLat": 53.4635541,
+  "currentAddressLng": 9.969640799999999,
   "ShouldLoadBool": false,
-  "currentAddress": "Zollstrasse 11",
-  "currentAddressCity": "Zürich",
-  "currentAddressZip": "8005"
+  "currentAddress": "Am Schwarzenberg-Campus 1",
+  "currentAddressCity": "Hamburg",
+  "currentAddressZip": "21073"
 }
