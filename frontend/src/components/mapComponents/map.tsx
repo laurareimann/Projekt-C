@@ -505,6 +505,10 @@ async function getPreferences(){
   console.log("Getting preferences");
   //Präferenzen werden aus der dafür erstellten JSON-Datei gelesen
   try{
+
+    personalPreferenceArray.splice(0,personalPreferenceArray.length);
+
+
     axios.get("http://localhost:8080/getPreferences").then((res:{data:string})=>{
 
       console.log("Fetching prefernces");
@@ -1382,7 +1386,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         radius:3750
       },
       includedPrimaryTypes:personalPreferenceArray,
-      maxResultCount:10,
+      maxResultCount:15,
       rankPreference:SearchNearbyRankPreference.DISTANCE,
       language:"en-UK"
     }
@@ -1394,7 +1398,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         radius:3750
       },
       includedPrimaryTypes:personalPreferenceArray,
-      maxResultCount:10,
+      maxResultCount:15,
       rankPreference:SearchNearbyRankPreference.DISTANCE,
       language:"en-UK"
     }
@@ -1406,7 +1410,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         radius:3750
       },
       includedPrimaryTypes:["supermarket","grocery_store"],
-      maxResultCount:10,
+      maxResultCount:15,
       rankPreference:SearchNearbyRankPreference.DISTANCE,
       language:"en-UK"
     }
@@ -1418,7 +1422,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         radius:3750
       },
       includedPrimaryTypes:["hospital","doctor","pharmacy"],
-      maxResultCount:10,
+      maxResultCount:15,
       rankPreference:SearchNearbyRankPreference.DISTANCE,
       language:"en-UK"
     }
@@ -1531,8 +1535,34 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   }
 
 // @Gandeon Hier müsste dann der Reload getriggert werden für die eingegebene Adresse
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSave = (selectedFilters: any) => {
     console.log("Filters saved:", selectedFilters);
+
+    markersWithInfoTransit.splice(0, markersWithInfoTransit.length)
+    markersWithInfoGroceries.splice(0, markersWithInfoGroceries.length)
+    markersWithInfoHealth.splice(0, markersWithInfoHealth.length)
+    markersWithInfoPersonalFilters.splice(0, markersWithInfoPersonalFilters.length)
+
+    if(InitialCalculationDone === true){
+    setTimeout(()=>{
+      getPreferences();
+    },1250)
+
+
+    setTimeout(()=>{
+      newNearbySearch({lat:spot!.lat!,lng:spot!.lng!},0);
+      newNearbySearch({lat:spot!.lat!,lng:spot!.lng!},1);
+      newNearbySearch({lat:spot!.lat!,lng:spot!.lng!},2);
+      newNearbySearch({lat:spot!.lat!,lng:spot!.lng!},3);
+    },1750)
+
+    setTimeout(()=>{
+      calculateScorePrototype({lat:spot!.lat!,lng:spot!.lng!},travelMode)},2500)
+
+  console.log("Current preferences markers:")
+  console.log(markersWithInfoPersonalFilters)
+    }
   }
 
   return (

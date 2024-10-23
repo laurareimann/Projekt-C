@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from '../buttons/Buttons';
 import LabelButton from '../buttons/LabelButton';
-import TileButton from '../buttons/TileButton';
 import axios from 'axios';
+
+let resetPrefsOnReload:boolean = true;
 
 type Preference =
     | 'restaurants' | 'cafes' | 'bars' | 'clubs'
@@ -114,6 +115,13 @@ function AdaptedFilterContainer({color = "blue", children, onClose, onSave}: { c
         });
     };
 
+    if(resetPrefsOnReload === true){
+    resetFilters();
+    updatePreferences(selectedFilters.preferences,false);
+    resetPrefsOnReload = false;
+    console.log("Preferences have been reset, because the site has been loaded anew");
+}
+
     const [isFilterVisible, setFilterVisible] = useState(false);
 
     const toggleFilter = () => {
@@ -187,6 +195,9 @@ function AdaptedFilterContainer({color = "blue", children, onClose, onSave}: { c
                 libraryBool = false;
                 artGalleryBool = false;
             }    
+
+
+            console.log("Test debug printing bools: " + spaBool + " " + libraryBool + " " + restaurantBool)
 
             await axios.post("http://localhost:8080/updatePreferenceJson",{
                 hairDresserBool,spaBool,beautySalonBool,

@@ -1,37 +1,37 @@
 {
-  "currentScoreValue": 11,
+  "currentScoreValue": 9,
   "currentStartingSpot": [
-    54.87015,
-    8.88251
+    53.5688823,
+    10.0330191
   ],
   "currentClosestGrocery": [
-    54.8700659,
-    8.893500699999999
+    53.5706032,
+    10.027138299999999
   ],
   "currentClosestHealth": [
-    54.8713516,
-    8.9072733
+    53.5673769,
+    10.0299359
   ],
   "currentClosestTransit": [
-    54.872600999999996,
-    8.883047
+    53.570147,
+    10.037284999999999
   ],
   "currentClosestPreference": [
-    0,
-    0
+    53.567180199999996,
+    10.0312976
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 12,
-  "currentHealthDuration": 28,
-  "currentTransitDuration": 4,
-  "currentPreferenceDuration": 0,
-  "currentStartAddress": "Zollstraße 11, 25923 Süderlügum, Deutschland",
-  "currentClosestGroceryAddress": "Bahnhofstraße 74, 25923 Süderlügum, Deutschland",
-  "currentClosestHealthAddress": "Hauptstraße 20, 25923 Süderlügum, Deutschland",
-  "currentClosestTransitAddress": "Wimmersbüll, Schule, 25923 Süderlügum, Deutschland",
-  "currentClosestPreferenceAddress": "",
-  "currentClosestGroceryName": "Volker Bienemann",
-  "currentClosestHealthName": "Grenz Apotheke",
-  "currentClosestTransitName": "Wimmersbüll, Schule",
-  "currentClosestPreferenceName": ""
+  "currentGroceryDuration": 13,
+  "currentHealthDuration": 9,
+  "currentTransitDuration": 6,
+  "currentPreferenceDuration": 7,
+  "currentStartAddress": "Finkenau 35, 22081 Hamburg, Germany",
+  "currentClosestGroceryAddress": "Hamburger Str. 1, 22083 Hamburg, Germany",
+  "currentClosestHealthAddress": "Immenhof 2, 22087 Hamburg, Germany",
+  "currentClosestTransitAddress": "Gluckstraße, 22081 Hamburg, Germany",
+  "currentClosestPreferenceAddress": "Lerchenfeld 2, 22081 Hamburg, Germany",
+  "currentClosestGroceryName": "PENNY",
+  "currentClosestHealthName": "Frau Marie-Luise Schumacher",
+  "currentClosestTransitName": "Gluckstraße",
+  "currentClosestPreferenceName": "kreativ Mensa- Mensa der HFBK"
 }
