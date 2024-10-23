@@ -1530,6 +1530,11 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
     }
   }
 
+// @Gandeon Hier müsste dann der Reload getriggert werden für die eingegebene Adresse
+  const handleSave = (selectedFilters: any) => {
+    console.log("Filters saved:", selectedFilters);
+  }
+
   return (
     <div>
       <Searchbar>
@@ -1578,7 +1583,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         </ControlContainer>
        {//<FilterOverlay />
 }
-      <AdaptedFilterContainer></AdaptedFilterContainer>
+      <AdaptedFilterContainer onSave={handleSave}></AdaptedFilterContainer>
       </Searchbar>
 
       <ButtonGrid>
