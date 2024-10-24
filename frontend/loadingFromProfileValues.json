@@ -1,8 +1,8 @@
 {
-  "currentAddressLat": 53.4635541,
-  "currentAddressLng": 9.969640799999999,
+  "currentAddressLat": 51.99665,
+  "currentAddressLng": 7.464,
   "ShouldLoadBool": false,
-  "currentAddress": "Am Schwarzenberg-Campus 1",
-  "currentAddressCity": "Hamburg",
-  "currentAddressZip": "21073"
+  "currentAddress": "Zur Aabrücke 8",
+  "currentAddressCity": "Havixbeck",
+  "currentAddressZip": "48329"
 }
