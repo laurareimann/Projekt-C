@@ -63,22 +63,22 @@ const ContentWrapper = styled.div`
 
 const Evaluation: React.FC = () => {  
     
-    const [content, setContent] = React.useState("overallScore");
-    const [buttonState, setButtonState] = React.useState([true, false]);
+    // const [content, setContent] = React.useState("overallScore");
+    // const [buttonState, setButtonState] = React.useState([true, false]);
 
   
-    const ScoreTab = () =>  <div> 
-                                <HorizontalGrid>
-                                    <MapWithoutSearch
-                                        shouldRenderCircles={true}
-                                        circleRadii={[1250, 2500, 3750]}
-                                        circleColors={['green', 'yellow', 'red']}
-                                        height='50vh'
-                                        width='50vh'
-                                    />
-                                    <DiagrammContainer></DiagrammContainer>
-                                </HorizontalGrid> 
-                            </div>;
+    // const ScoreTab = () =>  <div> 
+    //                             <HorizontalGrid>
+    //                                 <MapWithoutSearch
+    //                                     shouldRenderCircles={true}
+    //                                     circleRadii={[1250, 2500, 3750]}
+    //                                     circleColors={['green', 'yellow', 'red']}
+    //                                     height='50vh'
+    //                                     width='50vh'
+    //                                 />
+    //                                 <DiagrammContainer></DiagrammContainer>
+    //                             </HorizontalGrid> 
+    //                         </div>;
     
     const RoutesTab = () => <div>
                                 <RoutesMap></RoutesMap>
@@ -100,16 +100,17 @@ const Evaluation: React.FC = () => {
             </ResultContainer>
 
             <ButtonGrid>
-                <Button onClick={() => {setContent("overallScore"), setButtonState([true, false])}}
+                {/* <Button onClick={() => {setContent("overallScore"), setButtonState([true, false])}}
                         disabled={buttonState[0]}> Results </Button>
                 <Button onClick={() => {setContent("routes"), setButtonState([false, true])}}
-                        disabled={buttonState[1]}> Routes </Button>
+                        disabled={buttonState[1]}> Routes </Button> */}
             </ButtonGrid>
             
-            <div>
+            {/* <div>
                 {content === "overallScore" && <ScoreTab/>}
                 {content === "routes" && <RoutesTab/>}
-            </div>
+            </div> */}
+            <RoutesMap></RoutesMap>
 
             <ToastContainer></ToastContainer>
             </ContentWrapper>

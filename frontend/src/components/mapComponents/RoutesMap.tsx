@@ -349,6 +349,7 @@ export default function RoutesMap() {
     const StandardRoutes = () =>  <div> 
         <StandardGrid>
           <RoutesContainer
+            color="green"
             name={AddressData.currentClosestGroceryName}
             score={AddressData.currentGroceryDuration.toString()}
             street={AddressData.currentClosestGroceryAddress.split(",")[0]}
@@ -358,6 +359,7 @@ export default function RoutesMap() {
           </RoutesContainer>
 
          <RoutesContainer
+            color="blue"
             name={AddressData.currentClosestHealthName}
             score={AddressData.currentHealthDuration.toString()}
             street={AddressData.currentClosestHealthAddress.split(",")[0]}
@@ -367,6 +369,7 @@ export default function RoutesMap() {
          </RoutesContainer>
 
          <RoutesContainer
+            color="pink"
             name={AddressData.currentClosestTransitName}
             score={AddressData.currentTransitDuration.toString()}
             street={AddressData.currentClosestTransitAddress.split(",")[0]}
@@ -382,6 +385,7 @@ export default function RoutesMap() {
     <div> 
   	<PreferenceGrid>
       <RoutesContainer
+          color="green"
           name={AddressData.currentClosestGroceryName}
           score={AddressData.currentGroceryDuration.toString()}
           street={AddressData.currentClosestGroceryAddress.split(",")[0]}
@@ -391,6 +395,7 @@ export default function RoutesMap() {
       </RoutesContainer>
 
       <RoutesContainer
+          color="blue"
           name={AddressData.currentClosestHealthName}
           score={AddressData.currentHealthDuration.toString()}
           street={AddressData.currentClosestHealthAddress.split(",")[0]}
@@ -409,6 +414,7 @@ export default function RoutesMap() {
       </RoutesContainer>
 
       <RoutesContainer
+          color="yellow"
           name={AddressData.currentClosestPreferenceName}
           score={AddressData.currentPreferenceDuration.toString()}            
           street={AddressData.currentClosestPreferenceAddress.split(",")[0]}

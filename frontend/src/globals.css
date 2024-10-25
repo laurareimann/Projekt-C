@@ -21,6 +21,12 @@ Größtenteilst versuche ich, die mit styled components zu ersetzen, aber lasse 
   --color--pink-4: #660044;
   --color--pink-5: #3D0029;
 
+  --color--yellow-1: #f8f18a;
+  --color--yellow-2: #f7cd00;
+  --color--yellow-3: #ffd500;
+  --color--yellow-4: #917902;
+  --color--yellow-5: #463c0b;
+
   --color--error-red-light: #FFF0F1;
   --color--error-red-mid: #FA8686;
   --color--error-red: #EE1D36;
