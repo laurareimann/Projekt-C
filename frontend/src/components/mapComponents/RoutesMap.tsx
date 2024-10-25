@@ -350,6 +350,7 @@ export default function RoutesMap() {
         <StandardGrid>
           <RoutesContainer
             color="green"
+            title="GROCERIES"
             name={AddressData.currentClosestGroceryName}
             score={AddressData.currentGroceryDuration.toString()}
             street={AddressData.currentClosestGroceryAddress.split(",")[0]}
@@ -360,6 +361,7 @@ export default function RoutesMap() {
 
          <RoutesContainer
             color="blue"
+            title="HEALTH"
             name={AddressData.currentClosestHealthName}
             score={AddressData.currentHealthDuration.toString()}
             street={AddressData.currentClosestHealthAddress.split(",")[0]}
@@ -370,6 +372,7 @@ export default function RoutesMap() {
 
          <RoutesContainer
             color="pink"
+            title="TRANSIT"
             name={AddressData.currentClosestTransitName}
             score={AddressData.currentTransitDuration.toString()}
             street={AddressData.currentClosestTransitAddress.split(",")[0]}
@@ -386,6 +389,7 @@ export default function RoutesMap() {
   	<PreferenceGrid>
       <RoutesContainer
           color="green"
+          title="GROCERIES"
           name={AddressData.currentClosestGroceryName}
           score={AddressData.currentGroceryDuration.toString()}
           street={AddressData.currentClosestGroceryAddress.split(",")[0]}
@@ -396,6 +400,7 @@ export default function RoutesMap() {
 
       <RoutesContainer
           color="blue"
+          title="HEALTH"
           name={AddressData.currentClosestHealthName}
           score={AddressData.currentHealthDuration.toString()}
           street={AddressData.currentClosestHealthAddress.split(",")[0]}
@@ -405,6 +410,7 @@ export default function RoutesMap() {
       </RoutesContainer>
 
       <RoutesContainer
+          title="TRANSIT"
           name={AddressData.currentClosestTransitName}
           score={AddressData.currentTransitDuration.toString()}
           street={AddressData.currentClosestTransitAddress.split(",")[0]}
@@ -415,6 +421,7 @@ export default function RoutesMap() {
 
       <RoutesContainer
           color="yellow"
+          title="PREFERENCE"
           name={AddressData.currentClosestPreferenceName}
           score={AddressData.currentPreferenceDuration.toString()}            
           street={AddressData.currentClosestPreferenceAddress.split(",")[0]}

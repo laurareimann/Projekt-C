@@ -8,17 +8,13 @@ const ScoreWrapper = styled.div`
     
 `
 
-function Name({name = "HAW Hamburg" }) {
-
-    if(name.length >= 60){
-        name = name.substring(0, 56) + '\u2026'
-    }
+function Title({title = "Groceries" }) {
 
     return (
         <ScoreWrapper>
-            <p><b>{name}</b></p>
+            <p><b><u>{title}</u></b></p>
         </ScoreWrapper>
     );
 }
 
-export default Name;
+export default Title;

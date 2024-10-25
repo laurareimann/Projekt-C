@@ -5,6 +5,7 @@ import Container from './Container';
 import Address from './Address';
 import Score from './Score';
 import Name from './Name';
+import Title from './Title';
 
 const ContainerContentWrapper = styled.div`
     display: flex;
@@ -16,10 +17,11 @@ const ContainerContentWrapper = styled.div`
     `
 
 
-function RoutesContainer({street = "", zip="", city="", score="",name="", color = "pink", buttonText = "View Route", onClick = () => { }}) {
+function RoutesContainer({street = "", zip="", city="", score="",name="", color = "pink", buttonText = "View Route", onClick = () => { }, title = ""}) {
     return (
         <Container color={color} outline={false}>
             <ContainerContentWrapper>
+                <Title title = {title}></Title>
                 <Name name={name}></Name>
                 <Score color={color} score={score}></Score>
                 <Address color={color} street={street} zip={zip} city={city}></Address>
