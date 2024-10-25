@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import styled, { createGlobalStyle } from 'styled-components';
 import profileIcon from '../assets/icons/ProfileIcon.svg';
-import ScoreContainer from '../components/ScoreContainer';
 import ProfileHistoryContainer from '../components/ProfileHistoryContainer';
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from '../components/buttons/Buttons';
 import axios from 'axios';
 import trash_bin from "../assets/trash_bin.svg";
@@ -39,9 +38,6 @@ const ContainerContentWrapper = styled.div`
     align-items: center;
     text-align: -webkit-center;
     padding: 2%;
-`
-const SavedText = styled.p`
-
 `
 
 const StyledContainer = styled.div <{ hasOutline: boolean; color: string;}>`
@@ -223,9 +219,9 @@ margin-bottom: 2%;
 let historyArray: string;
 let savedArray: string;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let historyArrayForHTML: any = [];
+let historyArrayForHTML: { addressFull: string; addressZip: string; addressCity: string; whoSaved: string; savedName: string; googleMapsLat: number; googleMapsLng: number; }[] = [];
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let savedArrayForHTML: any = [];
+let savedArrayForHTML: { addressFull: string; savedName: string; whoSaved: string; googleMapsLat: number; googleMapsLng: number; addressZip: string; addressCity: string; }[] = [];
 
 //Search history
 async function FetchHistory() {
@@ -265,14 +261,7 @@ async function FetchSaved() {
           //savedArrayForHTML = savedArrayForHTML.slice(0,20);
         }
       })
-
-    if (savedArrayForHTML.length > 20) {
-      //Splice array here
-    }
-
   } catch (e) { console.log(e) }
-
-
 }
 //Gespeicherte Routen fetchen
 
@@ -319,7 +308,6 @@ async function deleteOneSearch(searchName:string,userName:string){
     }).then((res:{data:string})=>{
       if(res.data === "search successfully deleted"){
         console.log("Search was deleted successfully");
-        //window.location.reload();
       }
     })
   }catch(e){

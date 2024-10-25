@@ -109,18 +109,7 @@ export default function Places({ setSpot }: PlacesProps) {
   } = usePlacesAutocomplete();
 
  //Funktionen
- // eslint-disable-next-line @typescript-eslint/no-explicit-any
- function callback(results:any,status:any){
-  if(status == google.maps.places.PlacesServiceStatus.OK){
-    currentByFootV2.splice(0,currentByFootV2.length);
-    for(let i = 0; i < results.length;i++){
-      currentByFootV2.push({
-        lat: results[i].geometry.location.lat(),
-        lng: results[i].geometry.location.lng()
-      })
-      updateNearby(currentByFootV2);
-  }}
-}
+
 
   const handleSelect = async (val: string) => {
     setValue(val, false);
@@ -200,21 +189,6 @@ export default function Places({ setSpot }: PlacesProps) {
     tmpStreetName = tmpStreetName + " " + tmpStreetNumber;
     updateStreetName(tmpStreetName);
 
-
-    /* Erstmal auskommentiert, falls wir die NearbySearch nochmal in places.tsx machen müssen
-    let request = {
-      location:{lat,lng},
-      radius: 100
-    }
-
-    await(performNearbySearch(request)).then(
-      () => {     
-        console.log("Derzeitige Marker in places.tsx");
-        console.log(currentByFootV2);
-      }
-    );
-   */
-   
     setSpot({ lat, lng });
   }
   };
