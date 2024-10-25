@@ -1,7 +1,5 @@
 /node_modules
 /build
-# maybe later remove environtment files
-# .env
 
 # System Files
 .DS_Store
