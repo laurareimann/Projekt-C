@@ -23,7 +23,7 @@ const StyledContainer = styled.div <{ $hasOutline: boolean; color: string; heigh
         $hasOutline ? "var(--color--white-shade)" :
             (color === "blue" ? "var(--color--blue-1)" :
                 (color === "green" ? "var(--color--green-1)" :
-                    (color === "yellow" ? "var(--color--white-shade)":
+                    (color === "yellow" ? "var(--color--yellow-1)":
                 "var(--color--pink-1)")))};
 
     border: ${({ $hasOutline, color }) =>

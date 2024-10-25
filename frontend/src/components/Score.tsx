@@ -8,6 +8,7 @@ const ScoreWrapper = styled.div`
     color: ${({ color }) =>
         color === "blue" ? "var(--color--blue-5)"
             : color === "green" ? "var(--color--green-5)"
+                :color === "yellow" ? "var(--color--yellow-5)"
                 : "var(--color--pink-5)"};
     
 `
