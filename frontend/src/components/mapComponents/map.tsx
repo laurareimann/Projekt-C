@@ -634,7 +634,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
     try {
 
-      if(isPreferenceEmptyReact==true){
+      if(isPreferenceEmpty==true){
         currentClosestPreferenceAddress = "";
         currentClosestPreferenceName = ""
         PreferenceLat = 0;

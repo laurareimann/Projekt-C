@@ -1,5 +1,18 @@
 {
   "preferenceList": [
-    "art_gallery"
+    "hair_care",
+    "spa",
+    "beauty_salon",
+    "restaurant",
+    "cafe",
+    "bar",
+    "night_club",
+    "performing_arts_theater",
+    "library",
+    "art_gallery",
+    "museum",
+    "gym",
+    "hiking_area",
+    "park"
   ]
 }

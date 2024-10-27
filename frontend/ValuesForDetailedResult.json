@@ -1,37 +1,37 @@
 {
-  "currentScoreValue": 5,
+  "currentScoreValue": 8,
   "currentStartingSpot": [
-    53.4635541,
-    9.969640799999999
+    53.49416129999999,
+    10.1996241
   ],
   "currentClosestGrocery": [
-    53.46414,
-    9.9654486
+    53.491996699999994,
+    10.2068986
   ],
   "currentClosestHealth": [
-    53.4644649,
-    9.9646523
+    53.4935969,
+    10.2015082
   ],
   "currentClosestTransit": [
-    53.463736999999995,
-    9.970163999999999
+    53.4924422,
+    10.195640299999999
   ],
   "currentClosestPreference": [
-    0,
-    0
+    53.4943956,
+    10.197531999999999
   ],
   "currentTravelMode": "walking",
-  "currentGroceryDuration": 5,
-  "currentHealthDuration": 5,
-  "currentTransitDuration": 1,
-  "currentPreferenceDuration": 0,
-  "currentStartAddress": "Am Schwarzenberg-Campus 1, 21073 Hamburg, Germany",
-  "currentClosestGroceryAddress": "Gazertstraße 1, 21075 Hamburg, Germany",
-  "currentClosestHealthAddress": "Alter Postweg 25, 21075 Hamburg, Germany",
-  "currentClosestTransitAddress": "Kasernenstraße (TU Hamburg), 21073 Hamburg, Germany",
-  "currentClosestPreferenceAddress": "",
-  "currentClosestGroceryName": "Sebastian's Markt",
-  "currentClosestHealthName": "Facharztteam Heimfeld (Ambulanzzentrum UKE)",
-  "currentClosestTransitName": "Kasernenstraße (TU Hamburg)",
-  "currentClosestPreferenceName": ""
+  "currentGroceryDuration": 12,
+  "currentHealthDuration": 10,
+  "currentTransitDuration": 6,
+  "currentPreferenceDuration": 3,
+  "currentStartAddress": "Ulmenliet 20, 21033 Hamburg, Germany",
+  "currentClosestGroceryAddress": "Alte Holstenstraße 30/Marktkauf, 21031 Hamburg, Germany",
+  "currentClosestHealthAddress": "Ulmenliet 20, 21033 Hamburg, Germany",
+  "currentClosestTransitAddress": "Ruselerweg, 21033 Hamburg, Germany",
+  "currentClosestPreferenceAddress": "Lohbrügger Kirchstraße 52, 21033 Hamburg, Germany",
+  "currentClosestGroceryName": "Edeka Center",
+  "currentClosestHealthName": "Prof. Dr. Joachim Westenhöfer",
+  "currentClosestTransitName": "Ruselerweg",
+  "currentClosestPreferenceName": "Speicherbibliothek Hamburg"
 }
