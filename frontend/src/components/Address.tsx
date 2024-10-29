@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import MapPoint_blue from '../assets/icons/map-point_blue.svg';
 import MapPoint_green from '../assets/icons/map-point_green.svg';
 import MapPoint_pink from '../assets/icons/map-point_pink.svg';
+import MapPoint_yellow from '../assets/icons/map-point_yellow.svg'
 
 const AddressWrapper = styled.div`
     display: flex;
@@ -12,6 +13,11 @@ const AddressWrapper = styled.div`
 
     > div{
         flex-direction: column;
+    }
+
+    p{
+        font-size: 16px;
+        line-height: 18px;
     }
 `;
 
@@ -24,7 +30,8 @@ const MapPointIcon = styled.img`
 function Address({ street = "Finkenau 35", zip = "22081", city = "Hamburg", color = "pink" }) {
     const mapPointSrc = color === 'blue' ? MapPoint_blue
         : color === 'green' ? MapPoint_green
-            : MapPoint_pink;
+            : color === 'yellow' ? MapPoint_yellow
+                : MapPoint_pink;
 
     return (
         <AddressWrapper>
