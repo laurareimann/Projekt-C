@@ -14,6 +14,11 @@ const AddressWrapper = styled.div`
     > div{
         flex-direction: column;
     }
+
+    p{
+        font-size: 16px;
+        line-height: 18px;
+    }
 `;
 
 const MapPointIcon = styled.img`

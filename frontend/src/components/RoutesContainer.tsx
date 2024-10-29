@@ -10,10 +10,13 @@ import Title from './Title';
 const ContainerContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
     align-items: center;
+    justify-content: center;
     text-align: -webkit-center;
     padding: 16px;
+    width: 300px;
+    height: 280px;
     `
 
 
