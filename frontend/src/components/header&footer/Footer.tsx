@@ -6,11 +6,10 @@ const FooterContainer = styled.footer`
   right: 0;
   min-width: 320px;
   width: 100%;
-  margin-top: auto;
   justify-content: space-between;
   align-items: center;
   background-color: var(--color--blue-5);
-  padding: 16px 32px;
+  padding: 20px 32px 10px 32px;
   flex-shrink: 0;
   box-sizing: border-box;
   border-top-left-radius: 25px;
@@ -29,7 +28,7 @@ const Logo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 2.5rem 0;
+  padding: 1.5rem 0;
 
   @media (max-width: 768px) {
     display: none;  /* Hide on smaller screens */
@@ -43,8 +42,8 @@ const Logo = styled.div`
 `;
 
 const LogoImg = styled.img`
-  width: 125px;  /* Adjust as needed */
-  height: 125px;  /* Adjust as needed */
+  width: 80px;  /* Adjust as needed */
+  height: 80px;  /* Adjust as needed */
 
   @media (max-width: 768px) {
     display: none;  /* Hide on smaller screens */
@@ -76,9 +75,11 @@ const Column = styled.div`
   flex: 3;
 
   @media (max-width: 768px) {
+    border-bottom: 1px solid var(--color--blue-1);  /* Light white line */
     flex: 2;  /* Reduce flex */
-    padding: 0 0.5rem;  /* Adjust padding */
+    padding: 0.5rem;  /* Adjust padding */
     font-size: 0.5rem;  /* Smaller font size */
+    width: 100%;  /* Full width */
   }
 `;
 
@@ -100,27 +101,18 @@ const ThinColumn = styled.div`
     }
 `;
 
-const Headline = styled.h1`
+const Headline = styled.h3`
     color: var(--color--white-shade);
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
-
-    @media (max-width: 768px) {
-        font-size: 1.5rem;  /* Smaller font size */
-      }
-
-    /*Middle ground adjustments between desktop and mobile */  
-    @media (max-width: 1120px) {
-        font-size: 2.25rem;  /* Smaller font size */
-    }
 `;
 
 const Link = styled.a`
     color: var(--color--white-shade);
     padding: 0.5rem 0;
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 500;
     text-align: left;
     display: inline-block;
     text-decoration: none;
@@ -129,40 +121,23 @@ const Link = styled.a`
         color: var(--color--blue-2);
     }
 
-    @media (max-width: 768px) {
-        font-size: 1rem;  /* Smaller font size */
-      }
-
-      /*Middle ground adjustments between desktop and mobile */  
-    @media (max-width: 1120px) {
-        font-size: 1rem;  /* Smaller font size */
-    }
 `;
 
 const Address = styled.p`
     color: var(--color--white-shade);
     font-weight: 100;
     text-align: left;
-
-    @media (max-width: 768px) {
-        font-size: 1rem;  /* Smaller font size */
-      }
-
-      /*Middle ground adjustments between desktop and mobile */  
-    @media (max-width: 1120px) {
-        font-size: 1rem;  /* Smaller font size */
-    }
+    font-size: 1rem; 
 `;
 
 const PartingLine = styled.hr`
   width: 100%;
   border: 0;
   border-top: 2px solid var(--color--blue-1);  /* Light white line */
-  margin: 2rem 0;
-  margin-bottom: 0.5rem;
 
   @media (max-width: 768px) {
     margin-bottom: 0.5rem;  /* Smaller margin */
+    visibility: hidden;  /* Hide on smaller screens */
   }
 
   @media (max-width: 1120px) {
@@ -173,7 +148,7 @@ const PartingLine = styled.hr`
 const FooterText = styled.p`
   text-align: center;
   color: var(--color--white-shade);
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 
   @media (max-width: 768px) {
     font-size: 1rem;  /* Smaller font size */

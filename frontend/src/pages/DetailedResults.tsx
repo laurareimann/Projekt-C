@@ -55,6 +55,7 @@ const ContentWrapper = styled.div`
   height: fit-content;
   width: fit-content;
   align-items: center;
+  gap: 10px;
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -99,17 +100,7 @@ const Evaluation: React.FC = () => {
                     >
             </ResultContainer>
 
-            <ButtonGrid>
-                {/* <Button onClick={() => {setContent("overallScore"), setButtonState([true, false])}}
-                        disabled={buttonState[0]}> Results </Button>
-                <Button onClick={() => {setContent("routes"), setButtonState([false, true])}}
-                        disabled={buttonState[1]}> Routes </Button> */}
-            </ButtonGrid>
             
-            {/* <div>
-                {content === "overallScore" && <ScoreTab/>}
-                {content === "routes" && <RoutesTab/>}
-            </div> */}
             <RoutesMap></RoutesMap>
 
             <ToastContainer></ToastContainer>

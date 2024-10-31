@@ -31,8 +31,8 @@ const Logo = styled.a`
   display: flex;
   align-items: center;
   img {
-    width: 75px;
-    height: 75px;
+    width: 50px;
+    height: 50px;
   }
 
   @media (max-width: 1023px) {
@@ -67,7 +67,7 @@ const NavItem = styled.a`
   margin: 0 1rem;
   color: var(--color--black-shade);
   padding: 0.5rem 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
   text-decoration: none;
   transition: color 0.3s ease;
@@ -77,8 +77,8 @@ const NavItem = styled.a`
   }
 
   img {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     margin-right: 0.25rem;
   }
 

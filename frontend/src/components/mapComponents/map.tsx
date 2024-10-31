@@ -19,6 +19,9 @@ import { useCityNew, useScore, useStreetNameNew, useZipCodeNew } from "./StreetP
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
 import AdaptedFilterContainer from "../filterComponents/FilterAdapted";
+import ScoreContainer from "../ScoreContainer";
+import { useNavigate } from 'react-router-dom';
+
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -44,7 +47,7 @@ interface MarkerWindow {
 let fastestRouteGroceries: number = 10000;
 let fastestRouteHealth: number = 10000;
 let fastestRouteTransit: number = 10000;
-let fastestRoutePreference:number = 10000;
+let fastestRoutePreference: number = 10000;
 let finalMean: number;
 let currentDuration: number;
 //Testweise bools, um Berechnung zu fixen
@@ -71,7 +74,7 @@ const markersWithInfoGroceries: Array<MarkerWindow> = [];
 const markersWithInfoHealth: Array<MarkerWindow> = [];
 const markersWithInfoTransit: Array<MarkerWindow> = [];
 const markersWithInfoPersonalFilters: Array<MarkerWindow> = [];
-const MarkersArrayTogether = [markersWithInfoGroceries, markersWithInfoHealth, markersWithInfoTransit,markersWithInfoPersonalFilters]
+const MarkersArrayTogether = [markersWithInfoGroceries, markersWithInfoHealth, markersWithInfoTransit, markersWithInfoPersonalFilters]
 
 //Test, ob temp-Variablen außerhalb von Komponente gespeichert werden sollten
 let tempCurrentScore: number = 42;
@@ -97,24 +100,24 @@ let isSaveButtonDisabled: boolean = true;
 const tempGroceryArray: Array<number> = [0.2, 0.1];
 const tempHealthArray: Array<number> = [1.3, 4.2];
 const tempTransitArray: Array<number> = [5.2, 2.5];
-const tempPrefArray:Array<number>=[6.9,9.6];
+const tempPrefArray: Array<number> = [6.9, 9.6];
 let tempHealthDuration: number = 42;
 let tempGroceryDuration: number = 42;
 let tempTransitDuration: number = 42;
-let tempPreferenceDuration:number = 42;
+let tempPreferenceDuration: number = 42;
 let tempClosestGroceryAddress: string;
 let tempClosestHealthAddress: string;
 let tempClosestTransitAddress: string;
-let tempClosestPreferenceAddress:string;
+let tempClosestPreferenceAddress: string;
 let tempClosestGroceryName: string;
 let tempClosestHealthName: string;
 let tempClosestTransitName: string;
-let tempClosestPreferenceName:string;
+let tempClosestPreferenceName: string;
 const tempSearchResultArray: Array<number> = [1.2, 3.4];
 
 //Array von strings der jeweiligen Filter
-const personalPreferenceArray:Array<string>=[];
-let preferenceArray:string;
+const personalPreferenceArray: Array<string> = [];
+let preferenceArray: string;
 
 const throwInfo = (errorMessage: string) => {
   toast.info(errorMessage, {
@@ -185,34 +188,32 @@ const StyledButton = styled.button`
 `;
 
 const StyledPrioButton = styled.button`
-    background-color: ${({ color, disabled }) =>
-    disabled
-      ? color === "blue" ? "var(--color--blue-1)"
-        : color === "green" ? "var(--color--green-1)"
-          : "var(--color--pink-1)"
-      : color === "blue" ? "var(--color--blue-4)"
-        : color === "green" ? "var(--color--green-3)"
-          : color === "darkPink" ? "var(--color--pink-5)"
-            : "var(--color--pink-3)"
-
+    background-color: ${({ disabled }) =>
+    disabled ? "var(--color--green-1)" : "var(--color--green-3)"
   };
-    color: ${({ color, disabled }) =>
-    disabled
-      ? color === "blue" ? "var(--color--blue-3)"
-        : color === "green" ? "var(--color--green-4)"
-          : "var(--color--pink-4)"
-      : "white"
-  };
-    font-weight: 800;
+  color: ${({ disabled }) => (disabled ? "var(--color--green-4)" : "white")};
+  
+  &:hover {
+    background-color: ${({ disabled }) =>
+      disabled ? "var(--color--green-1)" : "var(--color--green-4)" 
+    }!important;
+  }
+  
+  &:active,
+  &:focus {
+    background-color: ${({ disabled }) =>
+      disabled ? "var(--color--green-1)" : "var(--color--green-5)"
+    };
+  }
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 16px;
-    width: 40%;
-    height: fit-content;
+    padding: 5px 10px;
+    width: -webkit-fill-available;
     border: none;
-    border-radius: 30px;
+    border-radius: 6px;
     text-transform: uppercase;
+    font-size: 0.75rem;
     cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
     transition: background-color 0.3s, opacity 0.3s;
 
@@ -225,27 +226,43 @@ const StyledPrioButton = styled.button`
 
 
     @media (max-width: 1440px) {
-      width: 75%;
+      //width: 75%;
     }
 
     @media (max-width: 768px) {
-      width: 35%;
+      //width: 35%;
     }
 
     @media (max-width: 425px) {
-      width: 50%;
+      //width: 50%;
     }
 
 `;
 
 const ButtonGrid = styled.div`
-display: grid;
+display: flex;
 grid-gap: 8px;
 place-items:center;
 width: fit-content;
 grid-template-columns: 1fr 1fr 1fr 1fr;
 margin-bottom: 5px;
 `
+const PrioButtonGrid = styled.div`
+display: grid;
+grid-template-columns: 1fr 1fr 1fr 1fr;
+grid-gap: 8px;
+place-items:center;
+justify-content: center;
+width: fit-content;
+margin: 5px 0;
+
+
+@media screen and (max-width: 768px) {
+  grid-template-columns: 1fr 1fr;
+
+}
+`
+
 const SaveButtonGrid = styled.div`
 display: grid;
 grid-gap: 10%;
@@ -269,7 +286,6 @@ grid-gap:4px;
 place-items:center;
 width:100%;
 grid-template-columns: 1fr 60% 1fr;
-margin-bottom: 10px;
 
 @media (max-width: 768px) {
   margin-left: 0;
@@ -435,7 +451,7 @@ const Searchbar = styled.div`
   width: fit-content;
   align-items:flex-start;
   gap: 4px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -502,14 +518,14 @@ async function checkForLoadFromProfileFunc() {
 checkForLoadFromProfileFunc();
 
 //Die gesetzten flags der Filter werden für den Algorithmus geladen
-async function getPreferences(){
+async function getPreferences() {
   //Präferenzen werden aus der dafür erstellten JSON-Datei gelesen
-  try{
+  try {
 
-    personalPreferenceArray.splice(0,personalPreferenceArray.length);
+    personalPreferenceArray.splice(0, personalPreferenceArray.length);
 
 
-    axios.get("http://localhost:8080/getPreferences").then((res:{data:string})=>{
+    axios.get("http://localhost:8080/getPreferences").then((res: { data: string }) => {
 
       console.log("Fetching prefernces");
       preferenceArray = res.data;
@@ -517,12 +533,12 @@ async function getPreferences(){
       const formattedPreferenceArray = JSON.parse(preferenceArray);
       console.log(formattedPreferenceArray.preferenceListSend[0])
 
-      const arrayLength:number = formattedPreferenceArray.preferenceListSend.length;
+      const arrayLength: number = formattedPreferenceArray.preferenceListSend.length;
 
-      if(arrayLength > 0){
+      if (arrayLength > 0) {
         isPreferenceEmpty = false;
         //Filter auf die dazugehörigen Listen aufteilen
-        for(let i = 0; i < formattedPreferenceArray.preferenceListSend.length; i++){
+        for (let i = 0; i < formattedPreferenceArray.preferenceListSend.length; i++) {
           personalPreferenceArray.push(formattedPreferenceArray.preferenceListSend[i]);
         }
 
@@ -530,9 +546,9 @@ async function getPreferences(){
         console.log(personalPreferenceArray);
       }
       //Wenn keine Präferenzen gewählt wurden, soll das Array bei der Score-Berechnung nicht beachtet werden
-      if(arrayLength == 0){
+      if (arrayLength == 0) {
         isPreferenceEmpty = true;
-        personalPreferenceArray.splice(0,personalPreferenceArray.length);
+        personalPreferenceArray.splice(0, personalPreferenceArray.length);
       }
     })
   }
@@ -550,16 +566,16 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const [spot, setSpot] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
   const directService = new google.maps.DirectionsService();
-  const [isPreferenceEmptyReact,setPreferenceEmptyReact] = useState(true);
+  const [isPreferenceEmptyReact, setPreferenceEmptyReact] = useState(true);
   //Es müssen ab und an updates geforced werden, weil sonst die preference marker nicht geladen bzw. entfernt werden
-  const [forceUpdateNum,setUpdateNum] = useState(0);
+  const [forceUpdateNum, setUpdateNum] = useState(0);
 
   //Variablen zur Score-Berechnung 
   const [selectedMarker, setSelectedMarker] = useState<MarkerWindow | null>()
   const [isGroceriesPriority, setGroceriesPriority] = useState(false);
   const [isHealthPriority, setHealthPriority] = useState(false);
   const [isTransitPriority, setTransitPriority] = useState(false);
-  const [isPreferencePriority,setPreferencePriority] = useState(false);
+  const [isPreferencePriority, setPreferencePriority] = useState(false);
   const [InitialCalculationDone, setCalculationDone] = useState(false);
   const [travelMode, setTravelMode] = useState("walking");
   const [currentDurationUseState, setCurrentDuration] = useState(0);
@@ -634,12 +650,12 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
     try {
 
-      if(isPreferenceEmpty==true){
+      if (isPreferenceEmpty == true) {
         currentClosestPreferenceAddress = "";
         currentClosestPreferenceName = ""
         PreferenceLat = 0;
         PreferenceLng = 0;
-        currentPreferenceDuration = 0; 
+        currentPreferenceDuration = 0;
       }
 
 
@@ -683,27 +699,27 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   if (checkForLoadFlag == true) {
     //Ein timeout muss gesetzt werden, weil sonst die preferences zu langsam eingelesen werden
     //setTimeout(()=>{getPreferences();},1500)
-    
+
     getPreferences();
 
-    setTimeout(()=>{
+    setTimeout(() => {
       console.log("I loaded the map");
       const lat: number = finalCenter.lat;
       const lng: number = finalCenter.lng;
 
-    //Es wird im vorgegebenen Umkreis nach places gesucht
-    newNearbySearch({lat,lng},0)
-    newNearbySearch({lat,lng},1)
-    newNearbySearch({lat,lng},2)
-    newNearbySearch({lat,lng},3)
-    //Timeout von +- 1 Sekunde, damit die Marker richtig laden
-    setTimeout(() => {
-      setCalculationDone(true);
-      setSpot(finalCenter);
-      calculateScorePrototype(finalCenter, travelMode);
-    }, 1500);
-    
-    },1750);
+      //Es wird im vorgegebenen Umkreis nach places gesucht
+      newNearbySearch({ lat, lng }, 0)
+      newNearbySearch({ lat, lng }, 1)
+      newNearbySearch({ lat, lng }, 2)
+      newNearbySearch({ lat, lng }, 3)
+      //Timeout von +- 1 Sekunde, damit die Marker richtig laden
+      setTimeout(() => {
+        setCalculationDone(true);
+        setSpot(finalCenter);
+        calculateScorePrototype(finalCenter, travelMode);
+      }, 1500);
+
+    }, 1750);
     updateCity(addressCityToLoad);
     updateStreet(addressToLoad);
     updateZipCode(addressZipToLoad);
@@ -1206,7 +1222,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       tempGroceryDuration = Math.ceil(fastestRouteGroceries / 60);
       tempHealthDuration = Math.ceil(fastestRouteHealth / 60);
       tempTransitDuration = Math.ceil(fastestRouteTransit / 60);
-      tempPreferenceDuration = Math.ceil(fastestRoutePreference/60);
+      tempPreferenceDuration = Math.ceil(fastestRoutePreference / 60);
       tempSearchResultArray[0] = startPoint.lat;
       tempSearchResultArray[1] = startPoint.lng;
 
@@ -1223,17 +1239,17 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         fastestRouteTransit * 2;
         finalDivisor++;
       }
-      if(preferenceBool && (isPreferenceEmpty == false)){
+      if (preferenceBool && (isPreferenceEmpty == false)) {
         fastestRoutePreference * 2;
         finalDivisor++;
       }
 
       //Finale Berechnung des Scores und updaten der JSON-Datei
-      if(isPreferenceEmpty == false){
-      finalDivisor++;
-      finalMean = Math.ceil(((fastestRouteGroceries + fastestRouteHealth + fastestRouteTransit + fastestRoutePreference) / 60 / finalDivisor));
+      if (isPreferenceEmpty == false) {
+        finalDivisor++;
+        finalMean = Math.ceil(((fastestRouteGroceries + fastestRouteHealth + fastestRouteTransit + fastestRoutePreference) / 60 / finalDivisor));
       }
-      else{
+      else {
         finalMean = Math.ceil(((fastestRouteGroceries + fastestRouteHealth + fastestRouteTransit) / 60 / finalDivisor));
       }
       console.log("Value of final mean: " + finalMean);
@@ -1317,9 +1333,9 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         }
         break;
       case "Preferences":
-        if(isPreferencePriority === true){
+        if (isPreferencePriority === true) {
           preferenceButtonString = "";
-        }else{
+        } else {
           preferenceButtonString = "darkPink"
         }
     }
@@ -1355,73 +1371,73 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   }
 
   //NearbySearch mit neuer Places API
-  async function newNearbySearch(centerParam:google.maps.LatLngLiteral,whichRequest:number){
-    
-    
+  async function newNearbySearch(centerParam: google.maps.LatLngLiteral, whichRequest: number) {
+
+
     const { Place, SearchNearbyRankPreference } = await google.maps.importLibrary('places') as google.maps.PlacesLibrary;
 
     let current_request_new_API = {
-      fields:["displayName","location","businessStatus","types","formattedAddress"],
-      locationRestriction:{
-        center:centerParam,
-        radius:3750
+      fields: ["displayName", "location", "businessStatus", "types", "formattedAddress"],
+      locationRestriction: {
+        center: centerParam,
+        radius: 3750
       },
-      includedPrimaryTypes:personalPreferenceArray,
-      maxResultCount:15,
-      rankPreference:SearchNearbyRankPreference.DISTANCE,
-      language:"en-UK"
+      includedPrimaryTypes: personalPreferenceArray,
+      maxResultCount: 15,
+      rankPreference: SearchNearbyRankPreference.DISTANCE,
+      language: "en-UK"
     }
 
     const current_preferences_new_API = {
-      fields:["displayName","location","businessStatus","types","formattedAddress"],
-      locationRestriction:{
-        center:centerParam,
-        radius:3750
+      fields: ["displayName", "location", "businessStatus", "types", "formattedAddress"],
+      locationRestriction: {
+        center: centerParam,
+        radius: 3750
       },
-      includedPrimaryTypes:personalPreferenceArray,
-      maxResultCount:15,
-      rankPreference:SearchNearbyRankPreference.DISTANCE,
-      language:"en-UK"
+      includedPrimaryTypes: personalPreferenceArray,
+      maxResultCount: 15,
+      rankPreference: SearchNearbyRankPreference.DISTANCE,
+      language: "en-UK"
     }
 
     const current_Groceries_new_API = {
-      fields:["displayName","location","businessStatus","types","formattedAddress"],
-      locationRestriction:{
-        center:centerParam,
-        radius:3750
+      fields: ["displayName", "location", "businessStatus", "types", "formattedAddress"],
+      locationRestriction: {
+        center: centerParam,
+        radius: 3750
       },
-      includedPrimaryTypes:["supermarket","grocery_store"],
-      maxResultCount:15,
-      rankPreference:SearchNearbyRankPreference.DISTANCE,
-      language:"en-UK"
+      includedPrimaryTypes: ["supermarket", "grocery_store"],
+      maxResultCount: 15,
+      rankPreference: SearchNearbyRankPreference.DISTANCE,
+      language: "en-UK"
     }
 
     const current_Health_new_API = {
-      fields:["displayName","location","businessStatus","types","formattedAddress"],
-      locationRestriction:{
-        center:centerParam,
-        radius:3750
+      fields: ["displayName", "location", "businessStatus", "types", "formattedAddress"],
+      locationRestriction: {
+        center: centerParam,
+        radius: 3750
       },
-      includedPrimaryTypes:["hospital","doctor","pharmacy"],
-      maxResultCount:15,
-      rankPreference:SearchNearbyRankPreference.DISTANCE,
-      language:"en-UK"
+      includedPrimaryTypes: ["hospital", "doctor", "pharmacy"],
+      maxResultCount: 15,
+      rankPreference: SearchNearbyRankPreference.DISTANCE,
+      language: "en-UK"
     }
 
     const current_Transit_new_API = {
-      fields:["displayName","location","businessStatus","types","formattedAddress"],
-      locationRestriction:{
-        center:centerParam,
-        radius:3750
+      fields: ["displayName", "location", "businessStatus", "types", "formattedAddress"],
+      locationRestriction: {
+        center: centerParam,
+        radius: 3750
       },
-      includedPrimaryTypes:["transit_station"],
-      maxResultCount:10,
-      rankPreference:SearchNearbyRankPreference.DISTANCE,
-      language:"en-UK"
+      includedPrimaryTypes: ["transit_station"],
+      maxResultCount: 10,
+      rankPreference: SearchNearbyRankPreference.DISTANCE,
+      language: "en-UK"
     }
 
 
-    switch(whichRequest){
+    switch (whichRequest) {
       case 0:
         current_request_new_API = current_Groceries_new_API;
         break;
@@ -1435,17 +1451,17 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         break;
 
       case 3:
-        
+
         current_request_new_API = current_preferences_new_API;
         break;
     }
 
 
-    const {places} = await Place.searchNearby(current_request_new_API);
-    
-  
-    if(places.length){
-   
+    const { places } = await Place.searchNearby(current_request_new_API);
+
+
+    if (places.length) {
+
       //console.log(places)
 
       switch (whichRequest) {
@@ -1482,38 +1498,42 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
         case 2:
           for (let i = 0; i < places.length; i++) {
             markersWithInfoTransit.push({
-              id:i,
-              location:{
-                lat:places[i].location!.lat(),
-                lng:places[i].location!.lng()
+              id: i,
+              location: {
+                lat: places[i].location!.lat(),
+                lng: places[i].location!.lng()
               },
-              address:places[i].formattedAddress!,
-              name:places[i].displayName!,
-              buildingType:places[i].types![0],
+              address: places[i].formattedAddress!,
+              name: places[i].displayName!,
+              buildingType: places[i].types![0],
             })
           }
-            break;
+          break;
 
-          case 3:
-            if(isPreferenceEmpty == false){
-              for (let i = 0; i < places.length; i++) {
-                markersWithInfoPersonalFilters.push({
-                  id:i,
-                  location:{
-                    lat:places[i].location!.lat(),
-                    lng:places[i].location!.lng()
-                  },
-                  address:places[i].formattedAddress!,
-                  name:places[i].displayName!,
-                  buildingType:places[i].types![0],
-                })
-              }
+        case 3:
+          if (isPreferenceEmpty == false) {
+            for (let i = 0; i < places.length; i++) {
+              markersWithInfoPersonalFilters.push({
+                id: i,
+                location: {
+                  lat: places[i].location!.lat(),
+                  lng: places[i].location!.lng()
+                },
+                address: places[i].formattedAddress!,
+                name: places[i].displayName!,
+                buildingType: places[i].types![0],
+              })
             }
+          }
       }
     }
   }
+  const navigate = useNavigate();
 
-// @Gandeon Hier müsste dann der Reload getriggert werden für die eingegebene Adresse
+  const handleClick = () => {
+    navigate('/Evaluation'); 
+  };
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSave = (selectedFilters: any) => {
     console.log("Filters saved:", selectedFilters);
@@ -1524,29 +1544,30 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
 
     //Score und Marker werden nur neu generiert, wenn bereits eine Adresse eingegeben wurde
     //Falls dies noch nicht geschehen ist, werden nur die Filter geupdated
-    if(InitialCalculationDone === true){
-    setTimeout(()=>{getPreferences();},750)
-    //Neue NearbySearch für jede Kategorie
-    setTimeout(()=>{
-      newNearbySearch({lat:spot!.lat!,lng:spot!.lng!},3);
-      console.log("Current preferences markers:")
-      console.log(markersWithInfoPersonalFilters)
-    },1250)
+    if (InitialCalculationDone === true) {
+      setTimeout(() => { getPreferences(); }, 750)
+      //Neue NearbySearch für jede Kategorie
+      setTimeout(() => {
+        newNearbySearch({ lat: spot!.lat!, lng: spot!.lng! }, 3);
+        console.log("Current preferences markers:")
+        console.log(markersWithInfoPersonalFilters)
+      }, 1250)
 
-    //Score wird neu berechnet
-    setTimeout(()=>{calculateScorePrototype({lat:spot!.lat!,lng:spot!.lng!},travelMode)
-    if(markersWithInfoPersonalFilters.length > 0){
-      setPreferenceEmptyReact(false)
-      
-      
-    }
-    if(markersWithInfoPersonalFilters.length >=1){
-      setPreferenceEmptyReact(true)
-      
-    }
-    setUpdateNum(forceUpdateNum+1)
-    console.log("Current force update count: " + forceUpdateNum)
-  },2750)
+      //Score wird neu berechnet
+      setTimeout(() => {
+        calculateScorePrototype({ lat: spot!.lat!, lng: spot!.lng! }, travelMode)
+        if (markersWithInfoPersonalFilters.length > 0) {
+          setPreferenceEmptyReact(false)
+
+
+        }
+        if (markersWithInfoPersonalFilters.length >= 1) {
+          setPreferenceEmptyReact(true)
+
+        }
+        setUpdateNum(forceUpdateNum + 1)
+        console.log("Current force update count: " + forceUpdateNum)
+      }, 2750)
     }
   }
 
@@ -1567,14 +1588,14 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             markersWithInfoHealth.splice(0, markersWithInfoHealth.length)
             markersWithInfoPersonalFilters.splice(0, markersWithInfoPersonalFilters.length)
             //Werte der Filter werden geladen
-            
-            setTimeout(()=>{getPreferences();},1500)
+
+            setTimeout(() => { getPreferences(); }, 1500)
             //Bevor Suche stattfindet muss wie oben erwähnt ein kleiner timeout passieren
-            setTimeout(()=>{
-              newNearbySearch({lat,lng},0)
-              newNearbySearch({lat,lng},1)
-              newNearbySearch({lat,lng},2)
-              newNearbySearch({lat,lng},3)
+            setTimeout(() => {
+              newNearbySearch({ lat, lng }, 0)
+              newNearbySearch({ lat, lng }, 1)
+              newNearbySearch({ lat, lng }, 2)
+              newNearbySearch({ lat, lng }, 3)
               //Sanity check
               console.log("Grocery markers");
               console.log(markersWithInfoGroceries)
@@ -1584,8 +1605,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               console.log(markersWithInfoTransit)
               console.log("Preference markers");
               console.log(markersWithInfoPersonalFilters);
-            },2000)
-            
+            }, 2000)
+
             //Timeout von +- 1 Sekunde, damit die Marker richtig laden
             setTimeout(() => {
               setCalculationDone(true);
@@ -1596,23 +1617,70 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             }, 2500);
           }} />
         </ControlContainer>
-       
-      <AdaptedFilterContainer onSave={handleSave}></AdaptedFilterContainer>
+
+        <AdaptedFilterContainer onSave={handleSave}></AdaptedFilterContainer>
       </Searchbar>
 
       <ButtonGrid>
-        <StyledButton color={WalkingButtonString} onClick={() => 
-        {
-          setCurrentTravelMode("walking"); if (InitialCalculationDone == true){ calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "walking");} 
+        <StyledButton color={WalkingButtonString} onClick={() => {
+          setCurrentTravelMode("walking"); if (InitialCalculationDone == true) { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "walking"); }
         }}> <img src={walkingIcon} alt="Walking Icon" style={{ width: "30px", height: "30px" }} /></StyledButton>
-        <StyledButton color={DrivingButtonString} onClick={() => 
-         { setCurrentTravelMode("driving"); if (InitialCalculationDone == true){ calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "driving") } 
+        <StyledButton color={DrivingButtonString} onClick={() => {
+          setCurrentTravelMode("driving"); if (InitialCalculationDone == true) { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "driving") }
         }}><img src={carIcon} alt="Car Icon" style={{ width: "30px", height: "30px" }} /></StyledButton>
-        <StyledButton color={TransitButtonStringTravelMode} onClick={() => 
-          { setCurrentTravelMode("transit"); if (InitialCalculationDone == true) { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "transit") } }}><img src={transitIcon} alt="Tram Icon" style={{ width: "30px", height: "30px" }} /></StyledButton>
-        <StyledButton color={BicycleButtonString} onClick={() => 
-          { setCurrentTravelMode("bicycle"); if (InitialCalculationDone == true) { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "bicycle") } }}><img src={bikeIcon} alt="bike Icon" style={{ width: "30px", height: "30px" }} /></StyledButton>
+        <StyledButton color={TransitButtonStringTravelMode} onClick={() => { setCurrentTravelMode("transit"); if (InitialCalculationDone == true) { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "transit") } }}><img src={transitIcon} alt="Tram Icon" style={{ width: "30px", height: "30px" }} /></StyledButton>
+        <StyledButton color={BicycleButtonString} onClick={() => { setCurrentTravelMode("bicycle"); if (InitialCalculationDone == true) { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, "bicycle") } }}><img src={bikeIcon} alt="bike Icon" style={{ width: "30px", height: "30px" }} /></StyledButton>
+
       </ButtonGrid>
+      <h5>Prioritise:</h5>
+      <PrioButtonGrid>
+        <StyledPrioButton onClick={() => {
+          setPriorityButton("Groceries");
+          setGroceriesPriority(!isGroceriesPriority);
+          groceryBool = !groceryBool;
+          console.log("Grocerybool is: " + groceryBool);
+          console.log(isGroceriesPriority);
+          if (InitialCalculationDone) {
+            { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
+          }
+
+        }}>Grocery stores</StyledPrioButton>
+        <StyledPrioButton  onClick={() => {
+          setPriorityButton("Health");
+          setHealthPriority(!isHealthPriority);
+          healthBool = !healthBool;
+          console.log("Healthbool is: " + healthBool);
+          console.log(isHealthPriority)
+          if (InitialCalculationDone) {
+            { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
+          }
+
+        }}>health dept.</StyledPrioButton>
+        <StyledPrioButton onClick={() => {
+          setPriorityButton("Transit");
+          setTransitPriority(!isTransitPriority);
+          console.log(isTransitPriority);
+          transitBool = !transitBool;
+          console.log("Transitbool is: " + transitBool);
+          if (InitialCalculationDone) {
+            { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
+          }
+        }}>transit stations</StyledPrioButton>
+
+        <StyledPrioButton onClick={() => {
+          setPriorityButton("Preferences");
+          setPreferencePriority(!isPreferencePriority);
+          preferenceBool = !preferenceBool;
+          console.log("Preference bool is: " + preferenceBool);
+          console.log(isPreferencePriority)
+          if (InitialCalculationDone) {
+            { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
+          }
+
+        }}>Preferences</StyledPrioButton>
+      </PrioButtonGrid>
+
+
 
       {inputWindowOpenReact && <Overlay>
         <LoginContainer>
@@ -1621,8 +1689,8 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             <StyledInput placeholder={saveCurrentResultName} onChange={(e) => { setCurrentResultName(e.target.value) }}></StyledInput>
           </InputWrapper>
           <SaveButtonGrid>
-            <StyledButton onClick={()=>{    
-              if(saveCurrentResultName.length <= 18){
+            <StyledButton onClick={() => {
+              if (saveCurrentResultName.length <= 18) {
                 saveSearch(spot!, saveCurrentResultName)
                 setTimeout(() => {
                   if (canInputWindowBeClosedNotReact == true) {
@@ -1656,7 +1724,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           {directions && <DirectionsRenderer directions={directions} />}
 
 
-          
+
 
 
           {shouldRenderCircles && spot && circles.map((circles, index) => (
@@ -1666,10 +1734,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
               radius={circles.radius}
               options={circles.options}
             />
-            
+
           ))}
 
-        {forceUpdateNum}
+          {forceUpdateNum}
 
       //Marker auf der Map platzieren
           {spot && <Marker position={spot} onLoad={() => { "Initial marker placed" }} />}
@@ -1730,50 +1798,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             >Click to save address</StyledButton>
           }
 
-          <StyledPrioButton color={GroceryButtonString} onClick={() => {
-            setPriorityButton("Groceries");
-            setGroceriesPriority(!isGroceriesPriority);
-            groceryBool = !groceryBool;
-            console.log("Grocerybool is: " + groceryBool);
-            console.log(isGroceriesPriority);
-            if (InitialCalculationDone) {
-              { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
-            }
-
-          }}>Prioritise Grocery stores</StyledPrioButton>
-          <StyledPrioButton color={HealthButtonString} onClick={() => {
-            setPriorityButton("Health");
-            setHealthPriority(!isHealthPriority);
-            healthBool = !healthBool;
-            console.log("Healthbool is: " + healthBool);
-            console.log(isHealthPriority)
-            if (InitialCalculationDone) {
-              { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
-            }
-
-          }}>Prioritise health departments</StyledPrioButton>
-          <StyledPrioButton color={TransitButtonString} onClick={() => {
-            setPriorityButton("Transit");
-            setTransitPriority(!isTransitPriority);
-            console.log(isTransitPriority);
-            transitBool = !transitBool;
-            console.log("Transitbool is: " + transitBool);
-            if (InitialCalculationDone) {
-              { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
-            }
-          }}>Prioritise transit stations</StyledPrioButton>
-          
-          <StyledPrioButton color={preferenceButtonString} onClick={() => {
-            setPriorityButton("Preferences");
-            setPreferencePriority(!isPreferencePriority);
-            preferenceBool = !preferenceBool;
-            console.log("Preference bool is: " + preferenceBool);
-            console.log(isPreferencePriority)
-            if (InitialCalculationDone) {
-              { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
-            }
-
-          }}>Prioritise Preferences</StyledPrioButton>
+          <ScoreContainer color='blue' onClick={handleClick}/>
         </PriorityGrid>
       </MapAndPrioGrid>
     </div>

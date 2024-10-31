@@ -42,7 +42,7 @@ export const GlobalStyle = createGlobalStyle`
   // typography
   h1 {
   color: var(--color--blue-5);
-  line-height: 3.5rem;
+  line-height: 3rem;
   font-size: 3rem;
   font-weight: 500;
   margin:0;

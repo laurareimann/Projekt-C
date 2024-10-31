@@ -26,7 +26,7 @@ const HomePage: React.FC = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-            navigate('/Evaluation'); // Für den Button spezifisch. War mir nicht ganz sicher, ob das auch ander geht.
+            navigate('/Evaluation'); 
   };
 
     return (
@@ -43,9 +43,6 @@ const HomePage: React.FC = () => {
                     circleRadii={[1250, 2500, 3750]}
                     circleColors={['green', 'yellow', 'red']}
                 />
-                <BlockContainer>
-                    <ScoreContainer color='blue' onClick={handleClick}></ScoreContainer>
-                </BlockContainer>
             </StreetProvider>
             <ToastContainer></ToastContainer>
         </>

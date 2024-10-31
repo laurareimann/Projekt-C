@@ -13,7 +13,7 @@ const ResContainer = styled.div`
     text-align: -webkit-center;
     padding: 10px;
     border-radius: 26px;
-    background-color: #FFECF8;
+    border: 3px solid var(--color--pink-1);
     pointer-events: none;
     @media (max-width: 768px){
         width: 90%;
