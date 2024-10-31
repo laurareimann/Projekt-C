@@ -123,10 +123,11 @@ h5{
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 `
 
 const FooterSpacer  = styled.div`
-  height: 20px;
+  height: 0px;
 `
 
 const App: React.FC = () => {
@@ -143,7 +144,6 @@ const App: React.FC = () => {
     <BrowserRouter>
     <PageContainer>
       <GlobalStyle />
-      <Header />
       <Routes>
           /*hier alle Seiten anlegen */
         <Route index element={<Homepage />} />
@@ -160,7 +160,6 @@ const App: React.FC = () => {
         <Route path="profile" element={<ProfilePage />} />    
         <Route path="scoring" element={<Scoring />} />
       </Routes>
-      <FooterSpacer />
       <Footer />
     </PageContainer>
     </BrowserRouter >

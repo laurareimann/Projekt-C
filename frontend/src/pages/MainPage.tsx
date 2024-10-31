@@ -31,7 +31,6 @@ const HomePage: React.FC = () => {
 
     return (
         <>
-            <h1>15 Minute City Calculator</h1>
             <StreetProvider
                 cityValue="Hamburg"
                 streetNameValue='Finkenau 35'

@@ -4,6 +4,7 @@
 
 import React,{useState, useContext, ReactNode} from "react";
 import styled from "styled-components";
+import Header from "../header&footer/Header";
 
 //Kurz gesagt hilft es, components zu reloaden, wenn eine Variable, wie z.B. die Adresse von einem anderen Component aus geändert wird.
 //Gebraucht wird es, weil React doof ist und das sonst nur tut, wenn der Component das selber tut oder man sich dafür zehnmal verrenkt.
@@ -37,7 +38,7 @@ const streetContext = React.createContext<StreetProperties>({
     setScore:(_state:string) =>{}
 })
 const StreetProviterContainer = styled.div`
-height: 62vh;
+    flex:1;
 `;
 
 
@@ -66,6 +67,8 @@ export const StreetProvider = (
 
     return(
         <StreetProviterContainer>
+            <Header/>
+            <h1>15 Minute City Calculator</h1>
         <streetContext.Provider value = {{
             
             currentScore,currentNearby,streetName,zipCode,currentCity,
