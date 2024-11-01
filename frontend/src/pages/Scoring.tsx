@@ -5,7 +5,8 @@ import Header from '../components/header&footer/Header';
 const Wrapper = styled.div`
     width: 55%;
     text-align: start;
-
+    align-self: center;
+    flex:1;
     @media (max-width: 768px) {
         width: 80%;
     }
