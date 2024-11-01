@@ -1,9 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import Header from '../components/header&footer/Header';
 
 const Wrapper = styled.div`
     width: 55%;
     text-align: start;
+    flex:1;
+    align-self: center;
+
 
     @media (max-width: 768px) {
         width: 80%;
@@ -22,8 +26,8 @@ const ListElement = styled.li`
 
 const AboutUs: React.FC = () => {
     return (
-        <div>
             <Wrapper>
+                <Header/>
                 <h1>About Us</h1>
 
                 <Section>
@@ -61,7 +65,6 @@ const AboutUs: React.FC = () => {
                 </Section>
 
             </Wrapper>
-        </div>
     );
 };
 

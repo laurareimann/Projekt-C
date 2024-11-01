@@ -12,6 +12,7 @@ import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
 import ResultContainer from '../components/ResultContainer.tsx';
 import AddressData from '../../ValuesForDetailedResult.json';
 import RoutesMap from '../components/mapComponents/RoutesMap.tsx';
+import Header from '../components/header&footer/Header.tsx';
 
 
 const ButtonGrid = styled.div`
@@ -56,6 +57,9 @@ const ContentWrapper = styled.div`
   width: fit-content;
   align-items: center;
   gap: 10px;
+  flex: 1;
+  align-self: center;
+  
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -87,8 +91,8 @@ const Evaluation: React.FC = () => {
 
 
     return (
-        <div>
-            <ContentWrapper>
+          <ContentWrapper>
+          <Header/>
 
             <h1>Detailed Results</h1>
 
@@ -105,7 +109,6 @@ const Evaluation: React.FC = () => {
 
             <ToastContainer></ToastContainer>
             </ContentWrapper>
-        </div>
     );
 };
 export default Evaluation;

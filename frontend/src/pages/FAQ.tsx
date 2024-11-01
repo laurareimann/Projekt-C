@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Header from '../components/header&footer/Header';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
     width: 55%;
     text-align: start;
+    flex:1;
+    align-self: center;
 
     @media (max-width: 768px) {
         width: 80%;
@@ -65,8 +68,8 @@ const FAQ: React.FC = () => {
     ];
 
     return (
-        <div>
             <Wrapper>
+                <Header/>
                 <h1>Frequently Asked Questions</h1>
                 {faqs.map((faq, index) => (
                     <div key={index}>
@@ -84,7 +87,6 @@ const FAQ: React.FC = () => {
                     </div>
                 ))}
             </Wrapper>
-        </div>
     );
 };
 

@@ -1,10 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const Wrapper = styled.div`
-    text-align: start;
-    margin: 0 auto;
-`;
+import Header from '../components/header&footer/Header';
+import { Wrapper } from './FAQ';
 
 const TeamGrid = styled.div`
     display: grid;
@@ -98,6 +95,7 @@ const Team: React.FC = () => {
 
     return (
         <Wrapper>
+            <Header/>
             <h1>Meet Our Team</h1>
             <TeamGrid>
                 {teamMembers.map((member, index) => (

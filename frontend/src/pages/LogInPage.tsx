@@ -1,13 +1,16 @@
 import React from "react";
 import LoginForm from "../components/login&signin/LoginForm";
 import { ToastContainer } from "react-toastify";
+import Header from "../components/header&footer/Header";
+import { Wrapper } from "./FAQ";
 
 const LogInPage: React.FC = () => {
     return(
-        <div>
+        <Wrapper>
+            <Header/>
             <LoginForm/>
             <ToastContainer></ToastContainer>
-        </div>
+        </Wrapper>
     )
 };
 

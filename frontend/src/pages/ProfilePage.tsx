@@ -8,6 +8,7 @@ import axios from 'axios';
 import trash_bin from "../assets/trash_bin.svg";
 import Address from '../components/Address';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/header&footer/Header';
 
 
 
@@ -213,6 +214,8 @@ const Wrapper = styled.div`
 
 //Für eine Lücke zum Footer
 const PageContainer = styled.div`
+flex:1;
+align-self: center;
 margin-bottom: 2%;
 `
 
@@ -330,6 +333,7 @@ function ProfilePage() {
 
   return (
     <PageContainer>
+      <Header/>
       <ProfileContainer>
         <ProfilePic>
           <img src={profileIcon}></img>

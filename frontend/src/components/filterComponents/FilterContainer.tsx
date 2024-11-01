@@ -260,7 +260,7 @@ const FilterWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
-    height: 380px;
+    height: 80vh;
     overflow-y: auto;
 `;
 

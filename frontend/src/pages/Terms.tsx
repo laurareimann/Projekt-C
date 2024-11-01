@@ -1,14 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const Wrapper = styled.div`
-    width: 50%;
-    text-align: start;
-
-    @media (max-width: 768px) {
-        width: 80%;
-    }
-`;
+import Header from '../components/header&footer/Header';
+import { Wrapper } from './FAQ';
 
 const Section = styled.div`
     margin-bottom: 20px;
@@ -16,8 +9,8 @@ const Section = styled.div`
 
 const Terms: React.FC = () => {
     return (
-        <div>
-            <Wrapper>
+        <Wrapper>
+            <Header/>
                 <h1>Terms of Service</h1>
 
                 <Section>
@@ -60,8 +53,7 @@ const Terms: React.FC = () => {
                     <p>These terms are governed by and construed in accordance with the laws of Germany, and you agree to submit to the exclusive jurisdiction of the courts located in Germany for the resolution of any disputes.</p>
                 </Section>
 
-            </Wrapper>
-        </div>
+        </Wrapper>
     );
 };
 

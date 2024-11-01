@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Header from '../components/header&footer/Header';
 
 const Wrapper = styled.div`
     width: 55%;
@@ -22,8 +23,8 @@ const ListElement = styled.li`
 
 const AboutUs: React.FC = () => {
     return (
-        <div>
-            <Wrapper>
+        <Wrapper>
+            <Header/>
                 <h1>Travel Time Score</h1>
 
                 <Section>
@@ -58,9 +59,7 @@ const AboutUs: React.FC = () => {
                     <h3>How to Get Your Score</h3>
                     <p>To get started, simply enter any address into our platform, and you’ll receive the default Travel Time Score based on the nearest grocery, health, and transit options. If you’d like to refine the score further, use our filtering options to personalize the calculation and get a new score that reflects your unique priorities.</p>
                 </Section>
-
-            </Wrapper>
-        </div>
+        </Wrapper>
     );
 };
 

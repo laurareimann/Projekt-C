@@ -54,8 +54,8 @@ let currentDuration: number;
 let groceryBool: boolean = false;
 let healthBool: boolean = false;
 let transitBool: boolean = false;
-let preferenceBool:boolean = false;
-let isPreferenceEmpty:boolean = true;
+let preferenceBool: boolean = false;
+let isPreferenceEmpty: boolean = true;
 
 //Temp colours für die Buttons
 let GroceryButtonString: string = "";
@@ -187,24 +187,27 @@ const StyledButton = styled.button`
     }
 `;
 
-const StyledPrioButton = styled.button`
-    background-color: ${({ disabled }) =>
-    disabled ? "var(--color--green-1)" : "var(--color--green-3)"
-  };
+interface PrioButtonProps {
+  priority?: boolean;
+  disabled?: boolean;
+}
+
+const StyledPrioButton = styled.button<PrioButtonProps>`
+background-color: ${({ priority, disabled }) =>
+    disabled ? "var(--color--green-1)" : priority ? "var(--color--green-5)" : "var(--color--green-3)"}; 
   color: ${({ disabled }) => (disabled ? "var(--color--green-4)" : "white")};
   
   &:hover {
-    background-color: ${({ disabled }) =>
-      disabled ? "var(--color--green-1)" : "var(--color--green-4)" 
-    }!important;
+    background-color: ${({ priority, disabled }) =>
+    disabled ? "var(--color--green-1)" : priority ? "var(--color--green-4)" : "var(--color--green-4)"};
   }
   
   &:active,
   &:focus {
     background-color: ${({ disabled }) =>
-      disabled ? "var(--color--green-1)" : "var(--color--green-5)"
-    };
+    disabled ? "var(--color--green-1)" : "var(--color--green-5)"};
   }
+  
     display: flex;
     align-items: center;
     justify-content: center;
@@ -221,7 +224,7 @@ const StyledPrioButton = styled.button`
         background-color: ${({ color }) =>
     color === "blue" ? "var(--color--blue-5)" :
       color === "green" ? "var(--color--green-5)" :
-        "var(--color--pink-4)"};
+        "var(--color--green-4)"};
     }
 
 
@@ -1531,7 +1534,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/Evaluation'); 
+    navigate('/Evaluation');
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1634,29 +1637,38 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
       </ButtonGrid>
       <h5>Prioritise:</h5>
       <PrioButtonGrid>
-        <StyledPrioButton onClick={() => {
-          setPriorityButton("Groceries");
-          setGroceriesPriority(!isGroceriesPriority);
-          groceryBool = !groceryBool;
-          console.log("Grocerybool is: " + groceryBool);
-          console.log(isGroceriesPriority);
-          if (InitialCalculationDone) {
-            { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
-          }
+        <StyledPrioButton
+          key={`groceries-${isGroceriesPriority}`}
+          priority={isGroceriesPriority}
+          onClick={() => {
+            setPriorityButton("Groceries");
+            setGroceriesPriority(!isGroceriesPriority);
+            groceryBool = !groceryBool;
+            console.log("Grocerybool is: " + groceryBool);
+            console.log(isGroceriesPriority);
+            if (InitialCalculationDone) {
+              { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
+            }
 
-        }}>Grocery stores</StyledPrioButton>
-        <StyledPrioButton  onClick={() => {
-          setPriorityButton("Health");
-          setHealthPriority(!isHealthPriority);
-          healthBool = !healthBool;
-          console.log("Healthbool is: " + healthBool);
-          console.log(isHealthPriority)
-          if (InitialCalculationDone) {
-            { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
-          }
+          }}>Grocery stores</StyledPrioButton>
+        <StyledPrioButton
+          key={`health-${isHealthPriority}`} 
+          priority={isHealthPriority}
+          onClick={() => {
+            setPriorityButton("Health");
+            setHealthPriority(!isHealthPriority);
+            healthBool = !healthBool;
+            console.log("Healthbool is: " + healthBool);
+            console.log(isHealthPriority)
+            if (InitialCalculationDone) {
+              { calculateScorePrototype({ lat: spot!.lat, lng: spot!.lng }, travelMode); }
+            }
 
-        }}>health dept.</StyledPrioButton>
-        <StyledPrioButton onClick={() => {
+          }}>health dept.</StyledPrioButton>
+        <StyledPrioButton 
+        key={`transit-${isTransitPriority}`} 
+        priority={isTransitPriority}
+        onClick={() => {
           setPriorityButton("Transit");
           setTransitPriority(!isTransitPriority);
           console.log(isTransitPriority);
@@ -1667,7 +1679,10 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
           }
         }}>transit stations</StyledPrioButton>
 
-        <StyledPrioButton onClick={() => {
+        <StyledPrioButton 
+        key={`preferences-${isPreferencePriority}`}
+        priority={isPreferencePriority}
+        onClick={() => {
           setPriorityButton("Preferences");
           setPreferencePriority(!isPreferencePriority);
           preferenceBool = !preferenceBool;
@@ -1798,7 +1813,7 @@ export default function Map({ shouldRenderCircles = true, circleRadii = [1250, 2
             >Click to save address</StyledButton>
           }
 
-          <ScoreContainer color='blue' onClick={handleClick}/>
+          <ScoreContainer color='blue' onClick={handleClick} />
         </PriorityGrid>
       </MapAndPrioGrid>
     </div>
