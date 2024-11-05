@@ -215,7 +215,7 @@ const Wrapper = styled.div`
 //Für eine Lücke zum Footer
 const PageContainer = styled.div`
 flex:1;
-align-self: center;
+
 margin-bottom: 2%;
 `
 
