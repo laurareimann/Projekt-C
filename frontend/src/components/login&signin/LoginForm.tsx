@@ -112,7 +112,7 @@ const StyledInput = styled.input<InputProps>`
     }
 `;
 
-const LoginContainer = styled.div`
+export const LoginContainer = styled.div`
     width:500px;
     border: 8px solid var(--color--pink-1);
     border-radius: 20px;
@@ -222,22 +222,20 @@ function LoginForm() {
     }
 
     return (
-        <div>
-            <LoginContainer>
-                <h1>Sign In</h1>
-                <InputWrapper>
-                    <StyledInput $isValid={true} disabled={false} placeholder="Username" type="email" onChange={(e) => { setUser(e.target.value); }} />
-                    <StyledInput $isValid={true} disabled={false} placeholder="Password" type="password" onChange={(e) => { setPassword(e.target.value) }} />
-                    <a href="">Forgot password?</a>
-                </InputWrapper>
-                <ButtonWrapper>
-                    <StyledButton type="submit" onClick={submit} color="var(--color--pink-2)" >Log In</StyledButton>
-                    <p> or </p>
-                    <a href="register">
-                        <Button color="darkPink">Register</Button> </a>
-                </ButtonWrapper>
-            </LoginContainer>
-        </div>
+        <LoginContainer>
+            <h1>Sign In</h1>
+            <InputWrapper>
+                <StyledInput $isValid={true} disabled={false} placeholder="Username" type="email" onChange={(e) => { setUser(e.target.value); }} />
+                <StyledInput $isValid={true} disabled={false} placeholder="Password" type="password" onChange={(e) => { setPassword(e.target.value) }} />
+                <a href="">Forgot password?</a>
+            </InputWrapper>
+            <ButtonWrapper>
+                <StyledButton type="submit" onClick={submit} color="var(--color--pink-2)" >Log In</StyledButton>
+                <p> or </p>
+                <a href="register">
+                    <Button color="darkPink">Register</Button> </a>
+            </ButtonWrapper>
+        </LoginContainer>
     )
 }
 

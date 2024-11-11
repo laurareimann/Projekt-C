@@ -72,11 +72,11 @@ const GlobalStyle = createGlobalStyle`
 
   // typography
   h1 {
-  line-height: 3.5rem;
+  line-height: 2.5rem;
   font-size: 2.25rem;
   font-weight: 500;
   text-align: center;
-  margin: 0;
+  margin: 10px 0 10px 0;
 
   @media (max-width: 425px) {
     font-size: 1.75rem;
@@ -121,13 +121,13 @@ h5{
 `;
 
 const PageContainer = styled.div`
-  min-height: 100vh ;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 `
 
 const FooterSpacer  = styled.div`
-  height: 20px;
+  height: 0px;
 `
 
 const App: React.FC = () => {
@@ -144,7 +144,6 @@ const App: React.FC = () => {
     <BrowserRouter>
     <PageContainer>
       <GlobalStyle />
-      <Header />
       <Routes>
           /*hier alle Seiten anlegen */
         <Route index element={<Homepage />} />
@@ -161,7 +160,6 @@ const App: React.FC = () => {
         <Route path="profile" element={<ProfilePage />} />    
         <Route path="scoring" element={<Scoring />} />
       </Routes>
-      <FooterSpacer />
       <Footer />
     </PageContainer>
     </BrowserRouter >

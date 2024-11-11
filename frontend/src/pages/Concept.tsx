@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import Header from '../components/header&footer/Header';
 
 const Wrapper = styled.div`
     width: 55%;
     text-align: start;
+    align-self: center;
+    flex:1;
 
     @media (max-width: 768px) {
         width: 80%;
@@ -23,9 +26,9 @@ const ListElement = styled.li`
 
 const Concept: React.FC = () => {
     return (
-        <div>
-            <h1>Concept</h1>
             <Wrapper>
+                <Header/>
+                <h1>Concept</h1>
 
                 <Section>
                     <p>Our project is rooted in the idea of transforming urban environments into more sustainable and livable spaces. The 15-minute city is a central concept that guides our work.</p>
@@ -59,7 +62,6 @@ const Concept: React.FC = () => {
                 </Section>
 
             </Wrapper>
-        </div>
     );
 };
 

@@ -5,6 +5,7 @@ import Button from '../buttons/Buttons';
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { LoginContainer } from './LoginForm';
 
 //StyledButton kopiert
 const StyledButton = styled.button`
@@ -148,24 +149,24 @@ const ButtonWrapper = styled.div`
     grid-gap: 12px;
     justify-items: center;`
 
-const setCookie = (name: string,value: unknown,days: number) =>{
+const setCookie = (name: string, value: unknown, days: number) => {
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + days);
-  
+
     document.cookie = `${name}=${value}; expires=${expirationDate.toUTCString()};path=/`
 
-  }
+}
 
-  const getCookie = (name:string) =>{
-    const cookies = document.cookie.split("; ").find((row)=> row.startsWith(`${name}=`));
+const getCookie = (name: string) => {
+    const cookies = document.cookie.split("; ").find((row) => row.startsWith(`${name}=`));
 
     return cookies ? cookies.split("=")[1] : null;
-  }
+}
 
 
 const currentUser = getCookie("username");
 
-const throwToast = (errorMessage:string) =>{
+const throwToast = (errorMessage: string) => {
     toast.error(errorMessage, {
         position: "top-center",
         autoClose: 5000,
@@ -176,63 +177,61 @@ const throwToast = (errorMessage:string) =>{
         progress: undefined,
         theme: "dark",
         transition: Bounce,
-        });
+    });
 }
 
-function SignUpForm(){
+function SignUpForm() {
 
-    const [user,setUser]=useState('')
-    const [password,setPassword]=useState('')
-    const [passwordConfirm,setPasswordConfirm] = useState("")
+    const [user, setUser] = useState('')
+    const [password, setPassword] = useState('')
+    const [passwordConfirm, setPasswordConfirm] = useState("")
 
-    async function submit(e: { preventDefault: () => void; }){
+    async function submit(e: { preventDefault: () => void; }) {
         e.preventDefault();
 
-        try{
-            await axios.post("http://localhost:8080/signup",{
-                user,password,passwordConfirm
+        try {
+            await axios.post("http://localhost:8080/signup", {
+                user, password, passwordConfirm
             })
-            .then((res: { data: string })=>{
-                if(res.data==="exists"){
-                    throwToast("User already exists")
-                      return 0;
-                }
-                else if(res.data==="Passwords not matching"){
-                    console.log("Passwords didn't match!")
-                    throwToast("Passwords are not matching")
-                      return 0;
-                }
-                else if(res.data==="SignUpSuccess"){
-                    window.location.replace("/login");
-                }
-            })
-            .catch((e:string)=>{
-                console.log(e);
-            })
+                .then((res: { data: string }) => {
+                    if (res.data === "exists") {
+                        throwToast("User already exists")
+                        return 0;
+                    }
+                    else if (res.data === "Passwords not matching") {
+                        console.log("Passwords didn't match!")
+                        throwToast("Passwords are not matching")
+                        return 0;
+                    }
+                    else if (res.data === "SignUpSuccess") {
+                        window.location.replace("/login");
+                    }
+                })
+                .catch((e: string) => {
+                    console.log(e);
+                })
 
         }
-        catch(e){
+        catch (e) {
             console.log(e);
         }
 
     }
 
 
-    return(
-        <div>
-            <SignUpContainer>
-                <h1>Sign Up</h1>
-                <InputWrapper>
-                        <StyledInput $isValid placeholder="Username" onChange={(e)=>{setUser(e.target.value)}}/>
-                        <StyledInput $isValid placeholder="Password" type="password" onChange={(e)=>{setPassword(e.target.value)}}/>
-                        <StyledInput $isValid placeholder="Confirm Password" type="password" onChange={(e) => {setPasswordConfirm(e.target.value)}} />
-                    </InputWrapper>
-                    <a href="login" >Already registered? Click here to log in.</a>
-                <ButtonWrapper>
-                    <StyledButton color="#FFC2EA" type='submit' onClick={submit}>Register</StyledButton>
-                </ButtonWrapper>
-            </SignUpContainer>   
-        </div>
+    return (
+        <LoginContainer>
+            <h1>Sign Up</h1>
+            <InputWrapper>
+                <StyledInput $isValid placeholder="Username" onChange={(e) => { setUser(e.target.value) }} />
+                <StyledInput $isValid placeholder="Password" type="password" onChange={(e) => { setPassword(e.target.value) }} />
+                <StyledInput $isValid placeholder="Confirm Password" type="password" onChange={(e) => { setPasswordConfirm(e.target.value) }} />
+            </InputWrapper>
+            <a href="login" >Already registered? Click here to log in.</a>
+            <ButtonWrapper>
+                <StyledButton color="#FFC2EA" type='submit' onClick={submit}>Register</StyledButton>
+            </ButtonWrapper>
+        </LoginContainer>
     )
 }
 

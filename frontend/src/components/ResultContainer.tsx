@@ -13,13 +13,13 @@ const ResContainer = styled.div`
     text-align: -webkit-center;
     padding: 10px;
     border-radius: 26px;
-    background-color: #FFECF8;
+    border: 3px solid var(--color--pink-1);
     pointer-events: none;
     @media (max-width: 768px){
         width: 90%;
         display: grid;
         grid-template-columns: max-content;
-        padding-left: 12vh;
+        justify-content: center;
     }
 `
 
@@ -37,7 +37,7 @@ function ResultContainer({street = "", zip="", city="", score="", color = "pink"
                 />
                     <Address color={color} street={street} zip={zip} city={city}></Address>
                     <Score color={color} score={score}></Score>               
-            </ResContainer>
+        </ResContainer>
     );
 }
 

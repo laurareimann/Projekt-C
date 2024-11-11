@@ -12,6 +12,7 @@ import MapWithoutSearch from '../components/mapComponents/mapWithoutSearch.tsx';
 import ResultContainer from '../components/ResultContainer.tsx';
 import AddressData from '../../ValuesForDetailedResult.json';
 import RoutesMap from '../components/mapComponents/RoutesMap.tsx';
+import Header from '../components/header&footer/Header.tsx';
 
 
 const ButtonGrid = styled.div`
@@ -55,6 +56,10 @@ const ContentWrapper = styled.div`
   height: fit-content;
   width: fit-content;
   align-items: center;
+  gap: 10px;
+  flex: 1;
+  align-self: center;
+  
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -86,8 +91,8 @@ const Evaluation: React.FC = () => {
 
 
     return (
-        <div>
-            <ContentWrapper>
+          <ContentWrapper>
+          <Header/>
 
             <h1>Detailed Results</h1>
 
@@ -99,22 +104,11 @@ const Evaluation: React.FC = () => {
                     >
             </ResultContainer>
 
-            <ButtonGrid>
-                {/* <Button onClick={() => {setContent("overallScore"), setButtonState([true, false])}}
-                        disabled={buttonState[0]}> Results </Button>
-                <Button onClick={() => {setContent("routes"), setButtonState([false, true])}}
-                        disabled={buttonState[1]}> Routes </Button> */}
-            </ButtonGrid>
             
-            {/* <div>
-                {content === "overallScore" && <ScoreTab/>}
-                {content === "routes" && <RoutesTab/>}
-            </div> */}
             <RoutesMap></RoutesMap>
 
             <ToastContainer></ToastContainer>
             </ContentWrapper>
-        </div>
     );
 };
 export default Evaluation;

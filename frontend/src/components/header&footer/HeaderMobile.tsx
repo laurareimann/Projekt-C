@@ -17,7 +17,7 @@ const Header = styled.header<{ visible: boolean }>`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70px;
+    height: 55px;
     width: 100%;
     background-color: var(--color--white-shade);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
@@ -40,7 +40,7 @@ const NavSection = styled.div`
   align-items: center;
 `;
 
-const Title = styled.h2`
+const Title = styled.h3`
   display: flex;
   justify-content: center;
   text-align: center;
